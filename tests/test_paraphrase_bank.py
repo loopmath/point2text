@@ -216,6 +216,13 @@ def test_local_provider_structured_source_only_requests_frozen_digest_and_cache(
     assert provider.diagnostics["calls"] == 1
     assert provider.diagnostics["prompt_tokens"] == 41
     assert provider.diagnostics["completion_tokens"] == 23
+    assert provider.diagnostics["raw_edit_count"] == 3
+    assert provider.diagnostics["accepted_edit_count"] == 1
+    assert provider.diagnostics["rejections"]["duplicate_edit"] == 1
+    assert provider.diagnostics["rejections"]["qualification_quantity_or_technical_drift"] == 1
+    assert len(provider.diagnostics["last_raw_edits"]) == 3
+    assert len(provider.diagnostics["last_accepted_edits"]) == 1
+    assert provider.diagnostics["sources"]
 
 
 @pytest.mark.parametrize("kwargs", [{"malformed": True}, {"done_reason": "length"}])
@@ -306,3 +313,57 @@ def test_target_and_bounds_validation(target):
         ParaphraseEditProposer(max_bank_size=0)
     with pytest.raises(ValueError):
         ParaphraseEditProposer().propose(SOURCE, (0, 0), max_proposals=-1)
+
+
+PROSE = (
+    "The process by which a system loses quantum properties involves interaction. Researchers employ error correction codes and dynamical decoupling techniques. They distinguish between noise introduced by hardware and intrinsic rates to characterize fidelity.",
+    "Algorithms ensure that nodes agree on a state transition despite the presence of network partitions or partial failures. Protocols typically utilize a leader-based approach or a quorum-based mechanism. By requiring a majority, they preserve term numbers and log replication.",
+    "DNA sequences associated with proteins are identified. By using antibodies researchers distinguish true binding regions from noise. Integration allows for the determination of how structural changes drive expression in response to specific environmental stimuli or developmental signals.",
+    "The forcing changes with altered greenhouse gas concentrations. To ensure accuracy researchers distinguish between direct forcing and indirect feedbacks. By isolating components they estimate the climate sensitivity of the planet and surface temperatures over time.",
+    "Federated learning enables the training of models across decentralized devices. Instead of centralizing information they send updates. Evaluation considers communication overhead on convergence speed and global model performance against privacy risks associated with potential gradient leakage during synchronization.",
+    "Localization tracks location within it. This process relies on estimation. However, errors in motion estimation drift over time. Algorithms utilize loop closure detection to recognize previously visited landmarks, correcting accumulated errors in generated spatial data.",
+    "Plasticity involves the strengthening or weakening of connections based on patterns of activity. It often relies on the trafficking of receptors, altering the sensitivity of the cell. To accurately quantify changes researchers distinguish between functional modifications and structural fluctuations.",
+    "Transitions occur under thermal or mechanical stress. The process depends on the competition between chemical energy and energy associated with boundaries. By controlling the grain size and solute distribution, researchers observe changes. Analyzing shifts allows for a precise understanding of energy dissipation.",
+    "Protocols ensure that nodes agree despite network partitions or component failures. Mechanisms typically utilize a leader-based voting process or a quorum approach. Research addresses the trade-off between consistency guarantees and availability.",
+    "Spectroscopy relies on the analysis of absorption lines for chemical composition and physical conditions. The width and shift allow researchers to calculate surface temperature and surface gravity. By modeling profiles, astronomers distinguish between stages and refine parameters governing evolution.",
+)
+
+
+@pytest.mark.parametrize("text", PROSE)
+def test_direct_technical_prose_has_useful_atomic_syntax_bank(text):
+    proposer = ParaphraseEditProposer()
+    bank = proposer.all_proposals(text)
+    assert len(bank) >= 6
+    assert len({proposal.edit_span for proposal in bank}) >= 4
+    assert len({proposal.text for proposal in bank}) == len(bank)
+    for proposal in bank:
+        assert_atomic(text, proposal)
+    stats = proposer.diagnostics["sources"][bank[0].provenance["source_sha256"]]
+    assert stats["bank_size"] == len(bank)
+    assert stats["distinct_spans"] == len({proposal.edit_span for proposal in bank})
+    assert stats["curated_candidates"] >= stats["curated_accepted"] >= len(bank)
+
+
+def test_equivalent_whole_phrase_and_word_atoms_are_deduplicated_by_text():
+    bank = ParaphraseEditProposer().all_proposals("We utilize tensors to calculate a quantity.")
+    assert len({p.text for p in bank}) == len(bank)
+    use = next(p for p in bank if p.text == "We use tensors to calculate a quantity.")
+    assert use.edit_span == (3, 10)  # Keep the smaller span for composition.
+
+
+def test_surface_preposition_is_not_a_quantity_and_partial_bound_edits_are_rejected():
+    provider = Provider([
+        {"original": "surface temperature", "replacement": "temperature at the surface"},
+        {"original": "at", "replacement": "in"},
+    ])
+    text = "We compare surface temperature for at least two conditions."
+    proposer = ParaphraseEditProposer(provider=provider)
+    bank = proposer.all_proposals(text)
+    assert any("temperature at the surface" in p.text for p in bank)
+    assert all("at least two" in p.text for p in bank)
+    stats = next(iter(proposer.diagnostics["sources"].values()))
+    assert stats["provider_rejections"]["quantity_bound_drift"] == 1
+
+
+def test_plural_analyses_is_not_misread_as_a_british_verb():
+    assert ParaphraseEditProposer().all_proposals("The analyses are complete.") == ()

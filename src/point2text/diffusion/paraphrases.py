@@ -37,6 +37,9 @@ _SURFACE = re.compile(r"[A-Za-z]+(?:[-'][A-Za-z]+)*(?: [A-Za-z]+(?:[-'][A-Za-z]+
 # express the same relation; they do not append arbitrary filler to the text.
 _FAMILIES = (
     ("for example", "for instance"),
+    ("despite", "in spite of"),
+    ("instead of", "rather than"),
+    ("however", "nevertheless", "nonetheless"),
     ("in addition", "additionally", "furthermore"),
     ("in contrast", "by contrast"),
     ("therefore", "consequently", "as a result"),
@@ -50,6 +53,9 @@ _FAMILIES = (
     ("compared with", "compared to"),
     ("depends on", "depends upon", "is dependent on"),
     ("dependent on", "dependent upon"),
+    ("relies on", "relies upon", "is reliant on"),
+    ("rely on", "rely upon"),
+    ("distinguish between", "differentiate between", "make a distinction between"),
     ("at each step", "at every step"),
     ("at each iteration", "at every iteration"),
     ("for each", "for every"),
@@ -72,6 +78,32 @@ _FAMILIES = (
     ("take into account", "account for"),
     ("taken into account", "accounted for"),
     ("with the exception of", "except for"),
+    ("over time", "with time"),
+    ("within it", "inside it"),
+    ("the process by which", "the process through which", "the process whereby"),
+    ("surface temperature", "temperature at the surface", "temperature of the surface"),
+    ("surface temperatures", "temperatures at the surface", "temperatures of the surface"),
+    ("surface gravity", "gravity at the surface"),
+    ("structural changes", "changes in structure"),
+    ("environmental stimuli", "stimuli from the environment"),
+    ("communication overhead", "overhead from communication"),
+    ("convergence speed", "speed of convergence"),
+    ("convergence rate", "rate of convergence"),
+    ("global model performance", "performance of the global model"),
+    ("privacy risks", "risks to privacy"),
+    ("motion estimation", "estimation of motion"),
+    ("loop closure detection", "detection of loop closure"),
+    ("state transition", "transition of state"),
+    ("state transitions", "transitions of state"),
+    ("log replication", "replication of the log"),
+    ("energy dissipation", "dissipation of energy"),
+    ("control hardware", "hardware used for control"),
+    ("error correction codes", "codes for error correction"),
+    ("error correction", "correction of errors"),
+    ("a quorum-based mechanism", "a mechanism based on a quorum"),
+    ("a leader-based approach", "an approach based on a leader"),
+    ("leader-based voting process", "voting process based on a leader"),
+    ("a quorum approach", "an approach based on a quorum"),
 )
 _SHORTENINGS = {
     "in order to": ("to",),
@@ -85,7 +117,98 @@ _SHORTENINGS = {
     "on the basis of": ("based on",),
     "in the absence of": ("without",),
     "approximately": ("roughly",),
+    "utilize": ("use", "employ"),
+    "utilizes": ("uses", "employs"),
+    "utilized": ("used", "employed"),
+    "utilizing": ("using", "employing"),
+    "employ": ("use", "utilize"),
+    "employs": ("uses", "utilizes"),
+    "employed": ("used", "utilized"),
+    "employing": ("using", "utilizing"),
+    "distinguish": ("differentiate",),
+    "distinguishes": ("differentiates",),
+    "distinguishing": ("differentiating",),
+    "ensure that": ("ensure",),
+    "ensures that": ("ensures",),
+    "despite the presence of": ("despite", "in spite of"),
+    "through interaction with": ("by interacting with",),
+    "allows for the determination of": ("allows determination of", "allows the determination of"),
+    "allows for a precise understanding of": ("allows a precise understanding of",),
+    "allows researchers to": ("lets researchers",),
+    "allow researchers to": ("let researchers",),
+    "the analysis of": ("analyzing", "analysis of"),
+    "the training of": ("training",),
+    "the determination of": ("determining", "determination of"),
+    "the trafficking of": ("trafficking",),
+    "the competition between": ("competition between",),
+    "the strengthening or weakening of": ("strengthening or weakening of",),
+    "patterns of activity": ("activity patterns",),
+    "noise introduced by": ("noise that is introduced by",),
+    "sequences associated with": ("sequences that are associated with",),
+    "energy associated with": ("energy that is associated with",),
+    "risks associated with": ("risks that are associated with",),
+    "parameters governing": ("parameters that govern",),
+    "previously visited landmarks": ("landmarks visited previously", "landmarks that were visited previously"),
+    "accumulated errors": ("errors that have accumulated",),
+    "generated spatial data": ("spatial data that were generated",),
+    "altered greenhouse gas concentrations": ("greenhouse gas concentrations that were altered",),
 }
+
+# Orthographic variants preserve the lexical referent even when encoder token
+# boundaries change. Generate regular inflections once, without stemming text.
+_SPELLINGS = (
+    ("characterize", "characterise"), ("recognize", "recognise"),
+    ("centralize", "centralise"), ("decentralize", "decentralise"),
+    ("localize", "localise"), ("synchronize", "synchronise"),
+    ("organize", "organise"), ("reorganize", "reorganise"),
+    ("minimize", "minimise"), ("maximize", "maximise"),
+    ("optimize", "optimise"), ("stabilize", "stabilise"),
+    ("generalize", "generalise"), ("normalize", "normalise"),
+    ("utilize", "utilise"), ("quantize", "quantise"),
+)
+for _american, _british in _SPELLINGS:
+    for _left, _right in (
+        (_american, _british), (_american + "s", _british + "s"),
+        (_american + "d", _british + "d"),
+        (_american[:-1] + "ing", _british[:-1] + "ing"),
+    ):
+        _SHORTENINGS[_left] = (*_SHORTENINGS.get(_left, ()), _right)
+        _SHORTENINGS[_right] = (*_SHORTENINGS.get(_right, ()), _left)
+for _left, _right in (
+    ("analyze", "analyse"), ("analyzed", "analysed"),
+    ("analyzing", "analysing"), ("modeling", "modelling"),
+    ("modeled", "modelled"), ("behavior", "behaviour"),
+    ("behaviors", "behaviours"), ("synchronization", "synchronisation"),
+    ("localization", "localisation"), ("organization", "organisation"),
+    ("optimization", "optimisation"), ("normalization", "normalisation"),
+):
+    _SHORTENINGS[_left] = (*_SHORTENINGS.get(_left, ()), _right)
+    _SHORTENINGS[_right] = (*_SHORTENINGS.get(_right, ()), _left)
+_SHORTENINGS["analyzes"] = ("analyses",)  # Reverse form can be a plural noun.
+
+# Symmetric lists retain each entire noun phrase, including its qualifications.
+# Avoid generic conjunction swapping: a following modifier can apply to only
+# the second item. These closed phrases have the same shared syntactic role.
+_COORDINATIONS = (
+    ("error correction codes", "dynamical decoupling techniques", "and"),
+    ("network partitions", "partial failures", "or"),
+    ("network partitions", "component failures", "or"),
+    ("term numbers", "log replication", "and"),
+    ("a leader-based approach", "a quorum-based mechanism", "or"),
+    ("specific environmental stimuli", "developmental signals", "or"),
+    ("direct forcing", "indirect feedbacks", "and"),
+    ("width", "shift", "and"),
+    ("chemical composition", "physical conditions", "and"),
+    ("functional modifications", "structural fluctuations", "and"),
+    ("consistency guarantees", "availability", "and"),
+    ("thermal", "mechanical", "or"),
+    ("grain size", "solute distribution", "and"),
+)
+for _left, _right, _conjunction in _COORDINATIONS:
+    _original = f"{_left} {_conjunction} {_right}"
+    _replacement = f"{_right} {_conjunction} {_left}"
+    _SHORTENINGS[_original] = (_replacement,)
+    _SHORTENINGS[_replacement] = (_original,)
 _ALTERNATIVES: dict[str, tuple[str, ...]] = dict(_SHORTENINGS)
 for _family in _FAMILIES:
     for _phrase in _family:
@@ -106,7 +229,7 @@ _SIGNALS = frozenset((
     "probable", "probably", "sometimes", "often", "usually", "typically",
     "generally", "always", "all", "any", "some", "most", "many", "few",
     "several", "only", "merely", "almost", "nearly", "approximately", "roughly",
-    "about", "each", "every", "at", "least", "more", "less", "fewer",
+    "about", "each", "every", "least", "more", "less", "fewer",
     "greater", "higher", "lower", "equal", "equivalent", "identical",
     "significant", "significantly", "proves", "prove", "proven", "guarantees",
     "guarantee", "guaranteed", "demonstrates", "demonstrate", "establishes",
@@ -154,9 +277,14 @@ def _source_key(text: str) -> str:
 
 
 def _signals(surface: str) -> Counter[str]:
-    words = _WORD.findall(surface.lower())
-    return Counter(_SIGNAL_CLASSES.get(word, word) for word in words
-                   if word in _SIGNALS or word in _STRENGTHENING or word in _TECHNICAL_REFERENTS)
+    words = [word[:-2] if word.endswith("'s") else word
+             for word in _WORD.findall(surface.lower())]
+    signals = Counter(_SIGNAL_CLASSES.get(word, word) for word in words
+                      if word in _SIGNALS or word in _STRENGTHENING or word in _TECHNICAL_REFERENTS)
+    for bound in ("at least", "at most", "more than", "less than", "up to"):
+        if re.search(rf"\b{bound}\b", surface, re.IGNORECASE):
+            signals[bound] += 1
+    return signals
 
 
 def _entity_tokens(surface: str) -> Counter[str]:
@@ -170,6 +298,22 @@ def _entity_tokens(surface: str) -> Counter[str]:
 def _boundary(text: str, start: int, end: int) -> bool:
     return ((start == 0 or not (text[start - 1].isalnum() or text[start - 1] in "_'-"))
             and (end == len(text) or not (text[end].isalnum() or text[end] in "_'-")))
+
+
+def _unique_anchor(text: str, original: str) -> tuple[int, str | None]:
+    """Count literal occurrences at word boundaries, not inside other words."""
+    start = text.find(original)
+    found_literal = start >= 0
+    valid = -1
+    while start >= 0:
+        if _boundary(text, start, start + len(original)):
+            if valid >= 0:
+                return -1, "nonunique_anchor"
+            valid = start
+        start = text.find(original, start + 1)
+    if valid >= 0:
+        return valid, None
+    return -1, "word_boundary" if found_literal else "missing_exact_anchor"
 
 
 def _sentence_initial(text: str, start: int) -> bool:
@@ -194,21 +338,25 @@ class _AtomicEdit:
     provider_identity: str | None = None
 
 
-def _screen(text: str, start: int, end: int, replacement: Any, *,
-            curated: bool = False) -> bool:
+def _screen_reason(text: str, start: int, end: int, replacement: Any, *,
+                   curated: bool = False) -> str | None:
     original = text[start:end]
-    if (not isinstance(replacement, str) or original == replacement
-            or not _SURFACE.fullmatch(original) or not _SURFACE.fullmatch(replacement)
-            or not _boundary(text, start, end)):
-        return False
+    if not isinstance(replacement, str):
+        return "replacement_not_text"
+    if original == replacement:
+        return "unchanged"
+    if not _SURFACE.fullmatch(original) or not _SURFACE.fullmatch(replacement):
+        return "nonalphabetic_or_word_limit"
+    if not _boundary(text, start, end):
+        return "word_boundary"
     if curated:
         following = text[end:].lstrip()
         # A phrase may instead be the prefix of a fixed grammatical/technical
         # construction: "in addition to" and "in general relativity".
         if original.lower() == "in addition" and re.match(r"to\b", following, re.IGNORECASE):
-            return False
-        if original.lower() in ("in general", "generally") and not following.startswith(","):
-            return False
+            return "fixed_grammatical_construction"
+        if original.lower() in ("in general", "generally", "however", "nevertheless", "nonetheless") and not following.startswith(","):
+            return "fixed_grammatical_construction"
     # Never erase, introduce, or strengthen a conspicuous qualifier/quantity.
     # The two curated discourse variants are explicit exceptions, not a blanket
     # permission for model suggestions to change "generally" or "absence".
@@ -219,12 +367,43 @@ def _screen(text: str, start: int, end: int, replacement: Any, *,
     if curated and original.lower() == "in the absence of":
         left = Counter({"absence": 1})
     if left != right:
-        return False
+        return "qualification_quantity_or_technical_drift"
+    modified = text[:start] + replacement + text[end:]
+    for bound in ("at least", "at most", "more than", "less than", "up to"):
+        pattern = rf"\b{bound}\b"
+        if len(re.findall(pattern, text, re.IGNORECASE)) != len(re.findall(pattern, modified, re.IGNORECASE)):
+            return "quantity_bound_drift"
     # Sentence-leading capitalization is grammar rather than an entity signal.
     if _sentence_initial(text, start):
         original = original[:1].lower() + original[1:]
         replacement = replacement[:1].lower() + replacement[1:]
-    return _entity_tokens(original) == _entity_tokens(replacement)
+    if _entity_tokens(original) != _entity_tokens(replacement):
+        return "capitalized_entity_drift"
+    return None
+
+
+def _screen(text: str, start: int, end: int, replacement: Any, *, curated: bool = False) -> bool:
+    return _screen_reason(text, start, end, replacement, curated=curated) is None
+
+
+def _structural_edits(text: str) -> Sequence[_AtomicEdit]:
+    """Bounded grammatical rewrites that retain the original content words."""
+    edits = []
+    for match in re.finditer(r"\b[Bb]y ([a-z]+ing)\b", text):
+        verb = match.group(1)
+        replacement = ("Through " if match.group()[0].isupper() else "through ") + verb
+        edits.append(_AtomicEdit(match.start(), match.end(), replacement, "curated_syntax"))
+    for match in re.finditer(r"\bTo (?=(?:mitigate|ensure|quantify|accurately|estimate|calculate|measure|determine|test|preserve|evaluate|assess|identify|compare|characterize)\b)", text):
+        if _sentence_initial(text, match.start()):
+            # Exclude the trailing space from both source and replacement.
+            edits.append(_AtomicEdit(match.start(), match.end() - 1, "In order to", "curated_syntax"))
+    heads = "sensitivity|fidelity|stability|consistency|performance|properties|structure|composition|parameters|analysis|behavior|behaviour|dynamics|state|history|quality|temperature|evolution"
+    owners = "system|environment|cluster|cell|material|planet|protocol|network|model|estimator|instrument|method|algorithm|study|signal|process|sample"
+    pattern = rf"\bthe (?P<head>(?:[a-z]+ )?({heads})) of the (?P<owner>{owners})\b"
+    for match in re.finditer(pattern, text):
+        replacement = f"the {match.group('owner')}'s {match.group('head')}"
+        edits.append(_AtomicEdit(match.start(), match.end(), replacement, "curated_syntax"))
+    return edits
 
 
 class ParaphraseProvider(Protocol):
@@ -261,7 +440,10 @@ class ParaphraseEditProposer:
         self.max_cached_sources = max_cached_sources
         self.should_stop = should_stop
         self._banks: dict[str, _Bank] = {}
-        self.diagnostics: dict[str, Any] = {"generated_sources": 0, "provider_errors": []}
+        self.diagnostics: dict[str, Any] = {
+            "generated_sources": 0, "provider_errors": [], "sources": {},
+            "bank_size": 0, "distinct_spans": 0,
+        }
 
     @staticmethod
     def _validate_text(text: str) -> None:
@@ -286,40 +468,70 @@ class ParaphraseEditProposer:
         if _stop_requested(self.should_stop) or len(self._banks) >= self.max_cached_sources:
             return _Bank(())
         edits: list[_AtomicEdit] = []
+        counts: dict[str, Any] = {
+            "curated_candidates": 0, "curated_accepted": 0, "curated_rejections": {},
+            "provider_candidates": 0, "provider_accepted": 0, "provider_rejections": {},
+        }
+        curated_rejections: Counter[str] = Counter()
+        provider_rejections: Counter[str] = Counter()
         for phrase, alternatives in _ALTERNATIVES.items():
             for match in re.finditer(re.escape(phrase), text, flags=re.IGNORECASE):
                 for alternative in alternatives:
+                    counts["curated_candidates"] += 1
                     replacement = _matches_case(match.group(), alternative)
-                    if _screen(text, match.start(), match.end(), replacement, curated=True):
+                    reason = _screen_reason(text, match.start(), match.end(), replacement, curated=True)
+                    if reason is None:
                         edits.append(_AtomicEdit(match.start(), match.end(), replacement, "curated"))
+                        counts["curated_accepted"] += 1
+                    else:
+                        curated_rejections[reason] += 1
+        for edit in _structural_edits(text):
+            counts["curated_candidates"] += 1
+            reason = _screen_reason(text, edit.start, edit.end, edit.replacement, curated=True)
+            if reason is None:
+                edits.append(edit)
+                counts["curated_accepted"] += 1
+            else:
+                curated_rejections[reason] += 1
         if self.provider is not None and not _stop_requested(self.should_stop):
             try:
                 suggestions = self.provider.suggestions(text)
                 identity = getattr(self.provider, "identity", self.provider.__class__.__name__)
                 for item in islice(suggestions, self.max_bank_size):
+                    counts["provider_candidates"] += 1
                     if not isinstance(item, Mapping):
+                        provider_rejections["invalid_edit_object"] += 1
                         continue
                     original, replacement = item.get("original"), item.get("replacement")
                     if not isinstance(original, str) or not original:
+                        provider_rejections["invalid_original"] += 1
                         continue
-                    start = text.find(original)
-                    # An LLM anchor must identify exactly one literal occurrence.
-                    if start < 0 or text.find(original, start + 1) >= 0:
+                    start, anchor_reason = _unique_anchor(text, original)
+                    if anchor_reason is not None:
+                        provider_rejections[anchor_reason] += 1
                         continue
                     end = start + len(original)
-                    if _screen(text, start, end, replacement):
+                    reason = _screen_reason(text, start, end, replacement)
+                    if reason is None:
                         edits.append(_AtomicEdit(start, end, replacement, "local_provider", str(identity)))
+                        counts["provider_accepted"] += 1
+                    else:
+                        provider_rejections[reason] += 1
             except (ValueError, TypeError, RuntimeError, httpx.HTTPError) as exc:
                 self.diagnostics["provider_errors"].append(str(exc)[:300])
         # Round-robin variants across spans, rather than filling the first page
         # with alternatives at a handful of early source positions.
         by_span: dict[tuple[int, int], list[_AtomicEdit]] = {}
         seen: set[tuple[int, int, str]] = set()
-        for edit in sorted(edits, key=lambda e: (e.start, e.end, e.replacement, e.origin)):
+        seen_text: set[str] = set()
+        for edit in sorted(edits, key=lambda e: (e.end - e.start, e.start, e.end, e.replacement, e.origin)):
             signature = (edit.start, edit.end, edit.replacement)
-            if signature not in seen:
+            result = text[:edit.start] + edit.replacement + text[edit.end:]
+            if signature not in seen and result not in seen_text:
                 seen.add(signature)
+                seen_text.add(result)
                 by_span.setdefault((edit.start, edit.end), []).append(edit)
+        by_span = dict(sorted(by_span.items()))
         ordered: list[_AtomicEdit] = []
         for variant in range(max(map(len, by_span.values()), default=0)):
             for alternatives in by_span.values():
@@ -332,6 +544,12 @@ class ParaphraseEditProposer:
         bank = _Bank(tuple(ordered))
         self._banks[key] = bank
         self.diagnostics["generated_sources"] = len(self._banks)
+        counts.update({"curated_rejections": dict(curated_rejections),
+                       "provider_rejections": dict(provider_rejections),
+                       "bank_size": len(bank.edits), "distinct_spans": len({(e.start, e.end) for e in bank.edits})})
+        self.diagnostics["sources"][key] = counts
+        self.diagnostics["bank_size"] = len(bank.edits)
+        self.diagnostics["distinct_spans"] = counts["distinct_spans"]
         return bank
 
     @staticmethod
@@ -430,6 +648,9 @@ class OllamaParaphraseProvider:
             "calls": 0, "cache_hits": 0, "elapsed_seconds": 0.0,
             "prompt_tokens": 0, "completion_tokens": 0, "model_digest": None,
             "last_error": None, "target_blind": True,
+            "raw_edit_count": 0, "accepted_edit_count": 0, "rejections": {},
+            "last_raw_edits": [], "last_accepted_edits": [], "sources": {},
+            "last_raw_response": "",
         }
 
     @property
@@ -456,6 +677,7 @@ class OllamaParaphraseProvider:
         # Reserve the source before doing IO: failed/partial generations are
         # not silently repeated on every optimizer iteration.
         self._cache[key] = ()
+        self.diagnostics["sources"][key] = {"status": "started"}
         started = time.monotonic()
         allowance = min(self.timeout, self.max_total_seconds - self.diagnostics["elapsed_seconds"])
         if self.deadline is not None:
@@ -463,29 +685,57 @@ class OllamaParaphraseProvider:
         try:
             raw = asyncio.run(self._bounded_collect(text, started + allowance))
             if raw is not None and not self._stopped():
+                self.diagnostics["last_raw_response"] = raw[:16384]
                 result = json.loads(raw)
-                items = result.get("edits", []) if isinstance(result, dict) else []
+                if not isinstance(result, dict) or "edits" not in result:
+                    raise ValueError("Ollama must return an object containing edits")
+                items = result["edits"]
                 accepted: list[dict[str, str]] = []
                 seen: set[tuple[str, str]] = set()
                 if not isinstance(items, list):
                     raise ValueError("Ollama edits must be a JSON array")
-                for item in items[:self.max_suggestions]:
+                raw_edits = items[:self.max_suggestions]
+                rejected: Counter[str] = Counter()
+                for item in raw_edits:
                     if not isinstance(item, dict) or set(item) != {"original", "replacement"}:
+                        rejected["invalid_edit_object"] += 1
                         continue
                     original, replacement = item["original"], item["replacement"]
                     if not isinstance(original, str) or not original:
+                        rejected["invalid_original"] += 1
                         continue
-                    start = text.find(original)
-                    if (start < 0 or text.find(original, start + 1) >= 0
-                            or not _screen(text, start, start + len(original), replacement)):
+                    start, anchor_reason = _unique_anchor(text, original)
+                    if anchor_reason is not None:
+                        rejected[anchor_reason] += 1
+                        continue
+                    reason = _screen_reason(text, start, start + len(original), replacement)
+                    if reason is not None:
+                        rejected[reason] += 1
                         continue
                     pair = (original, replacement)
                     if pair not in seen:
                         seen.add(pair)
                         accepted.append({"original": original, "replacement": replacement})
+                    else:
+                        rejected["duplicate_edit"] += 1
                 self._cache[key] = tuple(accepted)
+                self.diagnostics["raw_edit_count"] += len(raw_edits)
+                self.diagnostics["accepted_edit_count"] += len(accepted)
+                self.diagnostics["last_raw_edits"] = raw_edits
+                self.diagnostics["last_accepted_edits"] = accepted
+                totals = Counter(self.diagnostics["rejections"])
+                totals.update(rejected)
+                self.diagnostics["rejections"] = dict(totals)
+                self.diagnostics["sources"][key] = {
+                    "status": "complete", "raw_edits": raw_edits,
+                    "accepted_edits": accepted, "rejections": dict(rejected),
+                    "raw_edit_count": len(raw_edits), "bank_size": len(accepted),
+                }
+            else:
+                self.diagnostics["sources"][key] = {"status": "cancelled_or_deadline", "bank_size": 0}
         except (httpx.HTTPError, ValueError, TypeError, RuntimeError) as exc:
             self.diagnostics["last_error"] = str(exc)[:300]
+            self.diagnostics["sources"][key] = {"status": "error", "error": str(exc)[:300], "bank_size": 0}
         finally:
             self.diagnostics["elapsed_seconds"] += time.monotonic() - started
         return tuple(dict(item) for item in self._cache[key])
