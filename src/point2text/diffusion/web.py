@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from dataclasses import replace
+
 from importlib import util
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
@@ -68,6 +70,9 @@ class _ConfiguredSearch:
         self.guided = guided
 
     def run(self, bundle: Any, target: Any, **kwargs: Any) -> Any:
+        updates = kwargs.pop("guidance_updates", None)
+        if updates is not None:
+            self.search.config = replace(self.search.config, inner_updates=updates)
         return self.search.run(bundle, target, guided=self.guided, **kwargs)
 
 

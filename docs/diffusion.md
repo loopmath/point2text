@@ -23,6 +23,8 @@ uv run --extra encoder --extra diffusion point2text-diffusion --serve --tailnet 
 
 The same browser interface/API now runs the diffusion strategy. The header says which backend is active. Canonical verified candidates, remaining distance, cancellation, and run records work as before. The strategy's native/guidance trace is included in the run JSON. Existing baseline and Tailscale Serve routes are independent.
 
+The browser's **Encoder updates / pass** control sets 1, 2, 4, 8, or 16 inner refinements for each guided native pass (default 2). This adds encoder forward/backward work against the same generator proposal; it does not add diffusion-model passes. The API accepts `guidance_updates` in guided run requests and validates 1-16. Completed candidates show their actual update and native-pass counts. Counts can be lower than the scheduled maximum because native stopping is adaptive. More inner updates can saturate the trust bound or worsen final text; the ordinary encoder score remains decisive.
+
 The exercised, stronger intervention profile is:
 
 ```bash

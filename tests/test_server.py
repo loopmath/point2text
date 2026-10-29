@@ -83,6 +83,9 @@ def test_wrong_map_and_invalid_budgets_are_rejected(tmp_path):
         assert client.post("/api/runs", json={"map_id": "old", "target": [0, 0]}).status_code == 409
         for target, count in [(["NaN", 0], 2), ([0, 0], 0), ([0, 0], 7), ([0], 2)]:
             assert client.post("/api/runs", json={"map_id": "fixed-test-map", "target": target, "candidates": count}).status_code == 422
+        for updates in [0, 17, 2]:
+            # The baseline has no encoder-guidance capability, even for a valid count.
+            assert client.post("/api/runs", json={"map_id": "fixed-test-map", "target": [0, 0], "guidance_updates": updates}).status_code == 422
 
 
 def test_cancellation_releases_single_worker_and_unknown_run_is_404(tmp_path):

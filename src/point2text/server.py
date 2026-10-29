@@ -30,6 +30,7 @@ class RunRequest(BaseModel):
     target: tuple[float, float]
     candidates: int = Field(default=3, ge=1, le=6)
     seed: int = Field(default=42, ge=0, le=2**31 - 7)
+    guidance_updates: int | None = Field(default=None, ge=1, le=16)
 
     @field_validator("target")
     @classmethod
@@ -51,6 +52,7 @@ class Run:
     generator_metadata: dict
     strategy: str = "nearest-context-independent-candidates-v1"
     trace: dict | None = None
+    guidance_updates: int | None = None
     status: str = "running"
     error: str | None = None
     candidates: list[Candidate] = field(default_factory=list)
@@ -75,6 +77,7 @@ class Run:
                 "generator": self.generator, "encoder": self.encoder,
                 "generator_metadata": self.generator_metadata,
                 "strategy": self.strategy, "trace": self.trace,
+                "guidance_updates": self.guidance_updates,
                 "distance_metric": "euclidean-unwhitened-pca",
             }
 
@@ -148,9 +151,11 @@ def create_app(*, bundle: Any = None, generator: Any = None,
                     run.candidates.append(candidate)
 
             strategy = search_factory(map_bundle) if search_factory is not None else BaselineSearch(generator)
+            options = {"guidance_updates": run.guidance_updates} if search_factory is not None and run.guidance_updates is not None else {}
             result = strategy.run(
                 map_bundle, run.target, max_candidates=run.requested_candidates,
                 seed=run.seed, on_candidate=on_candidate, cancel_event=run.cancel_event,
+                **options,
             )
             with run.lock:
                 trace = getattr(result, "trace", None)
@@ -192,6 +197,8 @@ def create_app(*, bundle: Any = None, generator: Any = None,
         metadata = generator.available()
         if not metadata.get("available"):
             raise HTTPException(503, metadata.get("error", "The local generator is unavailable."))
+        if request.guidance_updates is not None and not metadata.get("guided"):
+            raise HTTPException(422, "Encoder updates per pass apply only to guided diffusion.")
         with state_lock:
             if state["closed"]:
                 raise HTTPException(503, "The server is shutting down.")
@@ -202,6 +209,7 @@ def create_app(*, bundle: Any = None, generator: Any = None,
                 seed=request.seed, requested_candidates=request.candidates,
                 generator=generator.identity, encoder=map_bundle.payload()["encoder"]["id"],
                 generator_metadata=metadata,
+                guidance_updates=request.guidance_updates,
             )
             # Bound browser-session history; completed records remain on disk.
             while len(runs) >= 30:

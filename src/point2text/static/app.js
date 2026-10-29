@@ -5,7 +5,7 @@
   const NS = 'http://www.w3.org/2000/svg';
   const colors = ['#7b968a', '#8c91ad', '#b69a76', '#8f9f66', '#b58b8a', '#7196a4', '#a38dad', '#a5a179', '#557b78', '#a0768d'];
   const plot = { left: 54, top: 22, width: 718, height: 490 };
-  const state = { map: null, status: null, target: null, runId: null, busy: false, epoch: 0, candidates: [], selected: -1, tab: 'best', started: 0, runElapsed: 0, requested: 3, topicColors: new Map(), transform: null, runTimer: null, statusTimer: null, tickTimer: null, mapLoading: false, hovered: null };
+  const state = { map: null, status: null, target: null, runId: null, runTrace: null, busy: false, epoch: 0, candidates: [], selected: -1, tab: 'best', started: 0, runElapsed: 0, requested: 3, topicColors: new Map(), transform: null, runTimer: null, statusTimer: null, tickTimer: null, mapLoading: false, hovered: null };
 
   function element(tag, attrs = {}, text) {
     const el = document.createElement(tag);
@@ -52,6 +52,8 @@
     $('generate').hidden = state.busy;
     $('cancel').hidden = !state.busy;
     $('candidate-count').disabled = state.busy;
+    $('guidance-control').hidden = state.status?.generator?.guided !== true;
+    $('guidance-updates').disabled = state.busy;
     $('clear-target').hidden = !state.target;
     if (state.busy) {
       $('action-help').textContent = 'Each completed paragraph is scored at its actual map position.';
@@ -274,6 +276,7 @@
   }
 
   function resetOutput() {
+    state.runTrace = null;
     state.candidates = []; state.selected = -1; state.tab = 'best'; state.runElapsed = 0;
     $('output-empty').hidden = false; $('output-content').hidden = true;
     $('progress').hidden = true; $('run-error').hidden = true;
@@ -356,6 +359,16 @@
     $('result-text').textContent = candidate.text;
     $('result-position').textContent = `ACTUAL POSITION  ${coordinateText([candidate.x, candidate.y])}`;
     $('result-time').textContent = `${format(candidate.elapsed_seconds, 1)}s`;
+    const trajectories = state.runTrace?.trajectories;
+    const trajectory = Array.isArray(trajectories) ? trajectories.find(item => item.seed === candidate.seed) : null;
+    const guidedSteps = trajectory?.guidance?.steps;
+    const passes = trajectory?.runtime?.passes;
+    const hasCompute = Array.isArray(guidedSteps) && Number.isInteger(passes) && passes >= 0;
+    $('result-compute').hidden = !hasCompute;
+    if (hasCompute) {
+      const updates = guidedSteps.reduce((total, step) => total + (Array.isArray(step.updates) ? step.updates.length : 0), 0);
+      $('result-compute').textContent = `${updates} encoder ${updates === 1 ? 'update' : 'updates'} · ${passes} diffusion ${passes === 1 ? 'pass' : 'passes'}`;
+    }
     const all = $('all-view'); all.replaceChildren();
     state.candidates.forEach((item, itemIndex) => {
       const article = element('article', { class: 'all-candidate' });
@@ -385,6 +398,7 @@
 
   function applyRun(run) {
     const previousCount = state.candidates.length;
+    state.runTrace = run.trace || null;
     state.candidates = Array.isArray(run.candidates) ? run.candidates.filter(c => typeof c.text === 'string' && finite(c.x) && finite(c.y) && finite(c.distance)) : [];
     state.runElapsed = finite(run.elapsed_seconds) ? run.elapsed_seconds : state.runElapsed;
     const count = state.candidates.length;
@@ -437,7 +451,9 @@
     updateControls(); updateElapsed();
     announce(`Generating ${state.requested} candidate paragraphs locally.`);
     try {
-      const run = await api('/api/runs', { method: 'POST', body: JSON.stringify({ map_id: state.map.map_id, target: [...state.target], candidates: state.requested, seed: 42 }) });
+      const body = { map_id: state.map.map_id, target: [...state.target], candidates: state.requested, seed: 42 };
+      if (state.status?.generator?.guided === true) body.guidance_updates = Number($('guidance-updates').value);
+      const run = await api('/api/runs', { method: 'POST', body: JSON.stringify(body) });
       if (!run.id) throw new Error('The local worker did not return a run identifier.');
       if (epoch !== state.epoch) { void quietlyCancel(run.id); return; }
       state.runId = run.id;
