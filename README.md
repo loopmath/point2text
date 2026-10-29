@@ -86,7 +86,7 @@ The `encoder` extra contains the reference sentence encoder's PyTorch stack. Cor
 
 With the demo running, `python scripts/smoke_local.py` requests one real candidate and checks the full API loop. See the [initial validation record](docs/validation.md) for observed results and their limits.
 
-The package separates corpus/encoder/map, generation, search, and web delivery. See [architecture and parallel workflows](docs/plan.md), [contributing](CONTRIBUTING.md), and [research notes](docs/research/README.md). Diffusion adapters, differentiable token bridges, residual priors, and rigorous evaluation are planned extensions.
+The package separates corpus/encoder/map, generation, search, and web delivery. See [architecture and parallel workflows](docs/plan.md), [contributing](CONTRIBUTING.md), and [research notes](docs/research/README.md). This branch adds a native diffusion adapter and an approximate gradient bridge; residual priors, broader adapters, and rigorous effectiveness evaluation remain follow-up work.
 
 For the underlying mathematics and implemented algorithm, read the [two-page technical report](docs/paper/point2text-technical-report.pdf), with [reproducible source](docs/paper/README.md).
 

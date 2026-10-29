@@ -1,5 +1,7 @@
 # Native diffusion integration and acceptance plan
 
+**Current state:** the combined native runtime, encoder-gradient bridge, hard-text verification, browser path, and per-pass update control work in [draft PR #1](https://github.com/loopmath/point2text/pull/1). The integration gate below passed real local runs; the branch remains separate for review. The next open gate is measured quality and efficiency under equal time budgets.
+
 The immediate deliverable is a local Mac run in which native DiffusionGemma denoising invokes frozen-encoder guidance, produces real decoded research prose, and reports its measured position on the existing fixed map. The authorized window began **2026-10-29 17:28:31 UTC** and ends **18:28:31 UTC**. This is the implementation deadline; it is not a promise of a particular accuracy, speed, or quality improvement.
 
 ## Independent lanes and ownership

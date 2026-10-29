@@ -430,7 +430,7 @@
         state.runTimer = window.setTimeout(() => pollRun(id, epoch), 700);
       } else {
         finishRun();
-        announce(run.status === 'complete' ? `Search complete. ${state.candidates.length} paragraphs measured. Best distance ${format(state.candidates[bestIndex()]?.distance)}.` : run.status === 'cancelled' ? 'Search stopped.' : 'The local generation encountered an error.');
+        announce(run.status === 'complete' ? `Search complete. ${state.candidates.length} ${state.candidates.length === 1 ? 'paragraph' : 'paragraphs'} measured. Best distance ${format(state.candidates[bestIndex()]?.distance)}.` : run.status === 'cancelled' ? 'Search stopped.' : 'The local generation encountered an error.');
       }
     } catch (error) {
       if (epoch !== state.epoch) return;
@@ -449,7 +449,7 @@
     $('progress-label').textContent = 'Starting local generation'; $('progress-fill').style.width = '3%';
     state.tickTimer = window.setInterval(updateElapsed, 100);
     updateControls(); updateElapsed();
-    announce(`Generating ${state.requested} candidate paragraphs locally.`);
+    announce(`Generating ${state.requested} candidate ${state.requested === 1 ? 'paragraph' : 'paragraphs'} locally.`);
     try {
       const body = { map_id: state.map.map_id, target: [...state.target], candidates: state.requested, seed: 42 };
       if (state.status?.generator?.guided === true) body.guidance_updates = Number($('guidance-updates').value);
