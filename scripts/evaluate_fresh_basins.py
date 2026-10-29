@@ -120,6 +120,11 @@ def summary(pool, paired=None):
     result = {"map_id": pool["map_id"], "targets": len(pool["cases"]),
               "trajectories": len(attempts), "native_passes": native_passes,
               "actual_guided_passes": guided_passes, "actual_encoder_updates": updates,
+              "selection_coverage": {
+                  "closest_mechanical_candidate": sum(bool(attempt["candidates"]) for attempt in attempts),
+                  "raw_final_or_draft_fallback": sum(not attempt["candidates"] and bool(
+                      attempt.get("result", {}).get("text") or attempt.get("drafts")) for attempt in attempts),
+              },
               "cases": []}
     for case in pool["cases"]:
         values = [candidate for attempt in case["attempts"] for candidate in attempt["candidates"]]

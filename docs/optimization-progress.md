@@ -92,8 +92,12 @@ used exactly the same requests/seeds with no guidance hook. The
 [programmatic pairing/count audit](experiments/fresh-native-paired-summary-v1.json)
 verifies identical targets and requests.
 
-The distance-blinded reviewer examined one mechanically valid closest draft per
-trajectory: **2 accepted, 6 rejected, 4 uncertain** with guidance, and
+The distance-blinded reviewer examined all twelve selected texts per arm:
+the closest mechanically accepted draft if available, otherwise a raw final or
+last-draft fallback. Both current arms had **12 mechanically accepted selections
+and zero raw fallbacks**; mechanical acceptance can still admit broken grammar
+and scientific errors. No selected text was excluded from the review counts:
+**2 accepted, 6 rejected, 4 uncertain** with guidance, and
 **3 accepted, 6 rejected, 3 uncertain** without it. These individual assessments
 do not establish judge accuracy or a population quality effect. None of the
 mechanical results reached `1e-4`, and most targets still lacked an approved
@@ -116,7 +120,8 @@ candidate ranking, while their raw drafts remain in the evidence.
 
 The [24-trajectory grounded pool](experiments/fresh-grounded-basins-v1.json.gz)
 and its [distance-blinded packet](experiments/fresh-grounded-blind-review-v1.json)
-are preserved for independent review. Mechanical acceptance alone is not a
+are preserved for independent review (24 mechanical selections, zero raw
+fallbacks). Mechanical acceptance alone is not a
 claim of scientific validity, claim preservation, or epsilon attainment. Local
 refinement must start from approved **generated** text, not from the public
 reference itself. The harness supports equal-budget word-span versus whole-

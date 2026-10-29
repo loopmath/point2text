@@ -5,6 +5,10 @@
   "native_passes": 195,
   "actual_guided_passes": 0,
   "actual_encoder_updates": 0,
+  "selection_coverage": {
+    "closest_mechanical_candidate": 24,
+    "raw_final_or_draft_fallback": 0
+  },
   "cases": [
     {
       "id": "fresh-click-01",
