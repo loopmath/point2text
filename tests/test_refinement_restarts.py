@@ -276,6 +276,17 @@ def test_cache_reactivation_cannot_bypass_current_quality_rejection(late_quality
     assert len(result.trace["history"]) == 1
 
 
+def test_padded_cached_coarse_text_cannot_bypass_its_raw_quality_rejection():
+    source = "Quality basin 0.2."
+    runtime = Runtime([source, f"  {source}  "])
+    result = CanonicalRefinementSearch(runtime, edit_proposer=NoEdits(),
+        config=settings(max_restarts=1), quality_callback=lambda text: text == source,
+        late_quality=False).run(Bundle(), (0, 0), guided=False)
+    assert result.text == source
+    assert result.trace['restarts'][0]['best_candidate'] is None
+    assert result.trace['verification'].get('basin_cache_reactivations', 0) == 0
+
+
 def test_proposal_provider_inherits_local_stop_and_original_callback_is_restored(monkeypatch):
     now = [0.0]
     monkeypatch.setattr("point2text.diffusion.refinement.CanonicalVerifier",

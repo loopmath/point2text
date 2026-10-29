@@ -179,10 +179,10 @@ class CanonicalRefinementSearch:
                 # Dedup protects the query budget, but must not prevent a fresh
                 # seed from repairing an identical, already-scored paragraph.
                 for proposal in proposals:
-                    text = proposal.text if isinstance(proposal, TextProposal) else proposal
-                    if not isinstance(text, str):
+                    raw_text = proposal.text if isinstance(proposal, TextProposal) else proposal
+                    if not isinstance(raw_text, str):
                         continue
-                    text = text.strip()
+                    text = raw_text.strip()
                     cached = verifier.cache.get(" ".join(text.split()))
                     if (cached is None or cached.text != text or text in reactivated
                             or any(value.text == text for value in beam)
@@ -192,7 +192,7 @@ class CanonicalRefinementSearch:
                         # verify_batch performed the current early quality check
                         # before reporting this as a duplicate. Never bypass a
                         # rejection with the earlier cached verdict.
-                        if not verifier.quality_results.get(text, {}).get("accepted", False):
+                        if not verifier.quality_results.get(raw_text, {}).get("accepted", False):
                             continue
                     verified.append(replace(cached, diagnostics={**cached.diagnostics,
                         "canonical_cache_reactivated": True, "reactivated_for_phase": phase,
