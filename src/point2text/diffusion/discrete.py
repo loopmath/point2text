@@ -146,8 +146,11 @@ class CanonicalEditProposer:
 
     ``allowed_replacements(word)`` optionally supplies explicit domain candidates;
     an object exposing ``replacements(text, span)`` supplies contextual candidates.
-    Empty provider results fail closed, without fallback or unscreened structural
-    edits. ``vocabulary`` optionally restricts candidate words.
+    By default, contextual alternatives must also belong to the source word's
+    curated family, pass the grammar guard, and preserve protected technical
+    phrases. ``conservative_contextual=False`` explicitly opts out for research
+    diagnostics. Empty provider results fail closed, without fallback or
+    unscreened structural edits. ``vocabulary`` optionally restricts words.
     Defaults use curated grammatical families of technical vocabulary.
     The two-coordinate Jacobian is computed at normal encoder IDs, without the
     cross-tokenizer bridge. Same-length input-vector linearizations are precise
@@ -159,7 +162,7 @@ class CanonicalEditProposer:
                  vocabulary: Iterable[str] | None = None, max_hotspots: int = 12,
                  replacements_per_word: int = 8, max_pair_edits: int = 16,
                  allow_insertions: bool = True, allow_deletions: bool = True,
-                 allow_phrases: bool = True) -> None:
+                 allow_phrases: bool = True, conservative_contextual: bool = True) -> None:
         for name, value in (("max_hotspots", max_hotspots), ("replacements_per_word", replacements_per_word),
                             ("max_pair_edits", max_pair_edits)):
             if isinstance(value, bool) or not isinstance(value, int) or value < 0:
@@ -175,9 +178,10 @@ class CanonicalEditProposer:
         self._provider = getattr(allowed_replacements, "replacements", None)
         if self._provider is not None and not callable(self._provider):
             raise ValueError("Contextual replacement provider must expose a callable replacements method")
-        for flag in (allow_insertions, allow_deletions, allow_phrases):
+        for flag in (allow_insertions, allow_deletions, allow_phrases, conservative_contextual):
             if not isinstance(flag, bool):
-                raise ValueError("Structural edit flags must be boolean")
+                raise ValueError("Edit policy flags must be boolean")
+        self.conservative_contextual = conservative_contextual
         self.allow_insertions = allow_insertions and self._provider is None
         self.allow_deletions = allow_deletions and self._provider is None
         self.allow_phrases = allow_phrases and self._provider is None
@@ -327,14 +331,28 @@ class CanonicalEditProposer:
         ranked = self._ranked_words(analysis)
         protected = [(match.start(), match.end()) for phrase in _TECHNICAL_PHRASES
                      for match in re.finditer(r"\b" + re.escape(phrase) + r"\b", analysis.text, re.IGNORECASE)]
+        conservative_provider = self._provider is not None and self.conservative_contextual
+        guarded = self.allowed_replacements is None or conservative_provider
         # Include editable technical words even if stopwords dominate raw saliency.
-        eligible = [w for w in ranked if self.allowed_replacements is not None
-                    or w.text.lower() in _REPLACEMENTS or w.text.lower() in _MODIFIED_NOUNS
-                    or w.text.lower() in _OPTIONAL][:self.max_hotspots]
+        # Filter before the hotspot cap: protected/unknown-family spans must not
+        # consume the native provider's scarce per-text probe budget.
+        eligible = []
+        for word in ranked:
+            source = word.text.lower()
+            if guarded and any(start < word.end and end > word.start for start, end in protected):
+                continue
+            if conservative_provider and not any(
+                self._default_context_ok(analysis, word, candidate)
+                and self._article_ok(analysis.text, word.start, candidate)
+                for candidate in _REPLACEMENTS.get(source, ())
+            ):
+                continue
+            if self.allowed_replacements is not None or source in _REPLACEMENTS or source in _MODIFIED_NOUNS or source in _OPTIONAL:
+                eligible.append(word)
+            if len(eligible) >= self.max_hotspots:
+                break
         for word in eligible:
             source = word.text.lower()
-            if self.allowed_replacements is None and any(start < word.end and end > word.start for start, end in protected):
-                continue
             if self._provider is not None:
                 candidates = self._provider(analysis.text, (word.start, word.end))
             elif self.allowed_replacements is not None:
@@ -348,12 +366,14 @@ class CanonicalEditProposer:
                 candidate = candidate.strip()
                 if not candidate or candidate.casefold() == source:
                     continue
+                if conservative_provider and candidate.casefold() not in _REPLACEMENTS.get(source, ()):
+                    continue
                 if self.vocabulary is not None and any(m.group().lower() not in self.vocabulary for m in _WORD.finditer(candidate)):
                     continue
                 replacement = self._case(word.text, candidate)
                 if not self._article_ok(analysis.text, word.start, replacement):
                     continue
-                if self.allowed_replacements is None and not self._default_context_ok(analysis, word, replacement):
+                if guarded and not self._default_context_ok(analysis, word, replacement):
                     continue
                 prediction = self._predict(analysis, word.positions, replacement)
                 if prediction is None:
@@ -460,6 +480,7 @@ class CanonicalEditProposer:
                 "prediction_kinds": [edit.prediction for edit in edits],
                 "lexical_policy": "contextual-provider" if self._provider is not None else (
                     "explicit-word-callback" if self.allowed_replacements is not None else "curated-technical-families"),
+                "conservative_contextual": self.conservative_contextual if self._provider is not None else None,
                 "quality": "mechanical-constraints-only; canonical and semantic verification required",
                 "canonical_verified": False,
             }

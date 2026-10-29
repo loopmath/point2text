@@ -227,3 +227,45 @@ def test_structural_edit_flags_are_independent_of_word_replacements(bundle):
     edits = proposer._single_edits(proposer._analyze(SOURCE, (0.1, -0.2)))
     assert edits
     assert all(edit.kind == "replace-word" for edit in edits)
+
+
+def test_conservative_native_candidates_intersect_family_and_protect_terms(bundle):
+    tokenizer = bundle.encoder.model.tokenizer
+    tokenizer.vocabulary = dict(tokenizer.vocabulary, ensure=80, stability=81,
+                                gradient=82, estimates=83, quantifies=84, **{",": 85})
+    text = "To ensure stability, clear assumptions require gradient estimates."
+
+    class Provider:
+        def __init__(self):
+            self.sources = []
+
+        def replacements(self, source, span):
+            word = source[slice(*span)].lower()
+            self.sources.append(word)
+            return {"stability": ["model"], "estimates": ["quantifies"],
+                    "clear": ["explicit", "model"]}.get(word, [])
+
+    provider = Provider()
+    proposer = CanonicalEditProposer(bundle, allowed_replacements=provider, max_hotspots=4)
+    proposals = proposer.propose(text, (0.1, -0.2))
+    assert proposals
+    assert all(p.text == text.replace("clear", "explicit") for p in proposals)
+    assert "stability" not in provider.sources  # No family: fail before native work.
+    assert "estimates" not in provider.sources  # Protected collocation.
+    assert all(p.provenance["conservative_contextual"] is True for p in proposals)
+
+
+def test_contextual_opt_out_is_explicit_and_recorded(bundle):
+    tokenizer = bundle.encoder.model.tokenizer
+    tokenizer.vocabulary = dict(tokenizer.vocabulary, ensure=80, stability=81)
+
+    class Provider:
+        def replacements(self, text, span):
+            return ["model"] if text[slice(*span)] == "stability" else []
+
+    text = "To ensure stability."
+    assert CanonicalEditProposer(bundle, allowed_replacements=Provider()).propose(text, (0, 0)) == []
+    proposals = CanonicalEditProposer(bundle, allowed_replacements=Provider(),
+                                      conservative_contextual=False).propose(text, (0, 0))
+    assert len(proposals) == 1 and proposals[0].text == "To ensure model."
+    assert proposals[0].provenance["conservative_contextual"] is False
