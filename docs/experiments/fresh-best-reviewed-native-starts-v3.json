@@ -1,0 +1,386 @@
+{
+  "schema": "independently-reviewed-native-starts-v1",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "anchors": [
+    {
+      "id": "fresh-click-01",
+      "target": [
+        -0.05943739182128624,
+        0.35056816038875493
+      ],
+      "candidate": {
+        "text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+        "x": -0.05442411737178329,
+        "y": 0.31724838718541026,
+        "distance": 0.033694809793621994,
+        "encoder_token_ids": [
+          101,
+          2470,
+          2046,
+          3247,
+          10949,
+          28062,
+          2129,
+          20607,
+          15756,
+          4023,
+          2522,
+          14343,
+          26786,
+          2007,
+          9804,
+          2081,
+          2104,
+          9662,
+          3785,
+          1012,
+          9373,
+          7705,
+          2015,
+          2089,
+          4070,
+          2005,
+          1996,
+          20299,
+          1997,
+          3350,
+          1010,
+          6637,
+          4506,
+          1010,
+          2030,
+          19857,
+          6593,
+          24133,
+          3433,
+          11207,
+          2015,
+          1012,
+          23208,
+          2122,
+          4275,
+          2114,
+          2007,
+          24850,
+          3979,
+          2951,
+          7126,
+          6709,
+          1996,
+          3563,
+          14260,
+          6177,
+          2169,
+          7705,
+          2064,
+          4863,
+          1012,
+          102
+        ],
+        "diagnostics": {
+          "word_count": 48,
+          "encoder_token_count": 62,
+          "validation": "mechanical_only",
+          "coherence_certified": false,
+          "provenance": {}
+        }
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Neuroscience\", \"title\": \"Decision dynamics\", \"paragraph\": \"A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 6973532,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "review_id": "0331b7755cdc",
+      "public_reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+      "start_origin": {
+        "kind": "independently_reviewed_native_coarse",
+        "review_id": "0331b7755cdc"
+      }
+    },
+    {
+      "id": "fresh-click-02",
+      "target": [
+        -0.20038882281515585,
+        -0.22882952016940825
+      ],
+      "candidate": {
+        "text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process is dependent upon specific measurement techniques and the assumptions used to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+        "x": -0.22064045677642843,
+        "y": -0.2692582125043455,
+        "distance": 0.045217340059034695,
+        "elapsed_seconds": 1.5656892909901217,
+        "seed": 8983433
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Astronomy\", \"title\": \"Dark matter mapping\", \"paragraph\": \"A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 8983431,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "review_id": "99f6cf735386",
+      "public_reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+      "start_origin": {
+        "kind": "independently_reviewed_native_refinement",
+        "arm": "words",
+        "review_id": "99f6cf735386",
+        "receipt": "docs/experiments/fresh-approved-refinement-v3.json.gz",
+        "source_commit": "94a7614515ce752f9531a37960a7cbfb3249b80b"
+      }
+    },
+    {
+      "id": "fresh-click-03",
+      "target": [
+        0.2422801570083117,
+        -0.07816226547108725
+      ],
+      "candidate": {
+        "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. Such processes necessitate the simultaneous specification of the code, measurement protocols, and noise assumptions. In addition, performance assessments should emphasize logical error rates rather than exclusively considering the fidelity associated with individual physical operations.",
+        "x": 0.24883044755906608,
+        "y": -0.07159635631943721,
+        "distance": 0.00927456032850203,
+        "elapsed_seconds": 47.77826708299108,
+        "seed": 4993450
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Quantum computing\", \"title\": \"Quantum error correction\", \"paragraph\": \"Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 4993431,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "review_id": "518fd1c32462",
+      "public_reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "start_origin": {
+        "kind": "independently_reviewed_native_refinement",
+        "arm": "sentence-restarts",
+        "review_id": "518fd1c32462",
+        "receipt": "docs/experiments/fresh-approved-refinement-v2.json.gz",
+        "source_commit": "53fe8ab4c7250bffb343535e77a404055143bc3f"
+      }
+    },
+    {
+      "id": "fresh-click-04",
+      "target": [
+        -0.11750784993385428,
+        0.0062444893440342245
+      ],
+      "candidate": {
+        "text": "Phase transformations involve structural or organizational reorganization under particular conditions. Evaluating these transitions requires researchers to distinguish between equilibrium behavior and kinetic effects resulting from finite heating or cooling rates. In addition, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+        "x": -0.13989718535446463,
+        "y": -0.009535168107548966,
+        "distance": 0.027391238195194866,
+        "elapsed_seconds": 16.272915999987163,
+        "seed": 5003440
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Materials science\", \"title\": \"Phase transformations\", \"paragraph\": \"A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 5003431,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "review_id": "f58118394e68",
+      "public_reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "start_origin": {
+        "kind": "independently_reviewed_native_refinement",
+        "arm": "sentence",
+        "review_id": "f58118394e68",
+        "receipt": "docs/experiments/fresh-approved-refinement-v2.json.gz",
+        "source_commit": "53fe8ab4c7250bffb343535e77a404055143bc3f"
+      }
+    },
+    {
+      "id": "fresh-click-05",
+      "target": [
+        0.17669038297785927,
+        0.08263553511232669
+      ],
+      "candidate": {
+        "text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+        "x": 0.130206769163172,
+        "y": 0.0631280708712596,
+        "distance": 0.05041098604857374,
+        "encoder_token_ids": [
+          101,
+          1037,
+          28046,
+          18938,
+          3258,
+          11486,
+          2442,
+          6133,
+          1996,
+          5703,
+          2090,
+          2830,
+          5082,
+          1010,
+          9211,
+          1010,
+          1998,
+          2943,
+          8381,
+          1012,
+          2138,
+          2536,
+          9291,
+          3785,
+          2064,
+          3747,
+          1996,
+          12353,
+          1997,
+          1037,
+          3563,
+          11721,
+          4183,
+          2030,
+          4367,
+          5656,
+          1010,
+          9312,
+          2015,
+          2323,
+          6254,
+          1996,
+          2561,
+          2943,
+          4654,
+          11837,
+          5732,
+          2408,
+          2019,
+          2972,
+          4708,
+          2738,
+          2084,
+          7995,
+          9578,
+          2006,
+          2460,
+          14025,
+          1997,
+          6706,
+          1011,
+          2110,
+          4367,
+          1012,
+          102
+        ],
+        "diagnostics": {
+          "word_count": 50,
+          "encoder_token_count": 65,
+          "validation": "mechanical_only",
+          "coherence_certified": false,
+          "provenance": {}
+        }
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Robotics\", \"title\": \"Energy-aware locomotion\", \"paragraph\": \"A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 4013431,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "review_id": "fd91aae698a3",
+      "public_reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "start_origin": {
+        "kind": "independently_reviewed_native_coarse",
+        "review_id": "fd91aae698a3"
+      }
+    },
+    {
+      "id": "fresh-click-06",
+      "target": [
+        -0.19386310057797443,
+        0.1503665721979977
+      ],
+      "candidate": {
+        "text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Additionally, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+        "x": -0.19809146898826965,
+        "y": 0.11339625662230844,
+        "distance": 0.03721133339695361,
+        "elapsed_seconds": 0.024738291976973414,
+        "seed": 5023431
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Molecular biology\", \"title\": \"Single-cell measurement\", \"paragraph\": \"Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 5023431,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "review_id": "27f3a8b0e762",
+      "public_reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "start_origin": {
+        "kind": "independently_reviewed_native_refinement",
+        "arm": "sentence",
+        "review_id": "27f3a8b0e762",
+        "receipt": "docs/experiments/fresh-approved-refinement-v2.json.gz",
+        "source_commit": "53fe8ab4c7250bffb343535e77a404055143bc3f"
+      }
+    }
+  ],
+  "selection_changes": [
+    {
+      "target_id": "fresh-click-03",
+      "previous_distance": 0.03395225229591064,
+      "reviewed_distance": 0.027826385100593647,
+      "review_id": "ae9329a7004b"
+    },
+    {
+      "target_id": "fresh-click-03",
+      "previous_distance": 0.027826385100593647,
+      "reviewed_distance": 0.00927456032850203,
+      "review_id": "518fd1c32462"
+    },
+    {
+      "target_id": "fresh-click-04",
+      "previous_distance": 0.07639833644536279,
+      "reviewed_distance": 0.027391238195194866,
+      "review_id": "f58118394e68"
+    },
+    {
+      "target_id": "fresh-click-06",
+      "previous_distance": 0.04148313144455914,
+      "reviewed_distance": 0.03721133339695361,
+      "review_id": "27f3a8b0e762"
+    },
+    {
+      "target_id": "fresh-click-02",
+      "previous_distance": 0.04678990375836383,
+      "reviewed_distance": 0.045217340059034695,
+      "review_id": "99f6cf735386"
+    }
+  ],
+  "inputs": [
+    {
+      "file": "docs/experiments/fresh-all-six-generated-anchor-pool-v3.json.gz",
+      "sha256": "6ae45d5424749915981f551e9c9b1f5442453865b5dcfa27cf56f7d70a0fbf84"
+    },
+    {
+      "file": "docs/experiments/fresh-all-six-generated-anchor-reviews-v3.json",
+      "sha256": "32c22ff1b924f63cd8ed65a7569492c3e0ec5bb01a5dc9558046a1b36b3c0ae7"
+    },
+    {
+      "file": "docs/experiments/fresh-approved-refinement-v2.json.gz",
+      "sha256": "67eb1c0940e839a7deb2cfdaf1e2cb4b9824336f73372dfe05ff4adbfd3533b3"
+    },
+    {
+      "file": "docs/experiments/fresh-refinement-independent-review-v2.json",
+      "sha256": "27d59f21c0d744c2ae62997a61f9401a61b7c8130f8966bcb6e9d895697248ec"
+    },
+    {
+      "file": "docs/experiments/fresh-approved-refinement-v3.json.gz",
+      "sha256": "10f31d0b8c75aa93034e59432d991d1cfe3c658db145c403545234fa76b4d8ed"
+    },
+    {
+      "file": "docs/experiments/fresh-refinement-independent-review-v3.json",
+      "sha256": "37bb7db7336b381505fcf5acfc73ccfcac7aa59bdc2c70d1bb04e97b6498e847"
+    }
+  ],
+  "policy": "Canonical distance ranks only independently approved generated/refined native text; all review axes remain intact."
+}

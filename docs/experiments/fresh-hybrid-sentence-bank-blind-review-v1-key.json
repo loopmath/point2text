@@ -1,0 +1,88 @@
+{
+  "items": [
+    {
+      "review_id": "2358129e168c",
+      "target_id": "fresh-click-01",
+      "arm": "hybrid-sentence-bank",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+        "x": -0.05442411737178329,
+        "y": 0.31724838718541026,
+        "distance": 0.033694809793621994,
+        "elapsed_seconds": 0.012568957987241447,
+        "seed": 1973901
+      }
+    },
+    {
+      "review_id": "7ec840410009",
+      "target_id": "fresh-click-02",
+      "arm": "hybrid-sentence-bank",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Dark matter maps are inferred from observations concerning the distribution of gravitational mass. The reconstruction process's dependence is rooted in the specific measurement techniques and the assumptions used to link signals to those distributions. To ensure that structures weakly constrained remain visible, resolution and uncertainty should be presented together for clarity.",
+        "x": -0.19025610610056432,
+        "y": -0.25009378275953986,
+        "distance": 0.023555059149155913,
+        "elapsed_seconds": 37.133107791945804,
+        "seed": 1983901
+      }
+    },
+    {
+      "review_id": "8f9aff97954f",
+      "target_id": "fresh-click-03",
+      "arm": "hybrid-sentence-bank",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. Such processes necessitate the simultaneous specification of the code, measurement protocols, and noise assumptions. In addition, performance assessments should emphasize logical error rates rather than exclusively considering the fidelity associated with individual physical operations.",
+        "x": 0.24883044755906628,
+        "y": -0.07159635631943721,
+        "distance": 0.009274560328502168,
+        "elapsed_seconds": 0.021024624991696328,
+        "seed": 1993901
+      }
+    },
+    {
+      "review_id": "6733c756da38",
+      "target_id": "fresh-click-04",
+      "arm": "hybrid-sentence-bank",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Phase transformations involve structural or organizational reorganization under particular conditions. Evaluating these transitions requires researchers to distinguish between equilibrium behavior and kinetic effects resulting from finite heating or cooling rates. In addition, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+        "x": -0.13989718535446463,
+        "y": -0.009535168107548966,
+        "distance": 0.027391238195194866,
+        "elapsed_seconds": 0.0687868749955669,
+        "seed": 2003901
+      }
+    },
+    {
+      "review_id": "83ddf4e0d840",
+      "target_id": "fresh-click-05",
+      "arm": "hybrid-sentence-bank",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "To function correctly, a locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+        "x": 0.13510065551781125,
+        "y": 0.061294727141667074,
+        "distance": 0.04674543309288771,
+        "elapsed_seconds": 11.758237709000241,
+        "seed": 2013901
+      }
+    },
+    {
+      "review_id": "ee5c5eb88749",
+      "target_id": "fresh-click-06",
+      "arm": "hybrid-sentence-bank",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Additionally, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+        "x": -0.1980914689882698,
+        "y": 0.11339625662230846,
+        "distance": 0.03721133339695361,
+        "elapsed_seconds": 0.031522082979790866,
+        "seed": 2023901
+      }
+    }
+  ]
+}

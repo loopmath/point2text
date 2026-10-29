@@ -220,5 +220,102 @@ phase generated two fresh native seeds for each of public-neighbor ranks 2–4.
 All six additional public references were reviewed before generation. The
 [combined raw pool](experiments/fresh-source-diversity-v3.json.gz) preserves all
 twelve outcomes, individual source/seed settings and hashes of the unchanged
-per-rank pools. Its separate blinded review is pending; no quality or epsilon
-success is claimed from these additional samples alone.
+per-rank pools. The [independent source-diversity review](experiments/fresh-source-diversity-independent-review-v3.json)
+accepted 6 texts, rejected 3 and marked 3 uncertain. Both previously missing
+clicks now have approved **generated** anchors. The
+[combined selection receipt](experiments/fresh-all-six-reviewed-anchor-summary-v3.json)
+preserves the separate pools/reviews and all six fixed targets; no reference
+paragraph is substituted for generated text.
+
+Those two newly eligible targets then received the same three native-refinement
+arms and 60-second/600-query/20-round limits. This separate stage executed
+`94a7614`, with controller/runtime file hashes recorded in the
+[complete receipt](experiments/fresh-approved-refinement-v3.json.gz). The earlier
+stage used `53fe8ab`; source diversity and implementation version both differ,
+so comparisons between stages are exploratory. The
+[independent final review](experiments/fresh-refinement-independent-review-v3.json)
+accepted one text and rejected five. Only the dark-matter word-edit final passed
+the full source-quality and anchor-preservation policy, improving .046790 to
+.045217. The mechanically closer .003456 neural final and .011638 cosmology
+final were rejected and establish no quality-preserving gain. All rejected
+texts and their reasons remain available in the
+[reviewed summary](experiments/fresh-refinement-reviewed-summary-v3.json).
+
+Across both native stages, the best independently approved initial-or-final
+distances for the original six clicks are **.033695, .045217, .009275, .027391,
+.050411 and .037211**. All six have approved genuinely generated anchors; none
+has an approved epsilon result. The
+[start-selection receipt](experiments/fresh-best-reviewed-native-starts-v3.json)
+selects by canonical distance only after applying existing independent reviews,
+retaining source identity and each heterogeneous native start's provenance.
+
+A further exploratory hybrid arm uses those approved native starts with
+local autoregressive `gemma4:12b` whole-sentence proposals, canonical scoring
+and up-to-four disjoint measured combinations. It performs **no native diffusion
+calls** during refinement. Per target, limits are 90 seconds, 600 canonical
+queries, 8 rounds, beam width one and at most 6 provider calls with 6 variants
+per sentence; it retains the exact 40–70-word policy. The predeclared final
+quality gate requires scientific accuracy, grammar, coherence, public-source
+fidelity **and** preservation of the approved starting anchor's claims. The
+provider is target blind; canonical selection is target conditioned. Raw
+responses, screening failures, all initial/rebased bank atoms and normal
+controller measurements are retained. This arm is hybrid research, not a claim
+that DiffusionGemma alone supplied the new proposals. Its outputs require a new
+blinded review before any quality-preserving progress is claimed.
+
+The [completed hybrid receipt](experiments/fresh-hybrid-sentence-bank-v1.json.gz)
+used frozen source `a00c2d6`. It executed 22 local autoregressive calls and 40
+canonical queries in 119.7 seconds across the six targets; actual native
+trajectories, diffusion passes and gradient updates were all zero. Of 77 raw
+variants, 21 entered the frozen sentence banks. Screening rejected 37 variants
+for capitalized-entity differences and 19 for qualification/quantity/technical
+differences. All six searches stalled before their budget limits. Two finals
+improved mechanically; all finals remain unreviewed pending the
+[distance-blinded packet](experiments/fresh-hybrid-sentence-bank-blind-review-v1.json).
+No output reached epsilon.
+
+The [complete actual bank export](experiments/fresh-hybrid-sentence-bank-atoms-v1.json.gz)
+includes all eight initial/rebased source banks and their 21 atoms, not just
+winners. The [diagnostic summary](experiments/fresh-hybrid-sentence-bank-diagnostics-v1.json)
+uses existing controller measurements only. Five targets had numerical rank-two
+single-edit displacement sets; the remaining target had only one accepted atom.
+Rank two does not establish sufficiently fine spatial resolution or feasible
+quality-preserving movement. The one improving combination retained in history
+had a `.00605` error between its additive prediction and verified coordinate;
+only the actual canonical result was used for selection. The archive does not
+claim prediction errors for unretained combinations.
+
+Literal copy audits found no exact public-reference paragraph or complete
+public-reference sentence in any final. This is a narrow literal test, not a
+claim of novelty or factual validity. No byte-bound transport error occurred;
+raw responses, rejected variants, installed model digest and provider token
+counts are preserved. Normal provider/model/cache errors would remain failures
+rather than silently disappearing from the denominator.
+
+Observed guard failures suggest the next bounded intervention: distinguish
+sentence-initial capitalization from named entities while keeping quantities,
+qualifications and true technical entities protected. Several passive-voice or
+fronted-clause paraphrases were rejected solely because the initial capitalized
+word changed. Adversarial guard tests and a new blinded quality review should
+precede claims that this yields more admissible movement. Increasing a budget
+that currently exhausts its tiny bank cannot by itself demonstrate `1e-4`.
+
+To reproduce this hybrid phase after deriving the reviewed starts:
+
+```sh
+uv run --extra encoder --extra diffusion python scripts/evaluate_fresh_basins.py \
+  refine --cache-dir .cache/point2text \
+  --pool docs/experiments/fresh-all-six-generated-anchor-pool-v3.json.gz \
+  --reviews docs/experiments/fresh-all-six-generated-anchor-reviews-v3.json \
+  --starts docs/experiments/fresh-best-reviewed-native-starts-v3.json \
+  --arm hybrid-sentence-bank --proposal-model gemma4:12b \
+  --provider-calls 6 --provider-variants 6 \
+  --seconds 90 --session-seconds 650 --queries 600 --rounds 8 --restarts 0 \
+  --seed 1973901 --output .cache/fresh-hybrid.json.gz \
+  --packet .cache/fresh-hybrid-review.json
+```
+
+Reproduction also requires the installed local Ollama model with the recorded
+digest and the frozen map identity. The evidence receipt records exact
+controller, provider and harness file hashes. An implementation, model digest,
+or input change defines a new run rather than overwriting these artifacts.

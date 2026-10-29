@@ -1,0 +1,170 @@
+{
+  "schema": "distance-blinded-refinement-independent-review-v3",
+  "created_at": "2026-10-29T21:24:29.695593+00:00",
+  "input_packet": "docs/experiments/fresh-refinement-blind-review-v3.json",
+  "policy_declared_before_final_review": true,
+  "reviewer": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh"
+  },
+  "policy": "Uniform arm-blind exact-text grammar, coherence, scientific quality and public-source fidelity review. Anchor claim preservation is separate and does not change the intrinsic approval rubric. Garbling, unsupported causal changes and material public-source deletions fail. Uncertain remains unapproved. No silent repair or coverage-driven relaxation; individual review is not an accuracy estimate or correctness certificate.",
+  "blinding": {
+    "only_requested_packet_read": true,
+    "arms_phase_keys_coordinates_distances_or_full_pools_read": false
+  },
+  "source_checks": {
+    "external_lookup_required": false,
+    "basis": "The identified failures are direct grammatical artifacts and paired-source subject/claim deletions; no new disputed scientific fact was needed for these decisions."
+  },
+  "summary": {
+    "verdicts": {
+      "rejected": 5,
+      "accepted": 1
+    },
+    "anchor_claim_preservation": {
+      "drift": 4,
+      "preserved": 2
+    }
+  },
+  "identical_text_consistency_checked": true,
+  "items": [
+    {
+      "review_id": "f8fdffbf106f",
+      "text_sha256": "4cc7962516cbf0f795b274784d280129c210e39b54f54d6927852c1154e0c2ef",
+      "text": "Studies dynamics explores dynamics how neural activity activity choices and under uncertainty. Theoretical models may be for the accumulation of accumulation, rival actions, or varying response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "public_reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+      "public_reference_sha256": "5f2462566422750de37eaead5fd471388b3a7953a189468c896a18f8f64d2b91",
+      "initial_anchor_text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "initial_anchor_sha256": "86e6d020ed1a323fbcf56f827afc14616a947509b7ee627e0133d13cf4ce9692",
+      "verdict": "rejected",
+      "reason": "The opening \"Studies dynamics explores dynamics how neural activity activity choices and under uncertainty\" is materially garbled. \"Accumulation of accumulation\" also removes the evidence being accumulated. The final held-out evaluation sentence does not repair the lost first two claims.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "uncertain",
+        "coherence": "fail",
+        "public_source_fidelity": "drift"
+      },
+      "anchor_claim_preservation": "drift",
+      "anchor_claim_reason": "The activity-to-choice relationship and evidence-accumulation claim are no longer stated coherently; key nouns and grammatical relations have been lost. This is material drift, not a clean restatement.",
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "33289b117de3",
+      "text_sha256": "2403bfdb2ef35b13a382cf5d2bc7aca466832611a45d1295951e2178e5b9f8ca",
+      "text": "Research into decision dynamics investigates neural evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may describe either the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "public_reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+      "public_reference_sha256": "5f2462566422750de37eaead5fd471388b3a7953a189468c896a18f8f64d2b91",
+      "initial_anchor_text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "initial_anchor_sha256": "86e6d020ed1a323fbcf56f827afc14616a947509b7ee627e0133d13cf4ce9692",
+      "verdict": "rejected",
+      "reason": "\"Investigates neural evolving neural activity correlates\" is a broken opening clause. The intended scientific relation is identifiable, but exact-text approval would require inserting or removing words.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "pass",
+        "coherence": "fail",
+        "public_source_fidelity": "preserved"
+      },
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "The activity/choice relation, qualified model alternatives and withheld-trial evaluation remain identifiable with their modality. The rejection is grammatical rather than a new substantive scientific claim.",
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "7ec6780aa029",
+      "text_sha256": "e3346a7c55a80449561ed58a44e7fae5edea5529637e3dc300fae651bd87f2f5",
+      "text": "Maps of gravitational mass distribution. This reconstruction process is reliant on particular measurement techniques and the underlying assumptions used to associate observed signals with mass distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "public_reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+      "public_reference_sha256": "171dcde386cf270436c281a6681b3fa012c21d218c5ff6a599b9a2a5b35e5ca1",
+      "initial_anchor_text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process depends upon specific measurement techniques and the assumptions employed to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "initial_anchor_sha256": "e264a4f3abbfea3f03d60eef8e49468954e07cd1c50880fdfe67801213753344",
+      "verdict": "rejected",
+      "reason": "\"Maps of gravitational mass distribution.\" is a fragment and removes the explicit dark-matter subject and observation-based inference statement. Subsequent reconstruction/reporting advice does not restore that public-source identification.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "uncertain",
+        "coherence": "fail",
+        "public_source_fidelity": "drift"
+      },
+      "anchor_claim_preservation": "drift",
+      "anchor_claim_reason": "The anchor specifically describes inferred dark matter maps. Replacing its first sentence with a generic mass-map fragment materially deletes that subject and its explicit inference qualification.",
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "99f6cf735386",
+      "text_sha256": "6837ccad40d1af1c7ee21be75541f503d3bb721ca2fca7112324908c95c969ae",
+      "text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process is dependent upon specific measurement techniques and the assumptions used to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "public_reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+      "public_reference_sha256": "171dcde386cf270436c281a6681b3fa012c21d218c5ff6a599b9a2a5b35e5ca1",
+      "initial_anchor_text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process depends upon specific measurement techniques and the assumptions employed to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "initial_anchor_sha256": "e264a4f3abbfea3f03d60eef8e49468954e07cd1c50880fdfe67801213753344",
+      "verdict": "accepted",
+      "reason": "Complete, coherent and faithful. It retains dark-matter maps as inferred from observations, their method/assumption dependence, and joint reporting of resolution and uncertainty. No material new guarantee or omission is introduced.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_quality": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "Dependent upon versus depends upon, and used versus employed, change wording without changing any anchor claim or qualification.",
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "36d10395e78d",
+      "text_sha256": "4cc7962516cbf0f795b274784d280129c210e39b54f54d6927852c1154e0c2ef",
+      "text": "Studies dynamics explores dynamics how neural activity activity choices and under uncertainty. Theoretical models may be for the accumulation of accumulation, rival actions, or varying response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "public_reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+      "public_reference_sha256": "5f2462566422750de37eaead5fd471388b3a7953a189468c896a18f8f64d2b91",
+      "initial_anchor_text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "initial_anchor_sha256": "86e6d020ed1a323fbcf56f827afc14616a947509b7ee627e0133d13cf4ce9692",
+      "verdict": "rejected",
+      "reason": "The opening \"Studies dynamics explores dynamics how neural activity activity choices and under uncertainty\" is materially garbled. \"Accumulation of accumulation\" also removes the evidence being accumulated. The final held-out evaluation sentence does not repair the lost first two claims.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "uncertain",
+        "coherence": "fail",
+        "public_source_fidelity": "drift"
+      },
+      "anchor_claim_preservation": "drift",
+      "anchor_claim_reason": "The activity-to-choice relationship and evidence-accumulation claim are no longer stated coherently; key nouns and grammatical relations have been lost. This is material drift, not a clean restatement.",
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "cdb4058516a8",
+      "text_sha256": "6a372636b14579c5afe7fb9e02d76ac370094d927a4972f7620bcf8cff3a9cb0",
+      "text": "Maps of gravitational mass distribution. Such reconstruction process is dependent on specific measurement techniques and the assumptions used to link link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "public_reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+      "public_reference_sha256": "171dcde386cf270436c281a6681b3fa012c21d218c5ff6a599b9a2a5b35e5ca1",
+      "initial_anchor_text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process depends upon specific measurement techniques and the assumptions employed to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "initial_anchor_sha256": "e264a4f3abbfea3f03d60eef8e49468954e07cd1c50880fdfe67801213753344",
+      "verdict": "rejected",
+      "reason": "The opening is a fragment that omits dark matter and explicit observation-based inference. \"Such reconstruction process\" is malformed in context, and \"link link\" is a repeated-word artifact. The paragraph cannot be approved without repair.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "uncertain",
+        "coherence": "fail",
+        "public_source_fidelity": "drift"
+      },
+      "anchor_claim_preservation": "drift",
+      "anchor_claim_reason": "The dark-matter-map subject and explicit inferred-from-observations claim are materially deleted, while the linking clause acquires an editing artifact. Remaining uncertainty-reporting advice is insufficient to preserve the full anchor.",
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    }
+  ]
+}

@@ -70,6 +70,25 @@ def merge_pools(paths):
     return result
 
 
+def merge_reviews(paths):
+    result = {"schema": "combined-individual-anchor-reviews-v1", "items": [], "source_reviews": [],
+              "note": "Derived union of existing blinded judgments, not a new review or controlled experiment."}
+    seen = set()
+    for path in paths:
+        review = read(path)
+        result["source_reviews"].append({"file": str(path), "sha256": sha256(path.read_bytes()).hexdigest(),
+                                          "metadata": {key: value for key, value in review.items() if key != "items"}})
+        for item in review["items"]:
+            if item["review_id"] in seen:
+                raise ValueError("Duplicate review ID across input review files")
+            if digest := item.get("text_sha256"):
+                if digest != sha256(item["text"].encode()).hexdigest():
+                    raise ValueError("Review text/hash disagreement")
+            result["items"].append(item)
+            seen.add(item["review_id"])
+    return result
+
+
 def target_plan(bundle, seed=810731, count=6):
     """Convex mixtures guarantee interior clicks without defining target text."""
     import numpy as np
@@ -225,6 +244,34 @@ def approved_anchors(pool, reviews):
     return anchors
 
 
+def reference_copy_audit(text, reference):
+    """Literal copy accounting, separate from independent semantic review."""
+    normalized = lambda value: " ".join(value.split()).casefold()
+    sentences = re.split(r"(?<=[.!?])\s+", reference.strip())
+    copied = [sentence for sentence in sentences if normalized(sentence) in normalized(text)]
+    whole = normalized(text) == normalized(reference)
+    return {"exact_whole_reference": whole,
+            "complete_reference_sentences_copied": copied,
+            "label": "whole-public-reference-copy" if whole else
+                     "contains-complete-public-reference-sentence" if copied else
+                     "no-literal-complete-reference-sentence-detected",
+            "limitation": "Literal audit only; absence of a match does not establish novelty or factual accuracy."}
+
+
+def frozen_bank_export(proposer):
+    """Read already-created immutable bank entries without making provider calls.
+
+    This evidence adapter deliberately inspects the pinned bank's private cache;
+    calling all_proposals after the deadline could suppress existing atoms or
+    trigger additional generation. No bank state is changed here.
+    """
+    return [{"source_sha256": key, "text": bank.text,
+             "sentence_spans": [list(span) for span in bank.spans],
+             "completed_sentences": bank.next_sentence, "cursor": bank.cursor,
+             "atoms": [asdict(proposer._proposal(bank, variant)) for variant in bank.variants]}
+            for key, bank in proposer._banks.items()]
+
+
 def refinement_packet(report, output, anchor_pool=None):
     rows, keys = [], []
     references = {}
@@ -248,7 +295,7 @@ def refinement_packet(report, output, anchor_pool=None):
                      "text": text, "verdict": None, "reason": None,
                      "anchor_claim_preservation": None, "anchor_claim_reason": None})
         keys.append({"review_id": review_id, "target_id": item["target_id"], "arm": item["arm"],
-                     "requires_anchor_preservation": item["arm"] in ("words", "sentence"),
+                     "requires_anchor_preservation": item["arm"] != "sentence-restarts",
                      "best_candidate": item["result"]["trace"].get("best_candidate")})
     random.Random(820179).shuffle(rows)
     save(output, {"schema": "distance-blinded-refinement-quality-v1",
@@ -308,6 +355,23 @@ def refine(args, bundle):
     from point2text.diffusion.runtime import MLXDiffusionRuntime
     from point2text.profile import PromptPolicy
 
+    class RecordingCombinationPlanner(MeasuredCombinationPlanner):
+        """Archive normal controller measurements; perform no encoder calls."""
+        def __init__(self):
+            super().__init__(max_edits=4)
+            self.measurement_archive = {}
+
+        def record(self, source, proposals, verified):
+            value = super().record(source, proposals, verified)
+            for text, state in self._sources.items():
+                self.measurement_archive[sha256(text.encode()).hexdigest()] = {
+                    "source_text": text, "point": list(state.point),
+                    "atoms": [asdict(atom) for atom in state.atoms.values()],
+                    "coordinates": [{"text": candidate, "point": list(point)}
+                                    for candidate, point in state.coordinates.items()],
+                }
+            return value
+
     pool, reviews = read(args.pool), read(args.reviews)
     if pool["map_id"] != bundle.map_id:
         raise ValueError("Anchor pool belongs to a different frozen map")
@@ -315,6 +379,11 @@ def refine(args, bundle):
     if not {"repair_span_mode", "max_restarts"}.issubset(fields):
         raise RuntimeError("This phase requires the restart/sentence refinement core")
     anchors = approved_anchors(pool, reviews)
+    if args.starts:
+        starts = read(args.starts)
+        if starts["map_id"] != pool["map_id"]:
+            raise ValueError("Explicit reviewed starts belong to a different map")
+        anchors = starts["anchors"]
     policy = PromptPolicy(**pool["settings"]["prompt_policy"])
     arms = args.arm or ["words", "sentence"]
     report = {"schema": "fresh-approved-anchor-refinement-v1", "map_id": bundle.map_id,
@@ -331,7 +400,12 @@ def refine(args, bundle):
         "pool_sha256": sha256(args.pool.read_bytes()).hexdigest(),
         "reviews_sha256": sha256(args.reviews.read_bytes()).hexdigest(),
         "script_sha256": sha256(Path(__file__).read_bytes()).hexdigest(),
+        "reviewed_starts_sha256": sha256(args.starts.read_bytes()).hexdigest() if args.starts else None,
     }
+    if "hybrid-sentence-bank" in arms:
+        from point2text.diffusion.sentence_bank import SentenceParaphraseBank
+        bank_module = Path(inspect.getfile(SentenceParaphraseBank)).resolve()
+        report["provenance"]["sentence_bank_sha256"] = sha256(bank_module.read_bytes()).hexdigest()
     if args.resume and args.output.exists():
         report = read(args.output)
         if report["map_id"] != bundle.map_id or report["arms"] != arms:
@@ -362,31 +436,61 @@ def refine(args, bundle):
             deadline = Deadline(time.monotonic() + min(args.seconds, remaining))
             config = RefinementConfig(
                 max_seconds=min(args.seconds, remaining), max_hard_queries=args.queries,
-                max_rounds=args.rounds, beam_width=4, proposals_per_round=128,
+                max_rounds=args.rounds, beam_width=1 if arm == "hybrid-sentence-bank" else 4,
+                proposals_per_round=128,
                 min_words=policy.min_words, max_words=policy.max_words,
-                repair_every=1, stall_rounds=3,
-                repair_span_mode="words" if arm == "words" else "sentence",
+                repair_every=1, stall_rounds=4 if arm == "hybrid-sentence-bank" else 3,
+                repair_span_mode="words" if arm in ("words", "hybrid-sentence-bank") else "sentence",
                 max_restarts=args.restarts if arm == "sentence-restarts" else 0,
                 restart_candidates=2,
             )
-            proposer = ParaphraseEditProposer(bundle, should_stop=deadline.is_set)
+            if arm == "hybrid-sentence-bank":
+                from point2text.diffusion.sentence_bank import (
+                    OllamaSentenceParaphraseProvider, SentenceParaphraseBank,
+                )
+                provider = OllamaSentenceParaphraseProvider(
+                    model=args.proposal_model, max_variants=args.provider_variants,
+                    max_calls=args.provider_calls, max_total_seconds=min(args.seconds, remaining),
+                    should_stop=deadline.is_set,
+                )
+                proposer = SentenceParaphraseBank(
+                    provider=provider, max_variants_per_sentence=args.provider_variants,
+                    should_stop=deadline.is_set,
+                )
+            else:
+                proposer = ParaphraseEditProposer(bundle, should_stop=deadline.is_set)
             item = {"target_id": anchor["id"], "arm": arm, "anchor": anchor,
-                    "config": asdict(config), "guidance": asdict(guidance), "drafts": []}
+                    "config": asdict(config), "guidance": asdict(guidance), "drafts": [],
+                    "native_backend_enabled": arm != "hybrid-sentence-bank",
+                    "method_note": "Approved native anchor + local autoregressive sentence proposals + canonical scoring/combinations; not pure diffusion."
+                    if arm == "hybrid-sentence-bank" else "Native diffusion repairs + curated edits/combinations."}
             report["runs"].append(item)
             request = replace(DiffusionRequest(**anchor["request"]), seed=args.seed + index * 10000)
+            planner = RecordingCombinationPlanner()
             try:
                 result = CanonicalRefinementSearch(
-                    runtime, reward=reward, guidance_config=guidance, edit_proposer=proposer,
-                    config=config, combination_planner=MeasuredCombinationPlanner(max_edits=4),
+                    None if arm == "hybrid-sentence-bank" else runtime,
+                    reward=reward, guidance_config=guidance, edit_proposer=proposer,
+                    config=config, combination_planner=planner,
                     prompt_policy=policy,
                 ).run(bundle, tuple(anchor["target"]), request=request,
                       initial_text=anchor["candidate"]["text"], max_candidates=2,
-                      guided=not args.unguided,
+                      guided=not args.unguided and arm != "hybrid-sentence-bank",
                       on_draft=lambda draft: item["drafts"].append(draft))
                 item["result"] = asdict(result)
             except Exception as exc:
                 item["error"] = f"{type(exc).__name__}: {exc}"
             item["proposal_bank"] = proposer.diagnostics
+            item["planner_measurements"] = planner.measurement_archive
+            if arm == "hybrid-sentence-bank":
+                item["provider_diagnostics"] = provider.diagnostics
+                item["actual_bank_sources"] = frozen_bank_export(proposer)
+                item["actual_bank_atom_count"] = sum(len(source["atoms"]) for source in item["actual_bank_sources"])
+                final_text = item.get("result", {}).get("text", "")
+                item["public_reference_copy_audit"] = reference_copy_audit(
+                    final_text, anchor["public_reference_text"])
+                item["initial_anchor_copy_audit"] = reference_copy_audit(
+                    anchor["candidate"]["text"], anchor["public_reference_text"])
             save(args.output, report)
             if args.packet:
                 refinement_packet(report, args.packet)
@@ -554,7 +658,7 @@ def generate(args, bundle):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("phase", choices=("plan", "generate", "packet", "sources", "summary", "refine", "refinement-summary", "refinement-packet", "merge"))
+    parser.add_argument("phase", choices=("plan", "generate", "packet", "sources", "summary", "refine", "refinement-summary", "refinement-packet", "merge", "merge-reviews"))
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--targets", type=Path)
     parser.add_argument("--pool", type=Path)
@@ -562,10 +666,14 @@ def main():
     parser.add_argument("--paired", type=Path)
     parser.add_argument("--anchor-pool", type=Path)
     parser.add_argument("--reviews", type=Path)
+    parser.add_argument("--starts", type=Path)
     parser.add_argument("--case", action="append")
     parser.add_argument("--source-rank", type=int, default=1)
     parser.add_argument("--source-ranks", default="1", help="Comma-separated public-neighbor ranks for source-only review.")
-    parser.add_argument("--arm", choices=("words", "sentence", "sentence-restarts"), action="append")
+    parser.add_argument("--arm", choices=("words", "sentence", "sentence-restarts", "hybrid-sentence-bank"), action="append")
+    parser.add_argument("--proposal-model", default="gemma4:12b")
+    parser.add_argument("--provider-calls", type=int, default=6)
+    parser.add_argument("--provider-variants", type=int, default=6)
     parser.add_argument("--packet", type=Path)
     parser.add_argument("--cache-dir", type=Path, required=False)
     parser.add_argument("--plan-seed", type=int, default=810731)
@@ -592,10 +700,10 @@ def main():
     parser.add_argument("--restarts", type=int, default=2)
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
-    if args.phase == "merge":
+    if args.phase in ("merge", "merge-reviews"):
         if not args.input:
             parser.error("merge requires --input pools")
-        save(args.output, merge_pools(args.input))
+        save(args.output, merge_pools(args.input) if args.phase == "merge" else merge_reviews(args.input))
         return
     if args.phase == "packet":
         if not args.pool:

@@ -1,0 +1,280 @@
+{
+  "schema": "distance-blinded-source-diversity-independent-review-v3",
+  "created_at": "2026-10-29T21:17:54.621708+00:00",
+  "input_packet": "docs/experiments/fresh-source-diversity-blind-review-v3.json",
+  "reviewer": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh"
+  },
+  "review_policy": "Uniform exact-text grammar, coherence, scientific scope and public-source fidelity review; preserve may/can/helps and operating conditions. The reference is not a correctness certificate. Uncertain is unapproved. No silent repair or coverage-driven relaxation; individual review is not a judge-accuracy estimate.",
+  "blinding": {
+    "only_requested_packet_read": true,
+    "keys_pools_coordinates_distances_read": false
+  },
+  "source_checks": {
+    "A1": {
+      "kind": "paired-source scope check",
+      "finding": "The reference specifies observing conditions without restricting the survey platform. The candidate addition atmospheric needs a ground-based scope; uncertainty is withheld rather than treating that restriction as supplied by the reference. No external source is needed to identify the added condition."
+    },
+    "I1": {
+      "kind": "paired-source causal/epistemic scope check",
+      "finding": "Checking whether a broad-damage alternative occurs is a diagnostic instruction; verifying absence of broad damage and only a specified effect is a stronger desired validation condition. Because these sentences are normative rather than reports of achieved results, the exact implication is marked uncertain rather than declared an observed scientific falsehood."
+    }
+  },
+  "external_sources": [],
+  "summary": {
+    "uncertain": 3,
+    "accepted": 6,
+    "rejected": 3
+  },
+  "items": [
+    {
+      "review_id": "3ded3ebd82e4",
+      "text_sha256": "87f0349fbc9c5724dc5cfbce232c89d20f6f89a41734a38acc42748a29a6a56e",
+      "text": "Astronomical surveys monitor a specific subset of celestial objects. The resulting sample is influenced by brightness thresholds, atmospheric observing conditions, and data processing protocols. To accurately interpret population studies, researchers must model these selection effects before treating the measured sample as a direct representation of the underlying population.",
+      "reference_text": "An astronomical survey observes a selected subset of the objects present in the sky. Brightness limits, observing conditions, and data-processing decisions shape that selection. Population studies need to model these effects before interpreting the measured sample as a direct description of the underlying population.",
+      "reference_sha256": "7b870b9f2b328c51d03208018d6ad0f0561ef5023eb59d0024c7b8c4b6ef2a7f",
+      "verdict": "uncertain",
+      "reason": "The selection-function discussion is coherent. However, the reference leaves observing conditions general, whereas the candidate makes atmospheric conditions part of the unqualified survey statement. Without a ground-based scope, that added assumption cannot be approved.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "uncertain",
+        "coherence": "pass",
+        "public_source_fidelity": "uncertain"
+      },
+      "source_note_ids": [
+        "A1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "c100f60cba93",
+      "text_sha256": "bf30eb137a9799d28c891e2d89dd2a27671d5c9b8d44d65a876243a697069c79",
+      "text": "Dark matter maps are inferred from observational data related to gravitational mass distribution. This reconstruction process depends upon specific measurement techniques and assumptions employed to link observed signals to mass distribution. To visualize weakly constrained structures, resolution and uncertainty levels should be presented together.",
+      "reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+      "reference_sha256": "171dcde386cf270436c281a6681b3fa012c21d218c5ff6a599b9a2a5b35e5ca1",
+      "verdict": "accepted",
+      "reason": "Preserves inference from gravitational observations, dependence on reconstruction assumptions, and the recommendation to present resolution with uncertainty. It does not claim that reconstruction is direct or uniquely determined.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "46994f5f14b6",
+      "text_sha256": "b996bb42c9f15c9314a0f1f14ac5b44d46cf6fe57b7523148e3257af2312364c",
+      "text": "Interpretability experiments investigate which internal signals influence model behavior. While the visualization of activations may suggest a hypothesis, targeted interventions offer a more robust test of functional relevance. Researchers should employ controls to verify that an intervention does not damage the network broadly, focusing instead on the specific behavior under study.",
+      "reference_text": "An interpretability experiment asks which internal signals affect a model behavior. Visualizing activations can suggest a hypothesis, but targeted interventions provide a stronger test of functional relevance. Controls should check whether an intervention damages the network broadly rather than changing only the behavior under study.",
+      "reference_sha256": "d252f3acbcfd972d83860b524df92099fd175147240190d2525227fe928e9b83",
+      "verdict": "uncertain",
+      "reason": "The activation-versus-intervention comparison is coherent. The reference asks controls to check whether there is broad damage; the candidate asks them to verify the desired absence of broad damage. That diagnostic-versus-confirmatory scope difference is not approved without clarification.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "uncertain",
+        "coherence": "pass",
+        "public_source_fidelity": "uncertain"
+      },
+      "source_note_ids": [
+        "I1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "0331b7755cdc",
+      "text_sha256": "86e6d020ed1a323fbcf56f827afc14616a947509b7ee627e0133d13cf4ce9692",
+      "text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+      "reference_sha256": "5f2462566422750de37eaead5fd471388b3a7953a189468c896a18f8f64d2b91",
+      "verdict": "accepted",
+      "reason": "Preserves the neural-activity/choice relationship, the qualified alternatives models may describe, and withheld-trial evaluation as helping assess explanatory coverage. It adds no claim that holdout guarantees independence or proves a brain mechanism.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "6ae1de5e4ef0",
+      "text_sha256": "485c3a78033363c79c31edd4f978e30e7c880a5023b533f3808337b7a3511a95",
+      "text": "Astronomical surveys monitor a specific subset of celestial objects rather than the sky. This selection is influenced by brightness thresholds, atmospheric conditions, and specific data processing protocols. To accurately interpret population studies, researchers must model these systematic effects before treating the measured sample as a direct representation of the underlying population.",
+      "reference_text": "An astronomical survey observes a selected subset of the objects present in the sky. Brightness limits, observing conditions, and data-processing decisions shape that selection. Population studies need to model these effects before interpreting the measured sample as a direct description of the underlying population.",
+      "reference_sha256": "7b870b9f2b328c51d03208018d6ad0f0561ef5023eb59d0024c7b8c4b6ef2a7f",
+      "verdict": "rejected",
+      "reason": "\"Monitor a specific subset of celestial objects rather than the sky\" introduces a false or misleading contrast: observing selected sky objects is not an alternative to observing the sky. The candidate also adds an unqualified atmospheric restriction absent from the source.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "fail",
+        "coherence": "fail",
+        "public_source_fidelity": "drift"
+      },
+      "source_note_ids": [
+        "A1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "4684ca13d4c2",
+      "text_sha256": "7a12258a5582489f28d7209d9fd49b26f1165b98760f556ce729b57c1a030d6d",
+      "text": "Neural recording data consist of biological signals alongside variance originating from the measurement procedure. To maintain rigor, analyses should detail filtering techniques, event detection, and exclusion criteria prior to condition comparisons. Furthermore, utilizing simulated or independent controls can help determine if data processing generates patterns that mimic authentic neural activity.",
+      "reference_text": "Neural recordings contain both signals of interest and variation introduced by the measurement process. An analysis should describe filtering, event detection, and exclusion rules before comparing conditions. Simulated or independently measured controls can help reveal whether processing creates a pattern that resembles neural activity.",
+      "reference_sha256": "9716b04e7113f201d1c055380a430be49abd050a957ec503aa7460149859e351",
+      "verdict": "accepted",
+      "reason": "Coherent methodological overview. Measurement-derived variation, reporting filtering/event detection/exclusion criteria, and qualified use of simulated or independent controls all preserve the reference without claiming that such controls certify neural origin.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "8e9ce83e28cf",
+      "text_sha256": "e264a4f3abbfea3f03d60eef8e49468954e07cd1c50880fdfe67801213753344",
+      "text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process depends upon specific measurement techniques and the assumptions employed to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+      "reference_sha256": "171dcde386cf270436c281a6681b3fa012c21d218c5ff6a599b9a2a5b35e5ca1",
+      "verdict": "accepted",
+      "reason": "The reconstruction remains explicitly inferred and method/assumption dependent. Joint display of resolution and uncertainty is presented as a reporting recommendation, preserving the public-source purpose rather than asserting that weak features are independently established.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "3c5e40158149",
+      "text_sha256": "6145479db13022a51f966c2d5e369db1ff196b51db0fa7f9c67f8dfbc1e603ca",
+      "text": "Interpretability experiments investigate which specific internal signals influence model behavior. While visualizing activations may help suggest a hypothesis, targeted interventions offer a more robust test of functional relevance. Researchers should employ controls to verify that an intervention does not damage the network broadly, but instead affects only the specific behavior under investigation.",
+      "reference_text": "An interpretability experiment asks which internal signals affect a model behavior. Visualizing activations can suggest a hypothesis, but targeted interventions provide a stronger test of functional relevance. Controls should check whether an intervention damages the network broadly rather than changing only the behavior under study.",
+      "reference_sha256": "d252f3acbcfd972d83860b524df92099fd175147240190d2525227fe928e9b83",
+      "verdict": "uncertain",
+      "reason": "The targeted-intervention recommendation is intelligible, but \"verify ... instead affects only the specific behavior\" prescribes establishing exclusivity where the reference asks for a diagnostic comparison with broad damage. This stronger selectivity condition is withheld, not silently weakened.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "uncertain",
+        "coherence": "pass",
+        "public_source_fidelity": "uncertain"
+      },
+      "source_note_ids": [
+        "I1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "328228fd4b38",
+      "text_sha256": "61c13e71437ec5c7d916d2be468c426849526b7d6bdbb8dc1cc0da980004ea81",
+      "text": "Climate data assimilation integrates observational data with dynamical modeling to estimate the state of evolving environments. This process must account for uncertainty inherent in both forecasts and measurements. By utilizing observing-system experiments, researchers can evaluate how the exclusion of a specific measurement source influences the estimated state and its associated uncertainty.",
+      "reference_text": "Data assimilation combines observations with a dynamical model to estimate an evolving environmental state. The method must represent uncertainty in both measurements and forecasts. An observing-system experiment can examine how removing one measurement source changes the estimated state and its uncertainty.",
+      "reference_sha256": "5bf1c558027b1d9e710893aa6aaa3b74016df0fe62e327885b68ef935a25284c",
+      "verdict": "accepted",
+      "reason": "Climate is a valid environmental application of the described assimilation framework. Observation/model integration, uncertainty in both forecasts and measurements, and the qualified source-removal experiment remain intact; no exact-state or guaranteed-identification claim is added.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "6793f4b89c5f",
+      "text_sha256": "c8a9687efa26bda2529f2c16b483270a21cb2c48014bdd099547c845c26898e1",
+      "text": "Research into decision dynamics examines how shifting neural patterns correlate to selections under conditions of uncertainty. These models may characterize the accumulation of evidence, competing motor actions, or fluctuating response thresholds. Evaluating the predictions of such models against withheld trials helps identify the specific behavioral components each framework can explain.",
+      "reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+      "reference_sha256": "5f2462566422750de37eaead5fd471388b3a7953a189468c896a18f8f64d2b91",
+      "verdict": "accepted",
+      "reason": "The qualified model examples and withheld-trial prediction comparison preserve the reference. \"Competing motor actions\" is a plausible example within the non-exhaustive may-list, not a claim that all decision models or choices are motor. The anaphor is slightly abrupt but not materially incoherent.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "084e15cef972",
+      "text_sha256": "cfff409bbdc85b3f1e283985052bcf2bf6238389d27410ecec4f6ad34b0973cd",
+      "text": "Neural recording data consist both biological signals and variance originating from measurement procedures. To maintain rigor, analyses should define filtering methods, detection detection, and exclusion criteria prior to experimental comparisons. Furthermore, utilizing simulated or independent controls can help determine if specific processing techniques generate patterns that mimic actual neural activity.",
+      "reference_text": "Neural recordings contain both signals of interest and variation introduced by the measurement process. An analysis should describe filtering, event detection, and exclusion rules before comparing conditions. Simulated or independently measured controls can help reveal whether processing creates a pattern that resembles neural activity.",
+      "reference_sha256": "9716b04e7113f201d1c055380a430be49abd050a957ec503aa7460149859e351",
+      "verdict": "rejected",
+      "reason": "\"Consist both\" omits the required construction and \"detection detection\" is an editing artifact that loses explicit event detection. The intended methodological account is recognizable, but exact-text approval would require repair.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_scope": "uncertain",
+        "coherence": "fail",
+        "public_source_fidelity": "drift"
+      },
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "d8a919e27265",
+      "text_sha256": "526d3622844b91a00f5c0b29be36e1c895eda54667cc69be433abc93a8285c5a",
+      "text": "Environmental state estimation integrates observational data with dynamical modeling to determine the status of an evolving system. This process must account for uncertainties inherent in both forecasts and measurement measurements. By utilizing observing-system experiments, researchers can evaluate how the exclusion of specific measurement sources influences the resulting state estimate and its associated uncertainty.",
+      "reference_text": "Data assimilation combines observations with a dynamical model to estimate an evolving environmental state. The method must represent uncertainty in both measurements and forecasts. An observing-system experiment can examine how removing one measurement source changes the estimated state and its uncertainty.",
+      "reference_sha256": "5bf1c558027b1d9e710893aa6aaa3b74016df0fe62e327885b68ef935a25284c",
+      "verdict": "rejected",
+      "reason": "\"Measurement measurements\" is an uncorrected word-collision artifact. The underlying assimilation, uncertainty and source-removal claims remain recognizable, but the exact paragraph fails clean grammatical presentation.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_scope": "pass",
+        "coherence": "fail",
+        "public_source_fidelity": "preserved"
+      },
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    }
+  ]
+}

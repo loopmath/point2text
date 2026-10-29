@@ -1,0 +1,177 @@
+{
+  "schema": "fresh-refinement-summary-v1",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "targets": 2,
+  "targets_with_reviewed_generated_anchor": 2,
+  "rows": [
+    {
+      "target_id": "fresh-click-01",
+      "arm": "words",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.033694809793621994,
+      "final_mechanical_distance": 0.023227529820706565,
+      "post_review": "rejected",
+      "post_review_reason": "\"Investigates neural evolving neural activity correlates\" is a broken opening clause. The intended scientific relation is identifiable, but exact-text approval would require inserting or removing words.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 19.840165708970744,
+      "hard_queries": 7,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 9,
+        "native_passes": 29,
+        "guided_passes": 29,
+        "encoder_updates": 464,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.033694809793621994
+    },
+    {
+      "target_id": "fresh-click-01",
+      "arm": "sentence",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.033694809793621994,
+      "final_mechanical_distance": 0.0034560067726045625,
+      "post_review": "rejected",
+      "post_review_reason": "The opening \"Studies dynamics explores dynamics how neural activity activity choices and under uncertainty\" is materially garbled. \"Accumulation of accumulation\" also removes the evidence being accumulated. The final held-out evaluation sentence does not repair the lost first two claims.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 16.263105958001688,
+      "hard_queries": 20,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 7,
+        "native_passes": 38,
+        "guided_passes": 37,
+        "encoder_updates": 592,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.033694809793621994
+    },
+    {
+      "target_id": "fresh-click-01",
+      "arm": "sentence-restarts",
+      "status": "complete",
+      "reason": "restarts_exhausted",
+      "initial_reviewed_distance": 0.033694809793621994,
+      "final_mechanical_distance": 0.0034560067726045625,
+      "post_review": "rejected",
+      "post_review_reason": "The opening \"Studies dynamics explores dynamics how neural activity activity choices and under uncertainty\" is materially garbled. \"Accumulation of accumulation\" also removes the evidence being accumulated. The final held-out evaluation sentence does not repair the lost first two claims.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 59.382816416968126,
+      "hard_queries": 50,
+      "restart_count": 2,
+      "executed_work": {
+        "trajectories": 19,
+        "native_passes": 105,
+        "guided_passes": 104,
+        "encoder_updates": 1664,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.033694809793621994
+    },
+    {
+      "target_id": "fresh-click-02",
+      "arm": "words",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.04678990375836383,
+      "final_mechanical_distance": 0.045217340059034695,
+      "post_review": "accepted",
+      "post_review_reason": "Complete, coherent and faithful. It retains dark-matter maps as inferred from observations, their method/assumption dependence, and joint reporting of resolution and uncertainty. No material new guarantee or omission is introduced.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 8.116325333015993,
+      "hard_queries": 15,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 5,
+        "native_passes": 16,
+        "guided_passes": 16,
+        "encoder_updates": 256,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": true,
+      "best_reviewed_initial_or_final_distance": 0.045217340059034695
+    },
+    {
+      "target_id": "fresh-click-02",
+      "arm": "sentence",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.04678990375836383,
+      "final_mechanical_distance": 0.011637786333569189,
+      "post_review": "rejected",
+      "post_review_reason": "\"Maps of gravitational mass distribution.\" is a fragment and removes the explicit dark-matter subject and observation-based inference statement. Subsequent reconstruction/reporting advice does not restore that public-source identification.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 31.59417591698002,
+      "hard_queries": 72,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 11,
+        "native_passes": 74,
+        "guided_passes": 69,
+        "encoder_updates": 1104,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.04678990375836383
+    },
+    {
+      "target_id": "fresh-click-02",
+      "arm": "sentence-restarts",
+      "status": "complete",
+      "reason": "budget_exhausted",
+      "initial_reviewed_distance": 0.04678990375836383,
+      "final_mechanical_distance": 0.01720119033232973,
+      "post_review": "rejected",
+      "post_review_reason": "The opening is a fragment that omits dark matter and explicit observation-based inference. \"Such reconstruction process\" is malformed in context, and \"link link\" is a repeated-word artifact. The paragraph cannot be approved without repair.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 60.33746916602831,
+      "hard_queries": 193,
+      "restart_count": 2,
+      "executed_work": {
+        "trajectories": 19,
+        "native_passes": 104,
+        "guided_passes": 102,
+        "encoder_updates": 1632,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.04678990375836383
+    }
+  ],
+  "note": "Unreviewed/rejected final improvements do not establish quality-preserving progress. Missing targets remain explicit."
+}

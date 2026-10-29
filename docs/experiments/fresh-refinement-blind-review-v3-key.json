@@ -1,0 +1,88 @@
+{
+  "items": [
+    {
+      "review_id": "33289b117de3",
+      "target_id": "fresh-click-01",
+      "arm": "words",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Research into decision dynamics investigates neural evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may describe either the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+        "x": -0.047012928683323914,
+        "y": 0.33094289969481183,
+        "distance": 0.023227529820706565,
+        "elapsed_seconds": 15.270608583989087,
+        "seed": 8973438
+      }
+    },
+    {
+      "review_id": "f8fdffbf106f",
+      "target_id": "fresh-click-01",
+      "arm": "sentence",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Studies dynamics explores dynamics how neural activity activity choices and under uncertainty. Theoretical models may be for the accumulation of accumulation, rival actions, or varying response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+        "x": -0.06117591310657307,
+        "y": 0.35355505284629224,
+        "distance": 0.0034560067726045625,
+        "elapsed_seconds": 8.342182041029446,
+        "seed": 8973436
+      }
+    },
+    {
+      "review_id": "36d10395e78d",
+      "target_id": "fresh-click-01",
+      "arm": "sentence-restarts",
+      "requires_anchor_preservation": false,
+      "best_candidate": {
+        "text": "Studies dynamics explores dynamics how neural activity activity choices and under uncertainty. Theoretical models may be for the accumulation of accumulation, rival actions, or varying response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+        "x": -0.06117591310657307,
+        "y": 0.35355505284629224,
+        "distance": 0.0034560067726045625,
+        "elapsed_seconds": 8.353502249985468,
+        "seed": 8973436
+      }
+    },
+    {
+      "review_id": "99f6cf735386",
+      "target_id": "fresh-click-02",
+      "arm": "words",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process is dependent upon specific measurement techniques and the assumptions used to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+        "x": -0.22064045677642843,
+        "y": -0.2692582125043455,
+        "distance": 0.045217340059034695,
+        "elapsed_seconds": 1.5656892909901217,
+        "seed": 8983433
+      }
+    },
+    {
+      "review_id": "7ec6780aa029",
+      "target_id": "fresh-click-02",
+      "arm": "sentence",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Maps of gravitational mass distribution. This reconstruction process is reliant on particular measurement techniques and the underlying assumptions used to associate observed signals with mass distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+        "x": -0.20850943763544708,
+        "y": -0.23716580745370192,
+        "distance": 0.011637786333569189,
+        "elapsed_seconds": 19.238379666989204,
+        "seed": 8983439
+      }
+    },
+    {
+      "review_id": "cdb4058516a8",
+      "target_id": "fresh-click-02",
+      "arm": "sentence-restarts",
+      "requires_anchor_preservation": false,
+      "best_candidate": {
+        "text": "Maps of gravitational mass distribution. Such reconstruction process is dependent on specific measurement techniques and the assumptions used to link link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+        "x": -0.18738108231321132,
+        "y": -0.21757431533417287,
+        "distance": 0.01720119033232973,
+        "elapsed_seconds": 11.183577208023053,
+        "seed": 8983437
+      }
+    }
+  ]
+}
