@@ -35,6 +35,20 @@ class DiffusionResult:
 GuidanceHook = Callable[[DiffusionStep], Any]
 
 
+@dataclass(frozen=True)
+class DiffusionDraft:
+    text: str
+    token_ids: list[int]
+    canvas_token_ids: list[int]
+    step: int
+    num_steps: int
+    terminal: bool = False
+
+
+# True requests a safe stop at the observed clean draft. Does not consume RNG.
+DraftObserver = Callable[[DiffusionDraft], bool]
+
+
 class DiffusionRuntime(Protocol):
     @property
     def identity(self) -> str: ...
