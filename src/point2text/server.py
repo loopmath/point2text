@@ -104,7 +104,8 @@ class Run:
 
 
 def create_app(*, bundle: Any = None, generator: Any = None,
-               cache_dir: Path | None = None, search_factory: Any = None) -> FastAPI:
+               cache_dir: Path | None = None, search_factory: Any = None,
+               setup_profile: Any = None) -> FastAPI:
     """Inject a map and generator to test or embed the app without model loading."""
     cache_dir = Path(cache_dir or os.environ.get("POINT2TEXT_CACHE", ".cache/point2text"))
     state_lock = threading.Lock()
@@ -116,13 +117,14 @@ def create_app(*, bundle: Any = None, generator: Any = None,
         generator = OllamaGenerator(
             base_url=os.environ.get("POINT2TEXT_OLLAMA_URL", "http://127.0.0.1:11434"),
             model=os.environ.get("POINT2TEXT_MODEL", "gemma4:12b"),
+            prompt_policy=setup_profile.prompt_policy if setup_profile is not None else None,
         )
 
     def initialize():
         try:
             from .encoder import SentenceEncoder
             from .geometry import MapBundle
-            result = MapBundle.build(SentenceEncoder(), cache_dir / "map")
+            result = setup_profile.build_map(cache_dir / "map") if setup_profile is not None else MapBundle.build(SentenceEncoder(), cache_dir / "map")
             with state_lock:
                 state["bundle"] = result
         except Exception as exc:
@@ -356,7 +358,17 @@ def main():
                          help="Bind directly to this machine's Tailscale IPv4 address.")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--model", default=os.environ.get("POINT2TEXT_MODEL", "gemma4:12b"))
+    parser.add_argument("--profile", type=Path, help="Setup-time encoder, corpus, and prompt TOML.")
+    parser.add_argument("--inspect-profile", action="store_true", help="Print configured prompts/settings without loading models or starting the server.")
     args = parser.parse_args()
+    from .profile import load_profile
+    profile = load_profile(args.profile)
+    if args.inspect_profile:
+        from dataclasses import asdict
+        examples = profile.load_records()[:profile.prompt_policy.neighbors]
+        print(json.dumps({"encoder": asdict(profile.encoder), "corpus": str(profile.corpus_path) if profile.corpus_path else "bundled",
+                          "prompt_policy": profile.prompt_policy.describe(examples)}, indent=2, ensure_ascii=False))
+        return
     if args.tailnet:
         try:
             args.host = tailnet_ipv4()
@@ -364,7 +376,7 @@ def main():
             parser.error(str(exc))
     os.environ["POINT2TEXT_MODEL"] = args.model
     import uvicorn
-    uvicorn.run(create_app(), host=args.host, port=args.port)
+    uvicorn.run(create_app(setup_profile=profile), host=args.host, port=args.port)
 
 
 if __name__ == "__main__":

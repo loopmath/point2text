@@ -24,6 +24,8 @@ def parser():
     result.add_argument("--model", default=DEFAULT_MODEL_ID)
     result.add_argument("--revision", default=None)
     result.add_argument("--cache-dir", type=Path, default=Path(".cache/point2text"))
+    result.add_argument("--profile", type=Path, help="Setup-time embedding, corpus and prompt TOML.")
+    result.add_argument("--inspect-profile", action="store_true", help="Print configured prompts/settings without loading models.")
     target = result.add_mutually_exclusive_group()
     target.add_argument("--target", nargs=2, type=float, metavar=("X", "Y"))
     target.add_argument("--target-record", help="Use a bundled corpus paragraph's projected position.")
@@ -31,13 +33,13 @@ def parser():
     mode.add_argument("--unguided", action="store_true")
     mode.add_argument("--paired", action="store_true", help="Run the same request with guidance off and on.")
     result.add_argument("--seed", type=int, default=42)
-    result.add_argument("--candidates", type=int, choices=range(1, 7), default=1)
+    result.add_argument("--candidates", type=int, choices=range(1, 65), default=6)
     result.add_argument("--max-tokens", type=int, choices=range(1, 255), default=None, metavar="1..254", help="Canvas length; default 192 for refinement, otherwise 128.")
     result.add_argument("--steps", type=int, choices=range(1, 257), default=32, metavar="1..256")
     result.add_argument("--temperature", type=float, default=.8)
     result.add_argument("--top-k", type=int, default=32)
     result.add_argument("--guided-steps", type=int, default=8)
-    result.add_argument("--inner-updates", type=int, default=2)
+    result.add_argument("--inner-updates", type=int, default=16)
     result.add_argument("--strength", type=float, default=1)
     result.add_argument("--step-size", type=float, default=4)
     result.add_argument("--start-fraction", type=float, default=0)
@@ -45,8 +47,9 @@ def parser():
     result.add_argument("--max-delta", type=float, default=2)
     result.add_argument("--output", type=Path)
     result.add_argument("--refine", action="store_true", help="Use canonical feedback and local text refinement.")
-    result.add_argument("--epsilon", type=float, default=1e-4)
+    result.add_argument("--epsilon", type=float, default=0.01)
     result.add_argument("--refinement-seconds", type=float, default=120)
+    result.add_argument("--unlimited-time", action="store_true", help="Remove the refinement clock deadline; other search limits still apply.")
     result.add_argument("--refinement-rounds", type=int, default=20)
     result.add_argument("--max-hard-queries", type=int, default=1024)
     result.add_argument("--beam-width", type=int, default=4)
@@ -67,6 +70,14 @@ def parser():
 def main():
     arguments = parser()
     args = arguments.parse_args()
+    from ..profile import load_profile
+    profile = load_profile(args.profile)
+    if args.inspect_profile:
+        print(json.dumps({"encoder": asdict(profile.encoder),
+                          "corpus": str(profile.corpus_path) if profile.corpus_path else "bundled",
+                          "prompt_policy": profile.prompt_policy.describe(profile.load_records()[:profile.prompt_policy.neighbors])},
+                         indent=2, ensure_ascii=False))
+        return
     args.max_tokens = args.max_tokens if args.max_tokens is not None else (192 if args.refine else 128)
     try:
         config = GuidanceConfig(strength=args.strength, top_k=args.top_k,
@@ -80,10 +91,12 @@ def main():
         arguments.error(str(exc))
     try:
         refinement_config = RefinementConfig(
-            epsilon=args.epsilon, max_seconds=args.refinement_seconds,
+            epsilon=args.epsilon, max_seconds=None if args.unlimited_time else args.refinement_seconds,
             max_hard_queries=args.max_hard_queries, max_rounds=args.refinement_rounds,
             beam_width=args.beam_width, proposals_per_round=args.proposals_per_round,
             repair_steps=args.repair_steps,
+            min_words=profile.prompt_policy.min_words, max_words=profile.prompt_policy.max_words,
+            max_encoder_tokens=profile.encoder.max_length,
         )
     except ValueError as exc:
         arguments.error(str(exc))
@@ -112,17 +125,16 @@ def main():
         import uvicorn
         uvicorn.run(create_diffusion_app(cache_dir=args.cache_dir, guided=not args.unguided,
                                          config=config, runtime=runtime,
-                                         refine=args.refine, refinement_config=refinement_config),
+                                         refine=args.refine, refinement_config=refinement_config,
+                                         setup_profile=profile),
                     host=args.host, port=args.port or (8479 if args.refine else 8478))
         return
 
-    from ..encoder import SentenceEncoder
-    from ..geometry import MapBundle
     from .encoder import TorchEmbeddingReward
     from .search import DiffusionSearch, technical_prompt
 
-    encoder = SentenceEncoder()
-    bundle = MapBundle.build(encoder, args.cache_dir / "map")
+    bundle = profile.build_map(args.cache_dir / "map")
+    encoder = bundle.encoder
     data = bundle.payload()
     if args.target:
         target = tuple(args.target)
@@ -132,7 +144,7 @@ def main():
         if record is None:
             arguments.error(f"Unknown corpus record: {args.target_record}")
         target = (record["x"], record["y"])
-    request = DiffusionRequest(prompt=technical_prompt(bundle.nearest(target, k=4)),
+    request = DiffusionRequest(prompt=technical_prompt(bundle.nearest(target, k=profile.prompt_policy.neighbors), profile.prompt_policy),
                                seed=args.seed, max_tokens=args.max_tokens,
                                steps=args.steps, temperature=args.temperature)
     reward = TorchEmbeddingReward(encoder, bundle) if not args.unguided and runtime is not None else None
@@ -148,6 +160,7 @@ def main():
     record = {"created_at": datetime.now(timezone.utc).isoformat(),
               "map_id": bundle.map_id, "target": list(target),
               "guidance_config": asdict(config), "runs": {},
+              "prompt_policy": profile.prompt_policy.describe(bundle.nearest(target, k=profile.prompt_policy.neighbors)),
               "refinement_config": asdict(refinement_config) if args.refine else None,
               "experiment_mode": "screened_discrete_local_diagnostic" if args.discrete_only else "local_repair_diagnostic" if initial_text is not None else "canonical_refinement" if args.refine else "independent_diffusion",
               "comparison_note": "Paired requests are a plumbing probe, not an equal-wall-clock quality benchmark."}
@@ -158,14 +171,15 @@ def main():
                 break
             if args.refine and runtime is not None:
                 from .plausibility import NativeReplacementProvider
-                deadline = time.monotonic() + refinement_config.max_seconds
+                deadline = time.monotonic() + refinement_config.max_seconds if refinement_config.max_seconds is not None else float("inf")
                 provider = NativeReplacementProvider(
                     runtime, request, max_spans=4, top_k=32,
                     should_stop=lambda: cancel.is_set() or time.monotonic() >= deadline)
                 proposer = CanonicalEditProposer(bundle, allowed_replacements=provider,
                                                  max_hotspots=4)
             strategy = CanonicalRefinementSearch(search_runtime, reward=reward, guidance_config=config,
-                                                edit_proposer=proposer, config=refinement_config) if args.refine else DiffusionSearch(runtime, reward, config)
+                                                edit_proposer=proposer, config=refinement_config,
+                                                prompt_policy=profile.prompt_policy) if args.refine else DiffusionSearch(runtime, reward, config, prompt_policy=profile.prompt_policy)
             options = {"initial_text": initial_text} if args.refine else {}
             result = strategy.run(
                 bundle, target, max_candidates=args.candidates, seed=args.seed,

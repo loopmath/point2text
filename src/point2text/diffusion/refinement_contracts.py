@@ -25,7 +25,7 @@ class VerifiedText:
 @dataclass(frozen=True)
 class RefinementConfig:
     epsilon: float = 1e-4
-    max_seconds: float = 120.0
+    max_seconds: float | None = 120.0
     max_hard_queries: int = 1024
     max_rounds: int = 20
     observe_every: int = 3
@@ -42,6 +42,8 @@ class RefinementConfig:
     def __post_init__(self):
         for name in ("epsilon", "max_seconds"):
             value = getattr(self, name)
+            if name == "max_seconds" and value is None:
+                continue
             if not math.isfinite(value) or value <= 0:
                 raise ValueError(f"{name} must be finite and positive")
         if not math.isfinite(self.min_improvement) or self.min_improvement < 0:

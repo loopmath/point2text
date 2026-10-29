@@ -18,7 +18,14 @@ from .verification import CanonicalVerifier
 def _proposal_policy(proposer):
     try:
         provider = getattr(proposer, "allowed_replacements", None)
-        return _json_safe(getattr(provider, "trace", None))
+        if provider is not None:
+            return _json_safe(getattr(provider, "trace", None))
+        provider = getattr(proposer, "provider", None)
+        diagnostics = getattr(proposer, "diagnostics", None)
+        if diagnostics is not None:
+            return _json_safe({"bank": diagnostics,
+                               "provider": getattr(provider, "trace", getattr(provider, "diagnostics", None))})
+        return None
     except Exception as exc:
         return {"trace_error": str(exc)}
 
@@ -53,18 +60,23 @@ class _DeadlineSignal:
 
 class CanonicalRefinementSearch:
     def __init__(self, runtime, reward=None, guidance_config=None, edit_proposer=None,
-                 config: RefinementConfig | None = None, *, quality_callback=None) -> None:
+                 config: RefinementConfig | None = None, *, quality_callback=None,
+                 late_quality=False, combination_planner=None, prompt_policy=None) -> None:
         self.runtime = runtime
         self.reward = reward
         self.guidance_config = guidance_config or GuidanceConfig()
         self.edit_proposer = edit_proposer
         self.config = config or RefinementConfig()
         self.quality_callback = quality_callback
+        self.late_quality = late_quality
+        self.combination_planner = combination_planner
+        self.prompt_policy = prompt_policy
 
     def run(self, bundle, target, *, max_candidates=1, seed=42, on_candidate=None,
-            cancel_event=None, request=None, guided=True, initial_text=None) -> DiffusionResult:
-        if isinstance(max_candidates, bool) or not isinstance(max_candidates, int) or not 1 <= max_candidates <= 6:
-            raise ValueError("max_candidates must be between 1 and 6")
+            cancel_event=None, request=None, guided=True, initial_text=None,
+            on_draft=None) -> DiffusionResult:
+        if isinstance(max_candidates, bool) or not isinstance(max_candidates, int) or not 1 <= max_candidates <= 64:
+            raise ValueError("max_candidates must be between 1 and 64")
         cancel_event = cancel_event if cancel_event is not None else threading.Event()
         verifier = CanonicalVerifier(bundle, target, self.config,
                                      quality_callback=self.quality_callback)
@@ -72,7 +84,8 @@ class CanonicalRefinementSearch:
         target = verifier.target
         started = time.monotonic()
         if request is None:
-            prompt = technical_prompt(bundle.nearest(target, k=4)) if self.runtime is not None else ""
+            prompt = technical_prompt(bundle.nearest(target, k=getattr(self.prompt_policy, "neighbors", 4)),
+                                      self.prompt_policy) if self.runtime is not None else ""
             request = DiffusionRequest(prompt=prompt, seed=seed, max_tokens=192)
             prompt_policy = "nearest-four-context-v1" if self.runtime is not None else "no_generator"
         else:
@@ -83,7 +96,8 @@ class CanonicalRefinementSearch:
         history = []
         native_traces = []
         costs = {"proposer_seconds": 0.0, "native_seconds": 0.0,
-                 "verification_seconds": 0.0, "repair_calls": 0}
+                 "verification_seconds": 0.0, "quality_seconds": 0.0,
+                 "combination_seconds": 0.0, "repair_calls": 0}
         errors = []
         epsilon_confirmed = False
         current_seed = seed
@@ -106,9 +120,23 @@ class CanonicalRefinementSearch:
         def consider(proposals, phase):
             nonlocal best, beam, epsilon_confirmed, stop_reason
             before = time.monotonic()
-            verified = verifier.verify_batch(proposals)
+            verified = verifier.verify_batch(proposals, check_quality=not self.late_quality)
             costs["verification_seconds"] += time.monotonic() - before
             for value in sorted(verified, key=lambda item: item.distance):
+                if self.late_quality and self.quality_callback is not None:
+                    # Exact coordinates may rank all atomic edits, but only quality
+                    # checked text can enter the beam or become the incumbent.
+                    if len(beam) >= self.config.beam_width and value.distance >= max(item.distance for item in beam):
+                        continue
+                    if native_stop.is_set():
+                        halted()
+                        break
+                    before = time.monotonic()
+                    checked = verifier.verify_quality(value)
+                    costs["quality_seconds"] += time.monotonic() - before
+                    if checked is None or native_stop.is_set():
+                        continue
+                    value = checked
                 if value.distance <= self.config.epsilon:
                     before = time.monotonic()
                     confirmed = verifier.confirm_epsilon(value)
@@ -132,6 +160,8 @@ class CanonicalRefinementSearch:
                         elif verifier.confirmation.get("reason", "").startswith("quality_callback"):
                             continue
                 beam.append(value)
+                beam = sorted({item.text: item for item in beam}.values(),
+                              key=lambda item: item.distance)[:self.config.beam_width]
                 if best is None or value.distance < best.distance:
                     previous = best.distance if best is not None else None
                     best = value
@@ -148,11 +178,18 @@ class CanonicalRefinementSearch:
                     break
             beam = sorted({item.text: item for item in beam}.values(),
                           key=lambda item: item.distance)[:self.config.beam_width]
+            return verified
 
         def observer_for(phase):
             def observe(draft):
+                if on_draft is not None:
+                    on_draft({"text": draft.text, "step": draft.step,
+                              "num_steps": draft.num_steps, "phase": phase,
+                              "terminal": draft.terminal})
                 if halted():
                     return True
+                if on_draft and draft.step != 0 and not draft.terminal and (draft.step + 1) % self.config.observe_every:
+                    return False
                 consider([TextProposal(draft.text, provenance={"phase": phase,
                                                                "native_step": draft.step})], phase)
                 return halted()
@@ -169,7 +206,8 @@ class CanonicalRefinementSearch:
             hook = make_hook()
             before = time.monotonic()
             kwargs = dict(hook=hook, observer=observer_for(phase),
-                          observe_every=self.config.observe_every, cancel_event=native_stop)
+                          observe_every=1 if on_draft else self.config.observe_every,
+                          cancel_event=native_stop)
             try:
                 if text is None:
                     result = self.runtime.generate(native_request, **kwargs)
@@ -215,6 +253,7 @@ class CanonicalRefinementSearch:
                     rounds = round_index + 1
                     old_distance = best.distance
                     proposals = []
+                    source_groups = []
                     if proposer is not None:
                         before = time.monotonic()
                         sources = list(beam) or [best]
@@ -226,10 +265,22 @@ class CanonicalRefinementSearch:
                             proposed = list(proposer.propose(source.text, target,
                                                             max_proposals=allowance))[:allowance]
                             proposals.extend(proposed)
+                            source_groups.append((source, proposed))
                             remaining -= len(proposed)
                         costs["proposer_seconds"] += time.monotonic() - before
                     if proposals and not halted():
-                        consider(proposals, "discrete_edit")
+                        measured = consider(proposals, "discrete_edit")
+                        if self.combination_planner is not None and not halted():
+                            before = time.monotonic()
+                            combinations = []
+                            for source, atomic in source_groups:
+                                self.combination_planner.record(source, atomic, measured)
+                                combinations.extend(self.combination_planner.propose(
+                                    source, target,
+                                    max_proposals=max(1, self.config.proposals_per_round // len(source_groups))))
+                            costs["combination_seconds"] += time.monotonic() - before
+                            if combinations and not halted():
+                                consider(combinations, "measured_combination")
                     meaningful = old_distance - best.distance > self.config.min_improvement
                     stalled_round = not meaningful
                     if (not halted() and self.runtime is not None
@@ -289,6 +340,7 @@ class CanonicalRefinementSearch:
             "distance_metric": "euclidean-unwhitened-pca",
             "config": asdict(self.config), "request": asdict(request),
             "prompt_policy": prompt_policy, "requested_candidates": max_candidates,
+            "prompt_policy_identity": getattr(self.prompt_policy, "identity", None),
             "runtime_identity": self.runtime.identity if self.runtime is not None else None,
             "elapsed_seconds": time.monotonic() - started, "rounds": rounds,
             "stall_rounds": stall, "incumbent_improvements": len(history),
@@ -300,6 +352,9 @@ class CanonicalRefinementSearch:
             "candidates": candidates, "best_candidate": best_payload,
             "history": history, "native_traces": native_traces, "costs": costs,
             "proposal_policy": policy_after, "proposal_policy_before": policy_before,
+            "measured_combinations": self.combination_planner.cache_info() if self.combination_planner else None,
+            "quality_policy": _json_safe(getattr(self.quality_callback, "trace", None)),
+            "late_quality": self.late_quality,
             "verification": verifier.diagnostics,
             "quality_validation_state": verifier.diagnostics["quality_validation_state"],
             "epsilon_is_attainability_claim": False,

@@ -64,6 +64,7 @@ class BackendInfo:
             "guided": self.guided,
             "refinement": self.refinement,
             "epsilon": self.epsilon,
+            "draft_streaming": True,
         }
         if error:
             result["error"] = error
@@ -85,12 +86,15 @@ class _ConfiguredSearch:
                 self.search.config = replace(self.search.config, inner_updates=updates)
         epsilon = kwargs.pop("refinement_epsilon", None)
         seconds = kwargs.pop("refinement_seconds", None)
-        if epsilon is not None or seconds is not None:
+        unlimited = kwargs.pop("refinement_unlimited", False)
+        if epsilon is not None or seconds is not None or unlimited:
             settings = {}
             if epsilon is not None:
                 settings["epsilon"] = epsilon
             if seconds is not None:
                 settings["max_seconds"] = seconds
+            if unlimited:
+                settings["max_seconds"] = None
             self.search.config = replace(self.search.config, **settings)
         if self.proposer_factory is not None:
             self.search.edit_proposer, kwargs["request"] = self.proposer_factory(
@@ -105,6 +109,7 @@ def create_diffusion_app(
     runtime: Any = None,
     refine: bool = False,
     refinement_config: Any = None,
+    setup_profile: Any = None,
 ) -> Any:
     """Build the standard local UI with diffusion behind its search factory.
 
@@ -117,10 +122,16 @@ def create_diffusion_app(
 
     injected = runtime is not None and not isinstance(runtime, MLXDiffusionRuntime)
     runtime = runtime if runtime is not None else MLXDiffusionRuntime()
-    config = config if config is not None else GuidanceConfig(inner_updates=2)
+    config = config if config is not None else GuidanceConfig(inner_updates=16)
+    prompt_policy = setup_profile.prompt_policy if setup_profile is not None else None
     if refine:
         from .refinement_contracts import RefinementConfig
-        refinement_config = refinement_config or RefinementConfig()
+        refinement_config = refinement_config or RefinementConfig(epsilon=0.01)
+        if setup_profile is not None:
+            refinement_config = replace(refinement_config,
+                                        min_words=prompt_policy.min_words,
+                                        max_words=prompt_policy.max_words,
+                                        max_encoder_tokens=setup_profile.encoder.max_length)
     backend = BackendInfo(runtime, guided=guided, injected=injected,
                           refinement=refine, epsilon=refinement_config.epsilon if refine else None)
     rewards: dict[int, tuple[Any, Any]] = {}
@@ -132,10 +143,10 @@ def create_diffusion_app(
         from .plausibility import NativeReplacementProvider
         from .search import technical_prompt
 
-        deadline = time.monotonic() + settings.max_seconds
+        deadline = time.monotonic() + settings.max_seconds if settings.max_seconds is not None else float("inf")
         cancel = options.get("cancel_event")
         request = options.get("request") or DiffusionRequest(
-            prompt=technical_prompt(bundle.nearest(target, k=4)),
+            prompt=technical_prompt(bundle.nearest(target, k=getattr(prompt_policy, "neighbors", 4)), prompt_policy),
             seed=options.get("seed", 42), max_tokens=192)
         provider = NativeReplacementProvider(
             runtime, request, max_spans=4, top_k=32,
@@ -164,10 +175,12 @@ def create_diffusion_app(
         if refine:
             from .refinement import CanonicalRefinementSearch
             search = CanonicalRefinementSearch(runtime, reward=reward, guidance_config=config,
-                                               config=refinement_config)
+                                               config=refinement_config, prompt_policy=prompt_policy)
             return _ConfiguredSearch(search, guided, proposer_factory=proposer_factory)
-        return _ConfiguredSearch(DiffusionSearch(runtime, reward, config), guided)
+        search = DiffusionSearch(runtime, reward, config, prompt_policy=prompt_policy) if prompt_policy is not None else DiffusionSearch(runtime, reward, config)
+        return _ConfiguredSearch(search, guided)
 
     return create_app(
-        cache_dir=cache_dir, generator=backend, search_factory=search_factory
+        cache_dir=cache_dir, generator=backend, search_factory=search_factory,
+        setup_profile=setup_profile,
     )
