@@ -1,0 +1,135 @@
+{
+  "created_at": "2026-10-29T21:15:45.948132+00:00",
+  "source_commit": "85761ee",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "mode": "hosted_real_restart_lifecycle_smoke",
+  "quality_note": "Mechanical/native lifecycle validation only; final text is not quality-approved.",
+  "cases": [
+    {
+      "target_id": "fresh-click-01",
+      "run_id": "f2bb3f1205f24bb5b3af68f287184751",
+      "request": {
+        "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+        "target": [
+          -0.05943739182128624,
+          0.35056816038875493
+        ],
+        "candidates": 1,
+        "seed": 5073001,
+        "guidance_updates": 1,
+        "refinement_epsilon": 0.0001,
+        "refinement_seconds": 30,
+        "refinement_restarts": 1,
+        "refinement_restart_candidates": 1
+      },
+      "status": "complete",
+      "error": null,
+      "best_distance": 0.12342279100717318,
+      "elapsed_seconds": 30.36487562500406,
+      "restart_count": 1,
+      "basins": [
+        {
+          "kind": "initial_candidates",
+          "stop_reason": "basin_time_slice",
+          "attempted_seeds": [
+            5073001
+          ]
+        },
+        {
+          "kind": "restart",
+          "stop_reason": "budget_exhausted",
+          "attempted_seeds": [
+            5073004
+          ]
+        }
+      ],
+      "observed_draft_phases": [
+        [
+          "coarse",
+          0
+        ],
+        [
+          "native_repair",
+          0
+        ],
+        [
+          "restart_coarse",
+          1
+        ]
+      ],
+      "draft_updates": 23,
+      "executed_work": {
+        "trajectories": 4,
+        "native_passes": 23,
+        "guided_passes": 8,
+        "encoder_updates": 8,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "quality_validation_state": "mechanical_checks_only",
+      "epsilon_confirmed": false
+    },
+    {
+      "target_id": "fresh-click-04",
+      "run_id": "4322f9f355ab43378af3d3fc3b6b39c2",
+      "request": {
+        "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+        "target": [
+          -0.11750784993385428,
+          0.0062444893440342245
+        ],
+        "candidates": 1,
+        "seed": 5073004,
+        "guidance_updates": 1,
+        "refinement_epsilon": 0.0001,
+        "refinement_seconds": 30,
+        "refinement_restarts": 1,
+        "refinement_restart_candidates": 1
+      },
+      "status": "complete",
+      "error": null,
+      "best_distance": 0.037900711505912295,
+      "elapsed_seconds": 30.156974165991414,
+      "restart_count": 1,
+      "basins": [
+        {
+          "kind": "initial_candidates",
+          "stop_reason": "basin_time_slice",
+          "attempted_seeds": [
+            5073004
+          ]
+        },
+        {
+          "kind": "restart",
+          "stop_reason": "budget_exhausted",
+          "attempted_seeds": [
+            5073009
+          ]
+        }
+      ],
+      "observed_draft_phases": [
+        [
+          "coarse",
+          0
+        ],
+        [
+          "native_repair",
+          0
+        ],
+        [
+          "restart_coarse",
+          1
+        ]
+      ],
+      "draft_updates": 38,
+      "executed_work": {
+        "trajectories": 6,
+        "native_passes": 37,
+        "guided_passes": 20,
+        "encoder_updates": 20,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "quality_validation_state": "mechanical_checks_only",
+      "epsilon_confirmed": false
+    }
+  ]
+}

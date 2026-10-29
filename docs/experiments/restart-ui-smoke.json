@@ -1,0 +1,35 @@
+{
+  "mode": "manual_browser_fixture_verification",
+  "generator_used": false,
+  "map_data": "original public corpus cached coordinates",
+  "defaults_observed": {
+    "initial_candidates": 6,
+    "encoder_updates_per_pass": 16,
+    "canonical_tolerance": 0.01,
+    "seconds": 120,
+    "restarts": 3,
+    "restart_candidates": 2
+  },
+  "observations": [
+    "Off disables candidates per restart",
+    "Settings disabled while search is active",
+    "Draft phase and basin labels update",
+    "Completed generation/repair counts displayed",
+    "Two successive searches use different recorded seeds"
+  ],
+  "runs": [
+    {
+      "seed": 1257577380,
+      "status": "complete",
+      "restarts": 3,
+      "draft_basin": 1
+    },
+    {
+      "seed": 366543025,
+      "status": "complete",
+      "restarts": 3,
+      "draft_basin": 1
+    }
+  ],
+  "limits": "Injected corpus-text fixture; no model inference, scientific quality or optimization benefit is established."
+}

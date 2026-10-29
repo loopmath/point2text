@@ -537,7 +537,7 @@
     const hasCompute = searchTotals || Array.isArray(guidedSteps) && Number.isInteger(passes) && passes >= 0;
     $('result-compute').hidden = !hasCompute;
     if (searchTotals) {
-      $('result-compute').textContent = `Search totals: ${executed.encoder_updates} encoder updates · ${executed.native_passes} diffusion passes${executed.trajectories_without_runtime_receipt ? ' · some failed work unmeasured' : ''}`;
+      $('result-compute').textContent = `Generation and repair: ${executed.encoder_updates} encoder updates · ${executed.native_passes} diffusion passes${executed.trajectories_without_runtime_receipt ? ' · some failed work unmeasured' : ''}`;
     } else if (hasCompute) {
       const updates = guidedSteps.reduce((total, step) => total + (Array.isArray(step.updates) ? step.updates.length : 0), 0);
       $('result-compute').textContent = `${updates} encoder ${updates === 1 ? 'update' : 'updates'} · ${passes} diffusion ${passes === 1 ? 'pass' : 'passes'}`;
