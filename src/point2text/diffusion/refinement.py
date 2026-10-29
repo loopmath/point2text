@@ -15,6 +15,31 @@ from .search import technical_prompt
 from .verification import CanonicalVerifier
 
 
+def _proposal_policy(proposer):
+    try:
+        provider = getattr(proposer, "allowed_replacements", None)
+        return _json_safe(getattr(provider, "trace", None))
+    except Exception as exc:
+        return {"trace_error": str(exc)}
+
+
+def _numeric_deltas(after, before):
+    if not isinstance(after, dict):
+        return {}
+    before = before if isinstance(before, dict) else {}
+    result = {}
+    for key, value in after.items():
+        if isinstance(value, dict):
+            nested = _numeric_deltas(value, before.get(key))
+            if nested:
+                result[key] = nested
+        elif isinstance(value, (int, float)) and not isinstance(value, bool):
+            previous = before.get(key, 0)
+            if isinstance(previous, (int, float)) and not isinstance(previous, bool):
+                result[key] = value - previous
+    return result
+
+
 class _DeadlineSignal:
     """Native stop signal; deadline expiry does not mutate the user's event."""
 
@@ -65,6 +90,8 @@ class CanonicalRefinementSearch:
         rounds = 0
         stall = 0
         stop_reason = None
+        proposer = self.edit_proposer
+        policy_before = _proposal_policy(proposer)
 
         def halted():
             nonlocal stop_reason
@@ -175,11 +202,11 @@ class CanonicalRefinementSearch:
                     current_seed = seed + index
                     run_native("coarse", replace(request, seed=current_seed))
             if not halted() and best is not None:
-                proposer = self.edit_proposer
                 if proposer is None:
                     try:
                         from .discrete import CanonicalEditProposer
                         proposer = CanonicalEditProposer(bundle, reward=self.reward)
+                        policy_before = _proposal_policy(proposer)
                     except ImportError:
                         proposer = None
                 for round_index in range(self.config.max_rounds):
@@ -249,6 +276,8 @@ class CanonicalRefinementSearch:
                 token_ids = list(self.runtime.tokenizer.encode(best.text, add_special_tokens=False))
             except Exception:
                 pass
+        policy_after = _proposal_policy(proposer)
+        costs["proposal_policy_numeric_deltas"] = _numeric_deltas(policy_after, policy_before)
         trace = {
             "strategy": "canonical-feedback-refinement-v1", "status": status,
             "stop_reason": stop_reason, "error": errors[0] if errors else None,
@@ -270,6 +299,7 @@ class CanonicalRefinementSearch:
                            ("round_limit" if stop_reason == "budget_exhausted" else None),
             "candidates": candidates, "best_candidate": best_payload,
             "history": history, "native_traces": native_traces, "costs": costs,
+            "proposal_policy": policy_after, "proposal_policy_before": policy_before,
             "verification": verifier.diagnostics,
             "quality_validation_state": verifier.diagnostics["quality_validation_state"],
             "epsilon_is_attainability_claim": False,

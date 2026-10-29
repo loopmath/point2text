@@ -265,3 +265,31 @@ def test_native_deadline_signal_retains_draft_and_is_not_user_cancellation(monke
     assert result.trace["budget_kind"] == "time_budget"
     assert not user_cancel.is_set()
     assert result.trace["native_traces"][0]["runtime"]["cancelled"] is True
+
+
+def test_contextual_replacement_policy_records_per_run_work_separately():
+    class Provider:
+        calls = 5  # Simulate a direct API caller reusing an existing provider.
+
+        @property
+        def trace(self):
+            return {"native_forwards": self.calls, "forward_seconds": self.calls * 0.5,
+                    "quality_guarantee": False}
+
+    class ContextProposer(Proposer):
+        def __init__(self):
+            super().__init__()
+            self.allowed_replacements = Provider()
+
+        def propose(self, *args, **kwargs):
+            self.allowed_replacements.calls += 1
+            return []
+
+    result = CanonicalRefinementSearch(None, edit_proposer=ContextProposer(), config=config()).run(
+        Bundle(), (0, 0), initial_text="Paragraph 0.1")
+    assert result.trace["proposal_policy"]["native_forwards"] == 7
+    assert result.trace["proposal_policy"]["quality_guarantee"] is False
+    assert result.trace["proposal_policy_before"]["native_forwards"] == 5
+    assert result.trace["costs"]["proposal_policy_numeric_deltas"] == {
+        "native_forwards": 2, "forward_seconds": 1.0}
+    assert result.trace["hard_queries"] == 1
