@@ -302,20 +302,62 @@ class OllamaSentenceParaphraseProvider(OllamaParaphraseProvider):
         super().__init__(*args, **kwargs)
         self.max_variants = max_variants
         self._sentence_cache: dict[str, tuple[str, ...]] = {}
+        self._stream_parts: list[str] = []
+        self.diagnostics.update(raw_variant_count=0, accepted_variant_count=0,
+                                diagnostic_capacity_refusals=0, last_refusal=None)
+
+    def _receipt(self, key: str, text: str, span: tuple[int, int], *, status: str) -> dict | None:
+        sources = self.diagnostics["sources"]
+        previous = sources.get(key)
+        if previous is None and len(sources) >= self.max_cached_sources:
+            self.diagnostics["diagnostic_capacity_refusals"] += 1
+            self.diagnostics["last_refusal"] = {"source_sha256": source_hash(text),
+                                               "span": list(span), "reason": "diagnostic_capacity"}
+            return None
+        past = [] if previous is None else [*previous.get("previous_statuses", []), previous["status"]]
+        receipt = {"source_sha256": source_hash(text), "source_sentence_sha256": source_hash(text[slice(*span)]),
+                   "span": list(span), "status": status, "previous_statuses": past[-8:],
+                   "attempt_count": (previous.get("attempt_count", 0) if previous else 0) + int(status == "started"),
+                   "raw_response": "", "raw_response_truncated": False,
+                   "raw_variants": [], "raw_variants_total": 0, "accepted_variants": [],
+                   "variant_checks": [], "rejections": {}, "seconds": 0.0, "error": None,
+                   "target_blind": True}
+        sources[key] = receipt
+        return receipt
+
+    def _refuse(self, key: str, text: str, span: tuple[int, int], reason: str) -> None:
+        previous = self.diagnostics["sources"].get(key)
+        if previous is not None:
+            # Preserve the actual completed/error receipt and raw response when
+            # a later caller merely encounters a budget or temporary stop.
+            previous["last_request_status"] = reason
+            return
+        receipt = self._receipt(key, text, span, status=reason)
+        if receipt is not None:
+            receipt["reason"] = reason
 
     def suggestions(self, text: str, span: tuple[int, int]) -> tuple[str, ...]:
         if not isinstance(text, str) or span not in sentence_spans(text):
             raise ValueError("Provider span must match one exact complete source sentence")
-        if self._stopped():
-            return ()
         key = source_hash(json.dumps([text, list(span)], ensure_ascii=False))
+        if self._stopped():
+            self._refuse(key, text, span, "cancelled_or_deadline")
+            return ()
         if key in self._sentence_cache:
             self.diagnostics["cache_hits"] += 1
             return self._sentence_cache[key]
-        if (len(text) > self.max_source_chars or self.diagnostics["calls"] >= self.max_calls
-            or self.diagnostics["elapsed_seconds"] >= self.max_total_seconds
-            or len(self._sentence_cache) >= self.max_cached_sources):
+        refusal = ("source_size" if len(text) > self.max_source_chars else
+                   "call_budget" if self.diagnostics["calls"] >= self.max_calls else
+                   "time_budget" if self.diagnostics["elapsed_seconds"] >= self.max_total_seconds else
+                   "cache_capacity" if len(self._sentence_cache) >= self.max_cached_sources else None)
+        if refusal is not None:
+            self._refuse(key, text, span, refusal)
             return ()
+        receipt = self._receipt(key, text, span, status="started")
+        if receipt is None:
+            return ()
+        self._stream_parts = []
+        self.diagnostics["last_error"] = None
         started = time.monotonic()
         allowance = min(self.timeout, self.max_total_seconds - self.diagnostics["elapsed_seconds"])
         if self.deadline is not None:
@@ -324,25 +366,51 @@ class OllamaSentenceParaphraseProvider(OllamaParaphraseProvider):
         try:
             raw = asyncio.run(self._bounded_collect(source, started + allowance))
             if raw is None or self._stopped():
+                receipt.update(status="cancelled_or_deadline", error=self.diagnostics["last_error"])
                 return ()  # A temporary stop must not permanently poison a span.
             data = json.loads(raw)
             if not isinstance(data, dict) or set(data) != {"variants"} or not isinstance(data["variants"], list):
                 raise ValueError("Sentence provider requires exactly a variants JSON array")
-            accepted = []
-            for replacement in data["variants"][:self.max_variants]:
+            accepted, rejected = [], Counter()
+            receipt["raw_variants_total"] = len(data["variants"])
+            receipt["raw_variants"] = data["variants"][:self.max_variants]
+            if len(data["variants"]) > self.max_variants:
+                rejected["variant_limit"] += len(data["variants"]) - self.max_variants
+            for index, replacement in enumerate(receipt["raw_variants"]):
                 reason = sentence_screen_reason(text[slice(*span)], replacement)
-                if reason is None and replacement not in accepted:
+                if reason is None and replacement in accepted:
+                    reason = "duplicate_variant"
+                if reason is None:
                     accepted.append(replacement)
-                elif reason is not None:
-                    counts = self.diagnostics["rejections"]
-                    counts[reason] = counts.get(reason, 0) + 1
+                else:
+                    rejected[reason] += 1
+                receipt["variant_checks"].append({"index": index, "accepted": reason is None, "reason": reason})
+            receipt.update(status="complete", accepted_variants=list(accepted), rejections=dict(rejected))
+            totals = Counter(self.diagnostics["rejections"])
+            totals.update(rejected)
+            self.diagnostics["rejections"] = dict(totals)
+            self.diagnostics["raw_variant_count"] += len(receipt["raw_variants"])
+            self.diagnostics["accepted_variant_count"] += len(accepted)
+            self.diagnostics["raw_edit_count"] += len(receipt["raw_variants"])
+            self.diagnostics["accepted_edit_count"] += len(accepted)
             self._sentence_cache[key] = tuple(accepted)
         except (httpx.HTTPError, ValueError, TypeError, RuntimeError) as exc:
             self.diagnostics["last_error"] = str(exc)[:300]
+            receipt.update(status="cancelled_or_deadline" if self._stopped() else "error",
+                           error=f"{type(exc).__name__}: {exc}"[:300],
+                           reason="invalid_json" if isinstance(exc, json.JSONDecodeError) else "provider_error")
             if not self._stopped():
                 self._sentence_cache[key] = ()
         finally:
-            self.diagnostics["elapsed_seconds"] += time.monotonic() - started
+            elapsed = time.monotonic() - started
+            self.diagnostics["elapsed_seconds"] += elapsed
+            # Retain malformed JSON and partial streamed model text, never just
+            # the final parsed subset. The UTF-8 bound applies per source/span.
+            complete_raw = raw if "raw" in locals() and isinstance(raw, str) else "".join(self._stream_parts)
+            encoded_raw = complete_raw.encode("utf-8", errors="replace")
+            limit = self.max_tokens * 32
+            receipt.update(seconds=elapsed, raw_response=encoded_raw[:limit].decode("utf-8", errors="ignore"),
+                           raw_response_truncated=len(encoded_raw) > limit)
         return self._sentence_cache.get(key, ())
 
     async def _collect(self, client: httpx.AsyncClient, source: str) -> str:
@@ -379,7 +447,7 @@ class OllamaSentenceParaphraseProvider(OllamaParaphraseProvider):
             "options": {"temperature": 0, "seed": 17, "num_predict": self.max_tokens, "num_ctx": 8192}}
         if len(payload["system"].encode()) + len(source.encode()) + self.max_tokens + 512 > 8192:
             raise ValueError("Sentence provider input exceeds conservative context budget")
-        parts, size = [], 0
+        parts, size = self._stream_parts, 0
         self.diagnostics["calls"] += 1
         async with client.stream("POST", f"{self.base_url}/api/generate", json=payload) as response:
             response.raise_for_status()

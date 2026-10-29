@@ -187,9 +187,14 @@ def test_provider_cancels_inflight_mock_prefill_without_negative_cache():
     span = sentence_spans(SOURCE)[0]
     assert provider.suggestions(SOURCE, span) == ()
     assert provider._sentence_cache == {}
+    cancelled, = provider.diagnostics["sources"].values()
+    assert cancelled["status"] == "cancelled_or_deadline"
     stop.clear()
     assert provider.suggestions(SOURCE, span) == (FIRST,)
     assert len(posts) == provider.diagnostics["calls"] == 2
+    completed, = provider.diagnostics["sources"].values()
+    assert completed["status"] == "complete"
+    assert "cancelled_or_deadline" in completed["previous_statuses"]
 
 
 def test_provider_call_limit_prevents_further_mock_requests():
@@ -218,3 +223,65 @@ def test_repeated_identical_sentences_are_addressed_by_exact_offsets():
     proposals = bank.all_proposals(source)
     assert len(proposals) == 2 and proposals[0].edit_span != proposals[1].edit_span
     assert proposals[0].text != proposals[1].text
+
+
+def test_raw_good_bad_duplicate_variants_and_reasons_are_retained_target_blind():
+    bad = "For analysis, a model may use 4 samples."
+    raw = json.dumps({"variants": [bad, FIRST, FIRST]})
+
+    def handler(request):
+        if request.url.path == "/api/tags":
+            return httpx.Response(200, json={"models": [{"name": "fixture:latest", "digest": "fixed"}]})
+        payload = json.loads(request.content)
+        source = json.loads(payload["prompt"].split("\n", 1)[1])
+        assert set(source) == {"paragraph", "span", "sentence"}
+        return httpx.Response(200, text=json.dumps({"response": raw, "done": True}) + "\n")
+
+    provider = OllamaSentenceParaphraseProvider(model="fixture", transport=httpx.MockTransport(handler))
+    span = sentence_spans(SOURCE)[0]
+    assert provider.suggestions(SOURCE, span) == (FIRST,)
+    receipt, = provider.diagnostics["sources"].values()
+    assert receipt["source_sha256"] == source_hash(SOURCE) and receipt["span"] == list(span)
+    assert receipt["raw_response"] == raw
+    assert receipt["raw_variants"] == [bad, FIRST, FIRST]
+    assert receipt["accepted_variants"] == [FIRST]
+    assert receipt["rejections"] == {"numeric_drift": 1, "duplicate_variant": 1}
+    assert [row["reason"] for row in receipt["variant_checks"]] == ["numeric_drift", None, "duplicate_variant"]
+    assert provider.diagnostics["raw_variant_count"] == 3
+    assert provider.diagnostics["accepted_variant_count"] == 1
+    assert receipt["status"] == "complete" and receipt["target_blind"]
+
+
+def test_invalid_json_error_receipt_keeps_raw_and_cache_hit_does_not_erase_it():
+    raw = '{"variants": [this is invalid JSON]}'
+
+    def handler(request):
+        if request.url.path == "/api/tags":
+            return httpx.Response(200, json={"models": [{"name": "fixture:latest", "digest": "fixed"}]})
+        return httpx.Response(200, text=json.dumps({"response": raw, "done": True}) + "\n")
+
+    provider = OllamaSentenceParaphraseProvider(model="fixture", transport=httpx.MockTransport(handler))
+    span = sentence_spans(SOURCE)[0]
+    assert provider.suggestions(SOURCE, span) == ()
+    receipt, = provider.diagnostics["sources"].values()
+    assert receipt["status"] == "error" and receipt["reason"] == "invalid_json"
+    assert receipt["raw_response"] == raw and "JSONDecodeError" in receipt["error"]
+    assert provider.suggestions(SOURCE, span) == ()
+    assert receipt["status"] == "error" and receipt["raw_response"] == raw
+    assert provider.diagnostics["cache_hits"] == 1
+
+
+def test_diagnostic_source_capacity_is_bounded_even_for_cancelled_requests():
+    provider = OllamaSentenceParaphraseProvider(max_cached_sources=1, should_stop=lambda: True)
+    first, second = sentence_spans(SOURCE)
+    assert provider.suggestions(SOURCE, first) == ()
+    assert provider.suggestions(SOURCE, second) == ()
+    assert len(provider.diagnostics["sources"]) == 1
+    assert provider.diagnostics["diagnostic_capacity_refusals"] == 1
+    assert provider.diagnostics["calls"] == 0
+
+
+def test_capitalized_sentence_initial_technical_word_overrejection_is_explicit():
+    # A conservative known false negative: no guard is weakened to allow this.
+    assert sentence_screen_reason("Measurements may capture variation.",
+        "Variation may be captured by measurements.") == "capitalized_entity_drift"

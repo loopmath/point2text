@@ -29,6 +29,18 @@ size, and output tokens are bounded. Streaming cancellation includes HTTP
 prefill; a temporary cancellation does not permanently cache an empty result.
 An independent full-paragraph quality policy remains required.
 
+Provider diagnostics retain a bounded receipt per exact paragraph/span under
+`diagnostics["sources"]`: source and sentence hashes, span, status, elapsed time,
+raw model response, raw variants, accepted variants, per-variant checks and
+rejection counts. Malformed JSON and partial streamed responses remain visible
+on error. Each raw response is capped at `max_tokens * 32` UTF-8 bytes; receipt
+count is capped at `max_cached_sources`. A retry keeps up to eight previous
+status labels, while storing only the latest raw response. Cache hits preserve
+the completed/error receipt. Temporary stops do not negative-cache variants;
+clearing a local stop permits a fresh bounded attempt. Budget refusals are
+recorded without issuing model calls. Aggregate token/call/time counters and
+accepted/raw variant counts remain available for comparison.
+
 `propose(text,target,max_proposals=...)` pages through fixed source-order variants
 without repeats. The target is validated but does not affect generation or
 ordering. `all_proposals(text)` does not advance the page; `hotspots(...)` returns
@@ -89,6 +101,15 @@ inflection changes, and do not infer entailment, resolve pronouns, verify causal
 direction, or understand every entity or scientific unit. Reordered claims can
 pass literal counters while changing meaning. Nothing here certifies language,
 grammar, factuality, scientific equivalence, or originality.
+
+The literal signal lists and sentence/entity heuristics are **English-oriented**.
+A capitalized sentence-initial technical noun outside the small grammatical
+starter list is protected as if it were an entity: for example, moving
+“Measurements” inside a sentence as “measurements” is rejected, even in a
+meaning-preserving passive rewrite. This intentional conservative false negative
+is covered by a test. It can explain a sparse accepted bank; inspect raw
+receipts and independent reviews before proposing any evidence-backed guard
+change. The checks do not establish comparable preservation for other languages.
 
 Full-paragraph mechanical limits, canonical re-embedding, contextual quality
 review against the fixed reference, and the existing epsilon confirmation rules
