@@ -282,8 +282,8 @@ assessments, not a guarantee or a calibrated accuracy estimate. No output
 reached epsilon; the best reviewed distance remains .009275.
 
 The [complete actual bank export](experiments/fresh-hybrid-sentence-bank-atoms-v1.json.gz)
-includes all eight initial/rebased source banks and their 21 atoms, not just
-winners. The [diagnostic summary](experiments/fresh-hybrid-sentence-bank-diagnostics-v1.json)
+includes all nine visited source-bank entries, eight of which contain the
+21 accepted atoms, not just winners. The [diagnostic summary](experiments/fresh-hybrid-sentence-bank-diagnostics-v1.json)
 uses existing controller measurements only. Five targets had numerical rank-two
 single-edit displacement sets; the remaining target had only one accepted atom.
 Rank two does not establish sufficiently fine spatial resolution or feasible
@@ -326,3 +326,45 @@ Reproduction also requires the installed local Ollama model with the recorded
 digest and the frozen map identity. The evidence receipt records exact
 controller, provider and harness file hashes. An implementation, model digest,
 or input change defines a new run rather than overwriting these artifacts.
+
+
+A paired **fixed-bank replay** then used the same 77 archived raw variants,
+starts, map and 90-second/600-query/8-round limits, with no provider or native
+runtime. Every supplied variant is explicitly unreviewed. The two arms use the
+same `392547e` controller; only the screening function differs, with the legacy
+function loaded from its exact `a00c2d6` blob and all 77 historical decisions
+checked for reproduction. The new narrow eleven-word sentence-initial rule
+accepts **5** previously capitalization-rejected variants. It retains the other
+32 capitalization and all 19 qualification/technical rejections. It does not
+recover all 37 earlier capitalization failures.
+
+Both [replays](experiments/fresh-fixed-bank-paired-replay-v1.json.gz) returned
+exactly the original hybrid finals for every target. The narrow filter change
+therefore produced **no best-distance improvement on this fixed pool**. The
+legacy arm used 40 canonical queries, the corrected arm 60; all twelve runs had
+zero model calls. All saved source banks were visited and none of the runs
+requested an unknown source. Both public references and starting anchors appear
+in the new [blinded packet](experiments/fresh-fixed-bank-paired-replay-blind-review-v1.json);
+the [independent review](experiments/fresh-fixed-bank-paired-replay-independent-review-v1.json)
+accepted all twelve rows and judged their anchors preserved. They contain only
+six unique exact candidate/reference/anchor triples, all matching the earlier
+hybrid review; the reviewer explicitly reused those exact-triple judgments.
+These are repeated outputs, not twelve new independent quality observations.
+The [strict reviewed replay summary](experiments/fresh-fixed-bank-replay-reviewed-summary-v1.json)
+preserves that distinction and confirms no additional distance gain.
+
+A separately declared [exact textual enumeration](experiments/fresh-fixed-bank-exact-enumeration-v1.json.gz)
+forms every zero-to-four disjoint sentence composition within each saved source
+bank. It makes **zero additional encoder or model queries**. Distinct available
+text counts are 4/17/2/6/7/4 for the legacy arm and 4/35/2/6/7/6 for the corrected
+arm. Each equals the corresponding verifier's hard-query, accepted-entry and
+cache-size counts, with no rejected or confirmation queries. Given the frozen
+native-disabled controller only queries the initial text, supplied atoms and
+these disjoint unions, this supports a cardinality-based inference that both
+replays exhausted their finite candidate pools. A complete per-query text
+ledger was not retained, so this is not an independent text-by-text membership
+audit. All enumerated texts and derivations are saved, and every finite set fits
+below 600 queries including two reserved fresh confirmations. The observed
+nonadditive coordinate error did not create a candidate-coverage gap in these
+small pools. A larger admissible bank remains necessary before a larger query
+budget can help.

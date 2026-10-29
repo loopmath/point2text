@@ -46,7 +46,7 @@ def summarize(report):
         receipts = list(provider.get("sources", {}).values())
         byte_errors = [r.get("error") for r in receipts if "byte" in str(r.get("error", "")).casefold()]
         best = trace.get("best_candidate")
-        rows.append({"target_id": run["target_id"], "initial_distance": run["anchor"]["candidate"]["distance"],
+        rows.append({"target_id": run["target_id"], "arm": run["arm"], "initial_distance": run["anchor"]["candidate"]["distance"],
             "final_mechanical_distance": best["distance"] if best else None,
             "quality_status": "unreviewed final; approved initial",
             "stop_reason": trace.get("stop_reason"), "seconds": trace.get("elapsed_seconds"),

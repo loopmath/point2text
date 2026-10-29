@@ -127,9 +127,12 @@ def run(args, supplied):
         for source in target["bank"]["sources"]:
             for sentence in source["sentences"]:
                 for index, variant in enumerate(sentence["variants"]):
+                    old_reason = legacy.sentence_screen_reason(sentence["original"], variant["text"])
+                    if old_reason != variant["review"]["original_guard_check"]["reason"]:
+                        raise ValueError("Legacy screening does not reproduce the archived decision")
                     guard_audit.append({"target_id": target["target_id"],
                         "source_sha256": source["source_sha256"], "span": sentence["span"], "index": index,
-                        "legacy_reason": legacy.sentence_screen_reason(sentence["original"], variant["text"]),
+                        "legacy_reason": old_reason,
                         "corrected_reason": corrected_screen(sentence["original"], variant["text"])})
     if not any(row["legacy_reason"] != row["corrected_reason"] for row in guard_audit):
         raise RuntimeError("No screening change on the archived pool; wait for the intended guard fix")
