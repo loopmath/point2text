@@ -103,13 +103,23 @@ pass literal counters while changing meaning. Nothing here certifies language,
 grammar, factuality, scientific equivalence, or originality.
 
 The literal signal lists and sentence/entity heuristics are **English-oriented**.
-A capitalized sentence-initial technical noun outside the small grammatical
-starter list is protected as if it were an entity: for example, moving
-“Measurements” inside a sentence as “measurements” is rejected, even in a
-meaning-preserving passive rewrite. This intentional conservative false negative
-is covered by a test. It can explain a sparse accepted bank; inspect raw
-receipts and independent reviews before proposing any evidence-backed guard
-change. The checks do not establish comparable preservation for other languages.
+An explicit content-word exception covers only these sentence-initial title-case
+words: **Dark, Observations, Measurements, Model, Models, Data, Results, Maps,
+Analysis, Experiments, Researchers**. Every such exempted lexical word must keep
+the identical casefolded occurrence count across the entire original and
+replacement sentence. Only its initial title-case occurrence is discounted;
+interior capitalized tokens, proper names, acronyms, and mixed-case gene symbols
+remain case-sensitive. Thus “Dark matter … observations” can become
+“Observations … dark matter”; removing, replacing, or duplicating either
+exempted referent is rejected. Alice, Apple, DNA, and NASA are not exempted.
+
+This narrow rule addresses observed false positives; it does not identify
+entities semantically. Common words can also be names, and unlisted technical
+openings such as “Calibration” or “Drift” still cause conservative false negatives
+when their capitalization moves. Inspect raw receipts and independent reviews
+before changing the list. Numeric, unit, modal, negation, and technical-reference
+guards are unchanged. These checks do not establish semantic equivalence or
+comparable preservation for other languages.
 
 Full-paragraph mechanical limits, canonical re-embedding, contextual quality
 review against the fixed reference, and the existing epsilon confirmation rules

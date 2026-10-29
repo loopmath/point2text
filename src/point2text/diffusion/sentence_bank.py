@@ -31,6 +31,13 @@ _NUMBER = re.compile(r"(?<!\w)" + _VALUE)
 _UNIT = re.compile(r"(?<!\w)" + _VALUE + r"\s*(%|°C|°F|kg|mg|nm|mm|cm|km|ms|ns|Hz|kHz|MHz|GHz|Pa|kPa|MPa|eV|keV|MeV|mol|mM|μM|µM|GB|MB|GiB|m|s|K|W|V|A|J)(?!\w)")
 _CONTRACTION = re.compile(r"\b\w+n['’]t\b|\bcannot\b", re.IGNORECASE)
 _STARTERS = frozenset("A An The This These Those That It They We Our In For To By With Without When If Although Because However Therefore During Under Each Every Some Most Many Several Both".split())
+# A narrow English heuristic for common scientific sentence openings. Unlike
+# grammatical starters, every exempted content word must keep its full-sentence
+# casefolded occurrence count. Only its initial title-case occurrence is ignored;
+# interior capitalized tokens and mixed/all-capital entity casing remain strict.
+_CONTENT_STARTERS = frozenset(("dark", "observations", "measurements", "model", "models",
+                               "data", "results", "maps", "analysis", "experiments", "researchers"))
+_LEXICAL_WORD = re.compile(r"[A-Za-z]+(?:[-'][A-Za-z]+)*")
 
 
 def source_hash(text: str) -> str:
@@ -42,12 +49,34 @@ def _positive(name: str, value: int) -> None:
         raise ValueError(f"{name} must be a positive integer")
 
 
-def _entities(text: str) -> Counter:
+def _initial_content_word(text: str, first) -> bool:
+    return (first is not None and first.group().istitle()
+            and first.group().casefold() in _CONTENT_STARTERS
+            and not text[:first.start()].strip(" \t\r\n\"'“‘([{"))
+
+
+def _entities(text: str, content_exemptions: frozenset[str] = frozenset()) -> Counter:
     tokens = _entity_tokens(text)
-    first = re.search(r"[A-Za-z]+(?:[-'][A-Za-z]+)*", text)
+    first = _LEXICAL_WORD.search(text)
     if first is not None and first.group() in _STARTERS:
         tokens.subtract({first.group(): 1})
+    elif (_initial_content_word(text, first)
+          and first.group().casefold() in content_exemptions):
+        tokens.subtract({first.group(): 1})
     return +tokens
+
+
+def _content_exemptions(original: str, replacement: str) -> frozenset[str] | None:
+    eligible = set()
+    for text in (original, replacement):
+        first = _LEXICAL_WORD.search(text)
+        if _initial_content_word(text, first):
+            eligible.add(first.group().casefold())
+    before = Counter(word.casefold() for word in _LEXICAL_WORD.findall(original))
+    after = Counter(word.casefold() for word in _LEXICAL_WORD.findall(replacement))
+    if any(before[word] != after[word] for word in eligible):
+        return None
+    return frozenset(eligible)
 
 
 def sentence_screen_reason(original: str, replacement: Any, *, max_words: int = 120) -> str | None:
@@ -75,7 +104,8 @@ def sentence_screen_reason(original: str, replacement: Any, *, max_words: int = 
         return "qualification_quantity_or_technical_drift"
     if Counter(_CONTRACTION.findall(original.lower())) != Counter(_CONTRACTION.findall(replacement.lower())):
         return "negation_drift"
-    if _entities(original) != _entities(replacement):
+    exemptions = _content_exemptions(original, replacement)
+    if exemptions is None or _entities(original, exemptions) != _entities(replacement, exemptions):
         return "capitalized_entity_drift"
     return None
 

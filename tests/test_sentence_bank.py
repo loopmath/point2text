@@ -282,9 +282,61 @@ def test_diagnostic_source_capacity_is_bounded_even_for_cancelled_requests():
 
 
 def test_capitalized_sentence_initial_technical_word_overrejection_is_explicit():
-    # A conservative known false negative: no guard is weakened to allow this.
-    assert sentence_screen_reason("Measurements may capture variation.",
-        "Variation may be captured by measurements.") == "capitalized_entity_drift"
+    # Unknown initial content words remain conservative false negatives.
+    assert sentence_screen_reason("Calibration may reveal drift.",
+        "Drift may be revealed by calibration.") == "capitalized_entity_drift"
+
+
+DARK_SOURCE = "Dark matter maps are inferred based on observations related to gravitational mass distribution."
+DARK_REORDERED = "Observations related to gravitational mass distribution are used to infer dark matter maps."
+
+
+def test_documented_initial_common_words_allow_literal_clause_reordering():
+    assert sentence_screen_reason(DARK_SOURCE, DARK_REORDERED) is None
+    assert sentence_screen_reason(DARK_REORDERED, DARK_SOURCE) is None
+
+
+@pytest.mark.parametrize("replacement", [
+    "Observations related to gravitational mass distribution are used to infer matter maps.",
+    "Observations related to gravitational mass distribution are used to infer bright matter maps.",
+    "Gravitational mass distribution is used to infer dark matter maps.",
+    "Measurements related to gravitational mass distribution are used to infer dark matter maps.",
+    "Observations related to gravitational mass distribution are used to infer dark dark matter maps.",
+])
+def test_initial_content_exception_cannot_drop_replace_or_duplicate_referents(replacement):
+    assert sentence_screen_reason(DARK_SOURCE, replacement) is not None
+
+
+@pytest.mark.parametrize("entity,changed", [("Alice", "Bob"), ("Apple", "Orange"),
+    ("DNA", "RNA"), ("NASA", "ESA"), ("BRCA1", "brca1"), ("p53", "P53")])
+def test_named_entities_acronyms_and_gene_casing_remain_strict(entity, changed):
+    original = f"Observations from {entity} may guide dark matter maps."
+    replacement = f"Dark matter maps may be guided by observations from {changed}."
+    assert sentence_screen_reason(original, replacement) is not None
+
+
+def test_interior_capitalized_name_is_not_normalized_even_if_its_word_is_listed():
+    assert sentence_screen_reason("Dark matter maps involve Alice.",
+        "Maps of dark matter involve alice.") == "capitalized_entity_drift"
+    assert sentence_screen_reason("Dark matter maps involve Dark.",
+        "Maps of dark matter involve dark.") == "capitalized_entity_drift"
+
+
+def test_exempted_word_counts_are_checked_even_when_initial_case_is_unchanged():
+    assert sentence_screen_reason("Dark matter maps include dark matter.",
+        "Dark matter maps include matter.") == "capitalized_entity_drift"
+
+
+@pytest.mark.parametrize("entity,changed", [("Alice", "alice"), ("Apple", "apple"),
+                                           ("DNA", "dna"), ("NASA", "nasa")])
+def test_sentence_initial_named_entities_cannot_be_lowercased_by_reordering(entity, changed):
+    assert sentence_screen_reason(f"{entity} may guide dark matter maps.",
+        f"Dark matter maps may be guided by {changed}.") == "capitalized_entity_drift"
+
+
+def test_content_exception_does_not_reach_past_a_numeric_sentence_prefix():
+    assert sentence_screen_reason("3 Dark matter maps may guide observations.",
+        "Observations may be guided by 3 dark matter maps.") == "capitalized_entity_drift"
 
 
 @pytest.mark.parametrize("raw,expected", [("x" * 65, "x" * 64), ("é" * 33, "é" * 32),
