@@ -1,0 +1,4 @@
+interface:
+  display_name: "point2text Use Case Setup"
+  short_description: "Adapt a fixed semantic map to a new writing task"
+  default_prompt: "Use $point2text-use-case to adapt this repository to my writing task with my chosen embedding model."
