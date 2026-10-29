@@ -138,7 +138,7 @@ def create_diffusion_app(
             prompt=technical_prompt(bundle.nearest(target, k=4)),
             seed=options.get("seed", 42), max_tokens=192)
         provider = NativeReplacementProvider(
-            runtime, request, max_spans=4, top_k=8,
+            runtime, request, max_spans=4, top_k=32,
             should_stop=lambda: time.monotonic() >= deadline or
             (cancel is not None and cancel.is_set()))
         proposer = CanonicalEditProposer(bundle, allowed_replacements=provider,

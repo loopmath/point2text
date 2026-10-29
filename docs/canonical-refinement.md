@@ -38,7 +38,7 @@ uv run point2text-diffusion --refine --target-record t01-03 \
 3. In native CLI/browser mode, restrict word candidates to a frozen DiffusionGemma
    vocabulary screen: corrupt one generator token, keep surrounding context, and
    run one denoising forward. Only supported whole-word, single-generator-token
-   replacements are allowed. Intersect the top eight native tokens with curated
+   replacements are allowed. Intersect the top 32 native tokens with curated
    grammatical word families and protect listed technical collocations. Cache the
    result, probe at most four spans per text, and disable unscreened
    insertions/deletions/phrase changes. This screen is not
@@ -109,6 +109,13 @@ A subsequent hosted request exposed repetitive incomplete drafts and a bad nativ
 substitution (“ensure stability” → “ensure model”). The current defaults reject
 incomplete/repetitive drafts and require both native screening and curated word
 families. These guards address observed failures; they do not certify meaning.
+
+With those guards, a 192-token hosted request produced a complete SGD paragraph
+at `0.015393` but a top-eight replacement screen allowed no useful edit. Expanding
+that screen to 32 while keeping the grammatical-family intersection reduced the
+same paragraph to `0.004157` in a separate local refinement probe (nine scored
+texts, 28 native screening forwards). This motivated the current top-32 default.
+It remains above epsilon and is a single development case.
 
 ## Limits
 

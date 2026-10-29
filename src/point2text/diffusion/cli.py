@@ -157,7 +157,7 @@ def main():
                 from .plausibility import NativeReplacementProvider
                 deadline = time.monotonic() + refinement_config.max_seconds
                 provider = NativeReplacementProvider(
-                    runtime, request, max_spans=4, top_k=8,
+                    runtime, request, max_spans=4, top_k=32,
                     should_stop=lambda: cancel.is_set() or time.monotonic() >= deadline)
                 proposer = CanonicalEditProposer(bundle, allowed_replacements=provider,
                                                  max_hotspots=4)
