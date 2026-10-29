@@ -147,6 +147,35 @@ def test_gradient_capability_audits_structure_instead_of_checkpoint_name(sentenc
     assert unnormalized.gradient_capability()["normalize"] is False
 
 
+def test_canonical_token_ids_include_prefix_stripping_and_lowercasing(sentence_models):
+    class CaseSensitiveTokenizer(Tokenizer):
+        def __init__(self):
+            self.calls = []
+
+        def __call__(self, texts, **kwargs):
+            self.calls.append((texts, kwargs))
+            vocabulary = {"query:": 7, "alpha": 8, "beta": 9, "gamma": 10}
+            return {"input_ids": [[1, *[vocabulary.get(word, 99) for word in text.split()], 2]
+                                  for text in texts]}
+
+    encoder = SentenceEncoder(checkpoint="other/model", prompt="  QUERY:  ", max_length=4)
+    encoder.model[0].do_lower_case = True
+    tokenizer = encoder.model.tokenizer = CaseSensitiveTokenizer()
+    texts = ["  Alpha Beta  ", "  Gamma  "]
+    assert encoder.token_ids(texts) == [[1, 7, 8, 9, 2], [1, 7, 10, 2]]
+    assert encoder.token_lengths(texts) == [5, 4]
+    prepared, options = tokenizer.calls[-1]
+    assert prepared == ["query:    alpha beta", "query:    gamma"]
+    assert options == {"add_special_tokens": True, "truncation": False,
+                       "padding": False, "return_attention_mask": False}
+    with pytest.raises(ValueError, match="maximum is 4"):
+        encoder.encode(texts)
+    assert not encoder.model.calls
+    calls_before_empty = len(tokenizer.calls)
+    assert encoder.token_ids([]) == encoder.token_lengths([]) == []
+    assert len(tokenizer.calls) == calls_before_empty
+
+
 def test_profile_paths_validation_and_read_has_no_model_side_effects(tmp_path):
     corpus = tmp_path / "records.jsonl"
     rows = [CorpusRecord(str(i), "support", "Title", text)

@@ -82,8 +82,14 @@ class SentenceEncoder:
         )
         return np.asarray(vectors, dtype=np.float32)
 
-    def token_lengths(self, texts: Sequence[str]) -> list[int]:
-        """Count the normal tokenizer's complete input, before any truncation."""
+    def token_ids(self, texts: Sequence[str]) -> list[list[int]]:
+        """Tokenize canonical prepared inputs, including prefix and special tokens.
+
+        Return complete unpadded IDs without truncation so verification and token
+        budgets use the same setup-time preprocessing as ordinary encoding.
+        """
+        if not texts:
+            return []
         inputs = [self.prompt + text for text in texts]
         modules = list(getattr(self.model, "_modules", {}).values())
         if modules and type(modules[0]).__name__ == "Transformer":
@@ -96,7 +102,11 @@ class SentenceEncoder:
             inputs, add_special_tokens=True, truncation=False,
             padding=False, return_attention_mask=False,
         )
-        return [len(ids) for ids in encoded["input_ids"]]
+        return [list(ids) for ids in encoded["input_ids"]]
+
+    def token_lengths(self, texts: Sequence[str]) -> list[int]:
+        """Count the canonical complete input, before any truncation."""
+        return [len(ids) for ids in self.token_ids(texts)]
 
     def _preprocessing(self) -> dict:
         tokenizer = self.model.tokenizer
