@@ -269,10 +269,17 @@ canonical queries in 119.7 seconds across the six targets; actual native
 trajectories, diffusion passes and gradient updates were all zero. Of 77 raw
 variants, 21 entered the frozen sentence banks. Screening rejected 37 variants
 for capitalized-entity differences and 19 for qualification/quantity/technical
-differences. All six searches stalled before their budget limits. Two finals
-improved mechanically; all finals remain unreviewed pending the
-[distance-blinded packet](experiments/fresh-hybrid-sentence-bank-blind-review-v1.json).
-No output reached epsilon.
+differences. All six searches stalled before their budget limits. Two finals improved mechanically. The
+[independent blinded review](experiments/fresh-hybrid-sentence-bank-independent-review-v1.json)
+accepted all six exact final texts and judged every anchor's claims preserved;
+four finals were exactly unchanged. Under the predeclared full quality gate,
+click 02 improves from .045217 to .023555 and click 05 from .050411 to .046745.
+The other four retain their approved starting distances, apart from floating-
+point rounding at about `1e-16`. The
+[strict reviewed summary](experiments/fresh-hybrid-sentence-bank-reviewed-summary-v1.json)
+links exact text hashes to the judgments. These are individual reviewer
+assessments, not a guarantee or a calibrated accuracy estimate. No output
+reached epsilon; the best reviewed distance remains .009275.
 
 The [complete actual bank export](experiments/fresh-hybrid-sentence-bank-atoms-v1.json.gz)
 includes all eight initial/rebased source banks and their 21 atoms, not just

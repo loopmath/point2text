@@ -1,0 +1,269 @@
+{
+  "schema": "distance-blinded-independent-quality-review-v1",
+  "source_packet": "fresh-hybrid-sentence-bank-blind-review-v1.json",
+  "reviewer": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "independent_of_distances": true
+  },
+  "policy_declared_before_review": true,
+  "policy": "Every item is a local sentence edit or composition. Acceptance requires grammar, coherence, scientific plausibility, public-source fidelity AND preservation of the approved initial anchor claims. Material deletions, causal or modal strengthening, and garbled text fail; uncertainty remains unapproved. Stylistic awkwardness alone is not a material failure. Exact text is assessed without silently repairing it.",
+  "blindness": {
+    "read_packet_only": true,
+    "read_keys": false,
+    "read_distances_or_coordinates": false,
+    "read_full_pools": false,
+    "inferred_arm_to_change_rubric": false
+  },
+  "hashes": {
+    "candidate_hashes_checked": 6,
+    "candidate_hash_matches": 6,
+    "reference_and_anchor_hashes_computed": 12,
+    "reference_expected_hashes_present": false
+  },
+  "summary": {
+    "accepted": 6,
+    "rejected": 0,
+    "uncertain": 0,
+    "anchor_preserved": 6,
+    "anchor_drift": 0,
+    "anchor_uncertain": 0,
+    "exactly_unchanged_from_anchor": 4
+  },
+  "items": [
+    {
+      "review_id": "7ec840410009",
+      "text_sha256": "26c03bd204e9478568092c8cbad81259fcfc8bfd3e97ca66b2ea3dc3c2a60be0",
+      "public_reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+      "initial_anchor_text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process is dependent upon specific measurement techniques and the assumptions used to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "text": "Dark matter maps are inferred from observations concerning the distribution of gravitational mass. The reconstruction process's dependence is rooted in the specific measurement techniques and the assumptions used to link signals to those distributions. To ensure that structures weakly constrained remain visible, resolution and uncertainty should be presented together for clarity.",
+      "verdict": "accepted",
+      "reason": "Accepted. All three sentences are grammatical and retain the dark-matter inference, dependence on measurement techniques and signal-to-mass assumptions, and joint presentation of resolution and uncertainty. The dependence construction and postposed weakly constrained phrase are awkward but have an identifiable, scientifically appropriate meaning; awkwardness alone is not a material defect.",
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "The wording changes preserve every substantive anchor claim: inferred maps, gravitational mass distribution, specific measurement techniques, signal-linking assumptions, and clarity about weakly constrained structures.",
+      "text_sha256_verified": true,
+      "public_reference_sha256": "171dcde386cf270436c281a6681b3fa012c21d218c5ff6a599b9a2a5b35e5ca1",
+      "initial_anchor_sha256": "6837ccad40d1af1c7ee21be75541f503d3bb721ca2fca7112324908c95c969ae",
+      "reference_hash_verification": {
+        "public_reference": "computed from exact supplied UTF-8 text; no expected reference hash provided in packet",
+        "initial_anchor": "computed from exact supplied UTF-8 text; no expected anchor hash provided in packet"
+      },
+      "dimensions": {
+        "grammar": "pass",
+        "coherence": "pass",
+        "scientific_quality": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "dimension_reasons": {
+        "grammar": "Complete grammatical sentences. The possessive dependence construction and postposed participial modifier are marked stylistic choices, without missing subjects or broken agreement.",
+        "coherence": "The sequence remains inference, reconstruction dependencies, then presentation of weakly constrained structure; signals and distributions have recoverable referents.",
+        "scientific_quality": "The text makes general methodological claims, preserving observational inference and method/assumption dependence without adding a quantitative result or stronger causal claim.",
+        "public_source_fidelity": "Preserves the reference claims about observationally inferred dark-matter maps, reconstruction assumptions, and displaying resolution with uncertainty."
+      },
+      "matches_initial_anchor": false,
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      },
+      "source_checks": {
+        "basis": "Exact supplied public reference and initial anchor; general methodological plausibility, without new experiment-specific empirical claims.",
+        "external_sources": []
+      }
+    },
+    {
+      "review_id": "2358129e168c",
+      "text_sha256": "86e6d020ed1a323fbcf56f827afc14616a947509b7ee627e0133d13cf4ce9692",
+      "public_reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+      "initial_anchor_text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "verdict": "accepted",
+      "reason": "Accepted. The complete paragraph is identical to its supplied approved anchor. The relationships among evolving neural activity, uncertain choices, candidate decision mechanisms, and withheld-trial evaluation remain clear and faithful to the public reference.",
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "Exact text equality with the initial anchor; no claim, modality, scope, or causal relation changes.",
+      "text_sha256_verified": true,
+      "public_reference_sha256": "5f2462566422750de37eaead5fd471388b3a7953a189468c896a18f8f64d2b91",
+      "initial_anchor_sha256": "86e6d020ed1a323fbcf56f827afc14616a947509b7ee627e0133d13cf4ce9692",
+      "reference_hash_verification": {
+        "public_reference": "computed from exact supplied UTF-8 text; no expected reference hash provided in packet",
+        "initial_anchor": "computed from exact supplied UTF-8 text; no expected anchor hash provided in packet"
+      },
+      "dimensions": {
+        "grammar": "pass",
+        "coherence": "pass",
+        "scientific_quality": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "dimension_reasons": {
+        "grammar": "Three complete, grammatical sentences with consistent agreement and referents.",
+        "coherence": "The paragraph moves clearly from the phenomenon to model mechanisms and then held-out evaluation.",
+        "scientific_quality": "Retains may for model explanations and helps for evaluation; it does not claim that a particular mechanism has been established or that held-out evaluation guarantees validity.",
+        "public_source_fidelity": "Preserves neural activity and uncertain choices, evidence accumulation/competing actions/thresholds, and evaluation on withheld trials."
+      },
+      "matches_initial_anchor": true,
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      },
+      "source_checks": {
+        "basis": "Exact supplied public reference and initial anchor; general methodological plausibility, without new experiment-specific empirical claims.",
+        "external_sources": []
+      }
+    },
+    {
+      "review_id": "83ddf4e0d840",
+      "text_sha256": "6a47f81bc8df86f0881716f90c32cc2c09b86dbb2018a0643cf08cd128f1c6a0",
+      "public_reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "initial_anchor_text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+      "text": "To function correctly, a locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+      "verdict": "accepted",
+      "reason": "Accepted. The added introductory purpose phrase restates the existing necessity of balancing progress, stability, and energy. Terrain-dependent strategy effectiveness and whole-task energy evaluation remain intact, with no material new scientific claim.",
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "All substantive anchor claims are preserved. To function correctly is a purpose restatement of the existing must requirement, rather than a new empirical claim or stronger guarantee.",
+      "text_sha256_verified": true,
+      "public_reference_sha256": "e4a71137001a203c4c4d707ecff0608e7ababa3c50db9a27aa3ae17449232951",
+      "initial_anchor_sha256": "93ef4de72541e844b7d78461873a53d69fefce0b624bcaa34f0c60c620be96d5",
+      "reference_hash_verification": {
+        "public_reference": "computed from exact supplied UTF-8 text; no expected reference hash provided in packet",
+        "initial_anchor": "computed from exact supplied UTF-8 text; no expected anchor hash provided in packet"
+      },
+      "dimensions": {
+        "grammar": "pass",
+        "coherence": "pass",
+        "scientific_quality": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "dimension_reasons": {
+        "grammar": "Two complete grammatical sentences. The introductory purpose phrase attaches correctly to the controller requirement.",
+        "coherence": "The controller trade-off, terrain sensitivity, and evaluation recommendation remain intelligible and connected.",
+        "scientific_quality": "The addition does not demand an optimal gait or stronger terrain-adaptation guarantee; the source already states that the controller must balance the listed objectives.",
+        "public_source_fidelity": "Preserves the progress/stability/energy trade-off, possible terrain effects, and full-task rather than brief steady-motion energy measurement."
+      },
+      "matches_initial_anchor": false,
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      },
+      "source_checks": {
+        "basis": "Exact supplied public reference and initial anchor; general methodological plausibility, without new experiment-specific empirical claims.",
+        "external_sources": []
+      }
+    },
+    {
+      "review_id": "6733c756da38",
+      "text_sha256": "7957c97a7e81dd8469be65c58ac11406ac3761de514df817086099521cf94fa4",
+      "public_reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "initial_anchor_text": "Phase transformations involve structural or organizational reorganization under particular conditions. Evaluating these transitions requires researchers to distinguish between equilibrium behavior and kinetic effects resulting from finite heating or cooling rates. In addition, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+      "text": "Phase transformations involve structural or organizational reorganization under particular conditions. Evaluating these transitions requires researchers to distinguish between equilibrium behavior and kinetic effects resulting from finite heating or cooling rates. In addition, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+      "verdict": "accepted",
+      "reason": "Accepted. The paragraph is identical to the supplied approved anchor. Its mild reorganization redundancy does not obscure the distinction between structural change, equilibrium versus finite-rate kinetics, and possible history dependence.",
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "Exact text equality with the initial anchor; all claims and qualifications remain unchanged.",
+      "text_sha256_verified": true,
+      "public_reference_sha256": "28f4e0f78226a5558de5e8cb2bb672fc2912a1147d000b071b9d4f085df8f447",
+      "initial_anchor_sha256": "7957c97a7e81dd8469be65c58ac11406ac3761de514df817086099521cf94fa4",
+      "reference_hash_verification": {
+        "public_reference": "computed from exact supplied UTF-8 text; no expected reference hash provided in packet",
+        "initial_anchor": "computed from exact supplied UTF-8 text; no expected anchor hash provided in packet"
+      },
+      "dimensions": {
+        "grammar": "pass",
+        "coherence": "pass",
+        "scientific_quality": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "dimension_reasons": {
+        "grammar": "Three complete grammatical sentences; organizational reorganization is redundant but not a grammatical defect.",
+        "coherence": "Transformation, separation of equilibrium and kinetic behavior, and repeated-measurement assessment of history dependence form a clear methodological sequence.",
+        "scientific_quality": "Preserves finite heating/cooling rates as the source of kinetic effects and can for testing history dependence; no new transition-specific result is asserted.",
+        "public_source_fidelity": "Retains structural/organizational change under specified conditions, equilibrium-versus-kinetic separation, and repeated measurements of history dependence."
+      },
+      "matches_initial_anchor": true,
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      },
+      "source_checks": {
+        "basis": "Exact supplied public reference and initial anchor; general methodological plausibility, without new experiment-specific empirical claims.",
+        "external_sources": []
+      }
+    },
+    {
+      "review_id": "8f9aff97954f",
+      "text_sha256": "2f8aa307d343049bc27706ba6c2f541e47471796e8025d6bf22d820416a8e913",
+      "public_reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "initial_anchor_text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. Such processes necessitate the simultaneous specification of the code, measurement protocols, and noise assumptions. In addition, performance assessments should emphasize logical error rates rather than exclusively considering the fidelity associated with individual physical operations.",
+      "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. Such processes necessitate the simultaneous specification of the code, measurement protocols, and noise assumptions. In addition, performance assessments should emphasize logical error rates rather than exclusively considering the fidelity associated with individual physical operations.",
+      "verdict": "accepted",
+      "reason": "Accepted. The paragraph is identical to the supplied approved anchor and coherently describes distributed encoding, joint specification of code/measurements/noise, and evaluation using logical error rates rather than physical-operation fidelity alone.",
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "Exact text equality with the initial anchor; no substantive alteration.",
+      "text_sha256_verified": true,
+      "public_reference_sha256": "924b87d77d5bf6acaa674b999afe2e18c70c538e493a984839b58482b5bc0905",
+      "initial_anchor_sha256": "2f8aa307d343049bc27706ba6c2f541e47471796e8025d6bf22d820416a8e913",
+      "reference_hash_verification": {
+        "public_reference": "computed from exact supplied UTF-8 text; no expected reference hash provided in packet",
+        "initial_anchor": "computed from exact supplied UTF-8 text; no expected anchor hash provided in packet"
+      },
+      "dimensions": {
+        "grammar": "pass",
+        "coherence": "pass",
+        "scientific_quality": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "dimension_reasons": {
+        "grammar": "Three complete grammatical sentences with clear subjects and parallel lists.",
+        "coherence": "Encoding, specification requirements, and logical-level performance assessment remain explicitly connected.",
+        "scientific_quality": "Detection/correction is limited to specific errors. Logical error rates are an appropriate logical-level performance measure; the paragraph does not claim perfect correction or infer logical performance from one physical gate.",
+        "public_source_fidelity": "Preserves multiple physical systems, limited correctable errors, joint code/measurement/noise specification, and logical-level evaluation."
+      },
+      "matches_initial_anchor": true,
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      },
+      "source_checks": {
+        "basis": "Exact supplied public reference and initial anchor; general methodological plausibility, without new experiment-specific empirical claims.",
+        "external_sources": []
+      }
+    },
+    {
+      "review_id": "ee5c5eb88749",
+      "text_sha256": "71ea8e88fa0928b9275d814510885a8beffac30a3c53ac35a1931a57c0bc6ca9",
+      "public_reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "initial_anchor_text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Additionally, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Additionally, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "verdict": "accepted",
+      "reason": "Accepted. The paragraph is identical to the supplied approved anchor. It preserves potentially lost single-cell variation, sampling/noise/depth limitations, and the qualified role of batch comparisons in identifying procedure-associated grouping.",
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "Exact text equality with the initial anchor; all claims and qualifications are preserved.",
+      "text_sha256_verified": true,
+      "public_reference_sha256": "e2d77e435a4798bea9578703b6d10c923cfa8c61915ec758814a364d79cb17f5",
+      "initial_anchor_sha256": "71ea8e88fa0928b9275d814510885a8beffac30a3c53ac35a1931a57c0bc6ca9",
+      "reference_hash_verification": {
+        "public_reference": "computed from exact supplied UTF-8 text; no expected reference hash provided in packet",
+        "initial_anchor": "computed from exact supplied UTF-8 text; no expected anchor hash provided in packet"
+      },
+      "dimensions": {
+        "grammar": "pass",
+        "coherence": "pass",
+        "scientific_quality": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "dimension_reasons": {
+        "grammar": "Three complete grammatical sentences with consistent list structure and references.",
+        "coherence": "The motivation for single-cell measurements, analytical limitations, and cross-batch diagnostic comparison form a coherent progression.",
+        "scientific_quality": "Retains may for loss during averaging and helps for identifying procedure association. It does not treat batch comparison as proof of biological origin or conflate association with causation.",
+        "public_source_fidelity": "Preserves averaging loss, incomplete sampling, technical noise, sequencing-depth variation, and checking whether an apparent group is associated with an experimental procedure."
+      },
+      "matches_initial_anchor": true,
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      },
+      "source_checks": {
+        "basis": "Exact supplied public reference and initial anchor; general methodological plausibility, without new experiment-specific empirical claims.",
+        "external_sources": []
+      }
+    }
+  ]
+}
