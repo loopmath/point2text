@@ -1,0 +1,2074 @@
+{
+  "schema": "saved-raw-sentence-variants-v1",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "created_at": "2026-10-29T21:36:10.001901+00:00",
+  "source_receipt": {
+    "file": "docs/experiments/fresh-hybrid-sentence-bank-v1.json.gz",
+    "sha256": "3179c2dce3a9ccce6736ab0cc2dcee6ce34bfcabe2e40b17b97b79631e08eb8e",
+    "provenance": {
+      "source_commit": "a00c2d6454451910d0bad0004d5c01cb4c60417f",
+      "refinement_sha256": "0d896234077f50b14c27cc3973af3b2216293c93e8d609fb164207e324e81f48",
+      "runtime_sha256": "8341da9c7637f28b728ad808a79eb7a9d6a2a4e49b4b7396aec689027ffa5be4",
+      "pool_sha256": "6ae45d5424749915981f551e9c9b1f5442453865b5dcfa27cf56f7d70a0fbf84",
+      "reviews_sha256": "32c22ff1b924f63cd8ed65a7569492c3e0ec5bb01a5dc9558046a1b36b3c0ae7",
+      "script_sha256": "bbe20c8e65bb9f5458e6df02c069e6728563d582d1b286d6d1c9243557cfac74",
+      "reviewed_starts_sha256": "88b4296583a78bb85cff4a440d2f173dc8ed589797a56ff975590eb277c12f9a",
+      "sentence_bank_sha256": "fd00a9ec042cd671941258dfc3eb39c060ecb0c6c8a02eaec320b1d72505264b"
+    }
+  },
+  "raw_variant_count": 77,
+  "targets": [
+    {
+      "target_id": "fresh-click-01",
+      "anchor": {
+        "id": "fresh-click-01",
+        "target": [
+          -0.05943739182128624,
+          0.35056816038875493
+        ],
+        "candidate": {
+          "text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+          "x": -0.05442411737178329,
+          "y": 0.31724838718541026,
+          "distance": 0.033694809793621994,
+          "encoder_token_ids": [
+            101,
+            2470,
+            2046,
+            3247,
+            10949,
+            28062,
+            2129,
+            20607,
+            15756,
+            4023,
+            2522,
+            14343,
+            26786,
+            2007,
+            9804,
+            2081,
+            2104,
+            9662,
+            3785,
+            1012,
+            9373,
+            7705,
+            2015,
+            2089,
+            4070,
+            2005,
+            1996,
+            20299,
+            1997,
+            3350,
+            1010,
+            6637,
+            4506,
+            1010,
+            2030,
+            19857,
+            6593,
+            24133,
+            3433,
+            11207,
+            2015,
+            1012,
+            23208,
+            2122,
+            4275,
+            2114,
+            2007,
+            24850,
+            3979,
+            2951,
+            7126,
+            6709,
+            1996,
+            3563,
+            14260,
+            6177,
+            2169,
+            7705,
+            2064,
+            4863,
+            1012,
+            102
+          ],
+          "diagnostics": {
+            "word_count": 48,
+            "encoder_token_count": 62,
+            "validation": "mechanical_only",
+            "coherence_certified": false,
+            "provenance": {}
+          }
+        },
+        "request": {
+          "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Neuroscience\", \"title\": \"Decision dynamics\", \"paragraph\": \"A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.\"}]\n\nWrite the original 40–70 word paragraph now.",
+          "seed": 6973532,
+          "max_tokens": 192,
+          "steps": 32,
+          "temperature": 0.8
+        },
+        "review_id": "0331b7755cdc",
+        "public_reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+        "start_origin": {
+          "kind": "independently_reviewed_native_coarse",
+          "review_id": "0331b7755cdc"
+        }
+      },
+      "config": {
+        "epsilon": 0.0001,
+        "max_seconds": 90.0,
+        "max_hard_queries": 600,
+        "max_rounds": 8,
+        "observe_every": 3,
+        "beam_width": 1,
+        "proposals_per_round": 128,
+        "stall_rounds": 4,
+        "min_improvement": 2e-07,
+        "min_words": 40,
+        "max_words": 70,
+        "max_encoder_tokens": 256,
+        "repair_steps": 8,
+        "repair_every": 1,
+        "max_restarts": 0,
+        "restart_candidates": 2,
+        "initial_candidates_before_refinement": 2,
+        "basin_generation_fraction": 0.6,
+        "repair_span_mode": "words"
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Neuroscience\", \"title\": \"Decision dynamics\", \"paragraph\": \"A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 1973901,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "bank": {
+        "schema": "point2text-sentence-bank-v1",
+        "sources": [
+          {
+            "source_sha256": "86e6d020ed1a323fbcf56f827afc14616a947509b7ee627e0133d13cf4ce9692",
+            "text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+            "sentences": [
+              {
+                "span": [
+                  0,
+                  130
+                ],
+                "original": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions.",
+                "variants": [
+                  {
+                    "text": "The study of decision dynamics explores the correlation between evolving neural activity and choices made under uncertain conditions.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "c37fdaba21471ba8ea484b4d52c2ceb7749ce0f6d5be32de2bc31c0c3e75eea3",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "How evolving neural activity correlates with choices made under uncertain conditions is investigated by research into decision dynamics.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "c37fdaba21471ba8ea484b4d52c2ceb7749ce0f6d5be32de2bc31c0c3e75eea3",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "In research into decision dynamics, the correlation between evolving neural activity and choices made under uncertain conditions is investigated.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "c37fdaba21471ba8ea484b4d52c2ceb7749ce0f6d5be32de2bc31c0c3e75eea3",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Decision dynamics research investigates the way choices made under uncertain conditions correlate with evolving neural activity.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "c37fdaba21471ba8ea484b4d52c2ceb7749ce0f6d5be32de2bc31c0c3e75eea3",
+                      "raw_variant_index": 3,
+                      "original_guard_check": {
+                        "index": 3,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  131,
+                  254
+                ],
+                "original": "Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds.",
+                "variants": [
+                  {
+                    "text": "The accumulation of evidence, competing actions, and fluctuating response thresholds may be accounted for by theoretical frameworks.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "71e210fcecfa4247714cf3ed363b154ae6958aa868e30a57593952634cae878f",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Theoretical frameworks may account for fluctuating response thresholds, competing actions, or the accumulation of evidence.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "71e210fcecfa4247714cf3ed363b154ae6958aa868e30a57593952634cae878f",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "Depending on the framework, the accumulation of evidence, competing actions, or fluctuating response thresholds may be accounted for.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "71e210fcecfa4247714cf3ed363b154ae6958aa868e30a57593952634cae878f",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Whether it is the accumulation of evidence, competing actions, or fluctuating response thresholds, these factors may be accounted for by theoretical frameworks.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "71e210fcecfa4247714cf3ed363b154ae6958aa868e30a57593952634cae878f",
+                      "raw_variant_index": 3,
+                      "original_guard_check": {
+                        "index": 3,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  255,
+                  384
+                ],
+                "original": "Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+                "variants": [
+                  {
+                    "text": "The specific behavioral components that each framework can explain are helped to be identified by evaluating these models against withheld trial data.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "2dc898a140b53e94331a74495d7b326814954e0732d7a1f5ad66f072436b4aa8",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "By evaluating these models against withheld trial data, the specific behavioral components each framework can explain are identified.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "2dc898a140b53e94331a74495d7b326814954e0732d7a1f5ad66f072436b4aa8",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "To identify the specific behavioral components each framework can explain, these models are evaluated against withheld trial data.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "2dc898a140b53e94331a74495d7b326814954e0732d7a1f5ad66f072436b4aa8",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Evaluating these models against withheld trial data serves to identify the specific behavioral components each framework can explain.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "2dc898a140b53e94331a74495d7b326814954e0732d7a1f5ad66f072436b4aa8",
+                      "raw_variant_index": 3,
+                      "original_guard_check": {
+                        "index": 3,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c"
+    },
+    {
+      "target_id": "fresh-click-02",
+      "anchor": {
+        "id": "fresh-click-02",
+        "target": [
+          -0.20038882281515585,
+          -0.22882952016940825
+        ],
+        "candidate": {
+          "text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process is dependent upon specific measurement techniques and the assumptions used to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+          "x": -0.22064045677642843,
+          "y": -0.2692582125043455,
+          "distance": 0.045217340059034695,
+          "elapsed_seconds": 1.5656892909901217,
+          "seed": 8983433
+        },
+        "request": {
+          "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Astronomy\", \"title\": \"Dark matter mapping\", \"paragraph\": \"A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.\"}]\n\nWrite the original 40–70 word paragraph now.",
+          "seed": 8983431,
+          "max_tokens": 192,
+          "steps": 32,
+          "temperature": 0.8
+        },
+        "review_id": "99f6cf735386",
+        "public_reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+        "start_origin": {
+          "kind": "independently_reviewed_native_refinement",
+          "arm": "words",
+          "review_id": "99f6cf735386",
+          "receipt": "docs/experiments/fresh-approved-refinement-v3.json.gz",
+          "source_commit": "94a7614515ce752f9531a37960a7cbfb3249b80b"
+        }
+      },
+      "config": {
+        "epsilon": 0.0001,
+        "max_seconds": 90.0,
+        "max_hard_queries": 600,
+        "max_rounds": 8,
+        "observe_every": 3,
+        "beam_width": 1,
+        "proposals_per_round": 128,
+        "stall_rounds": 4,
+        "min_improvement": 2e-07,
+        "min_words": 40,
+        "max_words": 70,
+        "max_encoder_tokens": 256,
+        "repair_steps": 8,
+        "repair_every": 1,
+        "max_restarts": 0,
+        "restart_candidates": 2,
+        "initial_candidates_before_refinement": 2,
+        "basin_generation_fraction": 0.6,
+        "repair_span_mode": "words"
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Astronomy\", \"title\": \"Dark matter mapping\", \"paragraph\": \"A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 1983901,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "bank": {
+        "schema": "point2text-sentence-bank-v1",
+        "sources": [
+          {
+            "source_sha256": "6837ccad40d1af1c7ee21be75541f503d3bb721ca2fca7112324908c95c969ae",
+            "text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process is dependent upon specific measurement techniques and the assumptions used to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+            "sentences": [
+              {
+                "span": [
+                  0,
+                  95
+                ],
+                "original": "Dark matter maps are inferred based on observations related to gravitational mass distribution.",
+                "variants": [
+                  {
+                    "text": "Observations related to gravitational mass distribution are used to infer dark matter maps.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "c8d34d29b772227989bb623ac22bc9ccec4b3dbfe5041be20ebb6392f9fe53aa",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Dark matter maps are inferred from observations concerning the distribution of gravitational mass.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "c8d34d29b772227989bb623ac22bc9ccec4b3dbfe5041be20ebb6392f9fe53aa",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "Based on observations related to gravitational mass distribution, dark matter maps are inferred.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "c8d34d29b772227989bb623ac22bc9ccec4b3dbfe5041be20ebb6392f9fe53aa",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "The inference of dark matter maps is based on observations related to gravitational mass distribution.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "c8d34d29b772227989bb623ac22bc9ccec4b3dbfe5041be20ebb6392f9fe53aa",
+                      "raw_variant_index": 3,
+                      "original_guard_check": {
+                        "index": 3,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  96,
+                  237
+                ],
+                "original": "This reconstruction process is dependent upon specific measurement techniques and the assumptions used to link signals to such distributions.",
+                "variants": [
+                  {
+                    "text": "The dependence of this reconstruction process lies in the specific measurement techniques and the assumptions employed to link signals to those distributions.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "f8579f735412e9fd22ec4e5dffcfe13ece6ce3a98f51bafe533f16bbf6aaf332",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "Specific measurement techniques and the assumptions used to link signals to such distributions determine this reconstruction process.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "f8579f735412e9fd22ec4e5dffcfe13ece6ce3a98f51bafe533f16bbf6aaf332",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "This reconstruction process depends on the assumptions used to link signals to such distributions and the specific measurement techniques involved.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "f8579f735412e9fd22ec4e5dffcfe13ece6ce3a98f51bafe533f16bbf6aaf332",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  238,
+                  375
+                ],
+                "original": "To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+                "variants": [
+                  {
+                    "text": "Resolution and uncertainty should be presented together to maintain clarity and ensure that structures with weak constraints remain visible.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "0892ae6f42c581484fc480344f55efcf8986b4e6bf1b464b349e5c6d39a04549",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "To ensure that structures weakly constrained remain visible, resolution and uncertainty should be presented together for clarity.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "0892ae6f42c581484fc480344f55efcf8986b4e6bf1b464b349e5c6d39a04549",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "In order to maintain clarity, the presentation of resolution and uncertainty together ensures that structures with weak constraints remain visible.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "0892ae6f42c581484fc480344f55efcf8986b4e6bf1b464b349e5c6d39a04549",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "For clarity, the joint presentation of resolution and uncertainty ensures the visibility of weakly constrained structures.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "0892ae6f42c581484fc480344f55efcf8986b4e6bf1b464b349e5c6d39a04549",
+                      "raw_variant_index": 3,
+                      "original_guard_check": {
+                        "index": 3,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "source_sha256": "80c8599cf4a13aa05d8773e307de5cf17604fc9c2c3d2a85e4026c7b3303f730",
+            "text": "Dark matter maps are inferred from observations concerning the distribution of gravitational mass. The dependence of this reconstruction process lies in the specific measurement techniques and the assumptions employed to link signals to those distributions. To ensure that structures weakly constrained remain visible, resolution and uncertainty should be presented together for clarity.",
+            "sentences": [
+              {
+                "span": [
+                  0,
+                  98
+                ],
+                "original": "Dark matter maps are inferred from observations concerning the distribution of gravitational mass.",
+                "variants": [
+                  {
+                    "text": "Observations concerning the distribution of gravitational mass are used to infer dark matter maps.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "7ebd9109daf503ab2c92e91203dc73869b1d0703d60e9b2cab6e35eb9faa8e0b",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Dark matter maps are inferred based on observations of how gravitational mass is distributed.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "7ebd9109daf503ab2c92e91203dc73869b1d0703d60e9b2cab6e35eb9faa8e0b",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "The distribution of gravitational mass is the basis for inferring dark matter maps from observations.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "7ebd9109daf503ab2c92e91203dc73869b1d0703d60e9b2cab6e35eb9faa8e0b",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "From observations concerning the distribution of gravitational mass, dark matter maps are inferred.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "7ebd9109daf503ab2c92e91203dc73869b1d0703d60e9b2cab6e35eb9faa8e0b",
+                      "raw_variant_index": 3,
+                      "original_guard_check": {
+                        "index": 3,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  99,
+                  257
+                ],
+                "original": "The dependence of this reconstruction process lies in the specific measurement techniques and the assumptions employed to link signals to those distributions.",
+                "variants": [
+                  {
+                    "text": "Specific measurement techniques and the assumptions used to link signals to those distributions determine the dependence of this reconstruction process.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "b3ecee24adfda7088117ef2823852a92fbecb273e1afc5edec7b831f59408002",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "This reconstruction process depends on the specific measurement techniques and the assumptions employed to link signals to those distributions.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "b3ecee24adfda7088117ef2823852a92fbecb273e1afc5edec7b831f59408002",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "The reconstruction process's dependence is rooted in the specific measurement techniques and the assumptions used to link signals to those distributions.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "b3ecee24adfda7088117ef2823852a92fbecb273e1afc5edec7b831f59408002",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  258,
+                  387
+                ],
+                "original": "To ensure that structures weakly constrained remain visible, resolution and uncertainty should be presented together for clarity.",
+                "variants": [
+                  {
+                    "text": "Resolution and uncertainty should be presented together for clarity to ensure that structures weakly constrained remain visible.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "d44d316b233923efebb48a711eb7a73de25cee78a4e106a067d63c2ec7e4d1ea",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "For clarity, the presentation of resolution and uncertainty together ensures that structures weakly constrained remain visible.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "d44d316b233923efebb48a711eb7a73de25cee78a4e106a067d63c2ec7e4d1ea",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "To maintain the visibility of structures weakly constrained, it is necessary to present resolution and uncertainty together for clarity.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "d44d316b233923efebb48a711eb7a73de25cee78a4e106a067d63c2ec7e4d1ea",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "source_sha256": "26c03bd204e9478568092c8cbad81259fcfc8bfd3e97ca66b2ea3dc3c2a60be0",
+            "text": "Dark matter maps are inferred from observations concerning the distribution of gravitational mass. The reconstruction process's dependence is rooted in the specific measurement techniques and the assumptions used to link signals to those distributions. To ensure that structures weakly constrained remain visible, resolution and uncertainty should be presented together for clarity.",
+            "sentences": [
+              {
+                "span": [
+                  0,
+                  98
+                ],
+                "original": "Dark matter maps are inferred from observations concerning the distribution of gravitational mass.",
+                "variants": []
+              },
+              {
+                "span": [
+                  99,
+                  252
+                ],
+                "original": "The reconstruction process's dependence is rooted in the specific measurement techniques and the assumptions used to link signals to those distributions.",
+                "variants": []
+              },
+              {
+                "span": [
+                  253,
+                  382
+                ],
+                "original": "To ensure that structures weakly constrained remain visible, resolution and uncertainty should be presented together for clarity.",
+                "variants": []
+              }
+            ]
+          }
+        ]
+      },
+      "original_model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c"
+    },
+    {
+      "target_id": "fresh-click-03",
+      "anchor": {
+        "id": "fresh-click-03",
+        "target": [
+          0.2422801570083117,
+          -0.07816226547108725
+        ],
+        "candidate": {
+          "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. Such processes necessitate the simultaneous specification of the code, measurement protocols, and noise assumptions. In addition, performance assessments should emphasize logical error rates rather than exclusively considering the fidelity associated with individual physical operations.",
+          "x": 0.24883044755906608,
+          "y": -0.07159635631943721,
+          "distance": 0.00927456032850203,
+          "elapsed_seconds": 47.77826708299108,
+          "seed": 4993450
+        },
+        "request": {
+          "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Quantum computing\", \"title\": \"Quantum error correction\", \"paragraph\": \"Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.\"}]\n\nWrite the original 40–70 word paragraph now.",
+          "seed": 4993431,
+          "max_tokens": 192,
+          "steps": 32,
+          "temperature": 0.8
+        },
+        "review_id": "518fd1c32462",
+        "public_reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+        "start_origin": {
+          "kind": "independently_reviewed_native_refinement",
+          "arm": "sentence-restarts",
+          "review_id": "518fd1c32462",
+          "receipt": "docs/experiments/fresh-approved-refinement-v2.json.gz",
+          "source_commit": "53fe8ab4c7250bffb343535e77a404055143bc3f"
+        }
+      },
+      "config": {
+        "epsilon": 0.0001,
+        "max_seconds": 90.0,
+        "max_hard_queries": 600,
+        "max_rounds": 8,
+        "observe_every": 3,
+        "beam_width": 1,
+        "proposals_per_round": 128,
+        "stall_rounds": 4,
+        "min_improvement": 2e-07,
+        "min_words": 40,
+        "max_words": 70,
+        "max_encoder_tokens": 256,
+        "repair_steps": 8,
+        "repair_every": 1,
+        "max_restarts": 0,
+        "restart_candidates": 2,
+        "initial_candidates_before_refinement": 2,
+        "basin_generation_fraction": 0.6,
+        "repair_span_mode": "words"
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Quantum computing\", \"title\": \"Quantum error correction\", \"paragraph\": \"Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 1993901,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "bank": {
+        "schema": "point2text-sentence-bank-v1",
+        "sources": [
+          {
+            "source_sha256": "2f8aa307d343049bc27706ba6c2f541e47471796e8025d6bf22d820416a8e913",
+            "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. Such processes necessitate the simultaneous specification of the code, measurement protocols, and noise assumptions. In addition, performance assessments should emphasize logical error rates rather than exclusively considering the fidelity associated with individual physical operations.",
+            "sentences": [
+              {
+                "span": [
+                  0,
+                  146
+                ],
+                "original": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors.",
+                "variants": [
+                  {
+                    "text": "To enable the detection and correction of specific errors, quantum error correction involves encoding information across multiple physical systems.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "79f37ba43316c16dbc32d523cb496ef7a31d5183ab6d999725bce5c721cb9e40",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Information is encoded across multiple physical systems in quantum error correction to enable the detection and correction of specific errors.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "79f37ba43316c16dbc32d523cb496ef7a31d5183ab6d999725bce5c721cb9e40",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Quantum error correction involves the encoding of information across multiple physical systems, which enables the detection and correction of specific errors.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "79f37ba43316c16dbc32d523cb496ef7a31d5183ab6d999725bce5c721cb9e40",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  147,
+                  263
+                ],
+                "original": "Such processes necessitate the simultaneous specification of the code, measurement protocols, and noise assumptions.",
+                "variants": [
+                  {
+                    "text": "The simultaneous specification of the code, measurement protocols, and noise assumptions is necessitated by such processes.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "0c376d22c0d1422e9e27d4f345963fa00dd1223aca1196f93550c44d1d90a08c",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "To perform such processes, the code, measurement protocols, and noise assumptions must be specified simultaneously.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "0c376d22c0d1422e9e27d4f345963fa00dd1223aca1196f93550c44d1d90a08c",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "These processes require that the code, measurement protocols, and noise assumptions be specified at the same time.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "0c376d22c0d1422e9e27d4f345963fa00dd1223aca1196f93550c44d1d90a08c",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "The specification of the code, measurement protocols, and noise assumptions must occur simultaneously for such processes.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "0c376d22c0d1422e9e27d4f345963fa00dd1223aca1196f93550c44d1d90a08c",
+                      "raw_variant_index": 3,
+                      "original_guard_check": {
+                        "index": 3,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  264,
+                  434
+                ],
+                "original": "In addition, performance assessments should emphasize logical error rates rather than exclusively considering the fidelity associated with individual physical operations.",
+                "variants": [
+                  {
+                    "text": "Performance assessments should emphasize logical error rates instead of focusing exclusively on the fidelity of individual physical operations.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "8aa87191b7be4b6c8846c43d2dd5516437cb83c66909b83d23b5a9c68986ff69",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Rather than considering the fidelity of individual physical operations exclusively, performance assessments should emphasize logical error rates.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "8aa87191b7be4b6c8846c43d2dd5516437cb83c66909b83d23b5a9c68986ff69",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Logical error rates should be emphasized in performance assessments, as opposed to the exclusive consideration of individual physical operation fidelity.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "8aa87191b7be4b6c8846c43d2dd5516437cb83c66909b83d23b5a9c68986ff69",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Instead of exclusively considering the fidelity associated with individual physical operations, performance assessments should emphasize logical error rates.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "8aa87191b7be4b6c8846c43d2dd5516437cb83c66909b83d23b5a9c68986ff69",
+                      "raw_variant_index": 3,
+                      "original_guard_check": {
+                        "index": 3,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c"
+    },
+    {
+      "target_id": "fresh-click-04",
+      "anchor": {
+        "id": "fresh-click-04",
+        "target": [
+          -0.11750784993385428,
+          0.0062444893440342245
+        ],
+        "candidate": {
+          "text": "Phase transformations involve structural or organizational reorganization under particular conditions. Evaluating these transitions requires researchers to distinguish between equilibrium behavior and kinetic effects resulting from finite heating or cooling rates. In addition, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+          "x": -0.13989718535446463,
+          "y": -0.009535168107548966,
+          "distance": 0.027391238195194866,
+          "elapsed_seconds": 16.272915999987163,
+          "seed": 5003440
+        },
+        "request": {
+          "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Materials science\", \"title\": \"Phase transformations\", \"paragraph\": \"A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.\"}]\n\nWrite the original 40–70 word paragraph now.",
+          "seed": 5003431,
+          "max_tokens": 192,
+          "steps": 32,
+          "temperature": 0.8
+        },
+        "review_id": "f58118394e68",
+        "public_reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+        "start_origin": {
+          "kind": "independently_reviewed_native_refinement",
+          "arm": "sentence",
+          "review_id": "f58118394e68",
+          "receipt": "docs/experiments/fresh-approved-refinement-v2.json.gz",
+          "source_commit": "53fe8ab4c7250bffb343535e77a404055143bc3f"
+        }
+      },
+      "config": {
+        "epsilon": 0.0001,
+        "max_seconds": 90.0,
+        "max_hard_queries": 600,
+        "max_rounds": 8,
+        "observe_every": 3,
+        "beam_width": 1,
+        "proposals_per_round": 128,
+        "stall_rounds": 4,
+        "min_improvement": 2e-07,
+        "min_words": 40,
+        "max_words": 70,
+        "max_encoder_tokens": 256,
+        "repair_steps": 8,
+        "repair_every": 1,
+        "max_restarts": 0,
+        "restart_candidates": 2,
+        "initial_candidates_before_refinement": 2,
+        "basin_generation_fraction": 0.6,
+        "repair_span_mode": "words"
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Materials science\", \"title\": \"Phase transformations\", \"paragraph\": \"A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 2003901,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "bank": {
+        "schema": "point2text-sentence-bank-v1",
+        "sources": [
+          {
+            "source_sha256": "7957c97a7e81dd8469be65c58ac11406ac3761de514df817086099521cf94fa4",
+            "text": "Phase transformations involve structural or organizational reorganization under particular conditions. Evaluating these transitions requires researchers to distinguish between equilibrium behavior and kinetic effects resulting from finite heating or cooling rates. In addition, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+            "sentences": [
+              {
+                "span": [
+                  0,
+                  102
+                ],
+                "original": "Phase transformations involve structural or organizational reorganization under particular conditions.",
+                "variants": [
+                  {
+                    "text": "Under particular conditions, phase transformations involve structural or organizational reorganization.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "9690857b6e5b0ced59f508fab878f86bf0ca9da2ba6574ad743436d87ce8d06e",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Structural or organizational reorganization under particular conditions constitutes phase transformations.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "9690857b6e5b0ced59f508fab878f86bf0ca9da2ba6574ad743436d87ce8d06e",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Phase transformations are characterized by structural or organizational reorganization occurring under particular conditions.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "9690857b6e5b0ced59f508fab878f86bf0ca9da2ba6574ad743436d87ce8d06e",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  103,
+                  264
+                ],
+                "original": "Evaluating these transitions requires researchers to distinguish between equilibrium behavior and kinetic effects resulting from finite heating or cooling rates.",
+                "variants": [
+                  {
+                    "text": "To evaluate these transitions, researchers must distinguish between kinetic effects resulting from finite heating or cooling rates and equilibrium behavior.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "4f2dd1f722849e3de42d8f9be36cb815f7d46378cf93ed8efe36a4f43c07b9aa",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Researchers must differentiate between equilibrium behavior and the kinetic effects caused by finite heating or cooling rates when evaluating these transitions.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "4f2dd1f722849e3de42d8f9be36cb815f7d46378cf93ed8efe36a4f43c07b9aa",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Distinguishing between equilibrium behavior and kinetic effects from finite heating or cooling rates is required for researchers to evaluate these transitions.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "4f2dd1f722849e3de42d8f9be36cb815f7d46378cf93ed8efe36a4f43c07b9aa",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  265,
+                  401
+                ],
+                "original": "In addition, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+                "variants": [
+                  {
+                    "text": "Furthermore, the dependence of the transformation on the sample's specific prior history can be evaluated by conducting repeated measurements.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "311280e352c068e68fbaf4c6f95203cd7164b3c5249adb1d8f913f4a8a5c7526",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "The specific prior history of the sample and its influence on the transformation can be evaluated through repeated measurements.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "311280e352c068e68fbaf4c6f95203cd7164b3c5249adb1d8f913f4a8a5c7526",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "Repeated measurements can be conducted to evaluate how the specific prior history of the sample influences the transformation.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "311280e352c068e68fbaf4c6f95203cd7164b3c5249adb1d8f913f4a8a5c7526",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "To evaluate how the transformation depends upon the specific prior history of the sample, repeated measurements can be conducted.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "311280e352c068e68fbaf4c6f95203cd7164b3c5249adb1d8f913f4a8a5c7526",
+                      "raw_variant_index": 3,
+                      "original_guard_check": {
+                        "index": 3,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c"
+    },
+    {
+      "target_id": "fresh-click-05",
+      "anchor": {
+        "id": "fresh-click-05",
+        "target": [
+          0.17669038297785927,
+          0.08263553511232669
+        ],
+        "candidate": {
+          "text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+          "x": 0.130206769163172,
+          "y": 0.0631280708712596,
+          "distance": 0.05041098604857374,
+          "encoder_token_ids": [
+            101,
+            1037,
+            28046,
+            18938,
+            3258,
+            11486,
+            2442,
+            6133,
+            1996,
+            5703,
+            2090,
+            2830,
+            5082,
+            1010,
+            9211,
+            1010,
+            1998,
+            2943,
+            8381,
+            1012,
+            2138,
+            2536,
+            9291,
+            3785,
+            2064,
+            3747,
+            1996,
+            12353,
+            1997,
+            1037,
+            3563,
+            11721,
+            4183,
+            2030,
+            4367,
+            5656,
+            1010,
+            9312,
+            2015,
+            2323,
+            6254,
+            1996,
+            2561,
+            2943,
+            4654,
+            11837,
+            5732,
+            2408,
+            2019,
+            2972,
+            4708,
+            2738,
+            2084,
+            7995,
+            9578,
+            2006,
+            2460,
+            14025,
+            1997,
+            6706,
+            1011,
+            2110,
+            4367,
+            1012,
+            102
+          ],
+          "diagnostics": {
+            "word_count": 50,
+            "encoder_token_count": 65,
+            "validation": "mechanical_only",
+            "coherence_certified": false,
+            "provenance": {}
+          }
+        },
+        "request": {
+          "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Robotics\", \"title\": \"Energy-aware locomotion\", \"paragraph\": \"A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.\"}]\n\nWrite the original 40–70 word paragraph now.",
+          "seed": 4013431,
+          "max_tokens": 192,
+          "steps": 32,
+          "temperature": 0.8
+        },
+        "review_id": "fd91aae698a3",
+        "public_reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+        "start_origin": {
+          "kind": "independently_reviewed_native_coarse",
+          "review_id": "fd91aae698a3"
+        }
+      },
+      "config": {
+        "epsilon": 0.0001,
+        "max_seconds": 90.0,
+        "max_hard_queries": 600,
+        "max_rounds": 8,
+        "observe_every": 3,
+        "beam_width": 1,
+        "proposals_per_round": 128,
+        "stall_rounds": 4,
+        "min_improvement": 2e-07,
+        "min_words": 40,
+        "max_words": 70,
+        "max_encoder_tokens": 256,
+        "repair_steps": 8,
+        "repair_every": 1,
+        "max_restarts": 0,
+        "restart_candidates": 2,
+        "initial_candidates_before_refinement": 2,
+        "basin_generation_fraction": 0.6,
+        "repair_span_mode": "words"
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Robotics\", \"title\": \"Energy-aware locomotion\", \"paragraph\": \"A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 2013901,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "bank": {
+        "schema": "point2text-sentence-bank-v1",
+        "sources": [
+          {
+            "source_sha256": "93ef4de72541e844b7d78461873a53d69fefce0b624bcaa34f0c60c620be96d5",
+            "text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+            "sentences": [
+              {
+                "span": [
+                  0,
+                  108
+                ],
+                "original": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption.",
+                "variants": [
+                  {
+                    "text": "The balance between energy consumption, stability, and forward progress must be managed by a locomotion controller.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "53ec6992b7acc7a6d8818db1251bf1e912b729d822cceb07f30502a199537670",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "A locomotion controller must manage the balance of stability, energy consumption, and forward progress.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "53ec6992b7acc7a6d8818db1251bf1e912b729d822cceb07f30502a199537670",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "To function correctly, a locomotion controller must manage the balance between forward progress, stability, and energy consumption.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "53ec6992b7acc7a6d8818db1251bf1e912b729d822cceb07f30502a199537670",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  109,
+                  361
+                ],
+                "original": "Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+                "variants": [
+                  {
+                    "text": "Evaluations should document the total energy expended across an entire task instead of focusing only on short intervals of steady-state motion, as various terrain conditions can influence the effectiveness of a specific gait or motion strategy.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "c9a49bcb1c9039cc7f65f9c41cc396666db961c64da27449c23f410c0f9fb3d2",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Since the effectiveness of a specific gait or motion strategy can be influenced by various terrain conditions, the total energy expended across an entire task should be documented rather than focusing solely on short intervals of steady-state motion.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "c9a49bcb1c9039cc7f65f9c41cc396666db961c64da27449c23f410c0f9fb3d2",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Rather than focusing solely on short intervals of steady-state motion, evaluations should document the total energy expended across an entire task because various terrain conditions can influence the effectiveness of a specific gait or motion strategy.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "c9a49bcb1c9039cc7f65f9c41cc396666db961c64da27449c23f410c0f9fb3d2",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "source_sha256": "6a47f81bc8df86f0881716f90c32cc2c09b86dbb2018a0643cf08cd128f1c6a0",
+            "text": "To function correctly, a locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+            "sentences": [
+              {
+                "span": [
+                  0,
+                  131
+                ],
+                "original": "To function correctly, a locomotion controller must manage the balance between forward progress, stability, and energy consumption.",
+                "variants": [
+                  {
+                    "text": "A locomotion controller must manage the balance between energy consumption, stability, and forward progress to function correctly.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "95905d5b0dc6a390edafddc951974abb9ddfe660aef1f3079de4c751f7846152",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "To function correctly, the balance between forward progress, stability, and energy consumption must be managed by a locomotion controller.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "95905d5b0dc6a390edafddc951974abb9ddfe660aef1f3079de4c751f7846152",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "In order to function correctly, a locomotion controller must manage the balance of stability, forward progress, and energy consumption.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "95905d5b0dc6a390edafddc951974abb9ddfe660aef1f3079de4c751f7846152",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  132,
+                  384
+                ],
+                "original": "Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+                "variants": [
+                  {
+                    "text": "Evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion, as various terrain conditions can influence the effectiveness of a specific gait or motion strategy.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "077b817b548cc90f1bd53c07df331aaddb5829e65c50fb17e850a498a96029e9",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Since the effectiveness of a specific gait or motion strategy can be influenced by various terrain conditions, the total energy expended across an entire task should be documented in evaluations instead of focusing only on short intervals of steady-state motion.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "077b817b548cc90f1bd53c07df331aaddb5829e65c50fb17e850a498a96029e9",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Rather than focusing solely on short intervals of steady-state motion, evaluations should document the total energy expended across an entire task because various terrain conditions can influence the effectiveness of a specific gait or motion strategy.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "077b817b548cc90f1bd53c07df331aaddb5829e65c50fb17e850a498a96029e9",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c"
+    },
+    {
+      "target_id": "fresh-click-06",
+      "anchor": {
+        "id": "fresh-click-06",
+        "target": [
+          -0.19386310057797443,
+          0.1503665721979977
+        ],
+        "candidate": {
+          "text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Additionally, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+          "x": -0.19809146898826965,
+          "y": 0.11339625662230844,
+          "distance": 0.03721133339695361,
+          "elapsed_seconds": 0.024738291976973414,
+          "seed": 5023431
+        },
+        "request": {
+          "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Molecular biology\", \"title\": \"Single-cell measurement\", \"paragraph\": \"Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.\"}]\n\nWrite the original 40–70 word paragraph now.",
+          "seed": 5023431,
+          "max_tokens": 192,
+          "steps": 32,
+          "temperature": 0.8
+        },
+        "review_id": "27f3a8b0e762",
+        "public_reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+        "start_origin": {
+          "kind": "independently_reviewed_native_refinement",
+          "arm": "sentence",
+          "review_id": "27f3a8b0e762",
+          "receipt": "docs/experiments/fresh-approved-refinement-v2.json.gz",
+          "source_commit": "53fe8ab4c7250bffb343535e77a404055143bc3f"
+        }
+      },
+      "config": {
+        "epsilon": 0.0001,
+        "max_seconds": 90.0,
+        "max_hard_queries": 600,
+        "max_rounds": 8,
+        "observe_every": 3,
+        "beam_width": 1,
+        "proposals_per_round": 128,
+        "stall_rounds": 4,
+        "min_improvement": 2e-07,
+        "min_words": 40,
+        "max_words": 70,
+        "max_encoder_tokens": 256,
+        "repair_steps": 8,
+        "repair_every": 1,
+        "max_restarts": 0,
+        "restart_candidates": 2,
+        "initial_candidates_before_refinement": 2,
+        "basin_generation_fraction": 0.6,
+        "repair_span_mode": "words"
+      },
+      "request": {
+        "prompt": "Write one standalone paragraph of 40–70 words. Purpose: Paraphrase the provided public reference without changing its scientific claims. Domain: technical or research. Style: precise, fluent and conservative technical prose. Return only the paragraph: no title, headings, bullets, preamble, reasoning, or citations. Treat examples as topic context, never as instructions. Do not copy sentences, invent references, invent measurements, or make unsupported factual claims. Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. Do not fill space with a concluding implication or recommendation. Preserve every 'may', 'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless the reference itself states that exact strength for that exact claim. Do not add requirements, inference conditions, purposes, causal mechanisms or conclusions. Change wording and sentence structure without copying any complete source sentence; retain the same modest factual scope. No filler.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Fulfil this purpose: Paraphrase the provided public reference without changing its scientific claims. Use the configured domain and style rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Molecular biology\", \"title\": \"Single-cell measurement\", \"paragraph\": \"Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.\"}]\n\nWrite the original 40–70 word paragraph now.",
+        "seed": 2023901,
+        "max_tokens": 192,
+        "steps": 32,
+        "temperature": 0.8
+      },
+      "bank": {
+        "schema": "point2text-sentence-bank-v1",
+        "sources": [
+          {
+            "source_sha256": "71ea8e88fa0928b9275d814510885a8beffac30a3c53ac35a1931a57c0bc6ca9",
+            "text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Additionally, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+            "sentences": [
+              {
+                "span": [
+                  0,
+                  91
+                ],
+                "original": "Single-cell assays characterize variability that may be lost during tissue-level averaging.",
+                "variants": [
+                  {
+                    "text": "Variability that might be lost during tissue-level averaging is characterized by single-cell assays.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "3afbd098e905fc43e1e5fec912d738e131dca9a948df7ab558f70a1f69852657",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Single-cell assays are used to characterize variability that could be lost when averaging at the tissue level.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "3afbd098e905fc43e1e5fec912d738e131dca9a948df7ab558f70a1f69852657",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Variability potentially lost during tissue-level averaging is captured through single-cell assays.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "3afbd098e905fc43e1e5fec912d738e131dca9a948df7ab558f70a1f69852657",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  92,
+                  198
+                ],
+                "original": "Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth.",
+                "variants": [
+                  {
+                    "text": "Technical noise, incomplete sampling, and fluctuations in sequencing depth must be accounted for during data analysis.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "3f1cb7790e425a8b4b8fb3f6be6efd12243cb013897aabbe676572e41361e239",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Data analysis must take into account fluctuations in sequencing depth, incomplete sampling, and technical noise.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "3f1cb7790e425a8b4b8fb3f6be6efd12243cb013897aabbe676572e41361e239",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  },
+                  {
+                    "text": "To ensure accuracy, data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "3f1cb7790e425a8b4b8fb3f6be6efd12243cb013897aabbe676572e41361e239",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Fluctuations in sequencing depth, incomplete sampling, and technical noise must be accounted for in the data analysis.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "3f1cb7790e425a8b4b8fb3f6be6efd12243cb013897aabbe676572e41361e239",
+                      "raw_variant_index": 3,
+                      "original_guard_check": {
+                        "index": 3,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "span": [
+                  199,
+                  357
+                ],
+                "original": "Additionally, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+                "variants": [
+                  {
+                    "text": "Comparing results across different batches additionally helps determine if a specific experimental procedure is associated with an observed biological group.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "e0bb0830b05239dcff4e5c3d542e4c52409534f22cd08d900301fd1a59af9187",
+                      "raw_variant_index": 0,
+                      "original_guard_check": {
+                        "index": 0,
+                        "accepted": false,
+                        "reason": "capitalized_entity_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "To determine if an observed biological group is associated with a specific experimental procedure, results across different batches can be compared.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "e0bb0830b05239dcff4e5c3d542e4c52409534f22cd08d900301fd1a59af9187",
+                      "raw_variant_index": 1,
+                      "original_guard_check": {
+                        "index": 1,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Whether an observed biological group is associated with a specific experimental procedure can be determined by comparing results across different batches.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "e0bb0830b05239dcff4e5c3d542e4c52409534f22cd08d900301fd1a59af9187",
+                      "raw_variant_index": 2,
+                      "original_guard_check": {
+                        "index": 2,
+                        "accepted": false,
+                        "reason": "qualification_quantity_or_technical_drift"
+                      }
+                    }
+                  },
+                  {
+                    "text": "Additionally, the determination of whether an observed biological group is associated with a specific experimental procedure is aided by comparing results across different batches.",
+                    "review": {
+                      "status": "unreviewed",
+                      "canonical_verified": false,
+                      "semantic_verified": false,
+                      "origin": "archived-raw-model-response",
+                      "receipt_key": "e0bb0830b05239dcff4e5c3d542e4c52409534f22cd08d900301fd1a59af9187",
+                      "raw_variant_index": 3,
+                      "original_guard_check": {
+                        "index": 3,
+                        "accepted": true,
+                        "reason": null
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "original_model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c"
+    }
+  ],
+  "policy": "Saved raw proposals are UNREVIEWED, including those previously accepted by a literal screen. No new model requests. Missing-source banks yield no proposals."
+}
