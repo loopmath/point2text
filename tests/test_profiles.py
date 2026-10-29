@@ -30,7 +30,12 @@ class Tokenizer:
         return [1, *ids, 2]
 
     def __call__(self, texts, **kwargs):
-        return {"input_ids": [[1, *([3] * len(text.split())), 2] for text in texts]}
+        single = isinstance(texts, str)
+        rows = []
+        for text in [texts] if single else texts:
+            ids = [3] * len(text.split())
+            rows.append([1, *ids, 2] if kwargs.get("add_special_tokens", True) else ids)
+        return {"input_ids": rows[0] if single else rows}
 
 
 class Transformer:
@@ -174,6 +179,45 @@ def test_canonical_token_ids_include_prefix_stripping_and_lowercasing(sentence_m
     calls_before_empty = len(tokenizer.calls)
     assert encoder.token_ids([]) == encoder.token_lengths([]) == []
     assert len(tokenizer.calls) == calls_before_empty
+
+
+def test_current_builtin_namespaces_and_pooling_config_are_audited(sentence_models):
+    encoder = SentenceEncoder()
+    CurrentTransformer = type("Transformer", (Transformer,), {
+        "__module__": "sentence_transformers.base.modules.transformer"})
+    CurrentPooling = type("Pooling", (), {
+        "__module__": "sentence_transformers.sentence_transformer.modules.pooling",
+        "get_config_dict": lambda self: {"embedding_dimension": 4, "pooling_mode": self.mode,
+                                        "include_prompt": True}, "mode": "mean"})
+    CurrentNormalize = type("Normalize", (Normalize,), {
+        "__module__": "sentence_transformers.sentence_transformer.modules.normalize"})
+    encoder.model._modules = OrderedDict((str(i), module) for i, module in enumerate(
+        (CurrentTransformer(), CurrentPooling(), CurrentNormalize())))
+    assert not hasattr(encoder.model[1], "pooling_mode_mean_tokens")
+    assert encoder.gradient_capability()["supported"]
+    encoder.model[1].mode = "cls"
+    assert not encoder.gradient_capability()["supported"]
+    encoder.model[1].mode = "mean"
+    encoder.model._modules["1"] = type("Pooling", (CurrentPooling,), {
+        "__module__": "third_party.pooling"})()
+    assert not encoder.gradient_capability()["supported"]
+
+
+def test_special_token_layout_is_probed_without_legacy_builder(sentence_models):
+    encoder = SentenceEncoder()
+    tokenizer = encoder.model.tokenizer
+    tokenizer.build_inputs_with_special_tokens = None
+    assert encoder.gradient_capability()["supported"]
+
+    class ExtraSpecialTokenizer(Tokenizer):
+        def __call__(self, texts, **kwargs):
+            result = super().__call__(texts, **kwargs)
+            if isinstance(texts, str) and kwargs.get("add_special_tokens", True):
+                result["input_ids"].insert(1, 4)
+            return result
+
+    encoder.model.tokenizer = ExtraSpecialTokenizer()
+    assert not encoder.gradient_capability()["supported"]
 
 
 def test_profile_paths_validation_and_read_has_no_model_side_effects(tmp_path):

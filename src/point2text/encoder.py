@@ -146,7 +146,15 @@ class SentenceEncoder:
         reasons = []
         modules = list(getattr(self.model, "_modules", {}).values())
         names = [type(module).__name__ for module in modules]
-        trusted = all(type(module).__module__.startswith("sentence_transformers.models.")
+        builtin_modules = {
+            "Transformer": {"sentence_transformers.models.Transformer",
+                            "sentence_transformers.base.modules.transformer"},
+            "Pooling": {"sentence_transformers.models.Pooling",
+                        "sentence_transformers.sentence_transformer.modules.pooling"},
+            "Normalize": {"sentence_transformers.models.Normalize",
+                          "sentence_transformers.sentence_transformer.modules.normalize"},
+        }
+        trusted = all(type(module).__module__ in builtin_modules.get(type(module).__name__, set())
                       for module in modules)
         if not trusted or names not in (["Transformer", "Pooling"],
                                         ["Transformer", "Pooling", "Normalize"]):
@@ -159,11 +167,17 @@ class SentenceEncoder:
             transformer, pooler = modules[:2]
             if getattr(transformer, "do_lower_case", False):
                 reasons.append("Transformer text lowercasing needs a matching token bridge")
-            modes = ["cls_token", "max_tokens", "mean_sqrt_len_tokens", "weightedmean_tokens", "lasttoken"]
-            if (not getattr(pooler, "pooling_mode_mean_tokens", False)
-                    or any(getattr(pooler, "pooling_mode_" + mode, False) for mode in modes)):
+            pool_config = getattr(pooler, "get_config_dict", lambda: {})()
+            configured_mode = pool_config.get("pooling_mode")
+            if configured_mode is not None:
+                mean_only = configured_mode == "mean"
+            else:
+                modes = ["cls_token", "max_tokens", "mean_sqrt_len_tokens", "weightedmean_tokens", "lasttoken"]
+                mean_only = (getattr(pooler, "pooling_mode_mean_tokens", False)
+                             and not any(getattr(pooler, "pooling_mode_" + mode, False) for mode in modes))
+            if not mean_only:
                 reasons.append("only attention-mask mean pooling is implemented")
-            if not getattr(pooler, "include_prompt", True):
+            if not getattr(pooler, "include_prompt", pool_config.get("include_prompt", True)):
                 reasons.append("prompt-excluding pooling needs a matching reward adapter")
             body = getattr(transformer, "auto_model", None)
             if body is None or not callable(getattr(body, "get_input_embeddings", None)):
@@ -175,8 +189,16 @@ class SentenceEncoder:
         if cls_id is None or sep_id is None or getattr(tokenizer, "pad_token_id", None) is None:
             reasons.append("requires fixed CLS, SEP and padding token IDs")
         else:
-            build = getattr(tokenizer, "build_inputs_with_special_tokens", None)
-            if build is None or build([123]) != [cls_id, 123, sep_id]:
+            # transformers 5 tokenizers need not expose the older builder method.
+            # Probe the tokenizer's actual special-token behavior instead.
+            try:
+                options = {"truncation": False, "padding": False, "return_attention_mask": False}
+                plain = tokenizer("point2text adapter probe", add_special_tokens=False, **options)["input_ids"]
+                special = tokenizer("point2text adapter probe", add_special_tokens=True, **options)["input_ids"]
+                valid_layout = bool(plain) and list(special) == [cls_id, *plain, sep_id]
+            except (TypeError, ValueError, KeyError, AttributeError):
+                valid_layout = False
+            if not valid_layout:
                 reasons.append("requires the single-sequence [CLS] tokens [SEP] layout")
         return {"supported": not reasons, "adapter": "torch-masked-mean-v1",
                 "reasons": reasons, "normalize": self.normalize or "Normalize" in names,
