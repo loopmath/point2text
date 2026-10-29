@@ -53,7 +53,9 @@ def parser():
     result.add_argument("--proposals-per-round", type=int, default=64)
     result.add_argument("--repair-steps", type=int, default=8)
     result.add_argument("--initial-text-file", type=Path, help="Local refinement diagnostic seed; not a hidden-target generation test.")
-    result.add_argument("--local-only", action="store_true", help="Refine an initial text without loading the diffusion model.")
+    local = result.add_mutually_exclusive_group()
+    local.add_argument("--local-only", action="store_true", help="Refine an initial text without loading the diffusion model.")
+    local.add_argument("--discrete-only", action="store_true", help="Refine an initial text using word edits and native vocabulary screening, without diffusion span repairs.")
     result.add_argument("--serve", action="store_true", help="Serve the experimental path using the web interface.")
     binding = result.add_mutually_exclusive_group()
     binding.add_argument("--host", default="127.0.0.1")
@@ -85,13 +87,14 @@ def main():
         )
     except ValueError as exc:
         arguments.error(str(exc))
-    if args.local_only and (not args.refine or not args.initial_text_file):
-        arguments.error("--local-only requires --refine and --initial-text-file.")
+    if (args.local_only or args.discrete_only) and (not args.refine or not args.initial_text_file):
+        arguments.error("Local diagnostics require --refine and --initial-text-file.")
     if args.initial_text_file and not args.refine:
         arguments.error("--initial-text-file requires --refine.")
-    if args.local_only and args.paired:
-        arguments.error("--paired needs a diffusion runtime; omit it for local-only diagnostics.")
+    if (args.local_only or args.discrete_only) and args.paired:
+        arguments.error("--paired needs native trajectories; omit it for local diagnostics.")
     runtime = None if args.local_only else MLXDiffusionRuntime(args.model, args.revision)
+    search_runtime = None if args.discrete_only else runtime
     if args.serve:
         if args.initial_text_file or args.local_only:
             arguments.error("Initial text files and local-only diagnostics are CLI-only.")
@@ -146,10 +149,10 @@ def main():
               "map_id": bundle.map_id, "target": list(target),
               "guidance_config": asdict(config), "runs": {},
               "refinement_config": asdict(refinement_config) if args.refine else None,
-              "experiment_mode": "local_repair_diagnostic" if args.local_only else "canonical_refinement" if args.refine else "independent_diffusion",
+              "experiment_mode": "screened_discrete_local_diagnostic" if args.discrete_only else "local_repair_diagnostic" if initial_text is not None else "canonical_refinement" if args.refine else "independent_diffusion",
               "comparison_note": "Paired requests are a plumbing probe, not an equal-wall-clock quality benchmark."}
     try:
-        modes = [False, True] if args.paired else [not args.unguided and runtime is not None]
+        modes = [False, True] if args.paired else [not args.unguided and search_runtime is not None]
         for guided in modes:
             if cancel.is_set():
                 break
@@ -161,7 +164,7 @@ def main():
                     should_stop=lambda: cancel.is_set() or time.monotonic() >= deadline)
                 proposer = CanonicalEditProposer(bundle, allowed_replacements=provider,
                                                  max_hotspots=4)
-            strategy = CanonicalRefinementSearch(runtime, reward=reward, guidance_config=config,
+            strategy = CanonicalRefinementSearch(search_runtime, reward=reward, guidance_config=config,
                                                 edit_proposer=proposer, config=refinement_config) if args.refine else DiffusionSearch(runtime, reward, config)
             options = {"initial_text": initial_text} if args.refine else {}
             result = strategy.run(

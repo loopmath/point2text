@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import asdict
 from hashlib import sha256
 import re
 from threading import Lock
@@ -40,6 +41,7 @@ class NativeReplacementProvider:
         return {
             "method": "one-token-native-denoiser-vocabulary-screen-v1",
             "runtime": self.runtime.identity,
+            "request": asdict(self.request),
             "calls": self._calls, "cache_hits": self._hits,
             "denoising_forwards": self._forwards, "elapsed_seconds": self._seconds,
             "top_k": self.top_k, "max_spans_per_text": self.max_spans,

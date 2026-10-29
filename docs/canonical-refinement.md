@@ -115,7 +115,11 @@ at `0.015393` but a top-eight replacement screen allowed no useful edit. Expandi
 that screen to 32 while keeping the grammatical-family intersection reduced the
 same paragraph to `0.004157` in a separate local refinement probe (nine scored
 texts, 28 native screening forwards). This motivated the current top-32 default.
-It remains above epsilon and is a single development case.
+It remains above epsilon and is a single development case. The
+[record](experiments/canonical-screened-local.json) contains its initial text and
+full-precision target. Save that initial text as UTF-8 and reproduce the local
+method with `--refine --discrete-only --initial-text-file FILE --target X Y`.
+This mode still uses native vocabulary screening, but omits span repairs.
 
 ## Limits
 

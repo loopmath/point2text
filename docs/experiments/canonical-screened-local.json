@@ -1,0 +1,910 @@
+{
+  "strategy": "canonical-feedback-refinement-v1",
+  "status": "complete",
+  "stop_reason": "stalled",
+  "error": null,
+  "errors": [],
+  "epsilon": 0.0001,
+  "epsilon_confirmed": false,
+  "epsilon_worst_distance": null,
+  "epsilon_confirmation": {
+    "confirmed": false,
+    "checks": [],
+    "worst_distance": null
+  },
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "target": [
+    0.03782757211018523,
+    -0.020649042373064936
+  ],
+  "distance_metric": "euclidean-unwhitened-pca",
+  "config": {
+    "epsilon": 0.0001,
+    "max_seconds": 35,
+    "max_hard_queries": 512,
+    "max_rounds": 8,
+    "observe_every": 3,
+    "beam_width": 4,
+    "proposals_per_round": 64,
+    "stall_rounds": 4,
+    "min_improvement": 2e-07,
+    "min_words": 60,
+    "max_words": 100,
+    "max_encoder_tokens": 256,
+    "repair_steps": 8,
+    "repair_every": 2
+  },
+  "request": {
+    "prompt": "",
+    "seed": 42,
+    "max_tokens": 192,
+    "steps": 32,
+    "temperature": 0.8
+  },
+  "prompt_policy": "no_generator",
+  "requested_candidates": 1,
+  "runtime_identity": null,
+  "elapsed_seconds": 25.023801084025763,
+  "rounds": 6,
+  "stall_rounds": 4,
+  "incumbent_improvements": 3,
+  "hard_queries": 9,
+  "accepted_proposals": 9,
+  "rejected_proposals": 105,
+  "budget_kind": null,
+  "candidates": [
+    {
+      "text": "Stochastic gradient descent optimizes objective functions by estimating gradients based on small random subsets of training data. This stochasticity introduces noise into the optimization trajectory, which can help the algorithm escape local minima or saddle points in complex landscapes. The effectiveness of this process depends heavily on the learning rate schedule and the batch size. Researchers must balance the computational efficiency of updates against the variance of the gradient estimate to ensure the model converges to a generalizable solution rather than overfitting to specific samples.",
+      "x": 0.02250234072845978,
+      "y": -0.019203460619368777,
+      "distance": 0.01539325902822537,
+      "elapsed_seconds": 0.01569441700121388,
+      "seed": 42
+    },
+    {
+      "text": "Stochastic gradient descent optimizes objective functions by estimating gradients based on small random subsets of training data. This stochasticity introduces noise into the optimization trajectory, which can help the algorithm escape local minima or saddle points in complex landscapes. The effectiveness of this process depends heavily on the learning rate schedule and the batch size. Researchers must balance the computational efficiency of updates against the variance of the gradient estimate to ensure the system converges to a generalizable solution rather than overfitting to specific samples.",
+      "x": 0.034644057714332765,
+      "y": -0.016795736594791114,
+      "distance": 0.004998272634568699,
+      "elapsed_seconds": 12.892652042035479,
+      "seed": 42
+    },
+    {
+      "text": "Stochastic gradient descent optimizes objective functions by estimating gradients based on small random subsets of training data. This stochasticity introduces noise into the optimization trajectory, which can help the algorithm escape local minima or saddle points in complicated landscapes. The effectiveness of this process depends heavily on the learning rate schedule and the batch size. Researchers must balance the computational efficiency of updates against the variance of the gradient estimate to ensure the system converges to a generalizable solution rather than overfitting to specific samples.",
+      "x": 0.04086813495993528,
+      "y": -0.017814525616757584,
+      "distance": 0.004156862721460412,
+      "elapsed_seconds": 19.014519624994136,
+      "seed": 42
+    }
+  ],
+  "best_candidate": {
+    "text": "Stochastic gradient descent optimizes objective functions by estimating gradients based on small random subsets of training data. This stochasticity introduces noise into the optimization trajectory, which can help the algorithm escape local minima or saddle points in complicated landscapes. The effectiveness of this process depends heavily on the learning rate schedule and the batch size. Researchers must balance the computational efficiency of updates against the variance of the gradient estimate to ensure the system converges to a generalizable solution rather than overfitting to specific samples.",
+    "x": 0.04086813495993528,
+    "y": -0.017814525616757584,
+    "distance": 0.004156862721460412,
+    "elapsed_seconds": 19.014519624994136,
+    "seed": 42
+  },
+  "history": [
+    {
+      "phase": "initial_text",
+      "round": 0,
+      "seed": 42,
+      "previous_distance": null,
+      "distance": 0.01539325902822537,
+      "x": 0.02250234072845978,
+      "y": -0.019203460619368777,
+      "text": "Stochastic gradient descent optimizes objective functions by estimating gradients based on small random subsets of training data. This stochasticity introduces noise into the optimization trajectory, which can help the algorithm escape local minima or saddle points in complex landscapes. The effectiveness of this process depends heavily on the learning rate schedule and the batch size. Researchers must balance the computational efficiency of updates against the variance of the gradient estimate to ensure the model converges to a generalizable solution rather than overfitting to specific samples.",
+      "elapsed_seconds": 0.01569441700121388,
+      "diagnostics": {
+        "word_count": 85,
+        "encoder_token_count": 108,
+        "validation": "mechanical_only",
+        "coherence_certified": false,
+        "provenance": {
+          "phase": "initial_text"
+        }
+      }
+    },
+    {
+      "phase": "discrete_edit",
+      "round": 1,
+      "seed": 42,
+      "previous_distance": 0.01539325902822537,
+      "distance": 0.004998272634568699,
+      "x": 0.034644057714332765,
+      "y": -0.016795736594791114,
+      "text": "Stochastic gradient descent optimizes objective functions by estimating gradients based on small random subsets of training data. This stochasticity introduces noise into the optimization trajectory, which can help the algorithm escape local minima or saddle points in complex landscapes. The effectiveness of this process depends heavily on the learning rate schedule and the batch size. Researchers must balance the computational efficiency of updates against the variance of the gradient estimate to ensure the system converges to a generalizable solution rather than overfitting to specific samples.",
+      "elapsed_seconds": 12.892652042035479,
+      "diagnostics": {
+        "word_count": 85,
+        "encoder_token_count": 108,
+        "validation": "mechanical_only",
+        "coherence_certified": false,
+        "provenance": {
+          "method": "canonical-input-gradient-discrete-v1",
+          "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+          "kind": "replace-word",
+          "source_spans": [
+            [
+              514,
+              519
+            ]
+          ],
+          "replacements": [
+            "system"
+          ],
+          "predicted_map_delta": [
+            0.000182844767131901,
+            -0.0021193326028900858
+          ],
+          "predicted_squared_distance": 0.00022974567676267198,
+          "predicted_loss_change": -7.206715607120597e-06,
+          "gradient_dot_embedding_change": -1.1731718497660987e-05,
+          "source_map_location": [
+            0.022502344101667404,
+            -0.019203435629606247
+          ],
+          "source_gradient_norm": 0.021936672263662273,
+          "prediction_kinds": [
+            "same-length-input-linearization"
+          ],
+          "lexical_policy": "contextual-provider",
+          "conservative_contextual": true,
+          "quality": "mechanical-constraints-only; canonical and semantic verification required",
+          "canonical_verified": false
+        }
+      }
+    },
+    {
+      "phase": "discrete_edit",
+      "round": 2,
+      "seed": 42,
+      "previous_distance": 0.004998272634568699,
+      "distance": 0.004156862721460412,
+      "x": 0.04086813495993528,
+      "y": -0.017814525616757584,
+      "text": "Stochastic gradient descent optimizes objective functions by estimating gradients based on small random subsets of training data. This stochasticity introduces noise into the optimization trajectory, which can help the algorithm escape local minima or saddle points in complicated landscapes. The effectiveness of this process depends heavily on the learning rate schedule and the batch size. Researchers must balance the computational efficiency of updates against the variance of the gradient estimate to ensure the system converges to a generalizable solution rather than overfitting to specific samples.",
+      "elapsed_seconds": 19.014519624994136,
+      "diagnostics": {
+        "word_count": 85,
+        "encoder_token_count": 108,
+        "validation": "mechanical_only",
+        "coherence_certified": false,
+        "provenance": {
+          "method": "canonical-input-gradient-discrete-v1",
+          "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+          "kind": "disjoint-pair",
+          "source_spans": [
+            [
+              269,
+              276
+            ],
+            [
+              514,
+              523
+            ]
+          ],
+          "replacements": [
+            "complicated",
+            "system"
+          ],
+          "predicted_map_delta": [
+            0.010960299842625037,
+            0.0023092131242407987
+          ],
+          "predicted_squared_distance": 0.0001419661881960164,
+          "predicted_loss_change": -5.7217191895941796e-05,
+          "gradient_dot_embedding_change": -0.00018267782978935419,
+          "source_map_location": [
+            0.027473384514451027,
+            -0.011058725416660309
+          ],
+          "source_gradient_norm": 0.016568102673203026,
+          "prediction_kinds": [
+            "same-length-input-linearization",
+            "same-length-input-linearization"
+          ],
+          "lexical_policy": "contextual-provider",
+          "conservative_contextual": true,
+          "quality": "mechanical-constraints-only; canonical and semantic verification required",
+          "canonical_verified": false
+        }
+      }
+    }
+  ],
+  "native_traces": [],
+  "costs": {
+    "proposer_seconds": 24.968952374067158,
+    "native_seconds": 0.0,
+    "verification_seconds": 0.05442225199658424,
+    "repair_calls": 0,
+    "proposal_policy_numeric_deltas": {
+      "calls": 84,
+      "cache_hits": 56,
+      "denoising_forwards": 28,
+      "elapsed_seconds": 24.3456092501292,
+      "top_k": 0,
+      "max_spans_per_text": 0
+    }
+  },
+  "proposal_policy": {
+    "method": "one-token-native-denoiser-vocabulary-screen-v1",
+    "runtime": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+    "calls": 84,
+    "cache_hits": 56,
+    "denoising_forwards": 28,
+    "elapsed_seconds": 24.3456092501292,
+    "top_k": 32,
+    "max_spans_per_text": 4,
+    "entries": [
+      {
+        "text_hash": "a42f07a00bff5315",
+        "span": [
+          269,
+          276
+        ],
+        "accepted_words": 24,
+        "seconds": 11.472387000045273,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 41,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 2.5888235829770565,
+        "probe_seconds": 0.36032762500690296,
+        "elapsed_seconds": 11.407962874975055,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "a42f07a00bff5315",
+        "span": [
+          61,
+          71
+        ],
+        "accepted_words": 24,
+        "seconds": 0.380210375005845,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 8,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.2597865419811569,
+        "probe_seconds": 0.11411437497008592,
+        "elapsed_seconds": 0.3801362920203246,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "a42f07a00bff5315",
+        "span": [
+          418,
+          431
+        ],
+        "accepted_words": 27,
+        "seconds": 0.4592249169945717,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 65,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.31819558300776407,
+        "probe_seconds": 0.1352362500037998,
+        "elapsed_seconds": 0.4591597919934429,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "a42f07a00bff5315",
+        "span": [
+          514,
+          519
+        ],
+        "accepted_words": 27,
+        "seconds": 0.5170650000218302,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 79,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3612447500345297,
+        "probe_seconds": 0.14992595801595598,
+        "elapsed_seconds": 0.5169940829509869,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "ab322ad6578e6cb5",
+        "span": [
+          269,
+          276
+        ],
+        "accepted_words": 22,
+        "seconds": 0.5155345830135047,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 41,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.36154524999437854,
+        "probe_seconds": 0.14794291701400653,
+        "elapsed_seconds": 0.5154558750218712,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "ab322ad6578e6cb5",
+        "span": [
+          61,
+          71
+        ],
+        "accepted_words": 23,
+        "seconds": 0.5262446670094505,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 8,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3711441250052303,
+        "probe_seconds": 0.1490350830135867,
+        "elapsed_seconds": 0.5261681670090184,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "ab322ad6578e6cb5",
+        "span": [
+          514,
+          520
+        ],
+        "accepted_words": 27,
+        "seconds": 0.5267140829819255,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 79,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3725863329600543,
+        "probe_seconds": 0.14802974998019636,
+        "elapsed_seconds": 0.5266383330454119,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "ab322ad6578e6cb5",
+        "span": [
+          418,
+          431
+        ],
+        "accepted_words": 26,
+        "seconds": 0.5179271660163067,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 65,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3659835829748772,
+        "probe_seconds": 0.14592095802072436,
+        "elapsed_seconds": 0.5178632920142263,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "e77d1b15c04920e7",
+        "span": [
+          269,
+          276
+        ],
+        "accepted_words": 23,
+        "seconds": 0.49589208397082984,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 41,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.34928341599879786,
+        "probe_seconds": 0.14063633303157985,
+        "elapsed_seconds": 0.49581854196731,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "e77d1b15c04920e7",
+        "span": [
+          61,
+          71
+        ],
+        "accepted_words": 24,
+        "seconds": 0.5000428329803981,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 8,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3506159160169773,
+        "probe_seconds": 0.13874429097631946,
+        "elapsed_seconds": 0.49995933298487216,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "e77d1b15c04920e7",
+        "span": [
+          418,
+          431
+        ],
+        "accepted_words": 27,
+        "seconds": 0.4926449579652399,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 65,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.34787304198835045,
+        "probe_seconds": 0.13845312502235174,
+        "elapsed_seconds": 0.49257083400152624,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "e77d1b15c04920e7",
+        "span": [
+          514,
+          523
+        ],
+        "accepted_words": 27,
+        "seconds": 0.490287458000239,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 79,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3462689999723807,
+        "probe_seconds": 0.13799445802578703,
+        "elapsed_seconds": 0.4902124159852974,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "06e3bfd17b2ba53e",
+        "span": [
+          269,
+          276
+        ],
+        "accepted_words": 25,
+        "seconds": 0.47288554097758606,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 41,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.33185291703557596,
+        "probe_seconds": 0.13526916597038507,
+        "elapsed_seconds": 0.47280779195716605,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "06e3bfd17b2ba53e",
+        "span": [
+          61,
+          71
+        ],
+        "accepted_words": 23,
+        "seconds": 0.4799527089926414,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 8,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.33876825001789257,
+        "probe_seconds": 0.13508100004401058,
+        "elapsed_seconds": 0.4798724160064012,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "06e3bfd17b2ba53e",
+        "span": [
+          418,
+          431
+        ],
+        "accepted_words": 27,
+        "seconds": 0.48493770899949595,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 65,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3384833339951001,
+        "probe_seconds": 0.13592941599199548,
+        "elapsed_seconds": 0.4848545409622602,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "06e3bfd17b2ba53e",
+        "span": [
+          323,
+          330
+        ],
+        "accepted_words": 20,
+        "seconds": 0.48229591600829735,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 49,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.341960999998264,
+        "probe_seconds": 0.1343159579555504,
+        "elapsed_seconds": 0.4822215829626657,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "beaf4a63832b8ffd",
+        "span": [
+          269,
+          280
+        ],
+        "accepted_words": 22,
+        "seconds": 0.46076908404938877,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 41,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3241517909918912,
+        "probe_seconds": 0.1306876249727793,
+        "elapsed_seconds": 0.4606924999970943,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "beaf4a63832b8ffd",
+        "span": [
+          422,
+          435
+        ],
+        "accepted_words": 26,
+        "seconds": 0.4683680000016466,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 65,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3304332080297172,
+        "probe_seconds": 0.13198624999495223,
+        "elapsed_seconds": 0.4682913749711588,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "beaf4a63832b8ffd",
+        "span": [
+          61,
+          71
+        ],
+        "accepted_words": 25,
+        "seconds": 0.470671291986946,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 8,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3313459160272032,
+        "probe_seconds": 0.13318612502189353,
+        "elapsed_seconds": 0.47058579203439876,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "beaf4a63832b8ffd",
+        "span": [
+          518,
+          524
+        ],
+        "accepted_words": 27,
+        "seconds": 0.46874020900577307,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 79,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.32955224998295307,
+        "probe_seconds": 0.1327633750042878,
+        "elapsed_seconds": 0.4686587500036694,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "ee867fd91a52d143",
+        "span": [
+          269,
+          280
+        ],
+        "accepted_words": 24,
+        "seconds": 0.45460499997716397,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 41,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3184813749976456,
+        "probe_seconds": 0.12961920798989013,
+        "elapsed_seconds": 0.454525500012096,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "ee867fd91a52d143",
+        "span": [
+          61,
+          71
+        ],
+        "accepted_words": 25,
+        "seconds": 0.45939412497682497,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 8,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.32365295803174376,
+        "probe_seconds": 0.12968020798871294,
+        "elapsed_seconds": 0.45931645802920684,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "ee867fd91a52d143",
+        "span": [
+          422,
+          435
+        ],
+        "accepted_words": 26,
+        "seconds": 0.4620226660044864,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 65,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3263271669857204,
+        "probe_seconds": 0.12977212498662993,
+        "elapsed_seconds": 0.4619453750201501,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "ee867fd91a52d143",
+        "span": [
+          518,
+          523
+        ],
+        "accepted_words": 27,
+        "seconds": 0.46207387500908226,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 79,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.32648116699419916,
+        "probe_seconds": 0.12954275001538917,
+        "elapsed_seconds": 0.4619921669946052,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "08416a53a1c0a1d3",
+        "span": [
+          269,
+          280
+        ],
+        "accepted_words": 23,
+        "seconds": 0.4493217500275932,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 41,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.31694400002015755,
+        "probe_seconds": 0.12641308299498633,
+        "elapsed_seconds": 0.4492442500195466,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "08416a53a1c0a1d3",
+        "span": [
+          61,
+          71
+        ],
+        "accepted_words": 22,
+        "seconds": 0.4553908330271952,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 8,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.32045608398038894,
+        "probe_seconds": 0.12909241596935317,
+        "elapsed_seconds": 0.45531416597077623,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "08416a53a1c0a1d3",
+        "span": [
+          422,
+          435
+        ],
+        "accepted_words": 25,
+        "seconds": 0.4579723750357516,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 65,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.3231173329986632,
+        "probe_seconds": 0.12897866702405736,
+        "elapsed_seconds": 0.45789370901184157,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      },
+      {
+        "text_hash": "08416a53a1c0a1d3",
+        "span": [
+          518,
+          527
+        ],
+        "accepted_words": 27,
+        "seconds": 0.46203304204391316,
+        "supported": true,
+        "reason": null,
+        "denoising_forwards": 1,
+        "self_conditioning": false,
+        "corruption": "one_uniform_vocabulary_token",
+        "token_position": 79,
+        "canvas_length": 93,
+        "top_k": 32,
+        "prefill_seconds": 0.32533287501428276,
+        "probe_seconds": 0.1307771250139922,
+        "elapsed_seconds": 0.4619522920111194,
+        "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+        "scores_are_sequence_likelihoods": false
+      }
+    ],
+    "quality_guarantee": false,
+    "sequence_likelihood": false
+  },
+  "proposal_policy_before": {
+    "method": "one-token-native-denoiser-vocabulary-screen-v1",
+    "runtime": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+    "calls": 0,
+    "cache_hits": 0,
+    "denoising_forwards": 0,
+    "elapsed_seconds": 0.0,
+    "top_k": 32,
+    "max_spans_per_text": 4,
+    "entries": [],
+    "quality_guarantee": false,
+    "sequence_likelihood": false
+  },
+  "verification": {
+    "proposals": 114,
+    "tokenizer_calls": 3,
+    "hard_queries": 9,
+    "batch_calls": 3,
+    "singleton_calls": 1,
+    "accepted": 9,
+    "cache_hits": 105,
+    "rejected": 105,
+    "rejections": {
+      "duplicate_text": 105
+    },
+    "cache_size": 9,
+    "elapsed_seconds": 25.023819916998036,
+    "max_seconds": 35,
+    "max_hard_queries": 512,
+    "reserved_confirmation_queries": 2,
+    "remaining_search_queries": 501,
+    "budget_reason": null,
+    "encoder_token_fingerprint_available": true,
+    "encoder_token_limit_checked": true,
+    "quality_validation_state": "mechanical_checks_only",
+    "coherence_certificate": false,
+    "epsilon_confirmation": {
+      "confirmed": false,
+      "checks": [],
+      "worst_distance": null
+    }
+  },
+  "quality_validation_state": "mechanical_checks_only",
+  "epsilon_is_attainability_claim": false,
+  "experiment_mode": "screened_discrete_local_diagnostic",
+  "initial_text": "Stochastic gradient descent optimizes objective functions by estimating gradients based on small random subsets of training data. This stochasticity introduces noise into the optimization trajectory, which can help the algorithm escape local minima or saddle points in complex landscapes. The effectiveness of this process depends heavily on the learning rate schedule and the batch size. Researchers must balance the computational efficiency of updates against the variance of the gradient estimate to ensure the model converges to a generalizable solution rather than overfitting to specific samples.",
+  "native_span_repairs": false,
+  "development_target_record": "t01-03"
+}
