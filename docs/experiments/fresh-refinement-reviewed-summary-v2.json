@@ -1,0 +1,453 @@
+{
+  "schema": "fresh-refinement-summary-v1",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "targets": 6,
+  "targets_with_reviewed_generated_anchor": 4,
+  "rows": [
+    {
+      "target_id": "fresh-click-01",
+      "arm": "words",
+      "status": "not_run",
+      "reason": "no_independently_approved_generated_anchor",
+      "initial_reviewed_distance": null,
+      "final_mechanical_distance": null,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": null,
+      "elapsed_seconds": null,
+      "hard_queries": null,
+      "restart_count": null,
+      "executed_work": null,
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": null
+    },
+    {
+      "target_id": "fresh-click-01",
+      "arm": "sentence",
+      "status": "not_run",
+      "reason": "no_independently_approved_generated_anchor",
+      "initial_reviewed_distance": null,
+      "final_mechanical_distance": null,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": null,
+      "elapsed_seconds": null,
+      "hard_queries": null,
+      "restart_count": null,
+      "executed_work": null,
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": null
+    },
+    {
+      "target_id": "fresh-click-01",
+      "arm": "sentence-restarts",
+      "status": "not_run",
+      "reason": "no_independently_approved_generated_anchor",
+      "initial_reviewed_distance": null,
+      "final_mechanical_distance": null,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": null,
+      "elapsed_seconds": null,
+      "hard_queries": null,
+      "restart_count": null,
+      "executed_work": null,
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": null
+    },
+    {
+      "target_id": "fresh-click-02",
+      "arm": "words",
+      "status": "not_run",
+      "reason": "no_independently_approved_generated_anchor",
+      "initial_reviewed_distance": null,
+      "final_mechanical_distance": null,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": null,
+      "elapsed_seconds": null,
+      "hard_queries": null,
+      "restart_count": null,
+      "executed_work": null,
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": null
+    },
+    {
+      "target_id": "fresh-click-02",
+      "arm": "sentence",
+      "status": "not_run",
+      "reason": "no_independently_approved_generated_anchor",
+      "initial_reviewed_distance": null,
+      "final_mechanical_distance": null,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": null,
+      "elapsed_seconds": null,
+      "hard_queries": null,
+      "restart_count": null,
+      "executed_work": null,
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": null
+    },
+    {
+      "target_id": "fresh-click-02",
+      "arm": "sentence-restarts",
+      "status": "not_run",
+      "reason": "no_independently_approved_generated_anchor",
+      "initial_reviewed_distance": null,
+      "final_mechanical_distance": null,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": null,
+      "elapsed_seconds": null,
+      "hard_queries": null,
+      "restart_count": null,
+      "executed_work": null,
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": null
+    },
+    {
+      "target_id": "fresh-click-03",
+      "arm": "words",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.03395225229591064,
+      "final_mechanical_distance": 0.027826385100593647,
+      "post_review": "accepted",
+      "post_review_reason": "Complete, coherent and faithful. The public-source qualifications about specific correctable errors, jointly specified assumptions and logical rather than only isolated physical performance are retained.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 10.747777583019342,
+      "hard_queries": 25,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 4,
+        "native_passes": 12,
+        "guided_passes": 12,
+        "encoder_updates": 192,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": true,
+      "best_reviewed_initial_or_final_distance": 0.027826385100593647
+    },
+    {
+      "target_id": "fresh-click-03",
+      "arm": "sentence",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.03395225229591064,
+      "final_mechanical_distance": 0.017356495974537253,
+      "post_review": "uncertain",
+      "post_review_reason": "Scientific content and public-source claims are coherent. \"Such procedure\" is an awkward anaphoric determiner/count construction here; procedure also has mass-noun uses, so a categorical grammar rejection is unwarranted. The exact usage is withheld rather than silently amended.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 11.078009749995545,
+      "hard_queries": 60,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 6,
+        "native_passes": 28,
+        "guided_passes": 27,
+        "encoder_updates": 432,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.03395225229591064
+    },
+    {
+      "target_id": "fresh-click-03",
+      "arm": "sentence-restarts",
+      "status": "complete",
+      "reason": "restarts_exhausted",
+      "initial_reviewed_distance": 0.03395225229591064,
+      "final_mechanical_distance": 0.00927456032850203,
+      "post_review": "accepted",
+      "post_review_reason": "Grammatical and scientifically coherent. It preserves specific-error encoding/correction, the joint implementation assumptions and the priority of logical-error evaluation without excluding physical-operation evidence.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 58.362101332983,
+      "hard_queries": 242,
+      "restart_count": 2,
+      "executed_work": {
+        "trajectories": 22,
+        "native_passes": 129,
+        "guided_passes": 124,
+        "encoder_updates": 1984,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": true,
+      "best_reviewed_initial_or_final_distance": 0.00927456032850203
+    },
+    {
+      "target_id": "fresh-click-04",
+      "arm": "words",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.07639833644536279,
+      "final_mechanical_distance": 0.06740248061590551,
+      "post_review": "rejected",
+      "post_review_reason": "The uncorrected \"rates.,,, conducting\" boundary is a material punctuation/sentence-construction artifact. The underlying phase-transition content remains recognizable, but exact-text approval would require repair.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 7.632791124982759,
+      "hard_queries": 117,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 5,
+        "native_passes": 18,
+        "guided_passes": 17,
+        "encoder_updates": 272,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.07639833644536279
+    },
+    {
+      "target_id": "fresh-click-04",
+      "arm": "sentence",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.07639833644536279,
+      "final_mechanical_distance": 0.027391238195194866,
+      "post_review": "accepted",
+      "post_review_reason": "Complete and coherent. The phase-change description, equilibrium/finite-rate kinetic distinction and qualified use of repeated measurements remain faithful to the public source. Mild nominal redundancy is not a material defect.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 22.61079745797906,
+      "hard_queries": 245,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 11,
+        "native_passes": 53,
+        "guided_passes": 53,
+        "encoder_updates": 848,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": true,
+      "best_reviewed_initial_or_final_distance": 0.027391238195194866
+    },
+    {
+      "target_id": "fresh-click-04",
+      "arm": "sentence-restarts",
+      "status": "complete",
+      "reason": "budget_exhausted",
+      "initial_reviewed_distance": 0.07639833644536279,
+      "final_mechanical_distance": 0.025401074430535613,
+      "post_review": "rejected",
+      "post_review_reason": "Duplicated \"organizational organizational\" and \"cooling cooling\", plus \"non- rates of or\", materially garble the finite-rate causal clause. The final history condition is additionally narrowed to thermal history without support from the broader public reference.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 48.16091104201041,
+      "hard_queries": 598,
+      "restart_count": 2,
+      "executed_work": {
+        "trajectories": 17,
+        "native_passes": 88,
+        "guided_passes": 88,
+        "encoder_updates": 1408,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.07639833644536279
+    },
+    {
+      "target_id": "fresh-click-05",
+      "arm": "words",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.05041098604857374,
+      "final_mechanical_distance": 0.0489397597857276,
+      "post_review": "rejected",
+      "post_review_reason": "\"Instead than\" is an uncorrected grammatical error in the final comparison. The scientific advice is intelligible, but the exact sentence requires repair.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 7.419121332990471,
+      "hard_queries": 5,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 5,
+        "native_passes": 15,
+        "guided_passes": 15,
+        "encoder_updates": 240,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.05041098604857374
+    },
+    {
+      "target_id": "fresh-click-05",
+      "arm": "sentence",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.05041098604857374,
+      "final_mechanical_distance": 0.03912097692066929,
+      "post_review": "rejected",
+      "post_review_reason": "The first sentence is the fragment \"A locomotion controller stability.\" It deletes the public source's central requirement to balance progress, stability and energy, even though the later energy-measurement advice survives.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 27.983282374974806,
+      "hard_queries": 16,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 9,
+        "native_passes": 68,
+        "guided_passes": 63,
+        "encoder_updates": 1008,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.05041098604857374
+    },
+    {
+      "target_id": "fresh-click-05",
+      "arm": "sentence-restarts",
+      "status": "complete",
+      "reason": "budget_exhausted",
+      "initial_reviewed_distance": 0.05041098604857374,
+      "final_mechanical_distance": 0.019595394327185406,
+      "post_review": "rejected",
+      "post_review_reason": "\"Must balance stability progress,, energy consumption\" is a malformed coordination. The whole-task measurement recommendation is also weakened from what evaluations should do to what assessments can help document.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 60.16821425000671,
+      "hard_queries": 48,
+      "restart_count": 2,
+      "executed_work": {
+        "trajectories": 16,
+        "native_passes": 115,
+        "guided_passes": 108,
+        "encoder_updates": 1728,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.05041098604857374
+    },
+    {
+      "target_id": "fresh-click-06",
+      "arm": "words",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.04148313144455914,
+      "final_mechanical_distance": 0.030182568369078,
+      "post_review": "rejected",
+      "post_review_reason": "\"Must account take into account\" combines incompatible unfinished verb constructions, and \"depth.,, comparing\" breaks the sentence boundary. These are material editing artifacts.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 14.502266499970574,
+      "hard_queries": 36,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 8,
+        "native_passes": 30,
+        "guided_passes": 30,
+        "encoder_updates": 480,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.04148313144455914
+    },
+    {
+      "target_id": "fresh-click-06",
+      "arm": "sentence",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.04148313144455914,
+      "final_mechanical_distance": 0.03721133339695361,
+      "post_review": "accepted",
+      "post_review_reason": "Grammatical, coherent and faithful. It retains the qualified heterogeneity claim, all three analysis concerns and the limited purpose of cross-batch comparison without claiming authenticity certification.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 8.694740707986057,
+      "hard_queries": 18,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 4,
+        "native_passes": 19,
+        "guided_passes": 19,
+        "encoder_updates": 304,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": true,
+      "best_reviewed_initial_or_final_distance": 0.03721133339695361
+    },
+    {
+      "target_id": "fresh-click-06",
+      "arm": "sentence-restarts",
+      "status": "complete",
+      "reason": "restarts_exhausted",
+      "initial_reviewed_distance": 0.04148313144455914,
+      "final_mechanical_distance": 0.02646266008509424,
+      "post_review": "rejected",
+      "post_review_reason": "\"An biological biological\" and \"the specific experimental experimental\" are garbled and incomplete. The final genuine-versus-procedure-associated alternative also strengthens an association check into an unsupported authenticity distinction.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 54.136476500018034,
+      "hard_queries": 118,
+      "restart_count": 2,
+      "executed_work": {
+        "trajectories": 19,
+        "native_passes": 104,
+        "guided_passes": 102,
+        "encoder_updates": 1632,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.04148313144455914
+    }
+  ],
+  "note": "Unreviewed/rejected final improvements do not establish quality-preserving progress. Missing targets remain explicit."
+}

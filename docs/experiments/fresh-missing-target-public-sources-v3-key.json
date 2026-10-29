@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "review_id": "9716b04e7113",
+      "target_id": "fresh-click-01",
+      "source_rank": 2
+    },
+    {
+      "review_id": "5f2462566422",
+      "target_id": "fresh-click-01",
+      "source_rank": 3
+    },
+    {
+      "review_id": "d252f3acbcfd",
+      "target_id": "fresh-click-01",
+      "source_rank": 4
+    },
+    {
+      "review_id": "171dcde386cf",
+      "target_id": "fresh-click-02",
+      "source_rank": 2
+    },
+    {
+      "review_id": "5bf1c558027b",
+      "target_id": "fresh-click-02",
+      "source_rank": 3
+    },
+    {
+      "review_id": "7b870b9f2b32",
+      "target_id": "fresh-click-02",
+      "source_rank": 4
+    }
+  ]
+}

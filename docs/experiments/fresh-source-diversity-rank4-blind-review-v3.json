@@ -1,0 +1,38 @@
+{
+  "schema": "distance-blinded-fresh-text-review-v1",
+  "instructions": "Review grammar, scientific accuracy, scope/qualifications and coherence. Mark accepted/rejected/uncertain with reasons. Distances and target labels are withheld. This is individual review, not a judge-accuracy estimate.",
+  "items": [
+    {
+      "review_id": "46994f5f14b6",
+      "text_sha256": "b996bb42c9f15c9314a0f1f14ac5b44d46cf6fe57b7523148e3257af2312364c",
+      "text": "Interpretability experiments investigate which internal signals influence model behavior. While the visualization of activations may suggest a hypothesis, targeted interventions offer a more robust test of functional relevance. Researchers should employ controls to verify that an intervention does not damage the network broadly, focusing instead on the specific behavior under study.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "An interpretability experiment asks which internal signals affect a model behavior. Visualizing activations can suggest a hypothesis, but targeted interventions provide a stronger test of functional relevance. Controls should check whether an intervention damages the network broadly rather than changing only the behavior under study."
+    },
+    {
+      "review_id": "6ae1de5e4ef0",
+      "text_sha256": "485c3a78033363c79c31edd4f978e30e7c880a5023b533f3808337b7a3511a95",
+      "text": "Astronomical surveys monitor a specific subset of celestial objects rather than the sky. This selection is influenced by brightness thresholds, atmospheric conditions, and specific data processing protocols. To accurately interpret population studies, researchers must model these systematic effects before treating the measured sample as a direct representation of the underlying population.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "An astronomical survey observes a selected subset of the objects present in the sky. Brightness limits, observing conditions, and data-processing decisions shape that selection. Population studies need to model these effects before interpreting the measured sample as a direct description of the underlying population."
+    },
+    {
+      "review_id": "3ded3ebd82e4",
+      "text_sha256": "87f0349fbc9c5724dc5cfbce232c89d20f6f89a41734a38acc42748a29a6a56e",
+      "text": "Astronomical surveys monitor a specific subset of celestial objects. The resulting sample is influenced by brightness thresholds, atmospheric observing conditions, and data processing protocols. To accurately interpret population studies, researchers must model these selection effects before treating the measured sample as a direct representation of the underlying population.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "An astronomical survey observes a selected subset of the objects present in the sky. Brightness limits, observing conditions, and data-processing decisions shape that selection. Population studies need to model these effects before interpreting the measured sample as a direct description of the underlying population."
+    },
+    {
+      "review_id": "3c5e40158149",
+      "text_sha256": "6145479db13022a51f966c2d5e369db1ff196b51db0fa7f9c67f8dfbc1e603ca",
+      "text": "Interpretability experiments investigate which specific internal signals influence model behavior. While visualizing activations may help suggest a hypothesis, targeted interventions offer a more robust test of functional relevance. Researchers should employ controls to verify that an intervention does not damage the network broadly, but instead affects only the specific behavior under investigation.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "An interpretability experiment asks which internal signals affect a model behavior. Visualizing activations can suggest a hypothesis, but targeted interventions provide a stronger test of functional relevance. Controls should check whether an intervention damages the network broadly rather than changing only the behavior under study."
+    }
+  ]
+}

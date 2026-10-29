@@ -38,6 +38,38 @@ def save(path, value):
     temporary.replace(path)
 
 
+def merge_pools(paths):
+    pools = [(path, read(path)) for path in paths]
+    if not pools:
+        raise ValueError("Need at least one input pool")
+    first = pools[0][1]
+    shared = {key: value for key, value in first["settings"].items()
+              if key not in {"seed", "source_rank", "attempts"}}
+    result = {"schema": "merged-fresh-native-basins-v1", "map_id": first["map_id"],
+              "target_plan": first["target_plan"], "settings": dict(shared),
+              "cases": [], "source_pools": [], "quality": "Individual reviews required; raw pools are retained unchanged."}
+    for path, pool in pools:
+        comparable = {key: value for key, value in pool["settings"].items()
+                      if key not in {"seed", "source_rank", "attempts"}}
+        if pool["map_id"] != result["map_id"] or comparable != shared:
+            raise ValueError("Merged pools need identical map and non-seed/non-source settings")
+        result["source_pools"].append({"file": str(path), "sha256": sha256(path.read_bytes()).hexdigest(),
+                                       "settings": pool["settings"]})
+        for case in pool["cases"]:
+            target = next((row for row in result["cases"] if row["id"] == case["id"]), None)
+            if target is None:
+                target = {**case, "attempts": []}
+                result["cases"].append(target)
+            if target["target"] != case["target"]:
+                raise ValueError("Merged target coordinates disagree")
+            seeds = {attempt["seed"] for attempt in target["attempts"]}
+            if any(attempt["seed"] in seeds for attempt in case["attempts"]):
+                raise ValueError("Merged pools repeat a native seed for the same target")
+            target["attempts"].extend(case["attempts"])
+    result["settings"].update(seed="per-attempt", source_rank="per-source-pool", attempts="per-source-pool")
+    return result
+
+
 def target_plan(bundle, seed=810731, count=6):
     """Convex mixtures guarantee interior clicks without defining target text."""
     import numpy as np
@@ -100,17 +132,25 @@ def packet(pool, output):
     save(output.with_name(output.stem + "-key.json"), {"items": keys})
 
 
-def source_packet(bundle, plan, output):
-    items = []
+def source_packet(bundle, plan, output, ranks=(1,), cases=None):
+    items, keys = [], []
     for case in plan["targets"]:
-        record = bundle.nearest(tuple(case["target"]), k=1)[0]
-        items.append({"review_id": sha256(record.text.encode()).hexdigest()[:12],
-                      "text_sha256": sha256(record.text.encode()).hexdigest(),
-                      "public_corpus_id": record.id, "text": record.text,
-                      "verdict": None, "reason": None})
+        if cases and case["id"] not in cases:
+            continue
+        neighbors = bundle.nearest(tuple(case["target"]), k=max(ranks))
+        for rank in ranks:
+            record = neighbors[rank - 1]
+            review_id = sha256(record.text.encode()).hexdigest()[:12]
+            if not any(item["review_id"] == review_id for item in items):
+                items.append({"review_id": review_id,
+                              "text_sha256": sha256(record.text.encode()).hexdigest(),
+                              "public_corpus_id": record.id, "text": record.text,
+                              "verdict": None, "reason": None})
+            keys.append({"review_id": review_id, "target_id": case["id"], "source_rank": rank})
     random.Random(70913).shuffle(items)
     save(output, {"schema": "public-source-quality-review-v1",
                   "instructions": "Review only scientific accuracy, scope, qualifications and coherence of these public corpus references. These are not generated outputs. No target coordinates/distances are supplied.", "items": items})
+    save(output.with_name(output.stem + "-key.json"), {"items": keys})
 
 
 def summary(pool, paired=None, reviews=None):
@@ -177,30 +217,83 @@ def approved_anchors(pool, reviews):
         if choices:
             candidate, attempt, review_id = min(choices, key=lambda item: item[0]["distance"])
             anchors.append({"id": case["id"], "target": case["target"], "candidate": candidate,
-                            "request": attempt["request"], "review_id": review_id})
+                            "request": attempt["request"], "review_id": review_id,
+                            "public_reference_text": attempt.get("public_reference", {}).get("text")})
         else:
             anchors.append({"id": case["id"], "target": case["target"], "candidate": None,
                             "reason": "no_independently_approved_generated_anchor"})
     return anchors
 
 
-def refinement_packet(report, output):
+def refinement_packet(report, output, anchor_pool=None):
     rows, keys = [], []
+    references = {}
+    if anchor_pool:
+        for case in anchor_pool["cases"]:
+            for attempt in case["attempts"]:
+                for candidate in attempt["candidates"]:
+                    references[(case["id"], candidate["text"])] = attempt.get("public_reference", {}).get("text")
     for item in report["runs"]:
         if not item.get("result", {}).get("text"):
             continue
         text = item["result"]["text"]
         digest = sha256(text.encode()).hexdigest()
         review_id = sha256((item["target_id"] + item["arm"] + digest).encode()).hexdigest()[:12]
+        anchor_text = item["anchor"]["candidate"]["text"]
+        public_text = item["anchor"].get("public_reference_text") or references.get((item["target_id"], anchor_text))
+        if not public_text:
+            raise ValueError("Final review requires its original public reference; supply --anchor-pool")
         rows.append({"review_id": review_id, "text_sha256": digest,
-                     "reference_text": item["anchor"]["candidate"]["text"], "text": text,
-                     "verdict": None, "reason": None})
+                     "public_reference_text": public_text, "initial_anchor_text": anchor_text,
+                     "text": text, "verdict": None, "reason": None,
+                     "anchor_claim_preservation": None, "anchor_claim_reason": None})
         keys.append({"review_id": review_id, "target_id": item["target_id"], "arm": item["arm"],
+                     "requires_anchor_preservation": item["arm"] in ("words", "sentence"),
                      "best_candidate": item["result"]["trace"].get("best_candidate")})
     random.Random(820179).shuffle(rows)
     save(output, {"schema": "distance-blinded-refinement-quality-v1",
-                  "instructions": "Review grammar, scientific accuracy and preservation of ALL reference claims, qualifications and scope. Mark accepted/rejected/uncertain with reason; distances, target IDs and arms are withheld.", "items": rows})
+                  "policy_declared_before_final_review": True,
+                  "instructions": "For ALL items, mark verdict accepted/rejected/uncertain for grammar, scientific accuracy, coherence and fidelity to the PUBLIC reference. Separately mark anchor_claim_preservation preserved/drift/uncertain and explain any change versus the INITIAL generated anchor. Arms, targets and distances are hidden. The predeclared key additionally requires anchor preservation for local-repair arms; fresh-restart outputs may differ from the old anchor while remaining faithful to the public source.", "items": rows})
     save(output.with_name(output.stem + "-key.json"), {"items": keys})
+
+
+def refinement_summary(report, reviews=None):
+    verdicts = {item["review_id"]: item for item in (reviews or {}).get("items", [])}
+    rows = []
+    for run in report["runs"]:
+        trace = run.get("result", {}).get("trace", {})
+        best = trace.get("best_candidate")
+        text = run.get("result", {}).get("text", "")
+        digest = sha256(text.encode()).hexdigest()
+        review_id = sha256((run["target_id"] + run["arm"] + digest).encode()).hexdigest()[:12]
+        review = verdicts.get(review_id)
+        if review and review["text_sha256"] != digest:
+            raise ValueError("Post-review hash does not match final text")
+        initial = run["anchor"].get("candidate")
+        row = {"target_id": run["target_id"], "arm": run["arm"],
+               "status": run.get("status", trace.get("status", "error")),
+               "reason": run.get("reason", trace.get("stop_reason", run.get("error"))),
+               "initial_reviewed_distance": initial["distance"] if initial else None,
+               "final_mechanical_distance": best["distance"] if best else None,
+               "post_review": review["verdict"] if review else "not_reviewed",
+               "post_review_reason": review.get("reason") if review else None,
+               "epsilon_confirmed": trace.get("epsilon_confirmed", False),
+               "confirmation": trace.get("epsilon_confirmation"),
+               "elapsed_seconds": trace.get("elapsed_seconds"),
+               "hard_queries": trace.get("hard_queries"),
+               "restart_count": trace.get("restart_count"),
+               "executed_work": trace.get("executed_work")}
+        accepted = bool(review and review["verdict"] == "accepted" and (
+            run["arm"] == "sentence-restarts" or review.get("anchor_claim_preservation") == "preserved"))
+        row["passes_predeclared_quality_policy"] = accepted
+        row["best_reviewed_initial_or_final_distance"] = min(
+            [initial["distance"]] + ([best["distance"]] if accepted and best else [])
+        ) if initial else None
+        rows.append(row)
+    return {"schema": "fresh-refinement-summary-v1", "map_id": report["map_id"],
+            "targets": len(report["anchors"]),
+            "targets_with_reviewed_generated_anchor": sum(anchor["candidate"] is not None for anchor in report["anchors"]),
+            "rows": rows, "note": "Unreviewed/rejected final improvements do not establish quality-preserving progress. Missing targets remain explicit."}
 
 
 def refine(args, bundle):
@@ -352,6 +445,7 @@ def generate(args, bundle):
                 "guided": not args.unguided, "grounded": args.grounded,
                 "min_words": args.min_words, "max_words": args.max_words,
                 "conservative_grounded": args.conservative_grounded,
+                "source_rank": args.source_rank,
                 "strength": args.strength, "max_delta": args.max_delta,
                 "guided_steps": args.guided_steps, "start_fraction": args.start_fraction}
     report = {"schema": "fresh-native-basins-v1", "created_at": datetime.now(timezone.utc).isoformat(),
@@ -379,6 +473,8 @@ def generate(args, bundle):
     report["provenance"] = {"script_sha256": sha256(Path(__file__).read_bytes()).hexdigest(),
                             "versions": versions, "witness_text_used": False}
     for case_index, target_info in enumerate(plan["targets"]):
+        if args.case and target_info["id"] not in args.case:
+            continue
         case = next((row for row in report["cases"] if row["id"] == target_info["id"]), None)
         if case is None:
             case = {**target_info, "attempts": []}
@@ -417,8 +513,9 @@ def generate(args, bundle):
                 item["drafts"].append({**asdict(draft), "canonical": verify(draft.text, "draft")})
                 return deadline.is_set()
 
-            examples = bundle.nearest(target, k=policy.neighbors)
+            examples = bundle.nearest(target, k=max(policy.neighbors, args.source_rank))
             if args.grounded:
+                examples = [examples[args.source_rank - 1]]
                 item["public_reference"] = asdict(examples[0])
             request = DiffusionRequest(technical_prompt(examples, policy),
                                        seed=seed, max_tokens=args.tokens, steps=args.steps)
@@ -457,12 +554,17 @@ def generate(args, bundle):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("phase", choices=("plan", "generate", "packet", "sources", "summary", "refine"))
+    parser.add_argument("phase", choices=("plan", "generate", "packet", "sources", "summary", "refine", "refinement-summary", "refinement-packet", "merge"))
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--targets", type=Path)
     parser.add_argument("--pool", type=Path)
+    parser.add_argument("--input", type=Path, action="append")
     parser.add_argument("--paired", type=Path)
+    parser.add_argument("--anchor-pool", type=Path)
     parser.add_argument("--reviews", type=Path)
+    parser.add_argument("--case", action="append")
+    parser.add_argument("--source-rank", type=int, default=1)
+    parser.add_argument("--source-ranks", default="1", help="Comma-separated public-neighbor ranks for source-only review.")
     parser.add_argument("--arm", choices=("words", "sentence", "sentence-restarts"), action="append")
     parser.add_argument("--packet", type=Path)
     parser.add_argument("--cache-dir", type=Path, required=False)
@@ -490,6 +592,11 @@ def main():
     parser.add_argument("--restarts", type=int, default=2)
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
+    if args.phase == "merge":
+        if not args.input:
+            parser.error("merge requires --input pools")
+        save(args.output, merge_pools(args.input))
+        return
     if args.phase == "packet":
         if not args.pool:
             parser.error("packet requires --pool")
@@ -500,6 +607,16 @@ def main():
             parser.error("summary requires --pool")
         save(args.output, summary(read(args.pool), read(args.paired) if args.paired else None,
                                   read(args.reviews) if args.reviews else None))
+        return
+    if args.phase == "refinement-summary":
+        if not args.pool:
+            parser.error("refinement-summary requires --pool")
+        save(args.output, refinement_summary(read(args.pool), read(args.reviews) if args.reviews else None))
+        return
+    if args.phase == "refinement-packet":
+        if not args.pool:
+            parser.error("refinement-packet requires --pool")
+        refinement_packet(read(args.pool), args.output, read(args.anchor_pool) if args.anchor_pool else None)
         return
     if args.phase in ("generate", "sources") and not args.targets:
         parser.error("generate/sources require --targets")
@@ -516,7 +633,10 @@ def main():
         save(args.output, target_plan(bundle, args.plan_seed))
         print(args.output)
     elif args.phase == "sources":
-        source_packet(bundle, read(args.targets), args.output)
+        ranks = tuple(int(value) for value in args.source_ranks.split(","))
+        if not ranks or min(ranks) < 1 or max(ranks) > 64:
+            parser.error("source ranks must be in1..64")
+        source_packet(bundle, read(args.targets), args.output, ranks, args.case)
     elif args.phase == "refine":
         refine(args, bundle)
     else:

@@ -1,0 +1,328 @@
+{
+  "schema": "distance-blinded-refinement-independent-review-v2",
+  "created_at": "2026-10-29T21:14:18.436186+00:00",
+  "input_packet": "docs/experiments/fresh-refinement-blind-review-v2.json",
+  "policy_declared_before_final_review": "2026-10-29T21:06:00Z",
+  "reviewer": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh"
+  },
+  "policy": "One arm-blind standard judges exact final-text grammar, coherence, scientific quality and fidelity to the public source. Anchor claim preservation is a separate axis and does not redefine intrinsic approval. Material garbling, unsupported causal changes and public-source claim deletions fail. Uncertain is unapproved. No silent repair; no arm inference. This is individual review, not a judge-accuracy estimate or correctness certificate.",
+  "blinding": {
+    "only_requested_packet_and_public_language_sources_read": true,
+    "keys_full_pools_coordinates_or_distances_read": false,
+    "arms_or_phase_labels_read": false
+  },
+  "source_checks": {
+    "G1": {
+      "finding": "Cambridge treats procedure as countable or uncountable, while its determiner guidance distinguishes singular count-noun uses. That prevents declaring every bare such procedure categorically ungrammatical. The exact anaphoric use remains a language-quality uncertainty, not a scientific rejection.",
+      "source_urls": [
+        "https://dictionary.cambridge.org/dictionary/english/procedure",
+        "https://dictionary.cambridge.org/grammar/british-grammar/determiners-and-singular-countable-nouns"
+      ]
+    }
+  },
+  "summary": {
+    "verdicts": {
+      "rejected": 7,
+      "accepted": 4,
+      "uncertain": 1
+    },
+    "anchor_claim_preservation": {
+      "preserved": 8,
+      "drift": 4
+    }
+  },
+  "items": [
+    {
+      "review_id": "cde0797a5c5a",
+      "text_sha256": "d273a853c2634a2644b1e961e28fc110cc906b9566fc3c189132f1d4f9d3de63",
+      "text": "Phase transformations occur when a material undergoes structural or organizational changes under specific conditions. To analyse these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates.,,, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+      "public_reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "public_reference_sha256": "28f4e0f78226a5558de5e8cb2bb672fc2912a1147d000b071b9d4f085df8f447",
+      "initial_anchor_text": "Phase transformations occur when a material undergoes structural or organizational changes under specific conditions. To analyze these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates. Furthermore, conducting repeated measurements can evaluate how the transformation depends on the specific prior history of the sample.",
+      "initial_anchor_sha256": "03a2bbaf5f050faea1cda3e2d5edbe0a9c8f097abf74de8b153d65ee5e558f39",
+      "verdict": "rejected",
+      "reason": "The uncorrected \"rates.,,, conducting\" boundary is a material punctuation/sentence-construction artifact. The underlying phase-transition content remains recognizable, but exact-text approval would require repair.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "pass",
+        "coherence": "fail",
+        "public_source_fidelity": "preserved"
+      },
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "The structure/organization, equilibrium-versus-finite-rate kinetics, and qualified sample-history investigation claims remain present. The rejection is grammatical, not a newly introduced scientific claim.",
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "658314aadd70",
+      "text_sha256": "89c3aa6f8182e2e05af83975be2256709d7d21f0b40d8815dc337de1e61cc78a",
+      "text": "Single-cell assays capture variability that may be lost during tissue-level averaging. Data analysis must account take into account potential technical noise, incomplete sampling, and fluctuations in sequencing depth.,, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "public_reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "public_reference_sha256": "e2d77e435a4798bea9578703b6d10c923cfa8c61915ec758814a364d79cb17f5",
+      "initial_anchor_text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Furthermore, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "initial_anchor_sha256": "ec6d7fe1e18aa2b42cab4ae2c426d717075e25d552af814263f16d9efd27d54d",
+      "verdict": "rejected",
+      "reason": "\"Must account take into account\" combines incompatible unfinished verb constructions, and \"depth.,, comparing\" breaks the sentence boundary. These are material editing artifacts.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "pass",
+        "coherence": "fail",
+        "public_source_fidelity": "preserved"
+      },
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "The heterogeneity, noise/sampling/depth requirements and qualified procedure-association check remain explicit. Adding \"potential\" does not by itself reverse those core claims; malformed wording prevents quality approval.",
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "0a1a516c5665",
+      "text_sha256": "0daacd7149fff95f1ad21c2d7fb4bffadae5c3d8c2e055d2ccdcb2aa3a0a4f92",
+      "text": "A locomotion controller must balance stability progress,, energy consumption. Since diverse environments may modify the efficacy of particular motion strategies or gaits, assessments can help document cumulative energy usage for a complete task rather than concentrating only on brief periods of uniform movement.",
+      "public_reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "public_reference_sha256": "e4a71137001a203c4c4d707ecff0608e7ababa3c50db9a27aa3ae17449232951",
+      "initial_anchor_text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+      "initial_anchor_sha256": "93ef4de72541e844b7d78461873a53d69fefce0b624bcaa34f0c60c620be96d5",
+      "verdict": "rejected",
+      "reason": "\"Must balance stability progress,, energy consumption\" is a malformed coordination. The whole-task measurement recommendation is also weakened from what evaluations should do to what assessments can help document.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "uncertain",
+        "coherence": "fail",
+        "public_source_fidelity": "drift"
+      },
+      "anchor_claim_preservation": "drift",
+      "anchor_claim_reason": "The anchor requires balancing three objectives and recommends documenting whole-task energy. The broken list and replacement of the recommendation by a possibility do not preserve its full prescriptive claim.",
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "f58118394e68",
+      "text_sha256": "7957c97a7e81dd8469be65c58ac11406ac3761de514df817086099521cf94fa4",
+      "text": "Phase transformations involve structural or organizational reorganization under particular conditions. Evaluating these transitions requires researchers to distinguish between equilibrium behavior and kinetic effects resulting from finite heating or cooling rates. In addition, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+      "public_reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "public_reference_sha256": "28f4e0f78226a5558de5e8cb2bb672fc2912a1147d000b071b9d4f085df8f447",
+      "initial_anchor_text": "Phase transformations occur when a material undergoes structural or organizational changes under specific conditions. To analyze these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates. Furthermore, conducting repeated measurements can evaluate how the transformation depends on the specific prior history of the sample.",
+      "initial_anchor_sha256": "03a2bbaf5f050faea1cda3e2d5edbe0a9c8f097abf74de8b153d65ee5e558f39",
+      "verdict": "accepted",
+      "reason": "Complete and coherent. The phase-change description, equilibrium/finite-rate kinetic distinction and qualified use of repeated measurements remain faithful to the public source. Mild nominal redundancy is not a material defect.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_quality": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "All three anchor claims and their qualifications are retained; wording changes do not add a mechanism, causal guarantee or narrower history condition.",
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "c6c0fc8d2f72",
+      "text_sha256": "4a1d99248fb54cdce1136c203c952d6f1647dc8a30b233baa5dddf593bc3e91d",
+      "text": "Quantum error correction employs information encoding across multiple physical systems to enable the detection and correction of specific errors. Such procedure requires the simultaneous specification of the code, measurement protocols, and noise assumptions. Assessments of performance should prioritize logical errors rather than depending exclusively on the fidelity of individual physical operations.",
+      "public_reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "public_reference_sha256": "924b87d77d5bf6acaa674b999afe2e18c70c538e493a984839b58482b5bc0905",
+      "initial_anchor_text": "Quantum error correction utilizes information encoding across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement protocols, and noise assumptions. Effective performance evaluations should focus on logical errors rather than relying solely on the fidelity of single physical operations.",
+      "initial_anchor_sha256": "759d9f4e0e7fa37ecbae8dd7b609e64e08156d99e70144cd2ea25b14561de94f",
+      "verdict": "uncertain",
+      "reason": "Scientific content and public-source claims are coherent. \"Such procedure\" is an awkward anaphoric determiner/count construction here; procedure also has mass-noun uses, so a categorical grammar rejection is unwarranted. The exact usage is withheld rather than silently amended.",
+      "dimensions": {
+        "grammar": "uncertain",
+        "scientific_quality": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "The physical encoding, jointly specified code/measurement/noise assumptions and logical-versus-isolated-physical evaluation claims remain unchanged. The uncertainty concerns language, not claim drift.",
+      "source_note_ids": [
+        "G1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "518fd1c32462",
+      "text_sha256": "2f8aa307d343049bc27706ba6c2f541e47471796e8025d6bf22d820416a8e913",
+      "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. Such processes necessitate the simultaneous specification of the code, measurement protocols, and noise assumptions. In addition, performance assessments should emphasize logical error rates rather than exclusively considering the fidelity associated with individual physical operations.",
+      "public_reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "public_reference_sha256": "924b87d77d5bf6acaa674b999afe2e18c70c538e493a984839b58482b5bc0905",
+      "initial_anchor_text": "Quantum error correction utilizes information encoding across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement protocols, and noise assumptions. Effective performance evaluations should focus on logical errors rather than relying solely on the fidelity of single physical operations.",
+      "initial_anchor_sha256": "759d9f4e0e7fa37ecbae8dd7b609e64e08156d99e70144cd2ea25b14561de94f",
+      "verdict": "accepted",
+      "reason": "Grammatical and scientifically coherent. It preserves specific-error encoding/correction, the joint implementation assumptions and the priority of logical-error evaluation without excluding physical-operation evidence.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_quality": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "Logical error rates make the anchor metric more explicit while preserving its comparison with physical-operation fidelity; no new guarantee or material omission is introduced.",
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "a25dffd75105",
+      "text_sha256": "c95519379b0fc3cec67fcaeb10b08e8d3503fd2198e469ed585ebb6a244ea7ad",
+      "text": "A locomotion controller stability. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task instead of focusing solely on short intervals of steady-state motion.",
+      "public_reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "public_reference_sha256": "e4a71137001a203c4c4d707ecff0608e7ababa3c50db9a27aa3ae17449232951",
+      "initial_anchor_text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+      "initial_anchor_sha256": "93ef4de72541e844b7d78461873a53d69fefce0b624bcaa34f0c60c620be96d5",
+      "verdict": "rejected",
+      "reason": "The first sentence is the fragment \"A locomotion controller stability.\" It deletes the public source's central requirement to balance progress, stability and energy, even though the later energy-measurement advice survives.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "uncertain",
+        "coherence": "fail",
+        "public_source_fidelity": "drift"
+      },
+      "anchor_claim_preservation": "drift",
+      "anchor_claim_reason": "The balance requirement and forward-progress objective are materially lost. They cannot be supplied from the anchor while judging this exact final text.",
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "9489352e0c55",
+      "text_sha256": "2b5aceed059bf1f77a36555c716d9fde01bdb4ff90caf19cddc5e8c795fc588b",
+      "text": "Single-cell assays capture variability that may be lost during tissue-level averaging. Such analyses must account for technical noise, varying sequencing depths, and incomplete sampling. Additionally, comparing data across different batches helps determine if an biological biological group is genuine or associated to the specific experimental experimental.",
+      "public_reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "public_reference_sha256": "e2d77e435a4798bea9578703b6d10c923cfa8c61915ec758814a364d79cb17f5",
+      "initial_anchor_text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Furthermore, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "initial_anchor_sha256": "ec6d7fe1e18aa2b42cab4ae2c426d717075e25d552af814263f16d9efd27d54d",
+      "verdict": "rejected",
+      "reason": "\"An biological biological\" and \"the specific experimental experimental\" are garbled and incomplete. The final genuine-versus-procedure-associated alternative also strengthens an association check into an unsupported authenticity distinction.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "fail",
+        "coherence": "fail",
+        "public_source_fidelity": "drift"
+      },
+      "anchor_claim_preservation": "drift",
+      "anchor_claim_reason": "The anchor only claims cross-batch comparison can reveal procedure association. The final sentence loses its procedure noun and substitutes a genuine-versus-associated binary; this is material drift, not a faithful restatement.",
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "ae9329a7004b",
+      "text_sha256": "3db1720eb382849fcd7ce4645e782acd6f1dc5125d21b4ef5978c1666d6fbc0b",
+      "text": "Quantum error correction employs information encoding across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement protocols, and noise assumptions. Effective performance evaluations should focus on logical errors rather than relying solely on the fidelity of single physical operations.",
+      "public_reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "public_reference_sha256": "924b87d77d5bf6acaa674b999afe2e18c70c538e493a984839b58482b5bc0905",
+      "initial_anchor_text": "Quantum error correction utilizes information encoding across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement protocols, and noise assumptions. Effective performance evaluations should focus on logical errors rather than relying solely on the fidelity of single physical operations.",
+      "initial_anchor_sha256": "759d9f4e0e7fa37ecbae8dd7b609e64e08156d99e70144cd2ea25b14561de94f",
+      "verdict": "accepted",
+      "reason": "Complete, coherent and faithful. The public-source qualifications about specific correctable errors, jointly specified assumptions and logical rather than only isolated physical performance are retained.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_quality": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "The only substantive wording change is employs versus utilizes; all anchor claims and qualifications are preserved.",
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "3cc3007a3d9c",
+      "text_sha256": "460fba5ae5422484e9ac62f93d5cb67b95276c2fbf04655e2ce6644a9bd52dad",
+      "text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task instead than focusing solely on short intervals of steady-state motion.",
+      "public_reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "public_reference_sha256": "e4a71137001a203c4c4d707ecff0608e7ababa3c50db9a27aa3ae17449232951",
+      "initial_anchor_text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+      "initial_anchor_sha256": "93ef4de72541e844b7d78461873a53d69fefce0b624bcaa34f0c60c620be96d5",
+      "verdict": "rejected",
+      "reason": "\"Instead than\" is an uncorrected grammatical error in the final comparison. The scientific advice is intelligible, but the exact sentence requires repair.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "pass",
+        "coherence": "fail",
+        "public_source_fidelity": "preserved"
+      },
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "The balance, terrain-effect and whole-task-versus-short-interval claims are still present. This is a grammar failure rather than a material change to the anchor's scientific claims.",
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "a180ece38744",
+      "text_sha256": "a38f148a537fd1e47a4b4451ea1a68acbed807f641927386541d02b8f4fa9b99",
+      "text": "Phase transformations occur when a material undergoes structural or organizational organizational change under specific conditions. To assess these transitions, one must distinguish between equilibrium-based behavior and kinetic effects resulting from non- rates of or cooling cooling. In addition, conducting repeated measurements help determine how the transformation is dependent upon the specific thermal history of the sample.",
+      "public_reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "public_reference_sha256": "28f4e0f78226a5558de5e8cb2bb672fc2912a1147d000b071b9d4f085df8f447",
+      "initial_anchor_text": "Phase transformations occur when a material undergoes structural or organizational changes under specific conditions. To analyze these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates. Furthermore, conducting repeated measurements can evaluate how the transformation depends on the specific prior history of the sample.",
+      "initial_anchor_sha256": "03a2bbaf5f050faea1cda3e2d5edbe0a9c8f097abf74de8b153d65ee5e558f39",
+      "verdict": "rejected",
+      "reason": "Duplicated \"organizational organizational\" and \"cooling cooling\", plus \"non- rates of or\", materially garble the finite-rate causal clause. The final history condition is additionally narrowed to thermal history without support from the broader public reference.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_quality": "uncertain",
+        "coherence": "fail",
+        "public_source_fidelity": "drift"
+      },
+      "anchor_claim_preservation": "drift",
+      "anchor_claim_reason": "The finite heating/cooling-rate qualification is no longer stated coherently, heating is lost, and general sample history becomes thermal history. These are material deletions/narrowing relative to the anchor.",
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "27f3a8b0e762",
+      "text_sha256": "71ea8e88fa0928b9275d814510885a8beffac30a3c53ac35a1931a57c0bc6ca9",
+      "text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Additionally, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "public_reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "public_reference_sha256": "e2d77e435a4798bea9578703b6d10c923cfa8c61915ec758814a364d79cb17f5",
+      "initial_anchor_text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Furthermore, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "initial_anchor_sha256": "ec6d7fe1e18aa2b42cab4ae2c426d717075e25d552af814263f16d9efd27d54d",
+      "verdict": "accepted",
+      "reason": "Grammatical, coherent and faithful. It retains the qualified heterogeneity claim, all three analysis concerns and the limited purpose of cross-batch comparison without claiming authenticity certification.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_quality": "pass",
+        "coherence": "pass",
+        "public_source_fidelity": "preserved"
+      },
+      "anchor_claim_preservation": "preserved",
+      "anchor_claim_reason": "Additionally replaces Furthermore; the anchor's scientific claims and modality remain unchanged.",
+      "source_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    }
+  ]
+}

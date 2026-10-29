@@ -1,0 +1,53 @@
+{
+  "source_commit": "53fe8ab4c7250bffb343535e77a404055143bc3f",
+  "recorded_refinement_sha256": "8d8f2b5846372c8a4bf8aa89facde94eaad1c4bd754e7cc18432ddbfbfddd78d",
+  "code_sha_matches_recorded_commit": true,
+  "proposal_code_matches_recorded_commit": true,
+  "method": "Complete logged-source recovery; all curated atoms and up-to-four disjoint combinations form a conservative cache-candidate superset.",
+  "runs": [
+    {
+      "target_id": "fresh-click-03",
+      "arm": "sentence-restarts",
+      "recorded_curated_sources": 39,
+      "recovered_sources": 39,
+      "source_recovery_complete": true,
+      "candidate_superset_size": 211,
+      "potential_cross_basin_cache_events": [],
+      "raw_quality_key_fix_applicable": false,
+      "conclusion": "no_trigger_in_complete_superset"
+    },
+    {
+      "target_id": "fresh-click-04",
+      "arm": "sentence-restarts",
+      "recorded_curated_sources": 31,
+      "recovered_sources": 31,
+      "source_recovery_complete": true,
+      "candidate_superset_size": 1842,
+      "potential_cross_basin_cache_events": [],
+      "raw_quality_key_fix_applicable": false,
+      "conclusion": "no_trigger_in_complete_superset"
+    },
+    {
+      "target_id": "fresh-click-05",
+      "arm": "sentence-restarts",
+      "recorded_curated_sources": 25,
+      "recovered_sources": 25,
+      "source_recovery_complete": true,
+      "candidate_superset_size": 27,
+      "potential_cross_basin_cache_events": [],
+      "raw_quality_key_fix_applicable": false,
+      "conclusion": "no_trigger_in_complete_superset"
+    },
+    {
+      "target_id": "fresh-click-06",
+      "arm": "sentence-restarts",
+      "recorded_curated_sources": 29,
+      "recovered_sources": 29,
+      "source_recovery_complete": true,
+      "candidate_superset_size": 94,
+      "potential_cross_basin_cache_events": [],
+      "raw_quality_key_fix_applicable": false,
+      "conclusion": "no_trigger_in_complete_superset"
+    }
+  ]
+}

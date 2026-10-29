@@ -165,3 +165,60 @@ drafts and failures remain available. No epsilon success follows from this
 coverage improvement. Word-span, sentence-span and fresh-restart refinement are
 now being compared from approved generated anchors under equal per-arm budgets,
 with separate blinded post-review required for their new text.
+
+## Reviewed word, sentence and restart refinements
+
+The [completed three-arm comparison](experiments/fresh-approved-refinement-v2.json.gz)
+started from the four independently approved conservative-v2 generated anchors.
+All six original targets remain in its receipt: targets 01 and 02 have explicit
+`not_run` entries because neither had an approved generated anchor. Each actual
+arm allowed 60 seconds, 600 canonical queries and 20 rounds, with the exact
+40–70-word prompt policy. Word and sentence repair disabled restarts; the third
+arm allowed two fresh restart basins, each with two new coarse seeds. Weak
+guidance used strength .1, maximum logit delta .5, 16 inner updates and an
+explicit start-at-zero schedule. Actual executed work is in every run receipt;
+equal budget limits do not imply equal realized compute.
+
+Before final review, the policy was fixed as scientific accuracy, grammar,
+coherence and public-source fidelity for **all** arms. Anchor-claim preservation
+was graded separately and additionally required for local word/sentence repair.
+Fresh restart output could differ from the old generated anchor while remaining
+faithful to the public source. Both public source and initial anchor were shown
+to the reviewer; targets, distances and arms were hidden. The
+[independent review](experiments/fresh-refinement-independent-review-v2.json)
+accepted 4 finals, rejected 7 and marked 1 uncertain.
+
+| Target | Approved initial | Words | Sentence | Sentence + restarts |
+| --- | ---: | --- | --- | --- |
+| 01 | None | Not run | Not run | Not run |
+| 02 | None | Not run | Not run | Not run |
+| 03 | .033952 | .027826 accepted | .017356 uncertain | .009275 accepted |
+| 04 | .076398 | .067402 rejected | .027391 accepted | .025401 rejected |
+| 05 | .050411 | .048940 rejected | .039121 rejected | .019595 rejected |
+| 06 | .041483 | .030183 rejected | .037211 accepted | .026463 rejected |
+
+Distances in rejected or uncertain cells are mechanical measurements, **not
+quality-preserving gains**. The best reviewed initial-or-final distance improves
+for three of the four eligible targets; target 05 retains its approved initial
+text. No arm attained epsilon. In particular, .009275 remains roughly 93 times
+the requested `1e-4`. Some superficially better outputs contained punctuation
+artifacts or changed technical claims, and are retained rather than repaired
+silently. The [programmatic reviewed summary](experiments/fresh-refinement-reviewed-summary-v2.json)
+applies the predeclared quality policy and preserves missing targets.
+
+This phase executed the frozen `53fe8ab` implementation. Later cache fixes were
+audited against saved traces: every logged curated source was recovered, all
+atomic edits and up-to-four disjoint combinations were enumerated as a cache
+candidate superset, and no cross-basin coarse match was found. The quality-key
+fix did not apply because the experiment used no live quality callback.
+[Audit code](../scripts/audit_fresh_cohort_cache.py) and its
+[receipt](experiments/fresh-refinement-cache-audit-v2.json) preserve the method
+and verify the original source hash. New phases use the corrected implementation.
+
+To improve coverage for the two missing targets, a separate source-diversity
+phase generated two fresh native seeds for each of public-neighbor ranks 2–4.
+All six additional public references were reviewed before generation. The
+[combined raw pool](experiments/fresh-source-diversity-v3.json.gz) preserves all
+twelve outcomes, individual source/seed settings and hashes of the unchanged
+per-rank pools. Its separate blinded review is pending; no quality or epsilon
+success is claimed from these additional samples alone.
