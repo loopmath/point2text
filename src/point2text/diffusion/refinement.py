@@ -123,6 +123,12 @@ class CanonicalRefinementSearch:
             verified = verifier.verify_batch(proposals, check_quality=not self.late_quality)
             costs["verification_seconds"] += time.monotonic() - before
             for value in sorted(verified, key=lambda item: item.distance):
+                if best is not None and phase not in ("coarse", "initial_text"):
+                    source_first = next((char for char in best.text if char.isalpha()), "")
+                    candidate_first = next((char for char in value.text if char.isalpha()), "")
+                    if source_first.isupper() and candidate_first.islower():
+                        verifier._reject("sentence_case_regression")
+                        continue
                 if self.late_quality and self.quality_callback is not None:
                     # Exact coordinates may rank all atomic edits, but only quality
                     # checked text can enter the beam or become the incumbent.

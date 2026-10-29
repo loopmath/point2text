@@ -68,6 +68,18 @@ def test_quality_rejection_keeps_incumbent_even_at_lower_canonical_error():
     assert result.trace["verification"]["quality_rejected"] == 1
 
 
+def test_fine_edits_cannot_publish_a_chopped_lowercase_sentence_opening():
+    source, broken = "Alpha beta gamma.", "lpha beta gamma."
+    bundle = Bundle({source: (.1, 0), broken: (0, 0)})
+    class Proposer:
+        def propose(self, *args, **kwargs):
+            return [TextProposal(broken)]
+    result = CanonicalRefinementSearch(None, edit_proposer=Proposer(), config=settings()).run(
+        bundle, (0, 0), initial_text=source)
+    assert result.text == source and not result.trace["epsilon_confirmed"]
+    assert result.trace["verification"]["rejections"]["sentence_case_regression"] == 1
+
+
 def test_late_quality_and_epsilon_work_after_last_reserved_search_query():
     source, close = "A distant paragraph.", "A nearby paragraph."
     bundle = Bundle({source: (.1, 0), close: (.00001, 0)})
