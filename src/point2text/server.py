@@ -7,11 +7,13 @@ from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 import json
+import ipaddress
 import math
 import os
 from pathlib import Path
 import threading
 import time
+import subprocess
 from typing import Any
 from uuid import uuid4
 
@@ -221,12 +223,36 @@ def create_app(*, bundle: Any = None, generator: Any = None,
     return app
 
 
+def tailnet_ipv4() -> str:
+    """Resolve the active local Tailscale address without changing Serve routes."""
+    try:
+        result = subprocess.run(["tailscale", "ip", "-4"], capture_output=True,
+                                text=True, check=True, timeout=10)
+        address = ipaddress.IPv4Address(result.stdout.strip())
+        if address not in ipaddress.IPv4Network("100.64.0.0/10"):
+            raise ValueError("address is outside the Tailscale IPv4 range")
+        return str(address)
+    except (OSError, ValueError, subprocess.SubprocessError) as exc:
+        raise RuntimeError(
+            "Could not resolve this machine's Tailscale IPv4 address. Install "
+            "the Tailscale CLI, connect to your tailnet, and check 'tailscale ip -4'."
+        ) from exc
+
+
 def main():
     parser = argparse.ArgumentParser(description="Run the local point2text demo.")
-    parser.add_argument("--host", default="127.0.0.1")
+    binding = parser.add_mutually_exclusive_group()
+    binding.add_argument("--host", default="127.0.0.1")
+    binding.add_argument("--tailnet", action="store_true",
+                         help="Bind directly to this machine's Tailscale IPv4 address.")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--model", default=os.environ.get("POINT2TEXT_MODEL", "gemma4:12b"))
     args = parser.parse_args()
+    if args.tailnet:
+        try:
+            args.host = tailnet_ipv4()
+        except RuntimeError as exc:
+            parser.error(str(exc))
     os.environ["POINT2TEXT_MODEL"] = args.model
     import uvicorn
     uvicorn.run(create_app(), host=args.host, port=args.port)

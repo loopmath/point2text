@@ -49,12 +49,24 @@ The bundled corpus consists of original, curated conceptual paragraphs for a usa
 | `--model` / `POINT2TEXT_MODEL` | `gemma4:12b` | Installed Ollama instruction model |
 | `--port` | `8765` | Local HTTP port |
 | `--host` | `127.0.0.1` | Bind address |
+| `--tailnet` | off | Bind to the active Tailscale IPv4 address instead of loopback |
 | `POINT2TEXT_OLLAMA_URL` | `http://127.0.0.1:11434` | Generator endpoint |
 | `POINT2TEXT_CACHE` | `.cache/point2text` under the launch directory | Map artifacts and run records |
 
 Map artifacts include the corpus/encoder identity and fitted projection. Completed, cancelled, and failed searches write JSON under `POINT2TEXT_CACHE/runs/`, including target, map ID, actual candidate text and coordinates, model identity/digest, seed, elapsed time, and strategy. These records support inspection; exact token replay across runtime versions is not guaranteed. Model weights and run records are not committed.
 
 API documentation is at `/docs`. One local worker runs generation at a time; the map stays immutable during searches. The server is designed as a local application, without hosted multi-user identity or scheduling.
+
+## Access from another device over Tailscale
+
+Connect the host and your other device to the same tailnet, then run:
+
+```bash
+uv run --extra encoder point2text --tailnet --port 8477 --model YOUR_INSTALLED_MODEL
+tailscale ip -4
+```
+
+Open `http://TAILSCALE_IPV4:8477` from the other device. This binds directly to the tailnet interface and does not change existing Tailscale Serve or Funnel routes. Tailnet access rules determine who can reach it; the app has no additional account/login layer. See [background hosting](docs/tailscale.md) to keep the demo available while away from the host.
 
 ## Development
 
