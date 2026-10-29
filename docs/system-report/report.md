@@ -203,18 +203,16 @@ A nine-call adversarial audit found no reliable judge improvement: Gemma 4 31B a
 | Sparse guidance | Earlier paired error 0.07483 -> 0.02411 with early guidance; 0.09050 with late guidance |
 | Feedback / screened edits | Hosted case 0.015393 -> 0.004157 in 26.76 s; stalled above epsilon |
 | Protected-span repair | Exact locking safeguards verified; marginal distance benefit unisolated |
-| Measured combinations | 4/4 eligible local bank reconstructions at d=0; six coverage failures |
-| Paraphrase bank | Panel offers broader local edits; quality-preserved benefit unestablished |
+| Measured combinations | 4/4 eligible local d=0; six-pair A/B returned identical outputs |
+| Paraphrase bank | Two accepted gains in six reviewed anchor cases; general benefit unestablished |
 | Quality judge | 10/10 final passes included four clear defects in independent review |
 | Profiles / storage / UI | Reusable setup/persistence; no distance gain attributed |
 
-The earlier one-target early-guidance probe improved error 67.8%; late guidance worsened it 20.9%. Early guidance used 13 native passes and 26 encoder updates. The hosted screened-edit case improved error 73.0% with 11 canonical queries and 32 native vocabulary probes. Cold/warm ordering and the top-eight versus top-32 screen change prevent controlled speedup or ablation claims.
+Earlier early guidance improved one-target error 67.8%; late guidance worsened it 20.9%. The hosted screened-edit case improved error 73.0% using 11 canonical queries and 32 native vocabulary probes. Cold/warm ordering and changed screens prevent controlled speedup claims.
 
 A separate CPU local diagnostic constructed three-edit witnesses from each source's curated bank, then gave the optimizer only source text and target coordinates. Four fixtures had enough independent spans; all recovered the exact witness with two fresh singleton checks at d=0: 10-37 queries and 0.093-0.266 search seconds, excluding preparation. Six of ten fixtures failed bank coverage before search. One independent distance-blinded model-assisted review found all four grammatical, coherent and claim-preserving; robotics wording was less idiomatic. This is 4/4 eligible cases, 4/10 fixtures, on deliberately easy bank-generated targets. It demonstrates local feasibility, not target-only generation or general epsilon attainment [10].
 
-The earlier “connection fails” -> “relationship fails” edit at d=0.000674 remains a meaning-degrading failure. No equal-time ablation isolates every component's marginal benefit. The ten-target generation panel uses public fixtures and development-selected policies. Expanded banks, stronger judges and the six-candidate/16-update browser profile were not evaluated in that panel; new runs require independent quality review.
-
-MLX evaluates lazily, so hook timing can include deferred native work. Count canonical queries, native forwards, encoder updates and judge calls separately. Compare accepted distance versus total time, retaining rejected/no-result cases and counting coarse generation, preparation and all quality review.
+Later, a 30-draft blinded review accepted 11, rejected 14 and left five uncertain; four targets lacked an approved anchor. On six approved anchors, atomic edits versus added combinations of up to six spans used equal 60-second/4,096-query limits. Both arms returned identical text in all six: no added combination benefit observed; none reached epsilon. Final independent review accepted two, rejected two inherited SLAM/phase-transition overstatements and left two uncertain, although all edits preserved claims. Only the accepted gains 0.050430 -> 0.045929 and 0.164335 -> 0.163197 support scoped quality-preserving improvement. The first is federated-learning text at a quantum target: proximity does not enforce topic. [A/B evidence](https://github.com/loopmath/point2text/blob/main/docs/optimization-progress.md).
 
 <!-- page -->
 
