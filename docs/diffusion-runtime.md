@@ -98,6 +98,28 @@ valid incumbent, and reject repairs that worsen distance or violate quality.
 Warm-start repair is an inference heuristic; no exact-posterior or epsilon
 attainment claim is made.
 
+## Optional contextual replacement vocabulary
+
+`NativeReplacementProvider(runtime, request, top_k=32, max_spans=4)` can be
+passed as a contextual `allowed_replacements` object to the canonical discrete
+edit proposer. Its `replacements(text, span)` method returns alphabetic word
+surfaces from one native denoiser forward, with only the target generator token
+uniformly corrupted. Other text IDs remain the exact context; the prompt uses
+a fresh native cache. No full diffusion trajectory, generator backward pass,
+or separate autoregressive model is involved.
+
+The first version supports only exact whole words covered by one generator
+token. Decoding each replacement must preserve the complete original character
+prefix and suffix. Unsupported words return an empty sequence and a reason;
+the caller must not fall back to unrestricted edits. The provider caches by
+text, span, prompt, seed, runtime identity/revision and top-k; it caps actual
+native probes per text. `.trace` records cache hits, native forwards, elapsed
+costs and unsupported reasons. A failed probe explicitly marks its work as
+unmeasured. This screens vocabulary, not grammaticality or technical validity;
+its logits are not claimed to be calibrated sequence probabilities.
+An optional `should_stop()` callback is checked before each uncached probe;
+deadline/cancellation returns no alternatives and records `deadline_or_cancel`.
+
 The public [mlx-vlm source](https://github.com/Blaizzy/mlx-vlm/blob/217548e24d0d1586b4981c3b50d2f1d3a8e64975/mlx_vlm/generate/diffusion.py)
 matches the installed 0.7.11 diffusion module (SHA-256
 `76e88e4faa8823feb278e7078b714244c6a570a5d3d990cc4ad1863e1a75c8f8`).

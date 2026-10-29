@@ -325,3 +325,56 @@ def test_observer_cancellation_keeps_no_unfinished_final_canvas():
     assert result.trace["observer_calls"] == 1
     assert result.trace["passes"] == 1
     assert not result.text
+
+
+class WordTokenizer:
+    words = ["zero", "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta"]
+    all_special_ids = [0]
+
+    def __call__(self, text, **kwargs):
+        import re
+        words = list(re.finditer(r"[A-Za-z]+", text))
+        return {"input_ids": [self.words.index(word.group()) for word in words],
+                "offset_mapping": [word.span() for word in words]}
+
+    def decode(self, ids, **kwargs):
+        return " ".join(self.words[index] for index in ids)
+
+
+def test_replacement_probe_uses_one_forward_and_preserves_surrounding_ids(monkeypatch):
+    runtime = MLXDiffusionRuntime()
+    runtime._model = TinyModel()
+    runtime._tokenizer = WordTokenizer()
+    monkeypatch.setattr(runtime, "_prepare_prompt", lambda prompt: mx.array([[1, 2, 3]]))
+    seen = []
+    original = runtime._model.diffusion_decoder_logits
+
+    def decoder(canvas, **kwargs):
+        seen.append(canvas.tolist()[0])
+        assert canvas.tolist()[0][0] == 5
+        assert canvas.tolist()[0][2:] == [6, 7]
+        assert kwargs["self_conditioning"] is None
+        return original(canvas, **kwargs)
+
+    monkeypatch.setattr(runtime._model, "diffusion_decoder_logits", decoder)
+    report = runtime.replacement_candidates(DiffusionRequest("Explain"), "epsilon beta zeta eta", (8, 12), top_k=8)
+    assert len(seen) == report["trace"]["denoising_forwards"] == 1
+    assert "alpha" in report["replacements"]
+    assert "zero" not in report["replacements"]
+    assert all(word.isalpha() for word in report["replacements"])
+
+
+def test_replacement_probe_rejects_multi_token_words_before_weight_load(monkeypatch):
+    class SplitTokenizer(WordTokenizer):
+        def __call__(self, text, **kwargs):
+            return {"input_ids": [1, 2], "offset_mapping": [(0, 2), (2, 5)]}
+
+        def decode(self, ids, **kwargs):
+            return "alpha"
+
+    runtime = MLXDiffusionRuntime()
+    runtime._tokenizer = SplitTokenizer()
+    monkeypatch.setattr(runtime, "_ensure_loaded", lambda: pytest.fail("unsupported word loaded weights"))
+    report = runtime.replacement_candidates(DiffusionRequest("Explain"), "alpha", (0, 5))
+    assert not report["replacements"]
+    assert report["trace"]["reason"] == "word_spans_multiple_generator_tokens"

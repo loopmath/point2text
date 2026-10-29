@@ -12,6 +12,7 @@ from __future__ import annotations
 import importlib
 from importlib.metadata import PackageNotFoundError, version
 from numbers import Integral
+import re
 from threading import Event, RLock
 from time import perf_counter
 from typing import Any
@@ -235,6 +236,118 @@ class MLXDiffusionRuntime:
             if selected_offsets else [start, end]
         )
         return result
+
+    def replacement_candidates(
+        self, request: DiffusionRequest, text: str, span: tuple[int, int],
+        top_k: int = 32,
+    ) -> dict[str, Any]:
+        """One denoiser forward supplies contextual one-token word alternatives.
+
+        This is a vocabulary screen, not sequence likelihood or a grammaticality
+        guarantee. Unsupported spans fail closed without running the model.
+        """
+        started = perf_counter()
+
+        def unsupported(reason: str) -> dict[str, Any]:
+            return {"replacements": [], "trace": {
+                "supported": False, "reason": reason, "denoising_forwards": 0,
+                "elapsed_seconds": perf_counter() - started,
+            }}
+
+        if (not isinstance(top_k, int) or isinstance(top_k, bool) or not 1 <= top_k <= 256):
+            raise ValueError("top_k must be in [1, 256]")
+        if (not isinstance(text, str) or not isinstance(span, (tuple, list))
+                or len(span) != 2 or any(type(value) is not int for value in span)):
+            return unsupported("invalid_text_or_span")
+        start, end = span
+        if not 0 <= start < end <= len(text) or not re.fullmatch(r"[A-Za-z]+", text[start:end]):
+            return unsupported("not_an_alphabetic_word")
+        if (start and text[start - 1].isalpha()) or (end < len(text) and text[end].isalpha()):
+            return unsupported("not_a_whole_word_boundary")
+        with _GENERATION_LOCK:
+            tokenizer = self.tokenizer
+            try:
+                encoded = tokenizer(text, add_special_tokens=False, return_offsets_mapping=True, truncation=False)
+            except (NotImplementedError, TypeError):
+                return unsupported("tokenizer_has_no_character_offsets")
+            ids, offsets = encoded["input_ids"], encoded["offset_mapping"]
+            if not 1 <= len(ids) <= 256 or len(ids) != len(offsets):
+                return unsupported("text_does_not_fit_one_canvas")
+            if tokenizer.decode(ids, skip_special_tokens=True) != text:
+                return unsupported("text_does_not_roundtrip_exactly")
+            selected = [index for index, (a, b) in enumerate(offsets) if a < end and b > start and b > a]
+            if len(selected) != 1:
+                return unsupported("word_spans_multiple_generator_tokens")
+            position = selected[0]
+            a, b = offsets[position]
+            if a > start or b < end or text[a:start].strip() or text[end:b].strip():
+                return unsupported("generator_token_crosses_word_boundary")
+
+            self._ensure_loaded()
+            import mlx.core as mx
+            from mlx_vlm.generate.common import generation_stream, wired_limit
+
+            native = importlib.import_module("mlx_vlm.generate.diffusion")
+            model = self._model
+            context_ids = self._prepare_prompt(request.prompt)
+            vocab_size = int(model.config.text_config.vocab_size)
+            if len(ids) > int(model.config.canvas_length):
+                return unsupported("text_exceeds_model_canvas")
+            mx.random.seed(request.seed)
+            prefill_started = perf_counter()
+            try:
+                with wired_limit(model, [generation_stream]), mx.stream(generation_stream):
+                    cache = model.make_cache()
+                    cache = model.diffusion_prefill_cache(context_ids, cache=cache)
+                    mx.eval([entry.state for entry in cache])
+                    prefill_seconds = perf_counter() - prefill_started
+                    canvas = mx.array([ids], dtype=context_ids.dtype)
+                    noise = native._diffusion_initialize_canvas(1, 1, vocab_size, context_ids.dtype)
+                    canvas = mx.where(mx.arange(len(ids))[None, :] == position, noise, canvas)
+                    masks = model.diffusion_decoder_masks(canvas, cache, None)
+                    probe_started = perf_counter()
+                    logits = model.diffusion_decoder_logits(
+                        canvas, cache=cache, self_conditioning=None,
+                        decoder_attention_mask=masks,
+                    )[0, position].astype(mx.float32)
+                    k = min(top_k, vocab_size)
+                    indices = mx.argpartition(logits, vocab_size - k)[-k:]
+                    values = mx.take(logits, indices)
+                    order = mx.argsort(-values)
+                    indices, values = mx.take(indices, order), mx.take(values, order)
+                    mx.eval(indices, values)
+                    ranked_ids, ranked_logits = indices.tolist(), values.tolist()
+                    probe_seconds = perf_counter() - probe_started
+            finally:
+                mx.synchronize()
+                mx.clear_cache()
+
+            special = set(getattr(tokenizer, "all_special_ids", []) or [])
+            prefix, suffix = text[:start], text[end:]
+            replacements: list[str] = []
+            for token_id in ranked_ids:
+                if token_id in special:
+                    continue
+                proposal = list(ids)
+                proposal[position] = int(token_id)
+                decoded = tokenizer.decode(proposal, skip_special_tokens=True)
+                if not decoded.startswith(prefix) or not decoded.endswith(suffix):
+                    continue
+                stop = len(decoded) - len(suffix) if suffix else len(decoded)
+                word = decoded[len(prefix):stop]
+                if re.fullmatch(r"[A-Za-z]+", word) and word not in replacements:
+                    replacements.append(word)
+            return {"replacements": replacements, "trace": {
+                "supported": True, "reason": None,
+                "denoising_forwards": 1, "self_conditioning": False,
+                "corruption": "one_uniform_vocabulary_token",
+                "token_position": position, "canvas_length": len(ids),
+                "top_k": k, "accepted_words": len(replacements),
+                "prefill_seconds": prefill_seconds, "probe_seconds": probe_seconds,
+                "elapsed_seconds": perf_counter() - started,
+                "model_revision": self.revision,
+                "scores_are_sequence_likelihoods": False,
+            }}
 
     def _run(
         self, request: DiffusionRequest, *, hook: GuidanceHook | None,
