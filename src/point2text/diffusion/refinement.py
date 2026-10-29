@@ -73,7 +73,7 @@ class CanonicalRefinementSearch:
         started = time.monotonic()
         if request is None:
             prompt = technical_prompt(bundle.nearest(target, k=4)) if self.runtime is not None else ""
-            request = DiffusionRequest(prompt=prompt, seed=seed)
+            request = DiffusionRequest(prompt=prompt, seed=seed, max_tokens=192)
             prompt_policy = "nearest-four-context-v1" if self.runtime is not None else "no_generator"
         else:
             seed = request.seed

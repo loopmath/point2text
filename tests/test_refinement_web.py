@@ -36,7 +36,7 @@ class Bundle:
 
     def encode(self, texts):
         self.calls.append(list(texts))
-        return np.array([[float(text.split()[-1]), 0] for text in texts])
+        return np.array([[float(text.split()[-1].rstrip(".!?")), 0] for text in texts])
 
     def project(self, values):
         return values
@@ -59,12 +59,12 @@ def app_fixture(monkeypatch, tmp_path, *, fail_edits=False, deadline_clock=None)
         def generate(self, request, *, observer, cancel_event, hook=None, **kwargs):
             self.requests.append(request)
             self.inner_updates.append(hook.config.inner_updates if hook else None)
-            observer(DiffusionDraft("Paragraph 0.1", [], [], 0, request.steps))
+            observer(DiffusionDraft("Paragraph 0.1.", [], [], 0, request.steps))
             if deadline_clock is not None:
                 deadline_clock[0] = 2.0
                 assert cancel_event.is_set()
                 return DiffusionResult("", [], {"cancelled": True, "passes": 1})
-            return DiffusionResult("Paragraph 0.1", [], {"passes": 1})
+            return DiffusionResult("Paragraph 0.1.", [], {"passes": 1})
 
     class Provider:
         trace = {"quality_guarantee": False, "native_forwards": 0}
@@ -79,7 +79,7 @@ def app_fixture(monkeypatch, tmp_path, *, fail_edits=False, deadline_clock=None)
         def propose(self, text, target, *, max_proposals):
             if fail_edits:
                 raise RuntimeError("edit pipeline failed")
-            return [TextProposal("Paragraph 0.00001")]
+            return [TextProposal("Paragraph 0.00001.")]
 
         def hotspots(self, *args, **kwargs):
             return []
@@ -149,7 +149,7 @@ def test_http_worker_reports_controller_error_without_losing_verified_draft(monk
         result = finished(client, response.json()["id"])
     assert result["status"] == "error"
     assert result["error"] == "edit pipeline failed"
-    assert result["best"]["text"] == "Paragraph 0.1"
+    assert result["best"]["text"] == "Paragraph 0.1."
     assert result["trace"]["best_candidate"] == result["best"]
 
 
@@ -163,4 +163,4 @@ def test_http_deadline_is_a_budget_stop_with_best_retained_not_user_cancellation
     assert result["trace"]["stop_reason"] == "budget_exhausted"
     assert result["trace"]["budget_kind"] == "time_budget"
     assert result["trace"]["epsilon_confirmed"] is False
-    assert result["best"]["text"] == "Paragraph 0.1"
+    assert result["best"]["text"] == "Paragraph 0.1."

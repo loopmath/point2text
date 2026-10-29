@@ -6,7 +6,7 @@ from types import SimpleNamespace
 import numpy as np
 
 from point2text.contracts import CorpusRecord
-from point2text.diffusion.contracts import DiffusionDraft, DiffusionResult
+from point2text.diffusion.contracts import DiffusionDraft, DiffusionRequest, DiffusionResult
 from point2text.diffusion.refinement import CanonicalRefinementSearch
 from point2text.diffusion.refinement_contracts import RefinementConfig, TextProposal
 from point2text.diffusion.verification import CanonicalVerifier
@@ -26,7 +26,7 @@ class Bundle:
 
     def encode(self, texts):
         self.calls.append(list(texts))
-        return np.array([[float(text.split()[-1]), 0] for text in texts])
+        return np.array([[float(text.split()[-1].rstrip(".!?")), 0] for text in texts])
 
     def project(self, values):
         return values
@@ -46,8 +46,8 @@ class Proposer:
 
     def propose(self, text, target, *, max_proposals):
         self.calls.append(text)
-        value = float(text.split()[-1])
-        return [TextProposal(f"Paragraph {value / 10}", provenance={"kind": "fixture"}),
+        value = float(text.split()[-1].rstrip(".!?"))
+        return [TextProposal(f"Paragraph {value / 10}.", provenance={"kind": "fixture"}),
                 TextProposal("## invalid special heading")][:max_proposals]
 
     def hotspots(self, text, target, *, limit):
@@ -58,7 +58,7 @@ def test_cpu_refinement_has_monotone_callbacks_and_confirmed_epsilon():
     bundle = Bundle()
     published = []
     result = CanonicalRefinementSearch(None, edit_proposer=Proposer(), config=config()).run(
-        bundle, (0, 0), initial_text="Paragraph 0.1", on_candidate=published.append)
+        bundle, (0, 0), initial_text="Paragraph 0.1.", on_candidate=published.append)
     distances = [candidate.distance for candidate in published]
     assert all(after < before for before, after in zip(distances, distances[1:]))
     assert result.trace["epsilon_confirmed"] is True
@@ -75,13 +75,14 @@ def test_observed_clean_draft_can_win_even_when_final_text_is_worse():
         identity = "fixture-native"
 
         def generate(self, request, *, observer, **kwargs):
-            assert observer(DiffusionDraft("Paragraph 0.02", [], [], 0, 32)) is False
-            return DiffusionResult("Paragraph 0.2", [], {"passes": 1})
+            assert request.max_tokens == 192
+            assert observer(DiffusionDraft("Paragraph 0.02.", [], [], 0, 32)) is False
+            return DiffusionResult("Paragraph 0.2.", [], {"passes": 1})
 
     result = CanonicalRefinementSearch(Runtime(), edit_proposer=Proposer(),
                                         config=config(max_rounds=1)).run(
         Bundle(), (0, 0), guided=False)
-    assert result.trace["history"][0]["text"] == "Paragraph 0.02"
+    assert result.trace["history"][0]["text"] == "Paragraph 0.02."
     assert result.trace["best_candidate"]["distance"] < 0.02
     assert result.trace["native_traces"][0]["phase"] == "coarse"
 
@@ -99,12 +100,12 @@ def test_stalled_search_calls_local_repair_with_one_to_four_word_span():
 
         def refine_text(self, request, text, *, edit_span, observer, **kwargs):
             self.calls.append((request, text, edit_span))
-            return DiffusionResult("Paragraph 0.01", [], {"repair": True})
+            return DiffusionResult("Paragraph 0.01.", [], {"repair": True})
 
     runtime = Runtime()
     result = CanonicalRefinementSearch(runtime, edit_proposer=NoEdits(),
                                         config=config(max_rounds=1)).run(
-        Bundle(), (0, 0), initial_text="Paragraph 0.1", guided=False)
+        Bundle(), (0, 0), initial_text="Paragraph 0.1.", guided=False)
     assert len(runtime.calls) == 1
     request, text, span = runtime.calls[0]
     assert request.steps == 8
@@ -115,9 +116,9 @@ def test_stalled_search_calls_local_repair_with_one_to_four_word_span():
 def test_cancellation_and_later_errors_keep_the_verified_incumbent():
     event = threading.Event()
     result = CanonicalRefinementSearch(None, edit_proposer=Proposer(), config=config()).run(
-        Bundle(), (0, 0), initial_text="Paragraph 0.1", cancel_event=event,
+        Bundle(), (0, 0), initial_text="Paragraph 0.1.", cancel_event=event,
         on_candidate=lambda value: event.set())
-    assert result.text == "Paragraph 0.1"
+    assert result.text == "Paragraph 0.1."
     assert result.trace["status"] == "cancelled"
 
     class BrokenProposer(Proposer):
@@ -125,8 +126,8 @@ def test_cancellation_and_later_errors_keep_the_verified_incumbent():
             raise RuntimeError("proposal backend failed")
 
     result = CanonicalRefinementSearch(None, edit_proposer=BrokenProposer(), config=config()).run(
-        Bundle(), (0, 0), initial_text="Paragraph 0.1")
-    assert result.text == "Paragraph 0.1"
+        Bundle(), (0, 0), initial_text="Paragraph 0.1.")
+    assert result.text == "Paragraph 0.1."
     assert result.trace["status"] == "error"
     assert "proposal backend failed" in result.trace["error"]
 
@@ -134,11 +135,11 @@ def test_cancellation_and_later_errors_keep_the_verified_incumbent():
 def test_budget_exhaustion_never_claims_unreachable_or_epsilon_success():
     result = CanonicalRefinementSearch(None, edit_proposer=Proposer(),
                                         config=config(max_hard_queries=3)).run(
-        Bundle(), (0, 0), initial_text="Paragraph 0.1")
+        Bundle(), (0, 0), initial_text="Paragraph 0.1.")
     assert result.trace["stop_reason"] == "budget_exhausted"
     assert result.trace["epsilon_confirmed"] is False
     assert result.trace["verification"]["hard_queries"] == 1
-    assert result.text == "Paragraph 0.1"
+    assert result.text == "Paragraph 0.1."
 
 
 def test_invalid_initial_text_is_reported_without_crashing():
@@ -165,7 +166,7 @@ def test_bad_fresh_confirmation_does_not_publish_false_success():
 
     bundle.encode = noisy_encode
     result = CanonicalRefinementSearch(None, edit_proposer=NoEdits(), config=config()).run(
-        bundle, (0, 0), initial_text="Paragraph 0.00001")
+        bundle, (0, 0), initial_text="Paragraph 0.00001.")
     assert result.trace["epsilon_confirmed"] is False
     assert result.trace["best_candidate"]["distance"] == 0.01
     assert result.trace["epsilon_worst_distance"] == 0.01
@@ -177,7 +178,7 @@ def test_stall_and_pre_cancel_are_not_epsilon_claims():
             return []
 
     result = CanonicalRefinementSearch(None, edit_proposer=NoEdits(), config=config()).run(
-        Bundle(), (0, 0), initial_text="Paragraph 0.1")
+        Bundle(), (0, 0), initial_text="Paragraph 0.1.")
     assert result.trace["stop_reason"] == "stalled"
     assert result.trace["rounds"] == 2
     assert result.trace["epsilon_confirmed"] is False
@@ -185,7 +186,7 @@ def test_stall_and_pre_cancel_are_not_epsilon_claims():
     event.set()
     bundle = Bundle()
     result = CanonicalRefinementSearch(None, config=config()).run(
-        bundle, (0, 0), initial_text="Paragraph 0.1", cancel_event=event)
+        bundle, (0, 0), initial_text="Paragraph 0.1.", cancel_event=event)
     assert result.trace["status"] == "cancelled"
     assert bundle.calls == []
 
@@ -195,12 +196,12 @@ def test_failure_after_observed_draft_retains_it_and_native_error_trace():
         identity = "failed-native-fixture"
 
         def generate(self, request, *, observer, **kwargs):
-            observer(DiffusionDraft("Paragraph 0.1", [], [], 0, 32))
+            observer(DiffusionDraft("Paragraph 0.1.", [], [], 0, 32))
             raise RuntimeError("native pass failed")
 
     result = CanonicalRefinementSearch(Runtime(), config=config()).run(
         Bundle(), (0, 0), guided=False)
-    assert result.text == "Paragraph 0.1"
+    assert result.text == "Paragraph 0.1."
     assert result.trace["status"] == "error"
     assert result.trace["native_traces"][0]["error"] == "native pass failed"
 
@@ -229,8 +230,8 @@ def test_hotspot_analysis_expiring_deadline_does_not_start_repair(monkeypatch):
 
     result = CanonicalRefinementSearch(Runtime(), edit_proposer=SlowHotspots(),
                                         config=config(max_seconds=1)).run(
-        Bundle(), (0, 0), initial_text="Paragraph 0.1", guided=False)
-    assert result.text == "Paragraph 0.1"
+        Bundle(), (0, 0), initial_text="Paragraph 0.1.", guided=False)
+    assert result.text == "Paragraph 0.1."
     assert result.trace["status"] == "complete"
     assert result.trace["stop_reason"] == "budget_exhausted"
     assert result.trace["budget_kind"] == "time_budget"
@@ -251,7 +252,7 @@ def test_native_deadline_signal_retains_draft_and_is_not_user_cancellation(monke
 
         def generate(self, request, *, observer, cancel_event, **kwargs):
             assert not cancel_event.is_set()
-            observer(DiffusionDraft("Paragraph 0.1", [], [], 0, 32))
+            observer(DiffusionDraft("Paragraph 0.1.", [], [], 0, 32))
             now[0] = 2.0
             assert cancel_event.is_set()
             return DiffusionResult("", [], {"cancelled": True, "passes": 1})
@@ -259,7 +260,7 @@ def test_native_deadline_signal_retains_draft_and_is_not_user_cancellation(monke
     result = CanonicalRefinementSearch(Runtime(), edit_proposer=Proposer(),
                                         config=config(max_seconds=1)).run(
         Bundle(), (0, 0), guided=False, cancel_event=user_cancel)
-    assert result.text == "Paragraph 0.1"
+    assert result.text == "Paragraph 0.1."
     assert result.trace["status"] == "complete"
     assert result.trace["stop_reason"] == "budget_exhausted"
     assert result.trace["budget_kind"] == "time_budget"
@@ -286,10 +287,18 @@ def test_contextual_replacement_policy_records_per_run_work_separately():
             return []
 
     result = CanonicalRefinementSearch(None, edit_proposer=ContextProposer(), config=config()).run(
-        Bundle(), (0, 0), initial_text="Paragraph 0.1")
+        Bundle(), (0, 0), initial_text="Paragraph 0.1.")
     assert result.trace["proposal_policy"]["native_forwards"] == 7
     assert result.trace["proposal_policy"]["quality_guarantee"] is False
     assert result.trace["proposal_policy_before"]["native_forwards"] == 5
     assert result.trace["costs"]["proposal_policy_numeric_deltas"] == {
         "native_forwards": 2, "forward_seconds": 1.0}
     assert result.trace["hard_queries"] == 1
+
+
+def test_explicit_request_canvas_budget_is_preserved():
+    request = DiffusionRequest("Explicit context.", max_tokens=128)
+    result = CanonicalRefinementSearch(None, edit_proposer=Proposer(),
+                                        config=config(max_rounds=1)).run(
+        Bundle(), (0, 0), initial_text="Paragraph 0.1.", request=request)
+    assert result.trace["request"]["max_tokens"] == 128

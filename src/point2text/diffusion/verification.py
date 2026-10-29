@@ -87,6 +87,24 @@ class CanonicalVerifier:
                 or re.search(r"<\|[^>]*\|>|\[(?:/?INST|CLS|SEP|MASK|PAD)\]|</?(?:think|analysis|start\w*|end\w*|bos|eos|pad|mask)\b", text, re.I)
                 or re.match(r"\s*(?:#{1,6}\s|(?:assistant|system|user|analysis|thought)\s*:)", text, re.I)):
             return False, "special_header_or_artifact", words
+        if not re.search(r"[.!?][\s\"'’”\)\]\}]*$", text):
+            return False, "unfinished_sentence", words
+        if re.search(r"[.!?](?:\s*[.!?])+", text):
+            return False, "punctuation_artifact", words
+        # Whitespace-adjacent words only: "Data. Data analysis" is not a repeat.
+        alphabetic = list(re.finditer(r"\b[^\W\d_]+\b", text, re.UNICODE))
+        repeated_function_words = {
+            "a", "an", "the", "of", "to", "and", "or", "in", "on", "for",
+            "with", "by", "as", "at", "from", "is", "are", "be", "was",
+            "were", "it", "its", "this", "these", "those", "we", "our", "data",
+        }
+        run = 1
+        for previous, current in zip(alphabetic, alphabetic[1:]):
+            same = previous.group().casefold() == current.group().casefold()
+            adjacent = text[previous.end():current.start()].isspace()
+            run = run + 1 if same and adjacent else 1
+            if run >= 3 or run == 2 and current.group().casefold() in repeated_function_words:
+                return False, "repeated_word", words
         if self.quality_callback is not None:
             try:
                 verdict = self.quality_callback(text)
