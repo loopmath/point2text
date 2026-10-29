@@ -1,0 +1,540 @@
+{
+  "schema": "distance-blinded-conservative-independent-review-v2",
+  "created_at": "2026-10-29T21:01:09.803012+00:00",
+  "input_packet": "docs/experiments/fresh-grounded-conservative-blind-review-v2.json",
+  "reviewer": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh"
+  },
+  "blinding": {
+    "fresh_result_coordinates_read": false,
+    "mapping_keys_or_full_pools_read": false,
+    "only_requested_packet_read_for_this_review": true
+  },
+  "review_policy": "Exact candidate and supplied reference reviewed without silent repair. The reference is not a truth certificate. Accepted means no material defect apparent at this conceptual level, not guaranteed correctness. Uncertain is not approved. Coverage requirements do not relax the rubric. Individual review is not a judge-accuracy estimate.",
+  "scientific_source_checks": {
+    "C1": {
+      "finding": "Some distance indicators infer luminosity distance directly and then use redshift to constrain expansion. The clean packet variants no longer explicitly say requires, so their broad wording is withheld as scope-ambiguous rather than automatically declared false. This is the reviewer's scope inference; the supplied reference is not authoritative.",
+      "source_urls": [
+        "https://arxiv.org/abs/1710.05835",
+        "https://ligo.org/science-summaries/gw170817hubble/"
+      ]
+    },
+    "N1": {
+      "finding": "The relevant validation operation is separation of training and held-out evaluation data, respecting temporal/experimental structure. Using whole trials or deleting trials does not by itself state that operation. The paired-reference claim-preservation judgment is a methodological inference.",
+      "source_urls": [
+        "https://www.eneuro.org/content/7/4/ENEURO.0506-19.2020",
+        "https://arxiv.org/abs/1606.05201"
+      ]
+    },
+    "S1": {
+      "finding": "Batch-related differences can confound biological interpretation, but procedural association and biological authenticity are not logical opposites. Rejecting a genuine-versus-procedure-linked binary is the reviewer's causal-scope inference, not an assertion that every batch-associated cluster is artifactual.",
+      "source_urls": [
+        "https://doi.org/10.1093/biostatistics/kxx053"
+      ]
+    }
+  },
+  "summary": {
+    "rejected": 10,
+    "accepted": 11,
+    "uncertain": 3
+  },
+  "items": [
+    {
+      "review_id": "b1a9fdcefa3e",
+      "text_sha256": "5a644b1848ecbf7955a4224f7d2e20cbe02e1268b987602126b6bfc251f32eed",
+      "text": "Research into neural population coding investigates how patterns across large neuronal ensembles correspond to specific behaviors or stimuli. While decoders can extract information from neural recordings, they do not demonstrate the underlying neural mechanisms. Utilizing held-out trial helps helps temporal temporal from artificially inflating estimates estimates of decoding performance.",
+      "reference_text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance.",
+      "reference_sha256": "66d2b0da571ca6056f21538e5b14f57429ee815ade71edd0f103e5dc439c6106",
+      "verdict": "rejected",
+      "reason": "The final sentence is materially broken: \"held-out trial helps helps temporal temporal\" lacks the required correlation noun and repeats words; \"estimates estimates\" adds another editing artifact. The validation claim is not recoverable without rewriting.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_scope": "uncertain",
+        "coherence_and_causality": "fail",
+        "claim_preservation": "fail"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "3cef68332a07",
+      "text_sha256": "e9c3a61bff2e233ec8d6b4338eb3f89a21a397e0a59cd3d7c3d90e42ea6b9ff8",
+      "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement procedure, and noise assumptions. Effective performance evaluations should focus on logical errors rather than solely considering the fidelity of isolated physical operations.",
+      "reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "reference_sha256": "924b87d77d5bf6acaa674b999afe2e18c70c538e493a984839b58482b5bc0905",
+      "verdict": "accepted",
+      "reason": "Complete and coherent. It preserves encoding across physical systems, specification of code/measurement/noise assumptions, and the logical-versus-isolated-physical performance distinction without adding a guarantee.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "6ada19285587",
+      "text_sha256": "93e81b4e9dc863eb4ea9c83bbdfa8f26f5c8677e26fb79cc27e01cd1967c466b",
+      "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement protocols, and noise assumptions. Effective performance evaluations should focus on logical error rates instead of solely considering the fidelity of isolated physical operations.",
+      "reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "reference_sha256": "924b87d77d5bf6acaa674b999afe2e18c70c538e493a984839b58482b5bc0905",
+      "verdict": "accepted",
+      "reason": "The reference claims are preserved. Referring to logical error rates makes the evaluation metric more explicit without replacing the instruction to assess logical rather than only physical performance.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "f0804c7ac919",
+      "text_sha256": "3965b9959705d2d621f87023c8527b1633b8a89f16fa69bb03d87390eebf6ad9",
+      "text": "A locomotion controller must maintain a balance between stability, progress, and energy consumption. Because varying terrain conditions can alter the effectiveness of a specific motion strategy or gait, evaluations should record total energy expenditure across an entire task. Relying solely on brief segments of steady motion may not provide a comprehensive assessment of performance.",
+      "reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "reference_sha256": "e4a71137001a203c4c4d707ecff0608e7ababa3c50db9a27aa3ae17449232951",
+      "verdict": "accepted",
+      "reason": "Preserves the locomotion trade-off, terrain-dependent effectiveness and whole-task energy accounting. \"Can\" and \"may not\" retain appropriate qualification; no new requirement for adaptive control is introduced.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "e638ab3466a8",
+      "text_sha256": "5cdddda8a4defdc1bb1e227b0a4314fd4a963ccc76065bead79bfa4f15ac9a20",
+      "text": "Phase transformations occur when a material's structure or organization shifts under specific conditions. To analyze these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates. Furthermore, repeated measurements can help determine how the transformation depends on the specific history of the sample.",
+      "reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "reference_sha256": "28f4e0f78226a5558de5e8cb2bb672fc2912a1147d000b071b9d4f085df8f447",
+      "verdict": "accepted",
+      "reason": "The phase-change description, equilibrium/finite-rate kinetic distinction and qualified role of repeated measurements preserve the reference. No material grammar or causal defect is apparent.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "d5d621c12bf8",
+      "text_sha256": "22a493fb87d01140d2ec80724e69c08d60ac121df8639b9e033dce1cf5d6821a",
+      "text": "Estimating cosmological distances involves linking detected signals to specific models of object properties and expansion history. Because various methodologies utilize distinct calibration procedures and underlying assumptions, comparing results necessitates tracing shared inputs. This process helps ensure that correlated errors are not misinterpreted as independent agreement between the different measurement techniques.",
+      "reference_text": "Cosmological distance measurements connect observed signals with models of objects and the expansion history. Different methods rely on different calibration steps and assumptions. Comparing those methods requires tracing shared inputs so that correlated errors are not mistaken for independent agreement.",
+      "reference_sha256": "b5075bf08363cc839be73e8767b5c225c1195027eb38ea7595d1ae8868fdeda0",
+      "verdict": "uncertain",
+      "reason": "The paraphrase preserves the reference and is grammatical. Intrinsic scope remains ambiguous: the opening can be read as requiring expansion-history models for distance estimation generally, which is not true of every distance indicator (C1). The reference is not treated as a truth certificate.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "uncertain",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [
+        "C1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "245d5b723bad",
+      "text_sha256": "c02a2d8226fdaa112c25e6107bf6a5132641742b89f14db3fc12189deddc5d6c",
+      "text": "Single-cell assays capture heterogeneity that may be lost during tissue-level averaging. Such analyses must address for technical noise, incomplete sampling, and varying sequencing depth. Furthermore, performing cross-batch comparisons helps determine if an observed biological cluster is actually or linked to specific experimental procedures.",
+      "reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "reference_sha256": "e2d77e435a4798bea9578703b6d10c923cfa8c61915ec758814a364d79cb17f5",
+      "verdict": "rejected",
+      "reason": "\"Must address for\" is an invalid construction, and \"is actually or linked\" leaves the final comparison incomplete. These are material grammar and meaning defects, independent of the reasonable noise variables listed.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_scope": "uncertain",
+        "coherence_and_causality": "fail",
+        "claim_preservation": "fail"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "ff106adeb1fb",
+      "text_sha256": "ef33c324f0d52b9cfdb994d3c942cc99b45769b4285298f91491feed82788324",
+      "text": "A locomotion controller must manage the balance between stability, progress, and energy consumption. Because varying terrain conditions can alter the effectiveness of specific motion strategies or gaits, evaluations should record total energy expenditure. This approach is more effective than focusing solely solely on short intervals of steady motion.",
+      "reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "reference_sha256": "e4a71137001a203c4c4d707ecff0608e7ababa3c50db9a27aa3ae17449232951",
+      "verdict": "rejected",
+      "reason": "The exact text contains the duplicated \"solely solely\". It also drops the explicit entire-task scope attached to total energy expenditure. Approval would require silently repairing the generated text.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_scope": "uncertain",
+        "coherence_and_causality": "fail",
+        "claim_preservation": "uncertain"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "4022dfe884a4",
+      "text_sha256": "6e52558c8b86176e1ae56c7e185c54c30bbb5f1a986a2a6163f65033dbeb75ab",
+      "text": "Estimating cosmological distances involves linking detected signals to models of the expansion history and object properties. Because various techniques utilize distinct calibration procedures and assumptions, comparing these results necessitates tracing shared inputs. This process helps prevent correlated errors from not misinterpreted as independent agreement between the different measurement methods.",
+      "reference_text": "Cosmological distance measurements connect observed signals with models of objects and the expansion history. Different methods rely on different calibration steps and assumptions. Comparing those methods requires tracing shared inputs so that correlated errors are not mistaken for independent agreement.",
+      "reference_sha256": "b5075bf08363cc839be73e8767b5c225c1195027eb38ea7595d1ae8868fdeda0",
+      "verdict": "rejected",
+      "reason": "\"Helps prevent correlated errors from not misinterpreted\" is grammatically broken and introduces a negation inconsistent with the intended safeguard. The reference causal claim is not preserved as written.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_scope": "uncertain",
+        "coherence_and_causality": "fail",
+        "claim_preservation": "fail"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "8b7bc5bec331",
+      "text_sha256": "4e9ec78e68e91827a279ced433b1d000de0fa0dc757ee53c9370b78b9a50c412",
+      "text": "Phase transformations involve structural or organizational changes within a material under specific environmental conditions. To analyze these transitions, one must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates. Furthermore, conducting repeated measurements helps evaluate how the transformation depends on the specific prior history of the sample.",
+      "reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "reference_sha256": "28f4e0f78226a5558de5e8cb2bb672fc2912a1147d000b071b9d4f085df8f447",
+      "verdict": "accepted",
+      "reason": "Preserves all three reference claims with no material new assumption: phase changes, equilibrium-versus-finite-rate effects, and repeated measurements as a way to investigate sample-history dependence.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "a7764bd7dc55",
+      "text_sha256": "03a2bbaf5f050faea1cda3e2d5edbe0a9c8f097abf74de8b153d65ee5e558f39",
+      "text": "Phase transformations occur when a material undergoes structural or organizational changes under specific conditions. To analyze these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates. Furthermore, conducting repeated measurements can evaluate how the transformation depends on the specific prior history of the sample.",
+      "reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "reference_sha256": "28f4e0f78226a5558de5e8cb2bb672fc2912a1147d000b071b9d4f085df8f447",
+      "verdict": "accepted",
+      "reason": "The reference meaning and qualifications remain intact. \"Can evaluate\" describes an investigative use of repeated measurements rather than a guarantee that they uniquely identify history effects.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "26674ced1d7c",
+      "text_sha256": "552750233466df907ed49dd37fbb2d64992200bf6acec5353690b2fa68407cfe",
+      "text": "Single-cell assays capture heterogeneity that may be lost during tissue-level averaging. Such analyses must account for technical noise, incomplete sampling, and variations in sequencing depth. Furthermore, comparing results across different batches helps determine if an observed biological group is authentic or linked to a specific experimental procedure.",
+      "reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "reference_sha256": "e2d77e435a4798bea9578703b6d10c923cfa8c61915ec758814a364d79cb17f5",
+      "verdict": "rejected",
+      "reason": "The final sentence changes procedural association into a choice between an \"authentic\" group and a procedure-linked group. Those are not mutually exclusive; association with a procedure does not itself establish an artifact. This strengthens the reference beyond its qualified diagnostic claim (S1).",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "fail",
+        "coherence_and_causality": "fail",
+        "claim_preservation": "fail"
+      },
+      "scientific_note_ids": [
+        "S1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "b06662d88bdc",
+      "text_sha256": "8776c67e22d3a1f29ba44303e65d81009913af737befe706338aa57cb1f37ed2",
+      "text": "Cosmological distance measurements link detected signals to models regarding object properties and universal expansion history. Because various techniques utilize distinct calibration procedures and assumptions, comparing these methods necessitates tracing shared inputs. This process helps to prevent correlated errors from being misinterpreted as independent agreement between different measurement frameworks.",
+      "reference_text": "Cosmological distance measurements connect observed signals with models of objects and the expansion history. Different methods rely on different calibration steps and assumptions. Comparing those methods requires tracing shared inputs so that correlated errors are not mistaken for independent agreement.",
+      "reference_sha256": "b5075bf08363cc839be73e8767b5c225c1195027eb38ea7595d1ae8868fdeda0",
+      "verdict": "uncertain",
+      "reason": "The text is grammatical and closely preserves the supplied reference. As an intrinsic scientific statement, its opening leaves unclear whether expansion-history modeling is claimed necessary for every distance measurement; C1 prevents unconditional approval of that scope.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "uncertain",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [
+        "C1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "40fc9b180c08",
+      "text_sha256": "34e2341dd2250ba2431bc0667077fd1df6428a4d3978a93637bb5c8480a55357",
+      "text": "Research into neural population coding investigates how activity patterns across neuronal ensembles correspond to specific behaviors or stimuli. While decoders can extract information from neural recordings, they do not demonstrate the underlying functional mechanisms. Utilizing entire trials during analysis helps prevent temporal correlations from artificially inflating estimates of decoding performance.",
+      "reference_text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance.",
+      "reference_sha256": "66d2b0da571ca6056f21538e5b14f57429ee815ade71edd0f103e5dc439c6106",
+      "verdict": "rejected",
+      "reason": "\"Utilizing entire trials during analysis\" omits the essential held-out train/test separation. Merely using complete trials does not establish the leakage safeguard. The key procedural condition in the reference has been lost (N1).",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "fail",
+        "coherence_and_causality": "fail",
+        "claim_preservation": "fail"
+      },
+      "scientific_note_ids": [
+        "N1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "f569a73443f1",
+      "text_sha256": "0ca94e67e20e8f0137ea5d71c5c61464552a54535a4862c2a41fded3a6dbbc2b",
+      "text": "Research into neural population coding investigates the relationship between multisynaptic patterns and specific behaviors or environmental stimuli. While a decoder can extract information from these recordings, it does not demonstrate the underlying neural mechanisms. To maintain accuracy, excluding entire trials helps prevent temporal correlations from inflating the estimates of decoding performance.",
+      "reference_text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance.",
+      "reference_sha256": "66d2b0da571ca6056f21538e5b14f57429ee815ade71edd0f103e5dc439c6106",
+      "verdict": "rejected",
+      "reason": "\"Multisynaptic patterns\" is not a faithful substitute for patterns across many neurons: synaptic organization and recorded neuronal-population activity are different concepts. \"Excluding entire trials\" also leaves the held-out evaluation procedure unspecified.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "fail",
+        "coherence_and_causality": "fail",
+        "claim_preservation": "fail"
+      },
+      "scientific_note_ids": [
+        "N1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "d6120186b5f4",
+      "text_sha256": "e071ee831707708d4d9eb2834d71d15c0f9399e10669bf70d74631bbd72c54ab",
+      "text": "Phase transformations occur when a material undergoes structural reorganization under specific environmental conditions. To analyze these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates. Furthermore, performing repeated measurements can help determine how the transformation depends on the prior history of the sample.",
+      "reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "reference_sha256": "28f4e0f78226a5558de5e8cb2bb672fc2912a1147d000b071b9d4f085df8f447",
+      "verdict": "accepted",
+      "reason": "At this conceptual level, \"structural reorganization\" is a natural compact restatement of the reference organization/structure change. The equilibrium, finite-rate kinetics and qualified sample-history statements are retained.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "a371ea929da6",
+      "text_sha256": "c4868c50576404d46ff36ea5daeab52ddfb11687c7d7a5111af7db0e3a2a7b02",
+      "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement procedure, and noise assumptions. Effective performance evaluations should focus on logical errors instead of solely considering the fidelity of single physical operations.",
+      "reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "reference_sha256": "924b87d77d5bf6acaa674b999afe2e18c70c538e493a984839b58482b5bc0905",
+      "verdict": "accepted",
+      "reason": "Grammatical and faithful. Specific correctable errors, joint specification of the implementation assumptions, and evaluation of logical rather than only single-operation errors are preserved.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "52f412c706fe",
+      "text_sha256": "ec6d7fe1e18aa2b42cab4ae2c426d717075e25d552af814263f16d9efd27d54d",
+      "text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Furthermore, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "reference_sha256": "e2d77e435a4798bea9578703b6d10c923cfa8c61915ec758814a364d79cb17f5",
+      "verdict": "accepted",
+      "reason": "Preserves the qualified heterogeneity claim, the three analysis concerns and the limited purpose of cross-batch comparison: identifying association with a procedure rather than certifying biological authenticity.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "a67345111bf8",
+      "text_sha256": "759d9f4e0e7fa37ecbae8dd7b609e64e08156d99e70144cd2ea25b14561de94f",
+      "text": "Quantum error correction utilizes information encoding across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement protocols, and noise assumptions. Effective performance evaluations should focus on logical errors rather than relying solely on the fidelity of single physical operations.",
+      "reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "reference_sha256": "924b87d77d5bf6acaa674b999afe2e18c70c538e493a984839b58482b5bc0905",
+      "verdict": "accepted",
+      "reason": "Coherent paraphrase of the quantum-error-correction reference. It does not broaden which errors are correctable or claim that physical-operation fidelity alone determines encoded performance.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "20fe27d45f53",
+      "text_sha256": "b5df204ee16d936eeebe80f07816a8bb5b94526cb86ea428cf05b28f15cfd7e9",
+      "text": "Single-cell assays capture heterogeneity that may be lost during tissue-level averaging. Such analysis must account for technical noise, incomplete sampling, and varying sequencing depth. Furthermore, comparing data across different batches helps determine if an observed biological group is genuine or linked to a specific experimental procedure.",
+      "reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "reference_sha256": "e2d77e435a4798bea9578703b6d10c923cfa8c61915ec758814a364d79cb17f5",
+      "verdict": "rejected",
+      "reason": "The final \"genuine or linked\" alternative turns a qualified association check into an authenticity discriminator. A genuinely biological group can also be associated with an experimental procedure; the reference does not license this binary inference (S1).",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "fail",
+        "coherence_and_causality": "fail",
+        "claim_preservation": "fail"
+      },
+      "scientific_note_ids": [
+        "S1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "fd91aae698a3",
+      "text_sha256": "93ef4de72541e844b7d78461873a53d69fefce0b624bcaa34f0c60c620be96d5",
+      "text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+      "reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "reference_sha256": "e4a71137001a203c4c4d707ecff0608e7ababa3c50db9a27aa3ae17449232951",
+      "verdict": "accepted",
+      "reason": "Clear and faithful to the progress/stability/energy trade-off, the qualified terrain effect and the recommendation to evaluate whole-task rather than only short steady-state energy use.",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "pass",
+        "claim_preservation": "pass"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "8caac6547cfa",
+      "text_sha256": "6b50a2e2781dec11e524e9b6f3eedba64efa5a0be77a9ac223fdaced2ca28759",
+      "text": "Measuring cosmological distance involves linking observed astronomical signals to theoretical models of the universe's expansion history. Because various techniques utilize distinct calibration procedures and assumptions, comparing these methods necessitates tracing shared inputs. This process helps that correlated errors are not misinterpreted as independent agreement between the different measurement frameworks.",
+      "reference_text": "Cosmological distance measurements connect observed signals with models of objects and the expansion history. Different methods rely on different calibration steps and assumptions. Comparing those methods requires tracing shared inputs so that correlated errors are not mistaken for independent agreement.",
+      "reference_sha256": "b5075bf08363cc839be73e8767b5c225c1195027eb38ea7595d1ae8868fdeda0",
+      "verdict": "rejected",
+      "reason": "\"This process helps that correlated errors are not misinterpreted\" is not a valid construction. The opening also omits object-property modeling from the reference and gives expansion history a narrower, potentially overstrong role.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_scope": "uncertain",
+        "coherence_and_causality": "fail",
+        "claim_preservation": "fail"
+      },
+      "scientific_note_ids": [
+        "C1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "1eac700fefda",
+      "text_sha256": "0a4ad05b6c888b2493980e87e5446ffc3744258e61b2fd404118a622778d8999",
+      "text": "Research into neural population coding investigates how specific patterns across neuronal ensembles correspond to particular behaviors or stimuli. While a decoder can extract information from these recordings, this process does not demonstrate the underlying neural mechanisms. Furthermore, excluding entire trials helps prevent temporal correlations from artificially inflating the estimates of decoding performance.",
+      "reference_text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance.",
+      "reference_sha256": "66d2b0da571ca6056f21538e5b14f57429ee815ade71edd0f103e5dc439c6106",
+      "verdict": "uncertain",
+      "reason": "The first two sentences preserve the broad neural-coding claims. \"Excluding entire trials\" may mean holding them out for testing or simply removing observations; the text does not specify which. Claim preservation of the validation safeguard cannot be approved without clarification (N1).",
+      "dimensions": {
+        "grammar": "pass",
+        "scientific_scope": "uncertain",
+        "coherence_and_causality": "uncertain",
+        "claim_preservation": "uncertain"
+      },
+      "scientific_note_ids": [
+        "N1"
+      ],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    },
+    {
+      "review_id": "49b59682e2dc",
+      "text_sha256": "8f96508f81636ed49563b488a1df5c641d5e0234e8d643805782d66ae247fa17",
+      "text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Various terrain conditions can influence the effectiveness of specific gaits or motion strategies. Consequently, evaluations should document total energy expenditure across an entire task instead than focusing solely on short intervals of steady-state motion.",
+      "reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "reference_sha256": "e4a71137001a203c4c4d707ecff0608e7ababa3c50db9a27aa3ae17449232951",
+      "verdict": "rejected",
+      "reason": "\"Instead than\" is an uncorrected grammatical error. The broad evaluation advice is plausible, but exact-text approval would require rewriting that comparison.",
+      "dimensions": {
+        "grammar": "fail",
+        "scientific_scope": "pass",
+        "coherence_and_causality": "fail",
+        "claim_preservation": "uncertain"
+      },
+      "scientific_note_ids": [],
+      "reviewer": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "xhigh"
+      }
+    }
+  ]
+}

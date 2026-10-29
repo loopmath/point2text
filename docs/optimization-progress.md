@@ -146,3 +146,22 @@ The grounded command additionally uses `--grounded --unguided --min-words 40
 --attempts 4 --seed 2973431`. `summary` checks paired request equality and reports
 actual native/guidance work. `packet` omits target labels, coordinates, seeds and
 distances from reviewer items; its separate key preserves linkage.
+
+Independent [grounded-v1 review](experiments/fresh-grounded-independent-review-v1.json)
+accepted 9 selected texts, rejected 12, and marked 3 uncertain. Approved generated
+anchors covered only **three of the six targets**; the missing targets remain
+explicit failures in the [reviewed summary](experiments/fresh-grounded-reviewed-summary-v1.json).
+
+A further [conservative-v2 arm](experiments/fresh-grounded-conservative-v2.json.gz)
+generated four new seeds per target with no guidance, a 40–70-word policy, and
+an explicit 2–3-sentence/source-modality-preservation prompt. This is another
+exploratory prompt/length/seed change, not a controlled single-factor benefit
+claim. All 24 selected texts were independently reviewed against their public
+references: **11 accepted, 10 rejected, 3 uncertain**. Approved anchors covered
+four targets; neuroscience and climate/cosmology clicks still had none. The
+[review](experiments/fresh-grounded-conservative-independent-review-v2.json),
+[summary](experiments/fresh-grounded-conservative-reviewed-summary-v2.json), raw
+drafts and failures remain available. No epsilon success follows from this
+coverage improvement. Word-span, sentence-span and fresh-restart refinement are
+now being compared from approved generated anchors under equal per-arm budgets,
+with separate blinded post-review required for their new text.

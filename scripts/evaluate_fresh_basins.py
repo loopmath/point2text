@@ -13,9 +13,11 @@ import gzip
 from hashlib import sha256
 from importlib.metadata import PackageNotFoundError, version
 import json
+import inspect
 from pathlib import Path
 import random
 import re
+import subprocess
 import time
 
 def read(path):
@@ -111,7 +113,7 @@ def source_packet(bundle, plan, output):
                   "instructions": "Review only scientific accuracy, scope, qualifications and coherence of these public corpus references. These are not generated outputs. No target coordinates/distances are supplied.", "items": items})
 
 
-def summary(pool, paired=None):
+def summary(pool, paired=None, reviews=None):
     attempts = [attempt for case in pool["cases"] for attempt in case["attempts"]]
     native_passes = sum(attempt.get("result", {}).get("trace", {}).get("passes", 0) for attempt in attempts)
     guided_passes = sum(len((attempt.get("guidance") or {}).get("steps", [])) for attempt in attempts)
@@ -147,6 +149,13 @@ def summary(pool, paired=None):
                                     "primary_best_distance": min((v["distance"] for v in attempt["candidates"]), default=None),
                                     "paired_best_distance": min((v["distance"] for v in other["candidates"]), default=None)})
         result["pairing"] = {"identical_targets_and_requests": True, "comparisons": comparisons}
+    if reviews:
+        anchors = approved_anchors(pool, reviews)
+        result["independent_quality"] = {
+            "approved_target_count": sum(anchor["candidate"] is not None for anchor in anchors),
+            "target_count": len(anchors), "best_reviewed_generated_anchors": anchors,
+            "note": "Individual distance-blinded judgments; no statistical quality guarantee.",
+        }
     return result
 
 
@@ -218,6 +227,18 @@ def refine(args, bundle):
     report = {"schema": "fresh-approved-anchor-refinement-v1", "map_id": bundle.map_id,
               "anchors": anchors, "arms": arms, "runs": [],
               "quality": "Anchors independently approved; new outputs require the separate blinded post-review."}
+    implementation = Path(inspect.getfile(CanonicalRefinementSearch)).resolve()
+    source_root = implementation.parents[3]
+    commit = subprocess.run(["git", "-C", str(source_root), "rev-parse", "HEAD"],
+                            capture_output=True, text=True, check=True).stdout.strip()
+    report["provenance"] = {
+        "source_commit": commit,
+        "refinement_sha256": sha256(implementation.read_bytes()).hexdigest(),
+        "runtime_sha256": sha256(Path(inspect.getfile(MLXDiffusionRuntime)).read_bytes()).hexdigest(),
+        "pool_sha256": sha256(args.pool.read_bytes()).hexdigest(),
+        "reviews_sha256": sha256(args.reviews.read_bytes()).hexdigest(),
+        "script_sha256": sha256(Path(__file__).read_bytes()).hexdigest(),
+    }
     if args.resume and args.output.exists():
         report = read(args.output)
         if report["map_id"] != bundle.map_id or report["arms"] != arms:
@@ -230,6 +251,12 @@ def refine(args, bundle):
                               start_fraction=args.start_fraction)
     for index, anchor in enumerate(anchors):
         if anchor["candidate"] is None:
+            for arm in arms:
+                if not any(row["target_id"] == anchor["id"] and row["arm"] == arm for row in report["runs"]):
+                    report["runs"].append({"target_id": anchor["id"], "arm": arm,
+                                           "anchor": anchor, "status": "not_run",
+                                           "reason": "no_independently_approved_generated_anchor"})
+            save(args.output, report)
             continue
         for arm in arms:
             if any(item["target_id"] == anchor["id"] and item["arm"] == arm for item in report["runs"]):
@@ -243,7 +270,8 @@ def refine(args, bundle):
             config = RefinementConfig(
                 max_seconds=min(args.seconds, remaining), max_hard_queries=args.queries,
                 max_rounds=args.rounds, beam_width=4, proposals_per_round=128,
-                min_words=args.min_words, repair_every=1, stall_rounds=3,
+                min_words=policy.min_words, max_words=policy.max_words,
+                repair_every=1, stall_rounds=3,
                 repair_span_mode="words" if arm == "words" else "sentence",
                 max_restarts=args.restarts if arm == "sentence-restarts" else 0,
                 restart_candidates=2,
@@ -299,17 +327,31 @@ def generate(args, bundle):
     policy = PromptPolicy() if not args.grounded else PromptPolicy(
         purpose="Paraphrase the provided public reference without changing its scientific claims",
         style="precise, fluent and conservative technical prose", neighbors=1,
-        min_words=args.min_words, max_words=100,
+        min_words=args.min_words, max_words=args.max_words,
         extra_instructions=(
             "Treat the single reference as the entire factual scope. Preserve every qualification, "
             "limitation and condition. Preserve distinctions among observation, association, estimation "
             "and causal evidence. Do not add examples, mechanisms, benefits, guarantees or measurements "
             "absent from the reference. Rephrase syntax and wording without copying any full reference "
             "sentence. Return a coherent, complete paragraph."))
+    if args.conservative_grounded:
+        if not args.grounded:
+            raise ValueError("--conservative-grounded requires --grounded")
+        from dataclasses import replace
+        policy = replace(policy, extra_instructions=(
+            "Write ONLY 2–3 coherent sentences paraphrasing the single reference's existing claims. "
+            "Do not fill space with a concluding implication or recommendation. Preserve every 'may', "
+            "'can' and 'helps' qualification and its scope. Never turn 'helps' or 'can' into 'prevents' "
+            "or 'guarantees'. Do not use 'must', 'requires', 'prevents', 'guarantees' or 'ensures' unless "
+            "the reference itself states that exact strength for that exact claim. Do not add "
+            "requirements, inference conditions, purposes, causal mechanisms or conclusions. "
+            "Change wording and sentence structure without copying any complete source sentence; "
+            "retain the same modest factual scope. No filler."))
     settings = {"attempts": args.attempts, "seed": args.seed, "inner_updates": args.inner_updates,
                 "max_tokens": args.tokens, "steps": args.steps, "prompt_policy": asdict(policy),
                 "guided": not args.unguided, "grounded": args.grounded,
-                "min_words": args.min_words,
+                "min_words": args.min_words, "max_words": args.max_words,
+                "conservative_grounded": args.conservative_grounded,
                 "strength": args.strength, "max_delta": args.max_delta,
                 "guided_steps": args.guided_steps, "start_fraction": args.start_fraction}
     report = {"schema": "fresh-native-basins-v1", "created_at": datetime.now(timezone.utc).isoformat(),
@@ -354,7 +396,7 @@ def generate(args, bundle):
             case["attempts"].append(item)
             verifier = CanonicalVerifier(bundle, target, RefinementConfig(
                 max_seconds=max(.1, deadline.end - time.monotonic()), max_hard_queries=1024,
-                min_words=args.min_words))
+                min_words=args.min_words, max_words=args.max_words))
 
             def verify(text, origin):
                 if args.grounded:
@@ -430,6 +472,8 @@ def main():
     parser.add_argument("--inner-updates", type=int, default=16)
     parser.add_argument("--unguided", action="store_true", help="Explicit same-seed native ablation; no logit guidance.")
     parser.add_argument("--grounded", action="store_true", help="Exploratory one-reference claim-preserving prompt; separate from the paired ablation.")
+    parser.add_argument("--conservative-grounded", action="store_true",
+                        help="Separate exploratory 2–3sentence source-modality-preserving prompt.")
     parser.add_argument("--strength", type=float, default=1.0)
     parser.add_argument("--max-delta", type=float, default=1.0)
     parser.add_argument("--guided-steps", type=int, default=8)
@@ -438,6 +482,7 @@ def main():
     parser.add_argument("--steps", type=int, default=32)
     parser.add_argument("--min-words", type=int, default=60,
                         help="Explicit experimental word policy; grounded40is separate from product60minimum.")
+    parser.add_argument("--max-words", type=int, default=100)
     parser.add_argument("--seconds", type=float, default=1200)
     parser.add_argument("--session-seconds", type=float, default=1200)
     parser.add_argument("--queries", type=int, default=1024)
@@ -453,7 +498,8 @@ def main():
     if args.phase == "summary":
         if not args.pool:
             parser.error("summary requires --pool")
-        save(args.output, summary(read(args.pool), read(args.paired) if args.paired else None))
+        save(args.output, summary(read(args.pool), read(args.paired) if args.paired else None,
+                                  read(args.reviews) if args.reviews else None))
         return
     if args.phase in ("generate", "sources") and not args.targets:
         parser.error("generate/sources require --targets")
