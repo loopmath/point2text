@@ -1,6 +1,6 @@
 # Experimental diffusion path
 
-This branch implements real local DiffusionGemma generation, sparse map-gradient steering before native sampler decisions, and canonical decoded-text scoring. It stays isolated from the baseline on `main` until reviewed. It is an operational prototype; useful guidance across targets is not yet established.
+The experimental path implements real local DiffusionGemma generation, sparse map-gradient steering before native sampler decisions, and canonical decoded-text scoring. It is included in `main` and runs through the separate `point2text-diffusion` command. It is an operational prototype; useful guidance across targets is not yet established.
 
 ## Install and run
 

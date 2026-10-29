@@ -1,6 +1,6 @@
 # Native diffusion integration and acceptance plan
 
-**Current state:** the combined native runtime, encoder-gradient bridge, hard-text verification, browser path, and per-pass update control work in [draft PR #1](https://github.com/loopmath/point2text/pull/1). The integration gate below passed real local runs; the branch remains separate for review. The next open gate is measured quality and efficiency under equal time budgets.
+**Current state:** the combined native runtime, encoder-gradient bridge, hard-text verification, browser path, and per-pass update control were merged into `main` through [PR #1](https://github.com/loopmath/point2text/pull/1). The integration gate below passed real local runs. The next open gate is measured quality and efficiency under equal time budgets.
 
 The immediate deliverable is a local Mac run in which native DiffusionGemma denoising invokes frozen-encoder guidance, produces real decoded research prose, and reports its measured position on the existing fixed map. The authorized window began **2026-10-29 17:28:31 UTC** and ends **18:28:31 UTC**. This is the implementation deadline; it is not a promise of a particular accuracy, speed, or quality improvement.
 
@@ -13,9 +13,9 @@ All three implementation lanes use GPT-6.1-sol with xhigh reasoning. Each lane c
 | Runtime lane | `work/diffusion-runtime` / `diffusion/runtime` | Native MLX checkpoint loading, sampler hook before token commitment, decoding, cancellation, runtime trace. Implemented; lane reports a real unguided native generation. |
 | Encoder/bridge lane | `work/diffusion-encoder` / `diffusion/encoder-bridge` | Frozen MiniLM input-vector gradients, PCA objective, sparse tokenizer bridge, encoder/bridge tests. Implemented in `5d329784837ba0a04170cc4772d4498b2d3b61df`; nine small tests and a real cached-MiniLM parity check passed. An actual DiffusionGemma-tokenizer smoke produced finite gradients and reduced its soft objective. |
 | Guidance/search lane | `work/diffusion-guidance` / `diffusion/guidance` | Sparse top-k selection/scatter, update schedule, proposal reference, guided/unguided selection, final candidate scoring. Implemented; lane reports unit tests and native MLX sparse-scatter checks. |
-| Integration owner | `work/diffusion` / `diffusion/integration` | Shared contracts, CLI/web wiring, dependencies, combined real runs, evidence logs, packaging, user-facing status, and promotion into `main`. Combined guided acceptance remains the immediate gate. |
+| Integration owner | `work/diffusion` / `diffusion/integration` | Shared contracts, CLI/web wiring, dependencies, combined real runs, evidence logs, packaging, user-facing status, and merge into `main`. The combined integration gate passed. |
 
-The main checkout is `point2text` on `main`. Keep experimental integration isolated until its checks pass. Checkpoint weights and generated runtime caches remain outside tracked source; the public package contains source, tests, documentation, and the original conceptual demo corpus.
+The main checkout is `point2text` on `main`. The worktrees above record the component development layout; their integrated content is now on `main`. Checkpoint weights and generated runtime caches remain outside tracked source; the public package contains source, tests, documentation, and the original conceptual demo corpus.
 
 ## Contracts already available
 

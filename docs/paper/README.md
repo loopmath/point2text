@@ -10,4 +10,4 @@ The two-page layout is built from readable Markdown and a ReportLab renderer. Ma
 uv run --extra paper python docs/paper/build.py
 ```
 
-The build fails unless the result is exactly two pages. `observations.json` retains the original numerical development observations. Experimental diffusion implementation details live in the separate diffusion branch and its component documentation.
+The build fails unless the result is exactly two pages. `observations.json` retains the original numerical development observations. See the [diffusion report](../diffusion-paper/README.md) and [implementation documentation](../diffusion.md) for the integrated experimental path.
