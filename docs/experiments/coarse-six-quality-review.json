@@ -1,0 +1,593 @@
+{
+  "schema": "point2text-blind-quality-review-v1",
+  "created_at": "2026-10-29T20:06:40.253284+00:00",
+  "input_file": "work/coarse-six-blind.json",
+  "input_sha256": "31f8e32d0da57fed31c427da5a518a5ad236c0e295834cc114c146c4ee9cd12c",
+  "method": {
+    "reviewer": "Independent Codex text review; no new local or external LLM-judge call",
+    "scope": "Intrinsic grammar, coherence, scientific plausibility and unsupported claims. This is a reasoned screening pass, not factual certification or peer review.",
+    "blinded": true,
+    "coordinates_or_distances_seen": false,
+    "numerical_result_files_opened": false,
+    "models_loaded": false,
+    "gpu_used": false,
+    "services_started": false,
+    "acceptance_rule": "accepted=true only for decision=accepted. Uncertain candidates are withheld from automatic anchor selection. Accepted candidates may retain explicitly nonblocking scope/precision notes.",
+    "topic_alignment_scored": false,
+    "topic_note": "Some supplied domain labels differ from the actual prose subject (notably quantum decoherence under hidden-ml and federated learning under hidden-quantum). Their relation to a target was not used to judge intrinsic quality.",
+    "comparison_note": "Each actual candidate was read; recurring terminology was not used as a blanket rejection. In particular, effective reduced-state mixtures are distinguished from objective collapse, and conditional partial-failure availability is distinguished from an all-partitions guarantee."
+  },
+  "summary": {
+    "rejected": 14,
+    "accepted": 11,
+    "uncertain": 5
+  },
+  "cases_without_accepted_candidate": [
+    "hidden-ml",
+    "hidden-biology",
+    "hidden-climate",
+    "hidden-security"
+  ],
+  "sources": {
+    "decoherence": {
+      "title": "Schlosshauer, Decoherence, the measurement problem, and interpretations of quantum mechanics",
+      "url": "https://arxiv.org/abs/quant-ph/0312059"
+    },
+    "forcing": {
+      "title": "IPCC AR4 WGI, Concept of Radiative Forcing",
+      "url": "https://archive.ipcc.ch/publications_and_data/ar4/wg1/en/ch2s2-2.html"
+    },
+    "raft": {
+      "title": "Ongaro and Ousterhout, In Search of an Understandable Consensus Algorithm",
+      "url": "https://raft.github.io/raft.pdf"
+    },
+    "chip": {
+      "title": "Landt et al., ChIP-seq guidelines and practices of the ENCODE and modENCODE consortia",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3431496/"
+    },
+    "slam": {
+      "title": "Cadena et al., Past, Present, and Future of Simultaneous Localization And Mapping",
+      "url": "https://arxiv.org/abs/1606.05830"
+    },
+    "nmda": {
+      "title": "Jahr and Stevens, Voltage dependence of NMDA-activated macroscopic conductances predicted by single-channel kinetics",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/1697902/"
+    }
+  },
+  "cases": [
+    {
+      "id": "hidden-ml",
+      "topic_label": "Machine learning",
+      "candidates": [
+        {
+          "candidate_id": "bb646fd32d0e4b1c3b6a6583cf0c61ad437985c6f76257d7ad8a15f06842bc25",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "Grammar: \"causes information leak\" needs \"causes information to leak\" or \"causes information leakage\".",
+            "Scientific setup: calling the decohering subsystem \"closed\" while letting information escape into an environment confuses closed-system unitary evolution with an open subsystem.",
+            "\"Effectively collapsing ... into a classical probability distribution\" is not adequately qualified as reduced-system interference suppression. Effective-collapse shorthand can be defensible, but this paragraph never identifies a reduced state or distinguishes it from physical outcome selection."
+          ],
+          "notes": [],
+          "source_ids": [
+            "decoherence"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "576a6aa2b1554db455c2a5ceded8bcf0361b9bda47c1dd51a74cf1c9f3fdee4c",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "Scientific setup: a quantum subsystem coupled to and leaking information into its environment is open; \"a closed system interacts with its surrounding environment\" is contradictory in the quantum-dynamical sense used here.",
+            "\"Transforming a coherent superposition into a classical mixture\" omits the reduced-state/effective-description qualification. This candidate does NOT explicitly claim selection of a measurement outcome; the rejection is for the closed/open confusion and an unqualified classical-mixture description, not for merely discussing decoherence."
+          ],
+          "notes": [
+            "The prose is otherwise grammatical. A corrected account could describe environmental entanglement and an approximately diagonal reduced density matrix."
+          ],
+          "source_ids": [
+            "decoherence"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "d41bcd24dfea5e62be16951ce0eb81ac3f691adb4cf50de457ed997ef9f6edd6",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "Grammar: \"causes information leak\" is malformed; use \"causes information to leak\".",
+            "The purported \"closed system\" simultaneously exchanges information with an environment, confusing closed combined dynamics with open-subsystem dynamics.",
+            "The effective-collapse/classical-distribution claim needs an explicit reduced-system qualification; decoherence alone does not establish physical collapse or a singled-out result."
+          ],
+          "notes": [],
+          "source_ids": [
+            "decoherence"
+          ],
+          "text_sha256_verified": true
+        }
+      ]
+    },
+    {
+      "id": "hidden-systems",
+      "topic_label": "Distributed systems",
+      "candidates": [
+        {
+          "candidate_id": "77770dade73797fe0ca1a5fa92aad93827be2584a2a8efc53a03ecfdd471e44a",
+          "accepted": true,
+          "decision": "accepted",
+          "confidence": "medium",
+          "reasons": [
+            "Coherent, grammatical account of quorum commitment, log agreement and leader/log management in replicated databases.",
+            "No explicit promise of availability in every partition is made; availability under some partial failures is compatible with a connected operational majority."
+          ],
+          "notes": [
+            "\"High availability\" needs the connected-majority/failure-model qualification in a precise exposition. Log agreement is necessary, but is not by itself the complete linearizability argument or a read-path specification."
+          ],
+          "source_ids": [
+            "raft"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "58ee6955e6c5754a191eccf502a141c1094663cc0e57758999355da7dd9ae0d4",
+          "accepted": true,
+          "decision": "accepted",
+          "confidence": "medium",
+          "reasons": [
+            "Readable description of a leader/quorum log protocol and failover, with term/index safeguards against incompatible committed histories.",
+            "No concrete grammatical failure or unsupported empirical result is present."
+          ],
+          "notes": [
+            "Interpret \"without losing data\" as preserving committed entries; uncommitted proposals may be discarded. A precise version should say \"committed data\" and distinguish safety from eventual election progress."
+          ],
+          "source_ids": [
+            "raft"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "6de351a37584ab70fa68967674cdb1ee9d60a5760acb0d6ebc5dd5f98c52d30f",
+          "accepted": true,
+          "decision": "accepted",
+          "confidence": "medium",
+          "reasons": [
+            "The quorum/majority, term-number and log-replication explanation is scientifically plausible as a high-level crash-fault consensus summary.",
+            "It does not state that majority acknowledgments alone are the entire safety mechanism; the last sentence explicitly adds term/log safeguards."
+          ],
+          "notes": [
+            "Agreement can remain safe during a partition while progress stops; the opening should not be read as guaranteed availability. Exact voting, log-freshness and commitment rules are omitted, as expected in a short overview."
+          ],
+          "source_ids": [
+            "raft"
+          ],
+          "text_sha256_verified": true
+        }
+      ]
+    },
+    {
+      "id": "hidden-biology",
+      "topic_label": "Molecular biology",
+      "candidates": [
+        {
+          "candidate_id": "1e058a738060204f4d017c298215f0f371f60482b004471611627fbc61ec36e1",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "Corrupted terminology: \"histone ortranslational modifications\" is not a valid description; the intended term is presumably post-translational histone modifications.",
+            "\"Target proteins or modified modifications\" is semantically broken, and \"specific gene genes\" duplicates a word.",
+            "\"Sequenced and mapped to map\" is clumsy repetition. ChIP enrichment is also overstated as a comprehensive regulatory architecture rather than binding/mark evidence with limits."
+          ],
+          "notes": [],
+          "source_ids": [
+            "chip"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "1b250aabf59f41d7e8b95ab3bbff530603d697c4c63f52c56ff6abf817e68ce6",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "Grammar artifact: \"specific factor factors\" duplicates a word.",
+            "Sequencing antibody-enriched material maps occupancy or selected histone-mark enrichment; it does not automatically reveal the precise locations of every enhancer and promoter.",
+            "Binding plus transcriptomic profiles can support regulatory hypotheses, but the paragraph overstates inference of how chromatin states drive expression without explaining a causal design or validation."
+          ],
+          "notes": [],
+          "source_ids": [
+            "chip"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "9df78775803edc014f52796872e3bd731beddab3961093cf74ba2ebb759f88df",
+          "accepted": false,
+          "decision": "uncertain",
+          "confidence": "medium",
+          "reasons": [
+            "The crosslinked ChIP-seq workflow is plausible and the paragraph is grammatical.",
+            "However, protein occupancy plus accessibility profiles is promoted to \"a comprehensive understanding\" of how architecture influences expression, without functional or causal evidence. This is too broad to approve unchanged as a scientifically careful anchor.",
+            "This is not an assertion that combining these assays is useless, nor the same explicit \"directly determines causality\" wording seen elsewhere; the remaining problem is the unqualified mechanistic/completeness claim."
+          ],
+          "notes": [
+            "Replace the final claim with identifying candidate regulatory associations/hypotheses, or specify orthogonal functional validation."
+          ],
+          "source_ids": [
+            "chip"
+          ],
+          "text_sha256_verified": true
+        }
+      ]
+    },
+    {
+      "id": "hidden-climate",
+      "topic_label": "Climate science",
+      "candidates": [
+        {
+          "candidate_id": "0b84ae16a6b308d8a55e4ba91602fd482b5bd79bd0a4e9546c4c3d164d18875a",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "Definition error: radiative forcing is a change in net radiative flux including shortwave and longwave radiation, not just \"net solar radiation\".",
+            "Grammar artifact: \"water water vapor shifts\" duplicates a word."
+          ],
+          "notes": [],
+          "source_ids": [
+            "forcing"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "5d38f54d73756ab1794690806c58d6a643f0534de00f2c7c6dd9e8702be6245f",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "The first sentence compares solar energy at the surface with energy emitted to space, mixing different budget boundaries. That is not a definition of radiative forcing.",
+            "Forcing is the imposed change in the relevant net radiative flux, not the entire evolving energy imbalance after feedbacks.",
+            "\"Cloud vapor changes\" conflates clouds (condensed water/ice) with water vapor; cloud and water-vapor feedbacks should be named separately."
+          ],
+          "notes": [],
+          "source_ids": [
+            "forcing"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "89d002684da7ba2700b61eaf87408c1a8576e9b898d2ba3d8b37db28fbaaefbb",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "Definition error: the forcing flux includes solar/shortwave and thermal/longwave components; \"net solar radiation\" excludes the greenhouse longwave contribution.",
+            "The duplicated \"water water\" is a clear wording artifact."
+          ],
+          "notes": [],
+          "source_ids": [
+            "forcing"
+          ],
+          "text_sha256_verified": true
+        }
+      ]
+    },
+    {
+      "id": "hidden-quantum",
+      "topic_label": "Quantum computing",
+      "candidates": [
+        {
+          "candidate_id": "21a1c95f978ad6255d952bf82cc164071913fcca36cc5f21fda8e99b005108bd",
+          "accepted": true,
+          "decision": "accepted",
+          "confidence": "high",
+          "reasons": [
+            "Coherent description of a common centrally aggregated federated-learning setup, client heterogeneity and communication costs.",
+            "The privacy sentence correctly warns that sharing updates can expose information through inversion attacks; it does not equate keeping raw data local with a privacy guarantee."
+          ],
+          "notes": [
+            "This is a central-server variant, not a description of every possible federated architecture. Its actual subject is machine learning, despite the supplied case topic label; topic alignment was deliberately not scored."
+          ],
+          "source_ids": [],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "4d1dc9df4c413b614e3b69b6254d2723ab14f8c9eea902a97da118e96e01f0c6",
+          "accepted": true,
+          "decision": "accepted",
+          "confidence": "high",
+          "reasons": [
+            "Grammatical and scientifically plausible summary of client-side learning and server-side parameter-update aggregation.",
+            "It explicitly retains a privacy-risk qualification rather than claiming that local raw-data retention prevents leakage."
+          ],
+          "notes": [
+            "\"Gradient attacks\" is underspecified; gradient reconstruction/inversion or membership inference would be clearer. This imprecision is not a concrete false claim. Actual subject: federated learning."
+          ],
+          "source_ids": [],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "a5a40d36b362422cb2ec6677874f57dcae1a6eac37f04eb7ada04078ed9a6d68",
+          "accepted": false,
+          "decision": "uncertain",
+          "confidence": "medium",
+          "reasons": [
+            "\"Instead of aggregating information centrally\" conflicts with the same sentence sending information to a central server \"for aggregation\". It presumably means avoiding centralization of raw data, but that distinction is absent.",
+            "The passage also presents sending parameter gradients as the universal update form, while common federated local-training protocols send parameter/model differences. Gradient-sharing is possible, so this is an underspecified variant rather than an intrinsically impossible algorithm."
+          ],
+          "notes": [
+            "Clarify \"without centralizing raw training data\" and name a federated-SGD variant or say \"model updates\" before approval."
+          ],
+          "source_ids": [],
+          "text_sha256_verified": true
+        }
+      ]
+    },
+    {
+      "id": "hidden-robotics",
+      "topic_label": "Robotics",
+      "candidates": [
+        {
+          "candidate_id": "1a09dd5454ba3fddd1c12f0df5ddaddf7bd1b9df284d90c35b718237a9b0370a",
+          "accepted": true,
+          "decision": "accepted",
+          "confidence": "medium",
+          "reasons": [
+            "Readable and plausible account of coupled pose/map estimation, noisy measurements and loop closure for drift correction.",
+            "\"Often employ recursive filters\" correctly leaves room for graph/optimization-based approaches rather than defining all SLAM as filtering."
+          ],
+          "notes": [
+            "Loop closure is a common consistency aid, not an unconditional guarantee that every map is globally correct. Correct association and observability assumptions remain implicit."
+          ],
+          "source_ids": [
+            "slam"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "c1efac717648a4385d1647d28f89d61377a83df01ef932738082331e990343ef",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "The ending \"local-term perceptual noise\" contains a malformed, undefined compound and obscures the intended meaning.",
+            "Otherwise the paragraph is nearly a coherent filtering/loop-closure summary, but this wording artifact prevents approval as polished text."
+          ],
+          "notes": [
+            "Replace with \"local perceptual noise\" or \"short-term perceptual noise\" as intended."
+          ],
+          "source_ids": [
+            "slam"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "8ec755e1c2610f4f79d0cfc4c06112eda34a40b13723b3d16f53318b3fef848c",
+          "accepted": false,
+          "decision": "uncertain",
+          "confidence": "medium",
+          "reasons": [
+            "Grammatical, but it defines the process as relying on recursive filtering even though optimization/smoothing-based SLAM is a major alternative.",
+            "\"Robust algorithms must employ loop closure\" is too categorical, and detecting a loop does not by itself ensure global consistency; sensing, data association and other absolute/relative constraints matter."
+          ],
+          "notes": [
+            "Qualify the scope as a filtering-based approach and loop closure as one common correction mechanism."
+          ],
+          "source_ids": [
+            "slam"
+          ],
+          "text_sha256_verified": true
+        }
+      ]
+    },
+    {
+      "id": "hidden-neuroscience",
+      "topic_label": "Neuroscience",
+      "candidates": [
+        {
+          "candidate_id": "aeea34f92eeac9008c9303163c1d2acbe89c452a77a6c127b571029685eb0dc9",
+          "accepted": true,
+          "decision": "accepted",
+          "confidence": "medium",
+          "reasons": [
+            "The paragraph coherently describes activity-dependent efficacy changes, receptor trafficking and persistent potentiation.",
+            "Distinguishing stable modifications from transient fluctuations is a sensible evaluation aim, and no specific corrupted wording or invented quantitative result appears."
+          ],
+          "notes": [
+            "\"Sensitivity of the cell\" is broad; postsynaptic responsiveness at the affected synapse would be more precise. The summary does not cover every form of plasticity."
+          ],
+          "source_ids": [],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "902b37c8b1a0ea0e095b6d4d5f490224b7f8bc00e82a0b920f9fb31be1ea6eac",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "Broken sentence boundary: \"the sensitivity of the cell to Long-term potentiation represents\" merges two sentences into an ungrammatical construction.",
+            "The resulting text no longer states a coherent relation between receptor trafficking and potentiation."
+          ],
+          "notes": [],
+          "source_ids": [],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "7394241262d06f9b5768cb7ec1f8db3754ede5a46b8667a7d7c156ebbd6c5f26",
+          "accepted": true,
+          "decision": "accepted",
+          "confidence": "medium",
+          "reasons": [
+            "The NMDA-receptor coincidence description is scientifically plausible: glutamate binding and postsynaptic depolarization permit calcium-dependent signaling that can modify glutamate-receptor expression/trafficking.",
+            "The prose is grammatical, and \"often\" appropriately avoids treating this as every form of synaptic plasticity."
+          ],
+          "notes": [
+            "Persistence measurements alone do not prove a structural rather than functional mechanism. If the final sentence is intended as an experimental recipe for structural attribution, structural readouts would also be needed."
+          ],
+          "source_ids": [
+            "nmda"
+          ],
+          "text_sha256_verified": true
+        }
+      ]
+    },
+    {
+      "id": "hidden-materials",
+      "topic_label": "Materials science",
+      "candidates": [
+        {
+          "candidate_id": "02c20451c27b7e0772815512525dbec4ff93e73fa98932e773d0f367eb6b4284",
+          "accepted": false,
+          "decision": "uncertain",
+          "confidence": "medium",
+          "reasons": [
+            "The free-energy/nucleation overview is broadly plausible, but \"local fluctuations must propagate to reach global equilibrium\" is not a clear account of nucleation and growth. Critical nuclei overcoming a free-energy barrier and subsequent interface growth are conflated with propagation of fluctuations.",
+            "The inference from grain-boundary evolution to how disorder controls stability/mechanical response is presented without a measurement/model connection; it needs a specified material/transformation or narrower wording."
+          ],
+          "notes": [
+            "This is a precision/unsupported-mechanism concern, not a claim that grain boundaries cannot affect transformations."
+          ],
+          "source_ids": [],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "9795eaafe94522fb5888e40abce2209e610fa270d4712ed77b7098a31b2b07c3",
+          "accepted": true,
+          "decision": "accepted",
+          "confidence": "medium",
+          "reasons": [
+            "A coherent, grammatical introductory description of structural solid-state transformations, free-energy driving, nucleation/growth and diffraction/thermal-expansion measurements.",
+            "No duplicated tokens, malformed sentence or invented measurement is present."
+          ],
+          "notes": [
+            "The scope should be structural first-order transformations: not every transition has nucleation/growth kinetics. At changing pressure, the thermodynamic discussion should explicitly include pressure-volume/enthalpic contributions rather than only internal energy and entropy."
+          ],
+          "source_ids": [],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "37eb42fab46e48f58dee41251b96780e8036eea437e5c5ae622b783eba0f2376",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "The clause \"local fluctuations must overcome to reach global equilibrium\" lacks the object of \"overcome\"; an activation/free-energy barrier is presumably missing.",
+            "This omission also removes the physical mechanism the sentence is meant to explain."
+          ],
+          "notes": [],
+          "source_ids": [],
+          "text_sha256_verified": true
+        }
+      ]
+    },
+    {
+      "id": "hidden-security",
+      "topic_label": "Computer security",
+      "candidates": [
+        {
+          "candidate_id": "73479ca1d41cdddba5c85358781829a2102dd7b983fe2e45793225c845ec690d",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "Clear wording artifact: \"frequent frequency elections\".",
+            "The unconditional framing of maintaining safety \"without sacrificing availability\" in the same paragraph as network partitions is misleading for Raft/Paxos. Availability requires a communicating operational quorum; safety does not imply progress during arbitrary partitions."
+          ],
+          "notes": [],
+          "source_ids": [
+            "raft"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "5e5eda567f9b0a6878177405ebb01c878dfddf57356a5e5e692d89782d18cbf1",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "Clear duplicated wording: \"frequent frequency elections\".",
+            "Subject/verb disagreement: \"rapid state transitions is critical\" should be \"are critical\".",
+            "The safety/availability tradeoff is now acknowledged, but it does not repair those grammar defects."
+          ],
+          "notes": [],
+          "source_ids": [
+            "raft"
+          ],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "855d55800ce3153df696dc7a5960824fa1552c16221ea5ad1624e17e46acd0ea",
+          "accepted": false,
+          "decision": "uncertain",
+          "confidence": "medium",
+          "reasons": [
+            "The paragraph is grammatical and correctly emphasizes failure testing, but it asks for recovery of \"consistency\" when a quorum is unreachable or inconsistent.",
+            "For crash-fault quorum protocols, quorum loss should stop progress while preserving the safety of committed history; recovery may mean replica catch-up, not regaining a safety property that was lost. If inconsistent means Byzantine behavior, that needs a different explicit fault model.",
+            "The intended meaning is ambiguous rather than demonstrably impossible, so this is withheld pending clarification rather than labeled a clear factual falsehood."
+          ],
+          "notes": [
+            "Use \"resume progress and catch up lagging replicas after quorum connectivity returns while preserving committed-history safety\" if that is the intended test."
+          ],
+          "source_ids": [
+            "raft"
+          ],
+          "text_sha256_verified": true
+        }
+      ]
+    },
+    {
+      "id": "hidden-astronomy",
+      "topic_label": "Astronomy",
+      "candidates": [
+        {
+          "candidate_id": "2431875b32991dfcf97fdea158c3a7967a840280c8ce2245080af3ea74831487",
+          "accepted": true,
+          "decision": "accepted",
+          "confidence": "medium",
+          "reasons": [
+            "A grammatical and plausible introductory account of line fingerprints, Doppler shifts, thermal/pressure-related broadening and instrumental corrections.",
+            "Line-profile modeling can inform source temperature, pressure and radial velocity; no specific numerical inference or discovery is fabricated."
+          ],
+          "notes": [
+            "These quantities are not generally uniquely recoverable from a width/shift alone: broadening components and line formation require models and additional diagnostics. Instrumental correction also does not by itself separate interstellar absorption from source features."
+          ],
+          "source_ids": [],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "d88e3ab2ad1d0d0c312f129663c27702288eb9a4f0bd3a434e996819a7569450",
+          "accepted": true,
+          "decision": "accepted",
+          "confidence": "high",
+          "reasons": [
+            "Coherent description of spectroscopy using line shifts/intensities and atomic modeling to infer abundances, temperatures and radial velocities.",
+            "It avoids a concrete unsupported quantitative claim and has no visible grammar or coherence defect."
+          ],
+          "notes": [
+            "The galaxy-evolution conclusion is broad motivation, not evidence that a particular evolutionary model was confirmed."
+          ],
+          "source_ids": [],
+          "text_sha256_verified": true
+        },
+        {
+          "candidate_id": "81429295df58c778a72a0b70d19141ce01ec3d217c7f2ea37b02a6f244912c66",
+          "accepted": false,
+          "decision": "rejected",
+          "confidence": "high",
+          "reasons": [
+            "Missing noun: \"interaction of electromagnetic with matter\" needs electromagnetic radiation/fields.",
+            "Malformed construction: \"to account between physical signals from instrumental noise\"; it should distinguish signals from noise or account for instrumental effects.",
+            "\"The evolution across the universe\" leaves the object of evolution unspecified, and \"individual atmospheres\" is an unclear replacement for individual stars in this context."
+          ],
+          "notes": [],
+          "source_ids": [],
+          "text_sha256_verified": true
+        }
+      ]
+    }
+  ],
+  "anchor_selection_note": "Four cases have no approved candidate. Do not promote an uncertain/rejected SHA solely to fill a case; obtain a new or explicitly corrected paragraph and review it separately."
+}
