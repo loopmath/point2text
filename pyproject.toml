@@ -21,6 +21,7 @@ dependencies = [
 
 [project.optional-dependencies]
 encoder = ["sentence-transformers>=3,<6"]
+paper = ["reportlab>=4,<5", "matplotlib>=3.9,<4", "pypdf>=5,<7"]
 dev = ["pytest>=8,<10"]
 
 [project.scripts]
