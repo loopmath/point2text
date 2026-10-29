@@ -285,3 +285,27 @@ def test_capitalized_sentence_initial_technical_word_overrejection_is_explicit()
     # A conservative known false negative: no guard is weakened to allow this.
     assert sentence_screen_reason("Measurements may capture variation.",
         "Variation may be captured by measurements.") == "capitalized_entity_drift"
+
+
+@pytest.mark.parametrize("raw,expected", [("x" * 65, "x" * 64), ("é" * 33, "é" * 32),
+                                         ("x" * 63 + "é", "x" * 63)])
+def test_oversized_terminal_chunk_keeps_bounded_utf8_prefix_and_usage_once(raw, expected):
+    def handler(request):
+        if request.url.path == "/api/tags":
+            return httpx.Response(200, json={"models": [{"name": "fixture:latest", "digest": "fixed"}]})
+        chunk = {"response": raw, "done": True, "prompt_eval_count": 42, "eval_count": 20}
+        return httpx.Response(200, text=json.dumps(chunk) + "\n")
+
+    provider = OllamaSentenceParaphraseProvider(model="fixture", max_tokens=2,
+        transport=httpx.MockTransport(handler))
+    span = sentence_spans(SOURCE)[0]
+    assert provider.suggestions(SOURCE, span) == ()
+    receipt, = provider.diagnostics["sources"].values()
+    assert receipt["status"] == "error" and "byte bound" in receipt["error"]
+    assert receipt["raw_response"] == expected and receipt["raw_response_truncated"] is True
+    assert len(receipt["raw_response"].encode("utf-8")) <= 64
+    assert provider.diagnostics["prompt_tokens"] == 42
+    assert provider.diagnostics["completion_tokens"] == 20
+    assert provider.suggestions(SOURCE, span) == ()  # Cached failure adds no usage.
+    assert provider.diagnostics["prompt_tokens"] == 42
+    assert provider.diagnostics["completion_tokens"] == 20

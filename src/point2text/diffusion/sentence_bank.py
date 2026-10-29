@@ -303,6 +303,7 @@ class OllamaSentenceParaphraseProvider(OllamaParaphraseProvider):
         self.max_variants = max_variants
         self._sentence_cache: dict[str, tuple[str, ...]] = {}
         self._stream_parts: list[str] = []
+        self._stream_truncated = False
         self.diagnostics.update(raw_variant_count=0, accepted_variant_count=0,
                                 diagnostic_capacity_refusals=0, last_refusal=None)
 
@@ -357,6 +358,7 @@ class OllamaSentenceParaphraseProvider(OllamaParaphraseProvider):
         if receipt is None:
             return ()
         self._stream_parts = []
+        self._stream_truncated = False
         self.diagnostics["last_error"] = None
         started = time.monotonic()
         allowance = min(self.timeout, self.max_total_seconds - self.diagnostics["elapsed_seconds"])
@@ -410,7 +412,7 @@ class OllamaSentenceParaphraseProvider(OllamaParaphraseProvider):
             encoded_raw = complete_raw.encode("utf-8", errors="replace")
             limit = self.max_tokens * 32
             receipt.update(seconds=elapsed, raw_response=encoded_raw[:limit].decode("utf-8", errors="ignore"),
-                           raw_response_truncated=len(encoded_raw) > limit)
+                           raw_response_truncated=self._stream_truncated or len(encoded_raw) > limit)
         return self._sentence_cache.get(key, ())
 
     async def _collect(self, client: httpx.AsyncClient, source: str) -> str:
@@ -460,15 +462,22 @@ class OllamaSentenceParaphraseProvider(OllamaParaphraseProvider):
                 part = chunk.get("response", "")
                 if not isinstance(part, str):
                     raise ValueError("Sentence provider returned non-text output")
-                size += len(part.encode("utf-8"))
-                if size > self.max_tokens * 32:
-                    raise ValueError("Sentence provider response exceeded its byte bound")
-                parts.append(part)
                 if chunk.get("done"):
+                    # Terminal usage describes actual server work even when its
+                    # response must be rejected. Count it once, before size checks.
                     for field, key in (("prompt_eval_count", "prompt_tokens"), ("eval_count", "completion_tokens")):
                         value = chunk.get(field, 0)
                         if type(value) is int and value >= 0:
                             self.diagnostics[key] += value
+                encoded_part = part.encode("utf-8")
+                remaining = self.max_tokens * 32 - size
+                if len(encoded_part) > remaining:
+                    parts.append(encoded_part[:remaining].decode("utf-8", errors="ignore"))
+                    self._stream_truncated = True
+                    raise ValueError("Sentence provider response exceeded its byte bound")
+                size += len(encoded_part)
+                parts.append(part)
+                if chunk.get("done"):
                     if chunk.get("done_reason") == "length":
                         raise ValueError("Sentence provider exhausted output token budget")
                     return "".join(parts)
