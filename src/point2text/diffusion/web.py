@@ -87,7 +87,9 @@ class _ConfiguredSearch:
         epsilon = kwargs.pop("refinement_epsilon", None)
         seconds = kwargs.pop("refinement_seconds", None)
         unlimited = kwargs.pop("refinement_unlimited", False)
-        if epsilon is not None or seconds is not None or unlimited:
+        restarts = kwargs.pop("refinement_restarts", None)
+        restart_candidates = kwargs.pop("refinement_restart_candidates", None)
+        if epsilon is not None or seconds is not None or unlimited or restarts is not None or restart_candidates is not None:
             settings = {}
             if epsilon is not None:
                 settings["epsilon"] = epsilon
@@ -95,6 +97,10 @@ class _ConfiguredSearch:
                 settings["max_seconds"] = seconds
             if unlimited:
                 settings["max_seconds"] = None
+            if restarts is not None:
+                settings["max_restarts"] = restarts
+            if restart_candidates is not None:
+                settings["restart_candidates"] = restart_candidates
             self.search.config = replace(self.search.config, **settings)
         if self.proposer_factory is not None:
             self.search.edit_proposer, kwargs["request"] = self.proposer_factory(

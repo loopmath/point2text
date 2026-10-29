@@ -233,3 +233,5 @@ when retrieving context. A caller building its own `DiffusionRequest` must use
 prompt. A refinement controller that receives initial text and discrete edit
 proposals can use the canonical scoring encoder without constructing any Torch
 reward. Keep the selected profile fixed until starting a new map/session.
+
+The optional [sentence paraphrase bank](sentence-bank.md) is encoder-independent. Its literal preservation rules and sentence boundaries are English heuristics; other languages and domains need their own contextual quality policy and representative validation. Static source hashes and exact spans keep supplied banks distinct from map/encoder identity.

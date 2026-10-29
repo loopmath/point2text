@@ -55,6 +55,9 @@ def parser():
     result.add_argument("--beam-width", type=int, default=4)
     result.add_argument("--proposals-per-round", type=int, default=64)
     result.add_argument("--repair-steps", type=int, default=8)
+    result.add_argument("--max-restarts", type=int, default=3, help="Fresh generation basins after local search stalls; 0 disables restarts.")
+    result.add_argument("--restart-candidates", type=int, default=2, help="Fresh native generations per restart.")
+    result.add_argument("--repair-span-mode", choices=("words", "sentence"), default="words", help="Experimental sentence repairs make broader proposals; quality review is still required.")
     result.add_argument("--initial-text-file", type=Path, help="Local refinement diagnostic seed; not a hidden-target generation test.")
     local = result.add_mutually_exclusive_group()
     local.add_argument("--local-only", action="store_true", help="Refine an initial text without loading the diffusion model.")
@@ -95,6 +98,8 @@ def main():
             max_hard_queries=args.max_hard_queries, max_rounds=args.refinement_rounds,
             beam_width=args.beam_width, proposals_per_round=args.proposals_per_round,
             repair_steps=args.repair_steps,
+            max_restarts=args.max_restarts, restart_candidates=args.restart_candidates,
+            repair_span_mode=args.repair_span_mode,
             min_words=profile.prompt_policy.min_words, max_words=profile.prompt_policy.max_words,
             max_encoder_tokens=profile.encoder.max_length,
         )

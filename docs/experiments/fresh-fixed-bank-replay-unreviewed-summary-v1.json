@@ -1,0 +1,345 @@
+{
+  "schema": "fresh-refinement-summary-v1",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "targets": 6,
+  "targets_with_reviewed_generated_anchor": 6,
+  "rows": [
+    {
+      "target_id": "fresh-click-01",
+      "arm": "replay-legacy",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.033694809793621994,
+      "final_mechanical_distance": 0.033694809793621994,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.05643595795845613,
+      "hard_queries": 4,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.033694809793621994
+    },
+    {
+      "target_id": "fresh-click-01",
+      "arm": "replay-corrected",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.033694809793621994,
+      "final_mechanical_distance": 0.033694809793621994,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.045846333960071206,
+      "hard_queries": 4,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.033694809793621994
+    },
+    {
+      "target_id": "fresh-click-02",
+      "arm": "replay-legacy",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.045217340059034695,
+      "final_mechanical_distance": 0.023555059149155913,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.1322799589834176,
+      "hard_queries": 17,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.045217340059034695
+    },
+    {
+      "target_id": "fresh-click-02",
+      "arm": "replay-corrected",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.045217340059034695,
+      "final_mechanical_distance": 0.023555059149155913,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.3994034169591032,
+      "hard_queries": 35,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.045217340059034695
+    },
+    {
+      "target_id": "fresh-click-03",
+      "arm": "replay-legacy",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.00927456032850203,
+      "final_mechanical_distance": 0.009274560328502168,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.043086082965601236,
+      "hard_queries": 2,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.00927456032850203
+    },
+    {
+      "target_id": "fresh-click-03",
+      "arm": "replay-corrected",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.00927456032850203,
+      "final_mechanical_distance": 0.009274560328502168,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.053311583993490785,
+      "hard_queries": 2,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.00927456032850203
+    },
+    {
+      "target_id": "fresh-click-04",
+      "arm": "replay-legacy",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.027391238195194866,
+      "final_mechanical_distance": 0.027391238195194866,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.10020083299605176,
+      "hard_queries": 6,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.027391238195194866
+    },
+    {
+      "target_id": "fresh-click-04",
+      "arm": "replay-corrected",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.027391238195194866,
+      "final_mechanical_distance": 0.027391238195194866,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.1088861669995822,
+      "hard_queries": 6,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.027391238195194866
+    },
+    {
+      "target_id": "fresh-click-05",
+      "arm": "replay-legacy",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.05041098604857374,
+      "final_mechanical_distance": 0.04674543309288771,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.11505849997047335,
+      "hard_queries": 7,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.05041098604857374
+    },
+    {
+      "target_id": "fresh-click-05",
+      "arm": "replay-corrected",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.05041098604857374,
+      "final_mechanical_distance": 0.04674543309288771,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.08866570796817541,
+      "hard_queries": 7,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.05041098604857374
+    },
+    {
+      "target_id": "fresh-click-06",
+      "arm": "replay-legacy",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.03721133339695361,
+      "final_mechanical_distance": 0.03721133339695361,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.05591291596647352,
+      "hard_queries": 4,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.03721133339695361
+    },
+    {
+      "target_id": "fresh-click-06",
+      "arm": "replay-corrected",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.03721133339695361,
+      "final_mechanical_distance": 0.03721133339695361,
+      "post_review": "not_reviewed",
+      "post_review_reason": null,
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 0.07272841600934044,
+      "hard_queries": 6,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": false,
+      "best_reviewed_initial_or_final_distance": 0.03721133339695361
+    }
+  ],
+  "note": "Unreviewed/rejected final improvements do not establish quality-preserving progress. Missing targets remain explicit."
+}

@@ -33,6 +33,7 @@ def prepare(args, bundle):
     from point2text.diffusion.runtime import MLXDiffusionRuntime
     from point2text.diffusion.search import technical_prompt
     from point2text.diffusion.verification import CanonicalVerifier
+    from point2text.diffusion.work import native_work_summary
 
     fixtures = [json.loads(line) for line in args.fixtures.read_text().splitlines() if line]
     if args.case:
@@ -48,7 +49,10 @@ def prepare(args, bundle):
             raise ValueError("Cannot resume on a different map")
     runtime = MLXDiffusionRuntime()
     reward = TorchEmbeddingReward(bundle.encoder, bundle)
-    guidance = GuidanceConfig(inner_updates=args.inner_updates)
+    guidance = GuidanceConfig(inner_updates=args.inner_updates,
+                              start_fraction=args.start_fraction,
+                              end_fraction=args.end_fraction,
+                              guided_steps=args.guided_steps)
     report["guidance_config"] = asdict(guidance)
     report["attempts_per_target"] = args.attempts
     for fixture in fixtures:
@@ -76,6 +80,7 @@ def prepare(args, bundle):
         item = {"id": fixture["id"], "topic": fixture["topic"], "target": list(target),
                 "candidates": sorted(candidates, key=lambda value: value["distance"]),
                 "native": native, "verification": verifier.diagnostics}
+        item["executed_work"] = native_work_summary(native)
         report["cases"].append(item)
         save(args.output, report)
         print(json.dumps({"id": fixture["id"], "valid_drafts": len(candidates),
@@ -153,6 +158,10 @@ def main():
     parser.add_argument("--case", action="append")
     parser.add_argument("--attempts", type=int, default=6)
     parser.add_argument("--inner-updates", type=int, default=16)
+    parser.add_argument("--start-fraction", type=float, default=0,
+                        help="Guidance window start; 0 matches the browser/CLI. Older pools used .2.")
+    parser.add_argument("--end-fraction", type=float, default=.9)
+    parser.add_argument("--guided-steps", type=int, default=8)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--seconds", type=float, default=300)
     parser.add_argument("--queries", type=int, default=4096)

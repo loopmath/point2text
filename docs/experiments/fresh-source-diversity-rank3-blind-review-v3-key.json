@@ -1,0 +1,32 @@
+{
+  "items": [
+    {
+      "review_id": "6793f4b89c5f",
+      "target_id": "fresh-click-01",
+      "seed": 6973431,
+      "mechanically_valid": true,
+      "distance": 0.044811978698203074
+    },
+    {
+      "review_id": "0331b7755cdc",
+      "target_id": "fresh-click-01",
+      "seed": 6973532,
+      "mechanically_valid": true,
+      "distance": 0.033694809793621994
+    },
+    {
+      "review_id": "328228fd4b38",
+      "target_id": "fresh-click-02",
+      "seed": 6983431,
+      "mechanically_valid": true,
+      "distance": 0.13171844908439348
+    },
+    {
+      "review_id": "d8a919e27265",
+      "target_id": "fresh-click-02",
+      "seed": 6983532,
+      "mechanically_valid": true,
+      "distance": 0.09720997704287392
+    }
+  ]
+}

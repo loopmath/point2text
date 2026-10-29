@@ -1,0 +1,38 @@
+{
+  "schema": "distance-blinded-fresh-text-review-v1",
+  "instructions": "Review grammar, scientific accuracy, scope/qualifications and coherence. Mark accepted/rejected/uncertain with reasons. Distances and target labels are withheld. This is individual review, not a judge-accuracy estimate.",
+  "items": [
+    {
+      "review_id": "084e15cef972",
+      "text_sha256": "cfff409bbdc85b3f1e283985052bcf2bf6238389d27410ecec4f6ad34b0973cd",
+      "text": "Neural recording data consist both biological signals and variance originating from measurement procedures. To maintain rigor, analyses should define filtering methods, detection detection, and exclusion criteria prior to experimental comparisons. Furthermore, utilizing simulated or independent controls can help determine if specific processing techniques generate patterns that mimic actual neural activity.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Neural recordings contain both signals of interest and variation introduced by the measurement process. An analysis should describe filtering, event detection, and exclusion rules before comparing conditions. Simulated or independently measured controls can help reveal whether processing creates a pattern that resembles neural activity."
+    },
+    {
+      "review_id": "8e9ce83e28cf",
+      "text_sha256": "e264a4f3abbfea3f03d60eef8e49468954e07cd1c50880fdfe67801213753344",
+      "text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process depends upon specific measurement techniques and the assumptions employed to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible."
+    },
+    {
+      "review_id": "c100f60cba93",
+      "text_sha256": "bf30eb137a9799d28c891e2d89dd2a27671d5c9b8d44d65a876243a697069c79",
+      "text": "Dark matter maps are inferred from observational data related to gravitational mass distribution. This reconstruction process depends upon specific measurement techniques and assumptions employed to link observed signals to mass distribution. To visualize weakly constrained structures, resolution and uncertainty levels should be presented together.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible."
+    },
+    {
+      "review_id": "4684ca13d4c2",
+      "text_sha256": "7a12258a5582489f28d7209d9fd49b26f1165b98760f556ce729b57c1a030d6d",
+      "text": "Neural recording data consist of biological signals alongside variance originating from the measurement procedure. To maintain rigor, analyses should detail filtering techniques, event detection, and exclusion criteria prior to condition comparisons. Furthermore, utilizing simulated or independent controls can help determine if data processing generates patterns that mimic authentic neural activity.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Neural recordings contain both signals of interest and variation introduced by the measurement process. An analysis should describe filtering, event detection, and exclusion rules before comparing conditions. Simulated or independently measured controls can help reveal whether processing creates a pattern that resembles neural activity."
+    }
+  ]
+}

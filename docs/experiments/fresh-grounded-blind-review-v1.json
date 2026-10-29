@@ -1,0 +1,198 @@
+{
+  "schema": "distance-blinded-fresh-text-review-v1",
+  "instructions": "Review grammar, scientific accuracy, scope/qualifications and coherence. Mark accepted/rejected/uncertain with reasons. Distances and target labels are withheld. This is individual review, not a judge-accuracy estimate.",
+  "items": [
+    {
+      "review_id": "31374fe8af5e",
+      "text_sha256": "ff7842ee4a8c47ef9532a5c8eed586f343f96b5ed26f5d79bfd3efcdcc9ff018",
+      "text": "Research into neural population coding investigates the relationship between multi-unit patterns and specific behaviors or environmental stimuli. While decoding techniques can extract latent information from neural recordings, these processes do not inherently establish the underlying functional mechanisms utilized by the brain. To ensure the accuracy of decoding performance estimates, researchers often withhold out trials during validation, which prevents temporal correlations from artificially inflating the results results.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance."
+    },
+    {
+      "review_id": "039e0d5ec575",
+      "text_sha256": "3c6d6efa43a12783c23bc8df6b873ff14454eb52588b61f1332d180373180f7e",
+      "text": "Quantum error correction involves the encoding of information across multiple physical systems to enable the detection and mitigation of errors. The effective implementation of these techniques requires the simultaneous specification of the code, the measurement protocol, and the underlying noise assumptions. Consequently, a comprehensive performance evaluation must prioritize the analysis of logical error rates rather than focusing exclusively on the fidelity of isolated physical operations.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation."
+    },
+    {
+      "review_id": "c363ea89e5c5",
+      "text_sha256": "f90e910bf79e316da7d8d328b75962f089e3795a628aaea6869646b915892a24",
+      "text": "Quantum error correction involves the encoding of information across multiple physical systems to facilitate the detection and rectification of errors. Effective implementation requires the simultaneous definition of the specific code structure, measurement protocols, and underlying noise assumptions. Furthermore, rather than evaluating performance based solely on the fidelity of isolated physical operations, a comprehensive assessment must prioritize the analysis of logical error rates to determine overall system reliability.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation."
+    },
+    {
+      "review_id": "a109a5b304f0",
+      "text_sha256": "dca627d1e86b31da64014250f5fea065c6660f4dcf2b2fe56f40ebfedf8d239b",
+      "text": "Effective robotic locomotion requires a strategic balance between forward progress, postural stability, and power efficiency. Because the efficacy of specific gaits or motion strategies varies based on terrain conditions, controllers must remain adaptive. To ensure accurate performance assessments, researchers should quantify total energy consumption across the entire duration of a task rather than relying on observations limited to isolated intervals of steady-state motion.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion."
+    },
+    {
+      "review_id": "59e34e9a0c55",
+      "text_sha256": "68d1449ac3934edd0ab8ec5980c5d128f57944e1b95731b261cbfe0de506eb64",
+      "text": "Phase transformations occur when a material undergoes a structural or organizational shift in response to specific environmental conditions. To accurately analyze these transitions, researchers must distinguish between inherent equilibrium behavior and kinetic influences resulting from finite heating or cooling rates. Furthermore, conducting iterative measurements allows for the evaluation of the extent to which the transformation is affected by the thermal or mechanical history of the sample.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history."
+    },
+    {
+      "review_id": "278fd3d22237",
+      "text_sha256": "276b5a997fff5731c8de21c3c45d5a185a9b4493351f2e2ae18a226a16537e96",
+      "text": "Determining cosmological distances requires integrating observed signals with theoretical models of the universe's expansion history. Because various measurement techniques utilize distinct calibration protocols and underlying assumptions, a comparative analysis necessitates a rigorous tracing of shared inputs. This process is essential to ensure that systematic or correlated errors are not misinterpreted as evidence of independent agreement between different methodological frameworks.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Cosmological distance measurements connect observed signals with models of objects and the expansion history. Different methods rely on different calibration steps and assumptions. Comparing those methods requires tracing shared inputs so that correlated errors are not mistaken for independent agreement."
+    },
+    {
+      "review_id": "55b17344fbb4",
+      "text_sha256": "00a9290f65976010a19f4441ffe85fd3b944f3558ce0eab0cff5db1861e98810",
+      "text": "Single-cell assays capture cellular heterogeneity that is often obscured during tissue-level averaging. To ensure data accuracy, analytical frameworks must rigorously account for technical stochasticity, incomplete sampling, and fluctuating fluctuations in sequencing depth. Furthermore, performing cross-batch comparisons is essential to distinguish between genuine biological clusters and artifacts resulting from specific experimental protocols or procedural variations.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure."
+    },
+    {
+      "review_id": "bcfe157e71e5",
+      "text_sha256": "bad625ae6d8fac83f36b9e749c02bcf89aa4536d80eeb41954924bcfc24e1c7c",
+      "text": "Effective robotic locomotion controllers must integrate the competing requirements of progress, stability, and energy efficiency. The efficacy of a specific gait or motion strategy is depends contingent upon the environmental terrain encountered. To ensure an accurate performance assessment, researchers should measure total energy consumed throughout the duration of a task rather than relying solely on isolated intervals of steady-state movement.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion."
+    },
+    {
+      "review_id": "297df92db189",
+      "text_sha256": "6f36d62aa07c2491d8c92f61f73d44e436a478d555da9bea3e8055257e7d56f1",
+      "text": "Determining cosmological distances requires integrating observed signals with theoretical models regarding the universe's expansion history. Because various measurement methodologies utilize distinct calibration protocols and underlying assumptions, a rigorous comparison is necessary. It is essential to identify and trace shared inputs across these different methods to ensure that potentially correlated errors are not erroneously interpreted as independent confirmation of the observational datasets.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Cosmological distance measurements connect observed signals with models of objects and the expansion history. Different methods rely on different calibration steps and assumptions. Comparing those methods requires tracing shared inputs so that correlated errors are not mistaken for independent agreement."
+    },
+    {
+      "review_id": "72e74dc30525",
+      "text_sha256": "55898874b45f56cd269f173ca6716464b2921d71bde199c189a55f32e8defc25",
+      "text": "Phase transformations occur when a material undergoes a structural or organizational shift under specific environmental conditions. To accurately analyze these transitions, researchers must distinguish between inherent equilibrium behavior and kinetic influences resulting from finite rates of cooling or heating. Furthermore, by conducting repeated measurements, one can evaluate how much the transformation is influenced by the specific thermal or mechanical history of the sample.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history."
+    },
+    {
+      "review_id": "dd73f447c8c5",
+      "text_sha256": "873b6515e90250615f7f60de61110b2871501dcaafad8c0c9018cf214c8c92da",
+      "text": "Phase transformations occur when a material undergoes a structural or organizational shift subject to specific environmental conditions. To analyze these transitions accurately, researchers must distinguish between equilibrium behavior and kinetic influences resulting from finite rates of thermal cooling or heating. Furthermore, conducting iterative measurements allows for an evaluation of how the transformation is affected by the specific thermal or mechanical history of the sample.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history."
+    },
+    {
+      "review_id": "f5b535237a9e",
+      "text_sha256": "2e8d0cb968ca0a260d48c23f3aca9f63838326a263671fbca8d3606a8fc0707c",
+      "text": "Single-cell assays characterize cellular heterogeneity that is often obscured during tissue-level averaging. Robust data analysis in this domain must rigorously account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Furthermore, performing cross-batch comparisons is essential to distinguish distinguish between genuine biological clusters and artifacts resulting from specific experimental procedures.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure."
+    },
+    {
+      "review_id": "a59f56e929ba",
+      "text_sha256": "845043f5d113964ee84b33a29692dfe3264999f8f29da20464df282621d367c3",
+      "text": "Determining cosmological distances requires integrating observed signals with theoretical models of the universe's expansion history. Because various measurement techniques utilize distinct calibration procedures and underlying assumptions, comparative analysis is necessary to identify shared inputs. Such rigorous tracing is critical to ensure that systematic or correlated errors are not misinterpreted as evidence of independent statistical agreement between different observational datasets.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Cosmological distance measurements connect observed signals with models of objects and the expansion history. Different methods rely on different calibration steps and assumptions. Comparing those methods requires tracing shared inputs so that correlated errors are not mistaken for independent agreement."
+    },
+    {
+      "review_id": "4817b4b01bc9",
+      "text_sha256": "483932c347e3bc61b4d55d6ab3288641dab2f30a5e1d28f238ed76fbfd02df5f",
+      "text": "Research into neural population coding investigates the relationship between activity patterns across neuronal ensembles and specific stimuli or behavioral outputs. While decoding algorithms can extract latent information embedded within neural recordings, these methods do not demonstrate the underlying functional mechanisms employed by the brain. To ensure the accuracy of performance estimates, researchers often withhold entire trials during analysis, thereby preventing temporal correlations from artificially inflating the perceived success of the decoder.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance."
+    },
+    {
+      "review_id": "c9397ac18f17",
+      "text_sha256": "b6eec71440b866cbd29e2b676eabda0555d6010d93de57c812b925fd68860aaf",
+      "text": "Research into neural population coding investigates the relationship between multi-unit activity patterns and specific stimuli or behavioral outputs. While decoding techniques can extract information from neural recordings, these analyses do not inherently demonstrate the underlying functional mechanisms employed by the brain. To ensure the accuracy of performance estimates, researchers often withhold entire trials during analysis, preventing temporal correlations from artificially inflating the perceived decoding success.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance."
+    },
+    {
+      "review_id": "36643116593e",
+      "text_sha256": "899c9ee5693eb77b1a84afbc8bfd5a81110f71d3d7cd66a0567f96b5eb901925",
+      "text": "Phase transformations occur when a material undergoes a structural or organizational shift under specific environmental conditions. To analyze these transitions, it is necessary to distinguish between equilibrium behavior and kinetic effects resulting from finite heating or cooling rates. Furthermore, by conducting repeated measurements, researchers can evaluate the extent to which the transformation process is influenced by the prior history of the sample.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history."
+    },
+    {
+      "review_id": "8943c2582ac9",
+      "text_sha256": "a63508d2ba210660210da28c2673303f74578c54840fc02e486d2eb9243392c2",
+      "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and rectification of specific errors. The implementation of such a system requires the simultaneous specification of the code, measurement protocols,, and underlying noise assumptions. Furthermore, rather than focusing solely on the fidelity of isolated physical operations, a comprehensive performance analysis must prioritize the evaluation of logical errors to accurately assess system reliability.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation."
+    },
+    {
+      "review_id": "7fca30838021",
+      "text_sha256": "eff521ec443a4ca6254fe026bdd04a6fc22b2893156e69c78893f39a2bf7b7e3",
+      "text": "Single-cell assays capture cellular heterogeneity that is often obscured during tissue-level averaging. Robust data analysis in this field requires accounting for technical noise, variations in sequencing depth, and limitations regarding incomplete sampling. Furthermore, performing cross-batch comparisons is essential to distinguish between genuine biological patterns and artifacts resulting from specific experimental protocols or procedures.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure."
+    },
+    {
+      "review_id": "0f07379289c1",
+      "text_sha256": "fd1c7b6c27d16e4117f7f6870407b30a8bdfd406d06bed7bbae7eba1acb27090",
+      "text": "Quantum error correction involves distributing information across multiple physical systems to facilitate the detection and rectification of errors. The effective implementation of such methods requires the simultaneous specification of the encoding code, measurement protocols, and underlying noise assumptions. Consequently, rigorous performance evaluations should prioritize the analysis of logical error rates rather than focusing exclusively on the fidelity of isolated physical operations.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation."
+    },
+    {
+      "review_id": "19b9133386f5",
+      "text_sha256": "bef73815b59da0300973213d57ca121d08a4adea81b401721f6c45e23a537bb1",
+      "text": "Single-cell assays characterize cellular heterogeneity that is often obscured during tissue-level averaging. To ensure data integrity, analytical analyses must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Furthermore, performing cross-batch comparisons is essential to distinguish between genuine biological clusters and artifacts resulting from specific experimental procedures.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure."
+    },
+    {
+      "review_id": "e13e983f9711",
+      "text_sha256": "14ed44a66783320d2f671db488b536d3ee955fdbb32c35cb30845c660ac9502b",
+      "text": "Effective robotic locomotion requires a strategic balance between forward progress, structural stability, and power efficiency. Because the efficacy of specific gait or motion strategies varies based on environmental terrain conditions, controllers must remain adaptive. Furthermore, comprehensive performance evaluations should quantify total energy consumed across the duration of a task rather than relying on comparisons of isolated intervals of steady-state motion.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion."
+    },
+    {
+      "review_id": "f80f4bb4f636",
+      "text_sha256": "aa99c0cd362419b82e0b4bfa4b1b4f1a4914981bf3e4beb8536d45cb6603df49",
+      "text": "Quantifying cosmological distances requires integrating observed signals with theoretical models of the universe's expansion history. Because various measurement methodologies utilize distinct calibration protocols and underlying assumptions, a comparative analysis is necessary. It is essential to identify and trace shared inputs across these methods to ensure that potential correlated errors are not erroneously interpreted as independent empirical agreement between different datasets.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Cosmological distance measurements connect observed signals with models of objects and the expansion history. Different methods rely on different calibration steps and assumptions. Comparing those methods requires tracing shared inputs so that correlated errors are not mistaken for independent agreement."
+    },
+    {
+      "review_id": "2d268b99990a",
+      "text_sha256": "225267cb42fe4be7d4e24a6d4954ad5ae45f6a02feea7eb2c533ec254bfa49a1",
+      "text": "Research into neural population coding investigates the relationship between multi-unit neuronal patterns and specific stimuli or behavioral outputs. While decoders can extract latent information from neural recordings, these findings do not inherently demonstrate the underlying functional mechanisms employed by the brain. To ensure statistical integrity, researchers often exclude entire trials during analysis; this practice prevents temporal correlations from artificially inflating the estimates of decoding accuracy.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance."
+    },
+    {
+      "review_id": "69b7ccfaa0e0",
+      "text_sha256": "c544609dcd3098eb95648b8797f75b5affdca0b746617f369396a31124d8201f",
+      "text": "Effective robotic locomotion controllers must manage the competing requirements of forward progress, postural stability, and power efficiency. Because the efficacy of specific motion strategies varies based on environmental terrain conditions, gait selection must remain adaptive. To ensure an accurate assessment, researchers should quantify total energy consumption across the entire duration of a task rather than relying on observations from isolated intervals of steady-state movement.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion."
+    }
+  ]
+}

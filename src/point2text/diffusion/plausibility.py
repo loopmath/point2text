@@ -91,7 +91,10 @@ class NativeReplacementProvider:
                 if word not in accepted:
                     accepted.append(word)
             result = tuple(accepted)
-            self._cache[key] = result
+            # A basin deadline can expire while the global run continues. A
+            # temporary stop must not permanently suppress this source span.
+            if trace.get("reason") != "deadline_or_cancel":
+                self._cache[key] = result
             seconds = perf_counter() - started
             self._seconds += seconds
             self._forwards += int(trace.get("denoising_forwards", 0))

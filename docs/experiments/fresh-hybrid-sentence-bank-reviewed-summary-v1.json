@@ -1,0 +1,177 @@
+{
+  "schema": "fresh-refinement-summary-v1",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "targets": 6,
+  "targets_with_reviewed_generated_anchor": 6,
+  "rows": [
+    {
+      "target_id": "fresh-click-01",
+      "arm": "hybrid-sentence-bank",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.033694809793621994,
+      "final_mechanical_distance": 0.033694809793621994,
+      "post_review": "accepted",
+      "post_review_reason": "Accepted. The complete paragraph is identical to its supplied approved anchor. The relationships among evolving neural activity, uncertain choices, candidate decision mechanisms, and withheld-trial evaluation remain clear and faithful to the public reference.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 15.671217207971495,
+      "hard_queries": 4,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": true,
+      "best_reviewed_initial_or_final_distance": 0.033694809793621994
+    },
+    {
+      "target_id": "fresh-click-02",
+      "arm": "hybrid-sentence-bank",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.045217340059034695,
+      "final_mechanical_distance": 0.023555059149155913,
+      "post_review": "accepted",
+      "post_review_reason": "Accepted. All three sentences are grammatical and retain the dark-matter inference, dependence on measurement techniques and signal-to-mass assumptions, and joint presentation of resolution and uncertainty. The dependence construction and postposed weakly constrained phrase are awkward but have an identifiable, scientifically appropriate meaning; awkwardness alone is not a material defect.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 37.229334666975774,
+      "hard_queries": 17,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": true,
+      "best_reviewed_initial_or_final_distance": 0.023555059149155913
+    },
+    {
+      "target_id": "fresh-click-03",
+      "arm": "hybrid-sentence-bank",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.00927456032850203,
+      "final_mechanical_distance": 0.009274560328502168,
+      "post_review": "accepted",
+      "post_review_reason": "Accepted. The paragraph is identical to the supplied approved anchor and coherently describes distributed encoding, joint specification of code/measurements/noise, and evaluation using logical error rates rather than physical-operation fidelity alone.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 14.668041333032306,
+      "hard_queries": 2,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": true,
+      "best_reviewed_initial_or_final_distance": 0.00927456032850203
+    },
+    {
+      "target_id": "fresh-click-04",
+      "arm": "hybrid-sentence-bank",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.027391238195194866,
+      "final_mechanical_distance": 0.027391238195194866,
+      "post_review": "accepted",
+      "post_review_reason": "Accepted. The paragraph is identical to the supplied approved anchor. Its mild reorganization redundancy does not obscure the distinction between structural change, equilibrium versus finite-rate kinetics, and possible history dependence.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 13.475464749964885,
+      "hard_queries": 6,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": true,
+      "best_reviewed_initial_or_final_distance": 0.027391238195194866
+    },
+    {
+      "target_id": "fresh-click-05",
+      "arm": "hybrid-sentence-bank",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.05041098604857374,
+      "final_mechanical_distance": 0.04674543309288771,
+      "post_review": "accepted",
+      "post_review_reason": "Accepted. The added introductory purpose phrase restates the existing necessity of balancing progress, stability, and energy. Terrain-dependent strategy effectiveness and whole-task energy evaluation remain intact, with no material new scientific claim.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 24.160955458995886,
+      "hard_queries": 7,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": true,
+      "best_reviewed_initial_or_final_distance": 0.04674543309288771
+    },
+    {
+      "target_id": "fresh-click-06",
+      "arm": "hybrid-sentence-bank",
+      "status": "complete",
+      "reason": "stalled",
+      "initial_reviewed_distance": 0.03721133339695361,
+      "final_mechanical_distance": 0.03721133339695361,
+      "post_review": "accepted",
+      "post_review_reason": "Accepted. The paragraph is identical to the supplied approved anchor. It preserves potentially lost single-cell variation, sampling/noise/depth limitations, and the qualified role of batch comparisons in identifying procedure-associated grouping.",
+      "epsilon_confirmed": false,
+      "confirmation": {
+        "confirmed": false,
+        "checks": [],
+        "worst_distance": null
+      },
+      "elapsed_seconds": 14.483994250011165,
+      "hard_queries": 4,
+      "restart_count": 0,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "passes_predeclared_quality_policy": true,
+      "best_reviewed_initial_or_final_distance": 0.03721133339695361
+    }
+  ],
+  "note": "Unreviewed/rejected final improvements do not establish quality-preserving progress. Missing targets remain explicit."
+}

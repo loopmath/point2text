@@ -1,0 +1,73 @@
+{
+  "schema": "distance-blinded-refinement-quality-v1",
+  "policy_declared_before_final_review": true,
+  "instructions": "For ALL items, mark verdict accepted/rejected/uncertain for grammar, scientific accuracy, coherence and fidelity to the PUBLIC reference. Separately mark anchor_claim_preservation preserved/drift/uncertain and explain any change versus the INITIAL generated anchor. Arms, targets and distances are hidden. The predeclared key additionally requires anchor preservation for local-repair arms; fresh-restart outputs may differ from the old anchor while remaining faithful to the public source.",
+  "items": [
+    {
+      "review_id": "f8fdffbf106f",
+      "text_sha256": "4cc7962516cbf0f795b274784d280129c210e39b54f54d6927852c1154e0c2ef",
+      "public_reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+      "initial_anchor_text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "text": "Studies dynamics explores dynamics how neural activity activity choices and under uncertainty. Theoretical models may be for the accumulation of accumulation, rival actions, or varying response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "33289b117de3",
+      "text_sha256": "2403bfdb2ef35b13a382cf5d2bc7aca466832611a45d1295951e2178e5b9f8ca",
+      "public_reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+      "initial_anchor_text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "text": "Research into decision dynamics investigates neural evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may describe either the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "7ec6780aa029",
+      "text_sha256": "e3346a7c55a80449561ed58a44e7fae5edea5529637e3dc300fae651bd87f2f5",
+      "public_reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+      "initial_anchor_text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process depends upon specific measurement techniques and the assumptions employed to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "text": "Maps of gravitational mass distribution. This reconstruction process is reliant on particular measurement techniques and the underlying assumptions used to associate observed signals with mass distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "99f6cf735386",
+      "text_sha256": "6837ccad40d1af1c7ee21be75541f503d3bb721ca2fca7112324908c95c969ae",
+      "public_reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+      "initial_anchor_text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process depends upon specific measurement techniques and the assumptions employed to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process is dependent upon specific measurement techniques and the assumptions used to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "36d10395e78d",
+      "text_sha256": "4cc7962516cbf0f795b274784d280129c210e39b54f54d6927852c1154e0c2ef",
+      "public_reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+      "initial_anchor_text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "text": "Studies dynamics explores dynamics how neural activity activity choices and under uncertainty. Theoretical models may be for the accumulation of accumulation, rival actions, or varying response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "cdb4058516a8",
+      "text_sha256": "6a372636b14579c5afe7fb9e02d76ac370094d927a4972f7620bcf8cff3a9cb0",
+      "public_reference_text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+      "initial_anchor_text": "Dark matter maps are inferred based on observations related to gravitational mass distribution. This reconstruction process depends upon specific measurement techniques and the assumptions employed to link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "text": "Maps of gravitational mass distribution. Such reconstruction process is dependent on specific measurement techniques and the assumptions used to link link signals to such distributions. To maintain clarity, resolution and uncertainty should be presented together, ensuring that weakly constrained structures remain visible.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    }
+  ]
+}

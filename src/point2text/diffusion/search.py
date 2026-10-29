@@ -12,6 +12,7 @@ from ..contracts import Candidate
 from ..profile import PromptPolicy
 from .contracts import DiffusionRequest, DiffusionResult
 from .guidance import GuidanceConfig, SparseMapGuidance, _json_safe
+from .work import native_work_summary
 
 
 def technical_prompt(examples, policy: PromptPolicy | None = None) -> str:
@@ -131,6 +132,7 @@ class DiffusionSearch:
             "candidates": [candidate.payload() for candidate in candidates],
             "best_candidate": best_candidate.payload() if best_candidate else None,
             "trajectories": trajectories,
+            "executed_work": native_work_summary(trajectories),
         }
         return DiffusionResult(text=best_candidate.text if best_candidate else "",
                                token_ids=list(best_result.token_ids) if best_result else [],

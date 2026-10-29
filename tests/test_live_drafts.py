@@ -53,7 +53,8 @@ def test_native_drafts_are_bounded_and_not_promoted_to_candidates(tmp_path):
     with TestClient(app) as client:
         response = client.post("/api/runs", json={"map_id": Bundle.map_id, "target": [0, 0],
                                "candidates": 64, "guidance_updates": 64,
-                               "refinement_epsilon": .01, "refinement_unlimited": True})
+                               "refinement_epsilon": .01, "refinement_unlimited": True,
+                               "refinement_restarts": 0, "refinement_restart_candidates": 4})
         assert response.status_code == 202
         run_id = response.json()["id"]
         assert entered.wait(1)
@@ -66,6 +67,8 @@ def test_native_drafts_are_bounded_and_not_promoted_to_candidates(tmp_path):
         assert running["refinement_unlimited"] is True
         assert running["refinement_seconds"] is None
         assert received["refinement_unlimited"] is True
+        assert received["refinement_restarts"] == 0
+        assert received["refinement_restart_candidates"] == 4
         assert received["max_candidates"] == 64 and received["guidance_updates"] == 64
         release.set()
         for _ in range(100):
@@ -94,6 +97,7 @@ def test_progress_callback_only_for_advertised_native_backend_and_limits(tmp_pat
     assert RunRequest(**request).candidates == 6
     with TestClient(app) as client:
         assert client.post("/api/runs", json={**request, "refinement_unlimited": True}).status_code == 422
+        assert client.post("/api/runs", json={**request, "refinement_restarts": 0}).status_code == 422
         assert client.post("/api/runs", json={**request, "candidates": 65}).status_code == 422
         assert client.post("/api/runs", json={**request, "guidance_updates": 65}).status_code == 422
         run_id = client.post("/api/runs", json=request).json()["id"]

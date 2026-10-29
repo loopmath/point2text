@@ -1,0 +1,93 @@
+{
+  "schema": "distance-blinded-fresh-text-review-results-v1",
+  "instructions": "Review grammar, scientific accuracy, scope/qualifications and coherence. Mark accepted/rejected/uncertain with reasons. Distances and target labels are withheld. This is individual review, not a judge-accuracy estimate.",
+  "items": [
+    {
+      "review_id": "90bace989ea7",
+      "text_sha256": "3233867bc5e0ee9ad0dfe25a03db1495d628dcf7d8065fcbdd903295c6491fba",
+      "text": "Chromatin accessibility assays quantify the physical openness of DNA to identify regulatory elements within the genome. By measuring regions that are not protected by nucleosomes, researchers can map enhancers and promoters accessible for transcription factor binding. However, an analysis must distinguish between transient regulatory states and stable structural features to accurately interpret cellular function. While a high accessibility signal suggests a potential binding site, integration with transcriptomic data is required to confirm the specific genetic activity of by that locus under.",
+      "verdict": "rejected",
+      "reason": "The final clause is syntactically broken (\"of by that locus under\"). It also overstates what integration with transcriptomic data can confirm."
+    },
+    {
+      "review_id": "e4b65461be49",
+      "text_sha256": "1b788191a2af52d1e9d434fd606f3469fd89b74ddf383304ddbcf7bf9c6d5291",
+      "text": "Dislocation-mediated plasticity describes the movement of linear defects through a crystalline lattice under applied shear stress. This process allows metals to undergo permanent deformation without immediate structural failure, provided the dislocations can navigate grain boundaries. To understand the flow stress, researchers must account for how thermal activation and solute atoms impede or facilitate this motion. By analyzing how the dislocation density evolves under varying strain rates, scientists can distinguish between intrinsic material properties and extrinsic effects caused by specific processing histories or environmental conditions.",
+      "verdict": "uncertain",
+      "reason": "Generally coherent, but makes navigating grain boundaries a condition of metal plasticity, which also occurs inside single crystals. The final inference from dislocation density to intrinsic versus extrinsic effects lacks stated identification assumptions."
+    },
+    {
+      "review_id": "4c42d832bcb5",
+      "text_sha256": "3c72fcbb9e2e12ef372308fa8f80e0656b57994837ed7e9830e84d1edb1a170d",
+      "text": "Federated learning enables the training of machine learning models across decentralized devices without exchanging raw data. Instead of aggregating data points centrally, each local node performs gradient computations and sends only the resulting parameter updates to a central server. The server aggregates these updates to improve a global model, which is then redistributed to the participants. To ensure robustness, the framework must account for heterogeneous data distributions and varying communication constraints, ensuring that the global model converges despite the statistical divergence between local training sets.",
+      "verdict": "uncertain",
+      "reason": "Clear conventional server-based federated-learning overview. The final ensuring-convergence wording is stronger than the stated treatment of heterogeneity warrants; the optimization assumptions are absent."
+    },
+    {
+      "review_id": "90edd313c4cb",
+      "text_sha256": "6c44617f7fdc2605f26503ffa70459ca4bed3584b0e8f0cd3d46a9656418d3e3",
+      "text": "Redshift surveys rely on the displacement of spectral lines to determine the radial velocity of distant celestial objects. By measuring the shift in known emission frequencies relative to laboratory standards, researchers can map the expansion of the universe across vast scales. However, interpreting these signals requires accounting for peculiar velocities caused by local gravitational interactions with matter concentrations. Accurate cosmological mapping must integrate these local dynamical effects to ensure that large-scale structures are not distorted by the individual of individual galaxies within the cosmic web.",
+      "verdict": "rejected",
+      "reason": "The final sentence contains the broken phrase \"the individual of individual galaxies\"."
+    },
+    {
+      "review_id": "2b9111342115",
+      "text_sha256": "a7cf9f94f18dd91a9da0cd07468f23d62884aeafb5c2a50f971b32214e27fc9c",
+      "text": "Chromatin accessibility assays quantify the physical openness of DNA to identify regulatory elements within the genome. By measuring regions where nucleosomes are depleted, researchers can map potential enhancers and promoters accessible to transcription factor binding. However, an analysis must distinguish between transient binding states and stable structural features to accurately model gene expression networks. While high accessibility suggests functional potential, integrating these with transcriptomic data is necessary to confirm that a specific locus actively drives downstream gene expression.",
+      "verdict": "rejected",
+      "reason": "Combining accessibility and transcriptomic observations does not confirm that a locus causally drives downstream expression. Perturbation or additional causal evidence would be needed; the claim is a material overstatement."
+    },
+    {
+      "review_id": "5d01c67e1f58",
+      "text_sha256": "f898cb74681aebf9903feb8219685a35e15c80acd49607451f69e69875a1d915",
+      "text": "Synaptic plasticity involves the persistent strengthening of connections between neurons in response to patterns of activity. This mechanism is often mediated by long-term potentiation, where repeated stimulation increases the efficacy of the postsynaptic response. To quantify these changes, researchers utilize electrophysiological recordings to measure changes in evoked postsynaptic potentials over time. Analyzing these data requires distinguishing between functional structural changes and stochastic noise, necessitating rigorous statistical controls to ensure that observed shifts represent true cellular learning rather than transient experimental artifacts or baseline fluctuations in signal transmission.",
+      "verdict": "rejected",
+      "reason": "Defines synaptic plasticity only as persistent strengthening, omitting weakening; \"functional structural changes\" conflates distinct concepts and the learning inference is inadequately qualified."
+    },
+    {
+      "review_id": "95f98f24d40e",
+      "text_sha256": "d936efc905fccece76582f9727841f1a4cf80662206e1fb970d08e8ef190e426",
+      "text": "Dislocation dynamics in crystalline solids govern the movement of linear defects through a lattice under applied shear stress. This process is dictated by the interaction between dislocations and structural obstacles such as solute atoms or grain boundaries. To accurately model the macroscopic hardening behavior, researchers must account for thermal activation, which allows dislocations to overcome energy barriers. By analyzing how the stress-strain curve shifts at varying temperatures, one can distinguish between intrinsic deformation mechanisms and transient kinetic effects that influence the material's ultimate strength.",
+      "verdict": "uncertain",
+      "reason": "The dislocation-obstacle and thermal-activation mechanisms are plausible. The last sentence implies an identifiable separation from temperature-dependent stress-strain curves alone; its intrinsic-versus-transient distinction needs domain-specific qualification."
+    },
+    {
+      "review_id": "75095c6db9c4",
+      "text_sha256": "108a839285923b930a090a8ae1df5ed4c043e56647590d29a2759f2245fb5968",
+      "text": "Federated learning enables the training of machine learning models across decentralized devices without exchanging raw data. Instead of aggregating data information centrally, each client performs local computations and sends only updated model parameters to a central server for aggregation. To ensure model convergence, the system must account for non-identically distributed data subsets and varying client hardware capabilities. Evaluating such systems requires measuring the communication overhead and the robustness of the final global model when compared to traditional centralized training approaches.",
+      "verdict": "accepted",
+      "reason": "Usable high-level description of conventional centralized-aggregation federated learning, with relevant heterogeneity and evaluation considerations. \"Data information\" is redundant but does not obscure the mechanism. Acceptance is scoped to an overview, not a convergence theorem or privacy guarantee."
+    },
+    {
+      "review_id": "33421764d5ca",
+      "text_sha256": "2b6d21c9a92f5989e5f6df4e16dbe831f3f16d30a682025fc5bcd92defbe5926",
+      "text": "Haptic feedback systems in robotic manipulation utilize force sensors to regulate interaction between with and the environment. This mechanism requires a high-frequency control loop to process contact forces and prevent oscillations when interacting with rigid surfaces. Effective control must account for sensor latency and signal noise, which can induce instability in delicate grasping tasks. Performance evaluation should focus on the system's ability to maintain constant contact forces while adapting to unexpected friction coefficients and geometric geometry during the task task.",
+      "verdict": "rejected",
+      "reason": "Broken syntax (\"interaction between with\"), repeated/duplicated words (\"geometric geometry\", \"task task\"); unusable technical prose."
+    },
+    {
+      "review_id": "050f4c8da0d0",
+      "text_sha256": "a01452744823b315e603c2d4dafe4f8fbffbe0ad9c14f1f3573183bed3e1469e",
+      "text": "Redshift surveys utilize the displacement of spectral emission lines to determine the recession velocity of distant objects. By comparing the observed wavelength of specific atomic transitions against laboratory standards, researchers can calculate the expansion rate of the universe across various cosmic scales. This process requires precise accounting for peculiar velocities caused by local gravitational interactions, which can distort the cosmological signal. Accurate modeling of these motions is essential for mapping the large-scale distribution of matter without identifying systematic biases in the discovery of new cosmic structures.",
+      "verdict": "rejected",
+      "reason": "The final \"without identifying systematic biases in the discovery\" clause is incoherent in context and reverses the intended evaluation concern."
+    },
+    {
+      "review_id": "b689cb3b8a41",
+      "text_sha256": "1687cb72f4cb5941d9bd3e22da61dd9a530d66b3bd36a325cabc806089b96ec2",
+      "text": "Synaptic plasticity involves the strengthening or weakening of connections between neurons based on recent activity patterns. This mechanism often relies on the recruitment of AMPA receptors to the postsynaptic membrane, which enhances the sensitivity of the cell to glutamate release. To quantify these changes, researchers use optogenetics to control firing-rate precisely and determine if specific temporal patterns can induce long-term potentiation. By decoupling local activity from global oscillations, scientists can isolate how molecular pathways facilitate memory encoding within specific neural circuits.",
+      "verdict": "uncertain",
+      "reason": "Most mechanisms are plausible. Controlling firing with optogenetics is not itself a measurement of synaptic efficacy; the paragraph omits the response measurement and overstates what activity decoupling identifies about memory pathways."
+    },
+    {
+      "review_id": "186ab7fa3ab8",
+      "text_sha256": "b0b95576f07002c6250b5097f405014b0b77a2b495fdfc6a8b0daa29ee1b9a56",
+      "text": "Haptic feedback control enables robotic manipulators to interact with delicate environments by sensing force and torque. This mechanism relies on high-frequency sensors to regulate contact forces in real time, preventing damage to objects. Because physical interactions are inherently unpredictable, the controller must account for sensor latency and mechanical noise to avoid unstable oscillations. Robust evaluation should assess the system's ability to maintain constant contact force while navigating varying surface stiffness and friction coefficients during complex assembly tasks.",
+      "verdict": "accepted",
+      "reason": "Coherent conventional force/torque feedback-control overview with relevant latency, noise and varying-contact evaluation concerns. Preventing damage is read as the design objective, not an unconditional safety guarantee."
+    }
+  ],
+  "reviewer": "root agent; individual technical assessment",
+  "reviewed_at": "2026-10-29T20:45:03.755691+00:00",
+  "limits": "Reviewer saw texts and hashes only, no target, distance, seed or arm key. These are scoped assessments; uncertain and rejected text is not quality-approved. No external scientific truth certificate or judge-accuracy estimate is claimed."
+}

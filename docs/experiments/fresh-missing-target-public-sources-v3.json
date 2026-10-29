@@ -1,0 +1,54 @@
+{
+  "schema": "public-source-quality-review-v1",
+  "instructions": "Review only scientific accuracy, scope, qualifications and coherence of these public corpus references. These are not generated outputs. No target coordinates/distances are supplied.",
+  "items": [
+    {
+      "review_id": "d252f3acbcfd",
+      "text_sha256": "d252f3acbcfd972d83860b524df92099fd175147240190d2525227fe928e9b83",
+      "public_corpus_id": "t01-09",
+      "text": "An interpretability experiment asks which internal signals affect a model behavior. Visualizing activations can suggest a hypothesis, but targeted interventions provide a stronger test of functional relevance. Controls should check whether an intervention damages the network broadly rather than changing only the behavior under study.",
+      "verdict": null,
+      "reason": null
+    },
+    {
+      "review_id": "7b870b9f2b32",
+      "text_sha256": "7b870b9f2b328c51d03208018d6ad0f0561ef5023eb59d0024c7b8c4b6ef2a7f",
+      "public_corpus_id": "t10-10",
+      "text": "An astronomical survey observes a selected subset of the objects present in the sky. Brightness limits, observing conditions, and data-processing decisions shape that selection. Population studies need to model these effects before interpreting the measured sample as a direct description of the underlying population.",
+      "verdict": null,
+      "reason": null
+    },
+    {
+      "review_id": "9716b04e7113",
+      "text_sha256": "9716b04e7113f201d1c055380a430be49abd050a957ec503aa7460149859e351",
+      "public_corpus_id": "t07-04",
+      "text": "Neural recordings contain both signals of interest and variation introduced by the measurement process. An analysis should describe filtering, event detection, and exclusion rules before comparing conditions. Simulated or independently measured controls can help reveal whether processing creates a pattern that resembles neural activity.",
+      "verdict": null,
+      "reason": null
+    },
+    {
+      "review_id": "171dcde386cf",
+      "text_sha256": "171dcde386cf270436c281a6681b3fa012c21d218c5ff6a599b9a2a5b35e5ca1",
+      "public_corpus_id": "t10-09",
+      "text": "A dark matter map is inferred from observations linked to the gravitational distribution of mass. The reconstruction depends on the measurement method and assumptions used to connect the observed signal with that distribution. Resolution and uncertainty should be displayed together so that weakly constrained structure is visible.",
+      "verdict": null,
+      "reason": null
+    },
+    {
+      "review_id": "5bf1c558027b",
+      "text_sha256": "5bf1c558027b1d9e710893aa6aaa3b74016df0fe62e327885b68ef935a25284c",
+      "public_corpus_id": "t04-08",
+      "text": "Data assimilation combines observations with a dynamical model to estimate an evolving environmental state. The method must represent uncertainty in both measurements and forecasts. An observing-system experiment can examine how removing one measurement source changes the estimated state and its uncertainty.",
+      "verdict": null,
+      "reason": null
+    },
+    {
+      "review_id": "5f2462566422",
+      "text_sha256": "5f2462566422750de37eaead5fd471388b3a7953a189468c896a18f8f64d2b91",
+      "public_corpus_id": "t07-05",
+      "text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain.",
+      "verdict": null,
+      "reason": null
+    }
+  ]
+}

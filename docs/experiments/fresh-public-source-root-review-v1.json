@@ -1,0 +1,57 @@
+{
+  "schema": "public-source-quality-review-v1",
+  "instructions": "Review only scientific accuracy, scope, qualifications and coherence of these public corpus references. These are not generated outputs. No target coordinates/distances are supplied.",
+  "items": [
+    {
+      "review_id": "924b87d77d5b",
+      "text_sha256": "924b87d77d5bf6acaa674b999afe2e18c70c538e493a984839b58482b5bc0905",
+      "public_corpus_id": "t05-01",
+      "text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "verdict": "accepted",
+      "reason": "Scoped, cautious high-level methodological description; no material factual or grammatical defect identified in this individual assessment."
+    },
+    {
+      "review_id": "e2d77e435a47",
+      "text_sha256": "e2d77e435a4798bea9578703b6d10c923cfa8c61915ec758814a364d79cb17f5",
+      "public_corpus_id": "t03-03",
+      "text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "verdict": "accepted",
+      "reason": "Scoped, cautious high-level methodological description; no material factual or grammatical defect identified in this individual assessment."
+    },
+    {
+      "review_id": "66d2b0da571c",
+      "text_sha256": "66d2b0da571ca6056f21538e5b14f57429ee815ade71edd0f103e5dc439c6106",
+      "public_corpus_id": "t07-01",
+      "text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance.",
+      "verdict": "accepted",
+      "reason": "Scoped, cautious high-level methodological description; no material factual or grammatical defect identified in this individual assessment."
+    },
+    {
+      "review_id": "28f4e0f78226",
+      "text_sha256": "28f4e0f78226a5558de5e8cb2bb672fc2912a1147d000b071b9d4f085df8f447",
+      "public_corpus_id": "t08-05",
+      "text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "verdict": "accepted",
+      "reason": "Scoped, cautious high-level methodological description; no material factual or grammatical defect identified in this individual assessment."
+    },
+    {
+      "review_id": "e4a71137001a",
+      "text_sha256": "e4a71137001a203c4c4d707ecff0608e7ababa3c50db9a27aa3ae17449232951",
+      "public_corpus_id": "t06-10",
+      "text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "verdict": "accepted",
+      "reason": "Scoped, cautious high-level methodological description; no material factual or grammatical defect identified in this individual assessment."
+    },
+    {
+      "review_id": "b5075bf08363",
+      "text_sha256": "b5075bf08363cc839be73e8767b5c225c1195027eb38ea7595d1ae8868fdeda0",
+      "public_corpus_id": "t10-05",
+      "text": "Cosmological distance measurements connect observed signals with models of objects and the expansion history. Different methods rely on different calibration steps and assumptions. Comparing those methods requires tracing shared inputs so that correlated errors are not mistaken for independent agreement.",
+      "verdict": "accepted",
+      "reason": "Scoped, cautious high-level methodological description; no material factual or grammatical defect identified in this individual assessment."
+    }
+  ],
+  "reviewer": "root agent; public reference review without target coordinates or distances",
+  "reviewed_at": "2026-10-29T20:48:06.335755+00:00",
+  "limits": "These are authored public corpus references, not generated results. Acceptance is an individual assessment, not a truth certificate."
+}

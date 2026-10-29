@@ -1,0 +1,172 @@
+{
+  "items": [
+    {
+      "review_id": "ae9329a7004b",
+      "target_id": "fresh-click-03",
+      "arm": "words",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Quantum error correction employs information encoding across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement protocols, and noise assumptions. Effective performance evaluations should focus on logical errors rather than relying solely on the fidelity of single physical operations.",
+        "x": 0.2600260714680678,
+        "y": -0.09959565595774522,
+        "distance": 0.027826385100593647,
+        "elapsed_seconds": 0.04545412503648549,
+        "seed": 4993431
+      }
+    },
+    {
+      "review_id": "c6c0fc8d2f72",
+      "target_id": "fresh-click-03",
+      "arm": "sentence",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Quantum error correction employs information encoding across multiple physical systems to enable the detection and correction of specific errors. Such procedure requires the simultaneous specification of the code, measurement protocols, and noise assumptions. Assessments of performance should prioritize logical errors rather than depending exclusively on the fidelity of individual physical operations.",
+        "x": 0.2594529568597101,
+        "y": -0.07564375444710116,
+        "distance": 0.017356495974537253,
+        "elapsed_seconds": 5.44873533397913,
+        "seed": 4993435
+      }
+    },
+    {
+      "review_id": "518fd1c32462",
+      "target_id": "fresh-click-03",
+      "arm": "sentence-restarts",
+      "requires_anchor_preservation": false,
+      "best_candidate": {
+        "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. Such processes necessitate the simultaneous specification of the code, measurement protocols, and noise assumptions. In addition, performance assessments should emphasize logical error rates rather than exclusively considering the fidelity associated with individual physical operations.",
+        "x": 0.24883044755906608,
+        "y": -0.07159635631943721,
+        "distance": 0.00927456032850203,
+        "elapsed_seconds": 47.77826708299108,
+        "seed": 4993450
+      }
+    },
+    {
+      "review_id": "cde0797a5c5a",
+      "target_id": "fresh-click-04",
+      "arm": "words",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Phase transformations occur when a material undergoes structural or organizational changes under specific conditions. To analyse these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates.,,, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+        "x": -0.1718423378701264,
+        "y": -0.03364106962008984,
+        "distance": 0.06740248061590551,
+        "elapsed_seconds": 2.905687708000187,
+        "seed": 5003433
+      }
+    },
+    {
+      "review_id": "f58118394e68",
+      "target_id": "fresh-click-04",
+      "arm": "sentence",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Phase transformations involve structural or organizational reorganization under particular conditions. Evaluating these transitions requires researchers to distinguish between equilibrium behavior and kinetic effects resulting from finite heating or cooling rates. In addition, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+        "x": -0.13989718535446463,
+        "y": -0.009535168107548966,
+        "distance": 0.027391238195194866,
+        "elapsed_seconds": 16.272915999987163,
+        "seed": 5003440
+      }
+    },
+    {
+      "review_id": "a180ece38744",
+      "target_id": "fresh-click-04",
+      "arm": "sentence-restarts",
+      "requires_anchor_preservation": false,
+      "best_candidate": {
+        "text": "Phase transformations occur when a material undergoes structural or organizational organizational change under specific conditions. To assess these transitions, one must distinguish between equilibrium-based behavior and kinetic effects resulting from non- rates of or cooling cooling. In addition, conducting repeated measurements help determine how the transformation is dependent upon the specific thermal history of the sample.",
+        "x": -0.13536090635157072,
+        "y": -0.011824350097707576,
+        "distance": 0.025401074430535613,
+        "elapsed_seconds": 36.742808957991656,
+        "seed": 5003447
+      }
+    },
+    {
+      "review_id": "3cc3007a3d9c",
+      "target_id": "fresh-click-05",
+      "arm": "words",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task instead than focusing solely on short intervals of steady-state motion.",
+        "x": 0.13165864094637836,
+        "y": 0.06347196818195396,
+        "distance": 0.0489397597857276,
+        "elapsed_seconds": 2.474301457987167,
+        "seed": 5013434
+      }
+    },
+    {
+      "review_id": "a25dffd75105",
+      "target_id": "fresh-click-05",
+      "arm": "sentence",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "A locomotion controller stability. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task instead of focusing solely on short intervals of steady-state motion.",
+        "x": 0.15256177716475888,
+        "y": 0.051841684805105315,
+        "distance": 0.03912097692066929,
+        "elapsed_seconds": 17.03223883296596,
+        "seed": 5013438
+      }
+    },
+    {
+      "review_id": "0a1a516c5665",
+      "target_id": "fresh-click-05",
+      "arm": "sentence-restarts",
+      "requires_anchor_preservation": false,
+      "best_candidate": {
+        "text": "A locomotion controller must balance stability progress,, energy consumption. Since diverse environments may modify the efficacy of particular motion strategies or gaits, assessments can help document cumulative energy usage for a complete task rather than concentrating only on brief periods of uniform movement.",
+        "x": 0.1658058939861446,
+        "y": 0.09892993225450816,
+        "distance": 0.019595394327185406,
+        "elapsed_seconds": 36.02806016698014,
+        "seed": 5013442
+      }
+    },
+    {
+      "review_id": "658314aadd70",
+      "target_id": "fresh-click-06",
+      "arm": "words",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Single-cell assays capture variability that may be lost during tissue-level averaging. Data analysis must account take into account potential technical noise, incomplete sampling, and fluctuations in sequencing depth.,, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+        "x": -0.19639776900318906,
+        "y": 0.12029062018765749,
+        "distance": 0.030182568369078,
+        "elapsed_seconds": 8.767380708013661,
+        "seed": 5023437
+      }
+    },
+    {
+      "review_id": "27f3a8b0e762",
+      "target_id": "fresh-click-06",
+      "arm": "sentence",
+      "requires_anchor_preservation": true,
+      "best_candidate": {
+        "text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Additionally, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+        "x": -0.19809146898826965,
+        "y": 0.11339625662230844,
+        "distance": 0.03721133339695361,
+        "elapsed_seconds": 0.024738291976973414,
+        "seed": 5023431
+      }
+    },
+    {
+      "review_id": "9489352e0c55",
+      "target_id": "fresh-click-06",
+      "arm": "sentence-restarts",
+      "requires_anchor_preservation": false,
+      "best_candidate": {
+        "text": "Single-cell assays capture variability that may be lost during tissue-level averaging. Such analyses must account for technical noise, varying sequencing depths, and incomplete sampling. Additionally, comparing data across different batches helps determine if an biological biological group is genuine or associated to the specific experimental experimental.",
+        "x": -0.19263611290494415,
+        "y": 0.12393237313637544,
+        "distance": 0.02646266008509424,
+        "elapsed_seconds": 45.700774917029776,
+        "seed": 5023447
+      }
+    }
+  ]
+}

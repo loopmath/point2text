@@ -1,0 +1,139 @@
+{
+  "schema": "distance-blinded-refinement-quality-v1",
+  "policy_declared_before_final_review": "2026-10-29T21:06:00Z",
+  "instructions": "For ALL items, mark verdict accepted/rejected/uncertain for grammar, scientific accuracy, coherence and fidelity to the PUBLIC reference. Separately mark anchor_claim_preservation preserved/drift/uncertain and explain any change versus the INITIAL generated anchor. Arms, targets and distances are hidden. The predeclared key additionally requires anchor preservation for local-repair arms; fresh-restart outputs may differ from the old anchor while remaining faithful to the public source.",
+  "items": [
+    {
+      "review_id": "cde0797a5c5a",
+      "text_sha256": "d273a853c2634a2644b1e961e28fc110cc906b9566fc3c189132f1d4f9d3de63",
+      "public_reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "initial_anchor_text": "Phase transformations occur when a material undergoes structural or organizational changes under specific conditions. To analyze these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates. Furthermore, conducting repeated measurements can evaluate how the transformation depends on the specific prior history of the sample.",
+      "text": "Phase transformations occur when a material undergoes structural or organizational changes under specific conditions. To analyse these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates.,,, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "658314aadd70",
+      "text_sha256": "89c3aa6f8182e2e05af83975be2256709d7d21f0b40d8815dc337de1e61cc78a",
+      "public_reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "initial_anchor_text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Furthermore, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "text": "Single-cell assays capture variability that may be lost during tissue-level averaging. Data analysis must account take into account potential technical noise, incomplete sampling, and fluctuations in sequencing depth.,, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "0a1a516c5665",
+      "text_sha256": "0daacd7149fff95f1ad21c2d7fb4bffadae5c3d8c2e055d2ccdcb2aa3a0a4f92",
+      "public_reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "initial_anchor_text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+      "text": "A locomotion controller must balance stability progress,, energy consumption. Since diverse environments may modify the efficacy of particular motion strategies or gaits, assessments can help document cumulative energy usage for a complete task rather than concentrating only on brief periods of uniform movement.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "f58118394e68",
+      "text_sha256": "7957c97a7e81dd8469be65c58ac11406ac3761de514df817086099521cf94fa4",
+      "public_reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "initial_anchor_text": "Phase transformations occur when a material undergoes structural or organizational changes under specific conditions. To analyze these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates. Furthermore, conducting repeated measurements can evaluate how the transformation depends on the specific prior history of the sample.",
+      "text": "Phase transformations involve structural or organizational reorganization under particular conditions. Evaluating these transitions requires researchers to distinguish between equilibrium behavior and kinetic effects resulting from finite heating or cooling rates. In addition, conducting repeated measurements can evaluate how the transformation depends upon the specific prior history of the sample.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "c6c0fc8d2f72",
+      "text_sha256": "4a1d99248fb54cdce1136c203c952d6f1647dc8a30b233baa5dddf593bc3e91d",
+      "public_reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "initial_anchor_text": "Quantum error correction utilizes information encoding across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement protocols, and noise assumptions. Effective performance evaluations should focus on logical errors rather than relying solely on the fidelity of single physical operations.",
+      "text": "Quantum error correction employs information encoding across multiple physical systems to enable the detection and correction of specific errors. Such procedure requires the simultaneous specification of the code, measurement protocols, and noise assumptions. Assessments of performance should prioritize logical errors rather than depending exclusively on the fidelity of individual physical operations.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "518fd1c32462",
+      "text_sha256": "2f8aa307d343049bc27706ba6c2f541e47471796e8025d6bf22d820416a8e913",
+      "public_reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "initial_anchor_text": "Quantum error correction utilizes information encoding across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement protocols, and noise assumptions. Effective performance evaluations should focus on logical errors rather than relying solely on the fidelity of single physical operations.",
+      "text": "Quantum error correction involves encoding information across multiple physical systems to enable the detection and correction of specific errors. Such processes necessitate the simultaneous specification of the code, measurement protocols, and noise assumptions. In addition, performance assessments should emphasize logical error rates rather than exclusively considering the fidelity associated with individual physical operations.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "a25dffd75105",
+      "text_sha256": "c95519379b0fc3cec67fcaeb10b08e8d3503fd2198e469ed585ebb6a244ea7ad",
+      "public_reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "initial_anchor_text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+      "text": "A locomotion controller stability. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task instead of focusing solely on short intervals of steady-state motion.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "9489352e0c55",
+      "text_sha256": "2b5aceed059bf1f77a36555c716d9fde01bdb4ff90caf19cddc5e8c795fc588b",
+      "public_reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "initial_anchor_text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Furthermore, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "text": "Single-cell assays capture variability that may be lost during tissue-level averaging. Such analyses must account for technical noise, varying sequencing depths, and incomplete sampling. Additionally, comparing data across different batches helps determine if an biological biological group is genuine or associated to the specific experimental experimental.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "ae9329a7004b",
+      "text_sha256": "3db1720eb382849fcd7ce4645e782acd6f1dc5125d21b4ef5978c1666d6fbc0b",
+      "public_reference_text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "initial_anchor_text": "Quantum error correction utilizes information encoding across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement protocols, and noise assumptions. Effective performance evaluations should focus on logical errors rather than relying solely on the fidelity of single physical operations.",
+      "text": "Quantum error correction employs information encoding across multiple physical systems to enable the detection and correction of specific errors. This process necessitates the simultaneous specification of the code, measurement protocols, and noise assumptions. Effective performance evaluations should focus on logical errors rather than relying solely on the fidelity of single physical operations.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "3cc3007a3d9c",
+      "text_sha256": "460fba5ae5422484e9ac62f93d5cb67b95276c2fbf04655e2ce6644a9bd52dad",
+      "public_reference_text": "A locomotion controller must balance progress, stability, and energy use. Different terrain conditions can change which gait or motion strategy is effective. An evaluation should record energy expenditure over a complete task rather than comparing only a brief segment of steady motion.",
+      "initial_anchor_text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task rather than focusing solely on short intervals of steady-state motion.",
+      "text": "A locomotion controller must manage the balance between forward progress, stability, and energy consumption. Because various terrain conditions can influence the effectiveness of a specific gait or motion strategy, evaluations should document the total energy expended across an entire task instead than focusing solely on short intervals of steady-state motion.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "a180ece38744",
+      "text_sha256": "a38f148a537fd1e47a4b4451ea1a68acbed807f641927386541d02b8f4fa9b99",
+      "public_reference_text": "A phase transformation changes the structure or organization of a material under specified conditions. Studying the transition requires separating equilibrium behavior from kinetic effects caused by finite rates of heating or cooling. Repeated measurements can test how the transformation depends on the sample's previous history.",
+      "initial_anchor_text": "Phase transformations occur when a material undergoes structural or organizational changes under specific conditions. To analyze these transitions, researchers must distinguish equilibrium behavior from kinetic effects resulting from finite heating or cooling rates. Furthermore, conducting repeated measurements can evaluate how the transformation depends on the specific prior history of the sample.",
+      "text": "Phase transformations occur when a material undergoes structural or organizational organizational change under specific conditions. To assess these transitions, one must distinguish between equilibrium-based behavior and kinetic effects resulting from non- rates of or cooling cooling. In addition, conducting repeated measurements help determine how the transformation is dependent upon the specific thermal history of the sample.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    },
+    {
+      "review_id": "27f3a8b0e762",
+      "text_sha256": "71ea8e88fa0928b9275d814510885a8beffac30a3c53ac35a1931a57c0bc6ca9",
+      "public_reference_text": "Single-cell assays describe variation that can disappear when measurements are averaged across a tissue. Analysis must account for incomplete sampling, technical noise, and differences in sequencing depth. Comparing results across batches helps reveal whether an apparent biological group is tied to an experimental procedure.",
+      "initial_anchor_text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Furthermore, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "text": "Single-cell assays characterize variability that may be lost during tissue-level averaging. Data analysis must account for technical noise, incomplete sampling, and fluctuations in sequencing depth. Additionally, comparing results across different batches helps determine if an observed biological group is associated with a specific experimental procedure.",
+      "verdict": null,
+      "reason": null,
+      "anchor_claim_preservation": null,
+      "anchor_claim_reason": null
+    }
+  ]
+}

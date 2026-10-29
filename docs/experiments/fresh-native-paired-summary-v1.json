@@ -1,0 +1,139 @@
+{
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "targets": 6,
+  "trajectories": 12,
+  "native_passes": 142,
+  "actual_guided_passes": 28,
+  "actual_encoder_updates": 448,
+  "selection_coverage": {
+    "closest_mechanical_candidate": 12,
+    "raw_final_or_draft_fallback": 0
+  },
+  "cases": [
+    {
+      "id": "fresh-click-01",
+      "topic_anchor": "Neuroscience",
+      "best_mechanical_distance": 0.12538285630933763,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    },
+    {
+      "id": "fresh-click-02",
+      "topic_anchor": "Climate science",
+      "best_mechanical_distance": 0.08347705794502563,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    },
+    {
+      "id": "fresh-click-03",
+      "topic_anchor": "Distributed systems",
+      "best_mechanical_distance": 0.07408382870244337,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    },
+    {
+      "id": "fresh-click-04",
+      "topic_anchor": "Materials science",
+      "best_mechanical_distance": 0.0313550439977808,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    },
+    {
+      "id": "fresh-click-05",
+      "topic_anchor": "Robotics",
+      "best_mechanical_distance": 0.0772841229125955,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    },
+    {
+      "id": "fresh-click-06",
+      "topic_anchor": "Molecular biology",
+      "best_mechanical_distance": 0.06171676697776843,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    }
+  ],
+  "pairing": {
+    "identical_targets_and_requests": true,
+    "comparisons": [
+      {
+        "target_id": "fresh-click-01",
+        "seed": 1973431,
+        "identical_final_text": false,
+        "primary_best_distance": 0.12567835764057497,
+        "paired_best_distance": 0.12294538833938774
+      },
+      {
+        "target_id": "fresh-click-01",
+        "seed": 1973532,
+        "identical_final_text": false,
+        "primary_best_distance": 0.12538285630933763,
+        "paired_best_distance": 0.13926342371814202
+      },
+      {
+        "target_id": "fresh-click-02",
+        "seed": 1983431,
+        "identical_final_text": false,
+        "primary_best_distance": 0.09191409754329141,
+        "paired_best_distance": 0.09395419279782799
+      },
+      {
+        "target_id": "fresh-click-02",
+        "seed": 1983532,
+        "identical_final_text": false,
+        "primary_best_distance": 0.08347705794502563,
+        "paired_best_distance": 0.07992044434539244
+      },
+      {
+        "target_id": "fresh-click-03",
+        "seed": 1993431,
+        "identical_final_text": false,
+        "primary_best_distance": 0.07408382870244337,
+        "paired_best_distance": 0.06774461600567248
+      },
+      {
+        "target_id": "fresh-click-03",
+        "seed": 1993532,
+        "identical_final_text": false,
+        "primary_best_distance": 0.1192290024946364,
+        "paired_best_distance": 0.1155803777063932
+      },
+      {
+        "target_id": "fresh-click-04",
+        "seed": 2003431,
+        "identical_final_text": false,
+        "primary_best_distance": 0.0313550439977808,
+        "paired_best_distance": 0.027101844186769284
+      },
+      {
+        "target_id": "fresh-click-04",
+        "seed": 2003532,
+        "identical_final_text": false,
+        "primary_best_distance": 0.06070271473684909,
+        "paired_best_distance": 0.06316241007894527
+      },
+      {
+        "target_id": "fresh-click-05",
+        "seed": 2013431,
+        "identical_final_text": false,
+        "primary_best_distance": 0.11290162703515402,
+        "paired_best_distance": 0.11290162703515402
+      },
+      {
+        "target_id": "fresh-click-05",
+        "seed": 2013532,
+        "identical_final_text": true,
+        "primary_best_distance": 0.0772841229125955,
+        "paired_best_distance": 0.0772841229125955
+      },
+      {
+        "target_id": "fresh-click-06",
+        "seed": 2023431,
+        "identical_final_text": false,
+        "primary_best_distance": 0.09079899928545367,
+        "paired_best_distance": 0.09079899928545367
+      },
+      {
+        "target_id": "fresh-click-06",
+        "seed": 2023532,
+        "identical_final_text": false,
+        "primary_best_distance": 0.06171676697776843,
+        "paired_best_distance": 0.053378813187719545
+      }
+    ]
+  }
+}

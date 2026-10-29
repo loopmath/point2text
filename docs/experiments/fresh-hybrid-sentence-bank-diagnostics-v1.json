@@ -1,0 +1,395 @@
+{
+  "schema": "archived-sentence-bank-diagnostics-v1",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "provenance": {
+    "source_commit": "a00c2d6454451910d0bad0004d5c01cb4c60417f",
+    "refinement_sha256": "0d896234077f50b14c27cc3973af3b2216293c93e8d609fb164207e324e81f48",
+    "runtime_sha256": "8341da9c7637f28b728ad808a79eb7a9d6a2a4e49b4b7396aec689027ffa5be4",
+    "pool_sha256": "6ae45d5424749915981f551e9c9b1f5442453865b5dcfa27cf56f7d70a0fbf84",
+    "reviews_sha256": "32c22ff1b924f63cd8ed65a7569492c3e0ec5bb01a5dc9558046a1b36b3c0ae7",
+    "script_sha256": "bbe20c8e65bb9f5458e6df02c069e6728563d582d1b286d6d1c9243557cfac74",
+    "reviewed_starts_sha256": "88b4296583a78bb85cff4a440d2f173dc8ed589797a56ff975590eb277c12f9a",
+    "sentence_bank_sha256": "fd00a9ec042cd671941258dfc3eb39c060ecb0c6c8a02eaec320b1d72505264b"
+  },
+  "no_additional_encoder_or_model_queries": true,
+  "rows": [
+    {
+      "target_id": "fresh-click-01",
+      "initial_distance": 0.033694809793621994,
+      "final_mechanical_distance": 0.033694809793621994,
+      "quality_status": "unreviewed final; approved initial",
+      "stop_reason": "stalled",
+      "seconds": 15.671217207971495,
+      "hard_queries": 4,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "provider_calls": 3,
+      "provider_seconds": 15.625351792026777,
+      "model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+      "raw_variants": 12,
+      "accepted_provider_variants": 2,
+      "provider_rejections": {
+        "qualification_quantity_or_technical_drift": 3,
+        "capitalized_entity_drift": 7
+      },
+      "receipt_statuses": {
+        "complete": 3
+      },
+      "byte_bound_errors": [],
+      "token_telemetry_caveat": null,
+      "bank_sources": 1,
+      "accepted_bank_atoms": 2,
+      "unique_source_sentence_spans": 2,
+      "measurement_geometry": [
+        {
+          "source_sha256": "86e6d020ed1a323fbcf56f827afc14616a947509b7ee627e0133d13cf4ce9692",
+          "measured_atoms": 2,
+          "unique_edited_spans": 2,
+          "delta_singular_values": [
+            0.013228049527008224,
+            0.0019876336915186812
+          ],
+          "numerical_direction_rank": 2,
+          "rank_tolerance": "numpy.linalg.matrix_rank default float64 tolerance",
+          "measured_coordinate_count": 3
+        }
+      ],
+      "improving_combination_prediction_errors": [],
+      "combination_error_coverage": "improving controller history only; other verified combinations may not be archived",
+      "copy_audit": {
+        "exact_whole_reference": false,
+        "complete_reference_sentences_copied": [],
+        "label": "no-literal-complete-reference-sentence-detected",
+        "limitation": "Literal audit only; absence of a match does not establish novelty or factual accuracy."
+      },
+      "error": null
+    },
+    {
+      "target_id": "fresh-click-02",
+      "initial_distance": 0.045217340059034695,
+      "final_mechanical_distance": 0.023555059149155913,
+      "quality_status": "unreviewed final; approved initial",
+      "stop_reason": "stalled",
+      "seconds": 37.229334666975774,
+      "hard_queries": 17,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "provider_calls": 6,
+      "provider_seconds": 36.910934416984674,
+      "model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+      "raw_variants": 21,
+      "accepted_provider_variants": 7,
+      "provider_rejections": {
+        "capitalized_entity_drift": 9,
+        "qualification_quantity_or_technical_drift": 5
+      },
+      "receipt_statuses": {
+        "complete": 6,
+        "call_budget": 3
+      },
+      "byte_bound_errors": [],
+      "token_telemetry_caveat": null,
+      "bank_sources": 3,
+      "accepted_bank_atoms": 7,
+      "unique_source_sentence_spans": 5,
+      "measurement_geometry": [
+        {
+          "source_sha256": "6837ccad40d1af1c7ee21be75541f503d3bb721ca2fca7112324908c95c969ae",
+          "measured_atoms": 4,
+          "unique_edited_spans": 3,
+          "delta_singular_values": [
+            0.017278376137204638,
+            0.011918937692516231
+          ],
+          "numerical_direction_rank": 2,
+          "rank_tolerance": "numpy.linalg.matrix_rank default float64 tolerance",
+          "measured_coordinate_count": 5
+        },
+        {
+          "source_sha256": "80c8599cf4a13aa05d8773e307de5cf17604fc9c2c3d2a85e4026c7b3303f730",
+          "measured_atoms": 3,
+          "unique_edited_spans": 2,
+          "delta_singular_values": [
+            0.018216929872342996,
+            0.009009482121860039
+          ],
+          "numerical_direction_rank": 2,
+          "rank_tolerance": "numpy.linalg.matrix_rank default float64 tolerance",
+          "measured_coordinate_count": 4
+        }
+      ],
+      "improving_combination_prediction_errors": [
+        {
+          "predicted": [
+            -0.19719670511211146,
+            -0.26107811089713345
+          ],
+          "verified": [
+            -0.1991157433554566,
+            -0.2553453278232674
+          ],
+          "prediction_error": 0.006045453626604556,
+          "distance": 0.026546351667360326,
+          "text_sha256": "80c8599cf4a13aa05d8773e307de5cf17604fc9c2c3d2a85e4026c7b3303f730"
+        }
+      ],
+      "combination_error_coverage": "improving controller history only; other verified combinations may not be archived",
+      "copy_audit": {
+        "exact_whole_reference": false,
+        "complete_reference_sentences_copied": [],
+        "label": "no-literal-complete-reference-sentence-detected",
+        "limitation": "Literal audit only; absence of a match does not establish novelty or factual accuracy."
+      },
+      "error": null
+    },
+    {
+      "target_id": "fresh-click-03",
+      "initial_distance": 0.00927456032850203,
+      "final_mechanical_distance": 0.009274560328502168,
+      "quality_status": "unreviewed final; approved initial",
+      "stop_reason": "stalled",
+      "seconds": 14.668041333032306,
+      "hard_queries": 2,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "provider_calls": 3,
+      "provider_seconds": 14.618807000981178,
+      "model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+      "raw_variants": 11,
+      "accepted_provider_variants": 1,
+      "provider_rejections": {
+        "capitalized_entity_drift": 8,
+        "qualification_quantity_or_technical_drift": 2
+      },
+      "receipt_statuses": {
+        "complete": 3
+      },
+      "byte_bound_errors": [],
+      "token_telemetry_caveat": null,
+      "bank_sources": 1,
+      "accepted_bank_atoms": 1,
+      "unique_source_sentence_spans": 1,
+      "measurement_geometry": [
+        {
+          "source_sha256": "2f8aa307d343049bc27706ba6c2f541e47471796e8025d6bf22d820416a8e913",
+          "measured_atoms": 1,
+          "unique_edited_spans": 1,
+          "delta_singular_values": [
+            0.017363904433590614
+          ],
+          "numerical_direction_rank": 1,
+          "rank_tolerance": "numpy.linalg.matrix_rank default float64 tolerance",
+          "measured_coordinate_count": 2
+        }
+      ],
+      "improving_combination_prediction_errors": [],
+      "combination_error_coverage": "improving controller history only; other verified combinations may not be archived",
+      "copy_audit": {
+        "exact_whole_reference": false,
+        "complete_reference_sentences_copied": [],
+        "label": "no-literal-complete-reference-sentence-detected",
+        "limitation": "Literal audit only; absence of a match does not establish novelty or factual accuracy."
+      },
+      "error": null
+    },
+    {
+      "target_id": "fresh-click-04",
+      "initial_distance": 0.027391238195194866,
+      "final_mechanical_distance": 0.027391238195194866,
+      "quality_status": "unreviewed final; approved initial",
+      "stop_reason": "stalled",
+      "seconds": 13.475464749964885,
+      "hard_queries": 6,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "provider_calls": 3,
+      "provider_seconds": 13.09232662501745,
+      "model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+      "raw_variants": 10,
+      "accepted_provider_variants": 3,
+      "provider_rejections": {
+        "capitalized_entity_drift": 5,
+        "qualification_quantity_or_technical_drift": 2
+      },
+      "receipt_statuses": {
+        "complete": 3
+      },
+      "byte_bound_errors": [],
+      "token_telemetry_caveat": null,
+      "bank_sources": 1,
+      "accepted_bank_atoms": 3,
+      "unique_source_sentence_spans": 2,
+      "measurement_geometry": [
+        {
+          "source_sha256": "7957c97a7e81dd8469be65c58ac11406ac3761de514df817086099521cf94fa4",
+          "measured_atoms": 3,
+          "unique_edited_spans": 2,
+          "delta_singular_values": [
+            0.03386701332995763,
+            0.015410116603578366
+          ],
+          "numerical_direction_rank": 2,
+          "rank_tolerance": "numpy.linalg.matrix_rank default float64 tolerance",
+          "measured_coordinate_count": 4
+        }
+      ],
+      "improving_combination_prediction_errors": [],
+      "combination_error_coverage": "improving controller history only; other verified combinations may not be archived",
+      "copy_audit": {
+        "exact_whole_reference": false,
+        "complete_reference_sentences_copied": [],
+        "label": "no-literal-complete-reference-sentence-detected",
+        "limitation": "Literal audit only; absence of a match does not establish novelty or factual accuracy."
+      },
+      "error": null
+    },
+    {
+      "target_id": "fresh-click-05",
+      "initial_distance": 0.05041098604857374,
+      "final_mechanical_distance": 0.04674543309288771,
+      "quality_status": "unreviewed final; approved initial",
+      "stop_reason": "stalled",
+      "seconds": 24.160955458995886,
+      "hard_queries": 7,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "provider_calls": 4,
+      "provider_seconds": 23.63829703995725,
+      "model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+      "raw_variants": 12,
+      "accepted_provider_variants": 6,
+      "provider_rejections": {
+        "qualification_quantity_or_technical_drift": 2,
+        "capitalized_entity_drift": 4
+      },
+      "receipt_statuses": {
+        "complete": 4
+      },
+      "byte_bound_errors": [],
+      "token_telemetry_caveat": null,
+      "bank_sources": 2,
+      "accepted_bank_atoms": 6,
+      "unique_source_sentence_spans": 2,
+      "measurement_geometry": [
+        {
+          "source_sha256": "93ef4de72541e844b7d78461873a53d69fefce0b624bcaa34f0c60c620be96d5",
+          "measured_atoms": 3,
+          "unique_edited_spans": 1,
+          "delta_singular_values": [
+            0.030707485316884706,
+            0.006353939901973767
+          ],
+          "numerical_direction_rank": 2,
+          "rank_tolerance": "numpy.linalg.matrix_rank default float64 tolerance",
+          "measured_coordinate_count": 4
+        },
+        {
+          "source_sha256": "6a47f81bc8df86f0881716f90c32cc2c09b86dbb2018a0643cf08cd128f1c6a0",
+          "measured_atoms": 3,
+          "unique_edited_spans": 1,
+          "delta_singular_values": [
+            0.0294839789867602,
+            0.01357016298244376
+          ],
+          "numerical_direction_rank": 2,
+          "rank_tolerance": "numpy.linalg.matrix_rank default float64 tolerance",
+          "measured_coordinate_count": 4
+        }
+      ],
+      "improving_combination_prediction_errors": [],
+      "combination_error_coverage": "improving controller history only; other verified combinations may not be archived",
+      "copy_audit": {
+        "exact_whole_reference": false,
+        "complete_reference_sentences_copied": [],
+        "label": "no-literal-complete-reference-sentence-detected",
+        "limitation": "Literal audit only; absence of a match does not establish novelty or factual accuracy."
+      },
+      "error": null
+    },
+    {
+      "target_id": "fresh-click-06",
+      "initial_distance": 0.03721133339695361,
+      "final_mechanical_distance": 0.03721133339695361,
+      "quality_status": "unreviewed final; approved initial",
+      "stop_reason": "stalled",
+      "seconds": 14.483994250011165,
+      "hard_queries": 4,
+      "executed_work": {
+        "trajectories": 0,
+        "native_passes": 0,
+        "guided_passes": 0,
+        "encoder_updates": 0,
+        "trajectories_without_runtime_receipt": 0
+      },
+      "provider_calls": 3,
+      "provider_seconds": 14.359708416974172,
+      "model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+      "raw_variants": 11,
+      "accepted_provider_variants": 2,
+      "provider_rejections": {
+        "qualification_quantity_or_technical_drift": 5,
+        "capitalized_entity_drift": 4
+      },
+      "receipt_statuses": {
+        "complete": 3
+      },
+      "byte_bound_errors": [],
+      "token_telemetry_caveat": null,
+      "bank_sources": 1,
+      "accepted_bank_atoms": 2,
+      "unique_source_sentence_spans": 2,
+      "measurement_geometry": [
+        {
+          "source_sha256": "71ea8e88fa0928b9275d814510885a8beffac30a3c53ac35a1931a57c0bc6ca9",
+          "measured_atoms": 2,
+          "unique_edited_spans": 2,
+          "delta_singular_values": [
+            0.009848251923753925,
+            0.001416902370170122
+          ],
+          "numerical_direction_rank": 2,
+          "rank_tolerance": "numpy.linalg.matrix_rank default float64 tolerance",
+          "measured_coordinate_count": 3
+        }
+      ],
+      "improving_combination_prediction_errors": [],
+      "combination_error_coverage": "improving controller history only; other verified combinations may not be archived",
+      "copy_audit": {
+        "exact_whole_reference": false,
+        "complete_reference_sentences_copied": [],
+        "label": "no-literal-complete-reference-sentence-detected",
+        "limitation": "Literal audit only; absence of a match does not establish novelty or factual accuracy."
+      },
+      "error": null
+    }
+  ],
+  "input_receipt": {
+    "file": "docs/experiments/fresh-hybrid-sentence-bank-v1.json.gz",
+    "sha256": "3179c2dce3a9ccce6736ab0cc2dcee6ce34bfcabe2e40b17b97b79631e08eb8e"
+  }
+}

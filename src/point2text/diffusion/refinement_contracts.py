@@ -38,6 +38,11 @@ class RefinementConfig:
     max_encoder_tokens: int = 256
     repair_steps: int = 8
     repair_every: int = 2
+    max_restarts: int = 3
+    restart_candidates: int = 2
+    initial_candidates_before_refinement: int = 2
+    basin_generation_fraction: float = 0.6
+    repair_span_mode: str = "words"
 
     def __post_init__(self):
         for name in ("epsilon", "max_seconds"):
@@ -54,6 +59,17 @@ class RefinementConfig:
             value = getattr(self, name)
             if isinstance(value, bool) or not isinstance(value, int) or value < 1:
                 raise ValueError(f"{name} must be a positive integer")
+        for name in ("restart_candidates", "initial_candidates_before_refinement"):
+            value = getattr(self, name)
+            if isinstance(value, bool) or not isinstance(value, int) or value < 1:
+                raise ValueError(f"{name} must be a positive integer")
+        if isinstance(self.max_restarts, bool) or not isinstance(self.max_restarts, int) or self.max_restarts < 0:
+            raise ValueError("max_restarts must be a nonnegative integer")
+        if (isinstance(self.basin_generation_fraction, bool) or not math.isfinite(self.basin_generation_fraction)
+                or not 0 < self.basin_generation_fraction <= 1):
+            raise ValueError("basin_generation_fraction must be in (0, 1]")
+        if not isinstance(self.repair_span_mode, str) or self.repair_span_mode not in {"words", "sentence"}:
+            raise ValueError("repair_span_mode must be 'words' or 'sentence'")
         if self.min_words > self.max_words:
             raise ValueError("min_words must not exceed max_words")
 

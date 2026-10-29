@@ -1,0 +1,38 @@
+{
+  "schema": "distance-blinded-fresh-text-review-v1",
+  "instructions": "Review grammar, scientific accuracy, scope/qualifications and coherence. Mark accepted/rejected/uncertain with reasons. Distances and target labels are withheld. This is individual review, not a judge-accuracy estimate.",
+  "items": [
+    {
+      "review_id": "0331b7755cdc",
+      "text_sha256": "86e6d020ed1a323fbcf56f827afc14616a947509b7ee627e0133d13cf4ce9692",
+      "text": "Research into decision dynamics investigates how evolving neural activity correlates with choices made under uncertain conditions. Theoretical frameworks may account for the accumulation of evidence, competing actions, or fluctuating response thresholds. Evaluating these models against withheld trial data helps identify the specific behavioral components each framework can explain.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain."
+    },
+    {
+      "review_id": "d8a919e27265",
+      "text_sha256": "526d3622844b91a00f5c0b29be36e1c895eda54667cc69be433abc93a8285c5a",
+      "text": "Environmental state estimation integrates observational data with dynamical modeling to determine the status of an evolving system. This process must account for uncertainties inherent in both forecasts and measurement measurements. By utilizing observing-system experiments, researchers can evaluate how the exclusion of specific measurement sources influences the resulting state estimate and its associated uncertainty.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Data assimilation combines observations with a dynamical model to estimate an evolving environmental state. The method must represent uncertainty in both measurements and forecasts. An observing-system experiment can examine how removing one measurement source changes the estimated state and its uncertainty."
+    },
+    {
+      "review_id": "328228fd4b38",
+      "text_sha256": "61c13e71437ec5c7d916d2be468c426849526b7d6bdbb8dc1cc0da980004ea81",
+      "text": "Climate data assimilation integrates observational data with dynamical modeling to estimate the state of evolving environments. This process must account for uncertainty inherent in both forecasts and measurements. By utilizing observing-system experiments, researchers can evaluate how the exclusion of a specific measurement source influences the estimated state and its associated uncertainty.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "Data assimilation combines observations with a dynamical model to estimate an evolving environmental state. The method must represent uncertainty in both measurements and forecasts. An observing-system experiment can examine how removing one measurement source changes the estimated state and its uncertainty."
+    },
+    {
+      "review_id": "6793f4b89c5f",
+      "text_sha256": "c8a9687efa26bda2529f2c16b483270a21cb2c48014bdd099547c845c26898e1",
+      "text": "Research into decision dynamics examines how shifting neural patterns correlate to selections under conditions of uncertainty. These models may characterize the accumulation of evidence, competing motor actions, or fluctuating response thresholds. Evaluating the predictions of such models against withheld trials helps identify the specific behavioral components each framework can explain.",
+      "verdict": null,
+      "reason": null,
+      "reference_text": "A decision-making experiment relates evolving neural activity to choices made under uncertainty. Models may describe evidence accumulation, competing actions, or changing response thresholds. Comparing their predictions on withheld trials helps determine which aspects of behavior each model can explain."
+    }
+  ]
+}
