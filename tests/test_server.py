@@ -81,7 +81,7 @@ def test_wrong_map_and_invalid_budgets_are_rejected(tmp_path):
     app = create_app(bundle=FakeBundle(), generator=FakeGenerator(), cache_dir=tmp_path)
     with TestClient(app) as client:
         assert client.post("/api/runs", json={"map_id": "old", "target": [0, 0]}).status_code == 409
-        for target, count in [(["NaN", 0], 2), ([0, 0], 0), ([0, 0], 7), ([0], 2)]:
+        for target, count in [(["NaN", 0], 2), ([0, 0], 0), ([0, 0], 65), ([0], 2)]:
             assert client.post("/api/runs", json={"map_id": "fixed-test-map", "target": target, "candidates": count}).status_code == 422
         for updates in [0, 17, 2]:
             # The baseline has no encoder-guidance capability, even for a valid count.

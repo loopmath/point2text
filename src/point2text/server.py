@@ -23,16 +23,18 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, field_validator
 
 from .contracts import Candidate
+from .storage import ParagraphLibrary
 
 
 class RunRequest(BaseModel):
     map_id: str = Field(min_length=1, max_length=200)
     target: tuple[float, float]
-    candidates: int = Field(default=3, ge=1, le=6)
+    candidates: int = Field(default=6, ge=1, le=64)
     seed: int = Field(default=42, ge=0, le=2**31 - 7)
-    guidance_updates: int | None = Field(default=None, ge=1, le=16)
+    guidance_updates: int | None = Field(default=None, ge=1, le=64)
     refinement_epsilon: float | None = Field(default=None, gt=0, le=1)
     refinement_seconds: float | None = Field(default=None, ge=5, le=600)
+    refinement_unlimited: bool = False
 
     @field_validator("target")
     @classmethod
@@ -40,6 +42,14 @@ class RunRequest(BaseModel):
         if not all(math.isfinite(x) for x in value):
             raise ValueError("Target coordinates must be finite.")
         return value
+
+
+class SaveRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+    map_id: str = Field(min_length=1, max_length=200)
+    run_id: str = Field(pattern=r"^[0-9a-f]{32}$")
+    candidate_index: int = Field(ge=0)
+    title: str | None = Field(default=None, min_length=1, max_length=160)
 
 
 @dataclass
@@ -57,6 +67,9 @@ class Run:
     guidance_updates: int | None = None
     refinement_epsilon: float | None = None
     refinement_seconds: float | None = None
+    refinement_unlimited: bool = False
+    draft: dict | None = None
+    draft_sequence: int = 0
     status: str = "running"
     error: str | None = None
     candidates: list[Candidate] = field(default_factory=list)
@@ -84,6 +97,8 @@ class Run:
                 "guidance_updates": self.guidance_updates,
                 "refinement_epsilon": self.refinement_epsilon,
                 "refinement_seconds": self.refinement_seconds,
+                "refinement_unlimited": self.refinement_unlimited,
+                "draft": self.draft, "draft_sequence": self.draft_sequence,
                 "distance_metric": "euclidean-unwhitened-pca",
             }
 
@@ -95,6 +110,7 @@ def create_app(*, bundle: Any = None, generator: Any = None,
     state_lock = threading.Lock()
     state = {"bundle": bundle, "error": None, "active": None, "closed": False}
     runs: dict[str, Run] = {}
+    library = ParagraphLibrary(cache_dir / "library.sqlite3")
     if generator is None:
         from .generation import OllamaGenerator
         generator = OllamaGenerator(
@@ -156,13 +172,33 @@ def create_app(*, bundle: Any = None, generator: Any = None,
                 with run.lock:
                     run.candidates.append(candidate)
 
+            def on_draft(update):
+                if not isinstance(update, dict) or not isinstance(update.get("text"), str):
+                    return
+                def count(value):
+                    return value if isinstance(value, int) and not isinstance(value, bool) and value >= 0 else None
+                draft = {
+                    "text": update["text"][:24000],
+                    "step": count(update.get("step")), "num_steps": count(update.get("num_steps")),
+                    "phase": str(update.get("phase", "diffusion"))[:120],
+                    "terminal": update.get("terminal") is True,
+                    "received_at": datetime.now(timezone.utc).isoformat(),
+                }
+                with run.lock:
+                    run.draft = draft
+                    run.draft_sequence += 1
+
             strategy = search_factory(map_bundle) if search_factory is not None else BaselineSearch(generator)
             options = {"guidance_updates": run.guidance_updates} if search_factory is not None and run.guidance_updates is not None else {}
             if search_factory is not None:
+                if run.generator_metadata.get("draft_streaming"):
+                    options["on_draft"] = on_draft
                 if run.refinement_epsilon is not None:
                     options["refinement_epsilon"] = run.refinement_epsilon
                 if run.refinement_seconds is not None:
                     options["refinement_seconds"] = run.refinement_seconds
+                if run.refinement_unlimited:
+                    options["refinement_unlimited"] = True
             result = strategy.run(
                 map_bundle, run.target, max_candidates=run.requested_candidates,
                 seed=run.seed, on_candidate=on_candidate, cancel_event=run.cancel_event,
@@ -210,7 +246,7 @@ def create_app(*, bundle: Any = None, generator: Any = None,
             raise HTTPException(503, metadata.get("error", "The local generator is unavailable."))
         if request.guidance_updates is not None and not metadata.get("guided"):
             raise HTTPException(422, "Encoder updates per pass apply only to guided diffusion.")
-        if (request.refinement_epsilon is not None or request.refinement_seconds is not None) and not metadata.get("refinement"):
+        if (request.refinement_epsilon is not None or request.refinement_seconds is not None or request.refinement_unlimited) and not metadata.get("refinement"):
             raise HTTPException(422, "Refinement tolerance and time budget require the canonical refinement backend.")
         with state_lock:
             if state["closed"]:
@@ -225,6 +261,7 @@ def create_app(*, bundle: Any = None, generator: Any = None,
                 guidance_updates=request.guidance_updates,
                 refinement_epsilon=request.refinement_epsilon,
                 refinement_seconds=request.refinement_seconds,
+                refinement_unlimited=request.refinement_unlimited,
             )
             # Bound browser-session history; completed records remain on disk.
             while len(runs) >= 30:
@@ -251,6 +288,46 @@ def create_app(*, bundle: Any = None, generator: Any = None,
         run = find_run(run_id)
         run.cancel_event.set()
         return run.snapshot()
+
+    def current_map_id(map_id: str | None):
+        active_id = get_bundle().map_id
+        if map_id is not None and map_id != active_id:
+            raise HTTPException(409, "The map changed. Reload the page to view its saved paragraphs.")
+        return active_id
+
+    @app.get("/api/saved")
+    def saved_paragraphs(map_id: str | None = None):
+        active_id = current_map_id(map_id)
+        return {"map_id": active_id, "paragraphs": library.list(active_id)}
+
+    @app.post("/api/saved", status_code=201)
+    def save_paragraph(request: SaveRequest):
+        current_map_id(request.map_id)
+        with state_lock:
+            run = runs.get(request.run_id)
+        if run is not None:
+            record = run.snapshot()
+        else:
+            # Request validation permits UUID hex only, so this cannot escape runs/.
+            try:
+                record = json.loads((cache_dir / "runs" / f"{request.run_id}.json").read_text())
+            except (OSError, ValueError):
+                raise HTTPException(404, "The verified generation record was not found.")
+        if record.get("map_id") != request.map_id:
+            raise HTTPException(409, "This paragraph belongs to a different fixed map.")
+        if record.get("status") == "running":
+            raise HTTPException(409, "Wait for the search to finish or stop it before saving.")
+        candidates = record.get("candidates", [])
+        if request.candidate_index >= len(candidates):
+            raise HTTPException(404, "The requested candidate was not found.")
+        return library.save(record, request.candidate_index, request.title)
+
+    @app.delete("/api/saved/{record_id}")
+    def delete_saved_paragraph(record_id: str, map_id: str | None = None):
+        active_id = current_map_id(map_id)
+        if not library.delete(record_id, active_id):
+            raise HTTPException(404, "Saved paragraph not found in this map.")
+        return {"deleted": record_id, "map_id": active_id}
 
     return app
 
