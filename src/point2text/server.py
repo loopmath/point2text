@@ -49,6 +49,8 @@ class Run:
     generator: str
     encoder: str
     generator_metadata: dict
+    strategy: str = "nearest-context-independent-candidates-v1"
+    trace: dict | None = None
     status: str = "running"
     error: str | None = None
     candidates: list[Candidate] = field(default_factory=list)
@@ -72,13 +74,13 @@ class Run:
                 "created_at": self.created_at,
                 "generator": self.generator, "encoder": self.encoder,
                 "generator_metadata": self.generator_metadata,
-                "strategy": "nearest-context-independent-candidates-v1",
+                "strategy": self.strategy, "trace": self.trace,
                 "distance_metric": "euclidean-unwhitened-pca",
             }
 
 
 def create_app(*, bundle: Any = None, generator: Any = None,
-               cache_dir: Path | None = None) -> FastAPI:
+               cache_dir: Path | None = None, search_factory: Any = None) -> FastAPI:
     """Inject a map and generator to test or embed the app without model loading."""
     cache_dir = Path(cache_dir or os.environ.get("POINT2TEXT_CACHE", ".cache/point2text"))
     state_lock = threading.Lock()
@@ -145,14 +147,21 @@ def create_app(*, bundle: Any = None, generator: Any = None,
                 with run.lock:
                     run.candidates.append(candidate)
 
-            BaselineSearch(generator).run(
+            strategy = search_factory(map_bundle) if search_factory is not None else BaselineSearch(generator)
+            result = strategy.run(
                 map_bundle, run.target, max_candidates=run.requested_candidates,
                 seed=run.seed, on_candidate=on_candidate, cancel_event=run.cancel_event,
             )
             with run.lock:
+                trace = getattr(result, "trace", None)
+                if isinstance(trace, dict):
+                    run.trace = trace
+                    run.strategy = trace.get("strategy", run.strategy)
                 if not run.candidates and not run.cancel_event.is_set():
                     raise RuntimeError("The model returned no usable paragraphs. Try another target or model.")
-                run.status = "cancelled" if run.cancel_event.is_set() else "complete"
+                run.status = "cancelled" if run.cancel_event.is_set() else "error" if trace and trace.get("status") == "error" else "complete"
+                if run.status == "error":
+                    run.error = trace.get("error")
         except Exception as exc:
             with run.lock:
                 run.status = "cancelled" if run.cancel_event.is_set() else "error"

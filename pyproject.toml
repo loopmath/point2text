@@ -21,10 +21,12 @@ dependencies = [
 
 [project.optional-dependencies]
 encoder = ["sentence-transformers>=3,<6"]
+diffusion = ["mlx-vlm==0.7.11; sys_platform == 'darwin' and platform_machine == 'arm64'"]
 dev = ["pytest>=8,<10"]
 
 [project.scripts]
 point2text = "point2text.server:main"
+point2text-diffusion = "point2text.diffusion.cli:main"
 
 [project.urls]
 Repository = "https://github.com/loopmath/point2text"

@@ -55,6 +55,7 @@ class BackendInfo:
             "model": f"DiffusionGemma · {'guided' if self.guided else 'unguided'}",
             "runtime": self.identity,
             "revision": getattr(self.runtime, "revision", None),
+            "guided": self.guided,
         }
         if error:
             result["error"] = error
@@ -85,8 +86,8 @@ def create_diffusion_app(
     from ..server import create_app
     from .guidance import GuidanceConfig
 
-    injected = runtime is not None
-    runtime = runtime if injected else MLXDiffusionRuntime()
+    injected = runtime is not None and not isinstance(runtime, MLXDiffusionRuntime)
+    runtime = runtime if runtime is not None else MLXDiffusionRuntime()
     config = config if config is not None else GuidanceConfig(inner_updates=2)
     backend = BackendInfo(runtime, guided=guided, injected=injected)
     rewards: dict[int, tuple[Any, Any]] = {}

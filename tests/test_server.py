@@ -7,6 +7,8 @@ import time
 from fastapi.testclient import TestClient
 
 from point2text.contracts import CorpusRecord
+from point2text.contracts import Candidate
+from types import SimpleNamespace
 from point2text.server import create_app
 
 
@@ -104,3 +106,21 @@ def test_unavailable_local_model_is_actionable(tmp_path):
         response = client.post("/api/runs", json={"map_id": "fixed-test-map", "target": [0, 0]})
         assert response.status_code == 503
         assert "Start Ollama" in response.json()["detail"]
+
+
+def test_custom_strategy_records_native_trace_and_preserves_partial_error(tmp_path):
+    class Strategy:
+        def run(self, bundle, target, **kwargs):
+            kwargs["on_candidate"](Candidate("Verified custom paragraph.", 1, 2, .3, .2, 42))
+            return SimpleNamespace(trace={"strategy": "custom-diffusion", "status": "error",
+                                          "error": "Second trajectory failed.", "passes": 9})
+    app = create_app(bundle=FakeBundle(), generator=FakeGenerator(), cache_dir=tmp_path,
+                     search_factory=lambda bundle: Strategy())
+    with TestClient(app) as client:
+        run_id = client.post("/api/runs", json={"map_id": "fixed-test-map", "target": [0, 0]}).json()["id"]
+        result = wait_run(client, run_id)
+        assert result["status"] == "error"
+        assert result["best"]["text"] == "Verified custom paragraph."
+        assert result["strategy"] == "custom-diffusion"
+        assert result["trace"]["passes"] == 9
+        assert result["error"] == "Second trajectory failed."

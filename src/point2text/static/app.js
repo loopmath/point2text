@@ -72,6 +72,9 @@
     try {
       const status = await api('/api/status');
       state.status = status;
+      const diffusion = Boolean(status.generator?.runtime);
+      document.querySelector('.mode-label').textContent = diffusion ? status.generator.guided ? 'Experimental diffusion guidance' : 'Unguided diffusion' : 'Local candidate search';
+      document.querySelector('.method-note p').textContent = diffusion && status.generator.guided ? 'A frozen diffusion model refines token choices with an approximate map-gradient signal. We re-embed the finished text and keep the closest measured paragraph.' : 'We generate candidates, embed their actual text, and keep the closest match. The line shows the remaining distance in this two-dimensional map.';
       $('detail-generator').textContent = status.generator?.model || 'No model selected';
       const problems = [status.error, status.generator?.error].filter(Boolean);
       $('detail-status').textContent = problems.length ? problems.join('\n') : status.ready ? status.generator?.available ? 'Local worker ready. Models remain frozen.' : 'Local generator unavailable. Start Ollama and load the model listed above. This page checks again automatically.' : 'Encoding the corpus and preparing its fixed projection.';

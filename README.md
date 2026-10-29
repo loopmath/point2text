@@ -1,5 +1,7 @@
 # point2text
 
+**Experimental branch:** a working local diffusion path is available. See [diffusion setup, algorithm, and observed probes](docs/diffusion.md) and the [parallel implementation plan](docs/diffusion-plan.md). The default `point2text` command remains the scoring-only baseline; `point2text-diffusion` runs the new path.
+
 **Pick a point. Generate a paragraph. See where it lands.**
 
 A local research tool for generating technical text toward a selected position on a fixed semantic map. The first demo embeds a bundled technical corpus, fits a two-dimensional PCA map, generates several paragraphs with a local Ollama model, and plots each paragraph's **actual decoded-text embedding**.

@@ -4,6 +4,7 @@ The sampler uses mlx-vlm 0.7.11's native helpers and model cache/mask methods.
 Only the text-only, single-canvas loop lives here so the guidance seam is
 explicit: after native temperature shaping, before every token decision.
 MLX and model weights are optional and imported/loaded only on first use.
+The native sampler adaptation retains the upstream MIT notice in NOTICE.
 """
 
 from __future__ import annotations
