@@ -203,18 +203,18 @@ A nine-call adversarial audit found no reliable judge improvement: Gemma 4 31B a
 | Sparse guidance | Earlier paired error 0.07483 -> 0.02411 with early guidance; 0.09050 with late guidance |
 | Feedback / screened edits | Hosted case 0.015393 -> 0.004157 in 26.76 s; stalled above epsilon |
 | Protected-span repair | Exact locking safeguards verified; marginal distance benefit unisolated |
-| Measured combinations | Same-source measured deltas; no isolated equal-budget gain yet |
+| Measured combinations | 4/4 eligible local bank reconstructions at d=0; six coverage failures |
 | Paraphrase bank | Panel offers broader local edits; quality-preserved benefit unestablished |
 | Quality judge | 10/10 final passes included four clear defects in independent review |
 | Profiles / storage / UI | Reusable setup/persistence; no distance gain attributed |
 
-The earlier paired early-guidance probe reduced error about 67.8%, while late guidance worsened it about 20.9%, on the same one development target. Early guidance used 13 reached native passes and 26 encoder updates. Cold/warm timing differences prevent a speedup claim. The hosted screened-edit case reduced coarse error about 73.0%, using 11 canonical queries and 32 native vocabulary probes in addition to its coarse trajectory. A top-eight screen had allowed no useful edit on that initial text; top-32 was an engineering response, not a controlled ablation.
+The earlier one-target early-guidance probe improved error 67.8%; late guidance worsened it 20.9%. Early guidance used 13 native passes and 26 encoder updates. The hosted screened-edit case improved error 73.0% with 11 canonical queries and 32 native vocabulary probes. Cold/warm ordering and the top-eight versus top-32 screen change prevent controlled speedup or ablation claims.
 
-An older coordinates-only case improved 0.061270 -> 0.008909 with 146 scored texts in 21.92 seconds. Local recovery of a one-word-corrupted witness reached zero after confirmation; it demonstrates nearby repair, not novel target reconstruction. Another local case reached 0.000674 while changing “connection fails” to “relationship fails.” These pre-quality records demonstrate the objective mismatch directly.
+A separate CPU local diagnostic constructed three-edit witnesses from each source's curated bank, then gave the optimizer only source text and target coordinates. Four fixtures had enough independent spans; all recovered the exact witness with two fresh singleton checks at d=0: 10-37 queries and 0.093-0.266 search seconds, excluding preparation. Six of ten fixtures failed bank coverage before search. One independent distance-blinded model-assisted review found all four grammatical, coherent and claim-preserving; robotics wording was less idiomatic. This is 4/4 eligible cases, 4/10 fixtures, on deliberately easy bank-generated targets. It demonstrates local feasibility, not target-only generation or general epsilon attainment [10].
 
-No equal-wall-time ablation isolates every component's marginal gain. The ten-target panel uses public fixtures and development-selected policies, not an unseen generalization benchmark. Expanded edit banks, a stronger quality policy and the newer browser's six-candidate/16-update profile were not evaluated in this panel. They must be tested against the same frozen targets and quality review before claiming improvement.
+The earlier “connection fails” -> “relationship fails” edit at d=0.000674 remains a meaning-degrading failure. No equal-time ablation isolates every component's marginal benefit. The ten-target generation panel uses public fixtures and development-selected policies. Expanded banks, stronger judges and the six-candidate/16-update browser profile were not evaluated in that panel; new runs require independent quality review.
 
-Timing also needs care: MLX evaluates lazily, so a guidance hook can materialize deferred native generator work. Hook time is not additional encoder cost. Canonical queries, generator forwards, encoder gradient updates and judge calls are distinct counters. Compare best quality-accepted distance versus total time, include rejected/no-result cases, and count coarse generation, anchor review and all judge work.
+MLX evaluates lazily, so hook timing can include deferred native work. Count canonical queries, native forwards, encoder updates and judge calls separately. Compare accepted distance versus total time, retaining rejected/no-result cases and counting coarse generation, preparation and all quality review.
 
 <!-- page -->
 
@@ -268,3 +268,5 @@ Profiles use `--profile PATH`. For comparison runs, save full-precision targets,
 [8] point2text contributors. [Source and experiment records](https://github.com/loopmath/point2text). The ten-target receipts are [coarse generation](https://github.com/loopmath/point2text/blob/main/docs/experiments/quality-coarse-pool-v1.json), [fine search](https://github.com/loopmath/point2text/blob/main/docs/experiments/quality-multi-target-v1.json) and [blinded review](https://github.com/loopmath/point2text/blob/main/docs/experiments/quality-blind-review-v1.json). See `evaluation/README.md` for fixture boundaries.
 
 [9] point2text contributors. [Adversarial judge calibration](https://github.com/loopmath/point2text/blob/main/docs/experiments/semantic-quality-adversarial-calibration.json). Nine calls; three-case costs: 12B 28.70 s, 31B 52.85 s, Qwen 24.95 s. Original format rejection and offline parser replay are separate observations.
+
+[10] point2text contributors. [Measured reconstruction](https://github.com/loopmath/point2text/blob/main/docs/experiments/measured-reconstruction.json) and [blinded review](https://github.com/loopmath/point2text/blob/main/docs/experiments/measured-reconstruction-review.json). Constructed local targets; six coverage failures retained.
