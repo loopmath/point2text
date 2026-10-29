@@ -39,26 +39,28 @@ def envelope(result=None, **overrides):
 
 
 class FakeOllama:
-    def __init__(self, result=None):
+    def __init__(self, result=None, model="gemma4:12b"):
         self.requests = []
         self.digest = DIGEST
         self.result = result
         self.models = None
+        self.model = model
 
     def __call__(self, request):
         self.requests.append(request)
         if request.url.path == "/api/tags":
             models = self.models if self.models is not None else [
-                {"name": "gemma4:12b", "digest": self.digest}]
+                {"name": self.model, "digest": self.digest}]
             return httpx.Response(200, json={"models": models})
         assert request.url.path == "/api/generate"  # No pulls, settings, or fallback.
-        return httpx.Response(200, json=envelope(self.result))
+        return httpx.Response(200, json=envelope(self.result, model=self.model))
 
     @property
     def judge_requests(self):
         return [request for request in self.requests if request.method == "POST"]
 
     def gate(self, **kwargs):
+        kwargs.setdefault("model", self.model)
         return TechnicalQualityGate(transport=httpx.MockTransport(self), **kwargs)
 
 
@@ -91,10 +93,37 @@ def test_judge_prompt_is_quoted_data_seeded_and_bounded():
     assert payload["stream"] is False and payload["think"] is False
     assert payload["format"]["additionalProperties"] is False
     assert set(payload["format"]["required"]) == set(NAMES)
+    assert payload["format"]["properties"]["grammar"]["properties"]["reason"]["maxLength"] == 240
     assert set(payload) == {"model", "system", "prompt", "options", "format", "stream", "think"}
     assert report["cost"]["prompt_eval_count"] == 500
     assert report["cost"]["eval_count"] == 100
     assert report["heuristic"] and not report["quality_guarantee"]
+
+
+def test_v2_policy_grades_intrinsic_defects_in_an_untrusted_reference():
+    server = FakeOllama(checks(reference=True, technical_plausibility="fail"))
+    gate = server.gate(reference_text=TEXT)
+    report = gate(TEXT)
+    assert not report["accepted"]
+    assert report["dimensions"]["claim_preservation"]["verdict"] == "pass"
+    system = " ".join(json.loads(server.judge_requests[0].content)["system"].split())
+    assert "NOT an authoritative source" in system
+    assert "false in both texts must fail technical_plausibility" in system
+    assert "observational associations" in system
+    assert "causative verbs that require bare infinitives" in system
+    assert "at most 20 words and 240 characters" in system
+    assert "Grade the exact candidate provided" in system
+    assert gate.trace["method"] == "local-technical-quality-v2"
+
+
+def test_explicit_alternate_model_uses_and_traces_its_own_frozen_identity():
+    server = FakeOllama(model="gemma4:31b")
+    gate = server.gate(timeout_seconds=180)
+    assert gate(TEXT)["accepted"]
+    assert gate.trace["model"] == "gemma4:31b"
+    assert gate.trace["timeout_seconds"] == 180
+    assert f"gemma4:31b@" in gate.trace["model_identity"]
+    assert json.loads(server.judge_requests[0].content)["model"] == "gemma4:31b"
 
 
 def test_cache_uses_complete_text_reference_policy_and_model_identity():
@@ -168,7 +197,7 @@ def test_uncertainty_rejects_each_required_dimension(dimension):
     lambda value: value["grammar"].update({"verdict": "not_applicable"}),
     lambda value: value["claim_preservation"].update({"verdict": "pass"}),
     lambda value: value["grammar"].update({"reason": ""}),
-    lambda value: value["grammar"].update({"reason": "x" * 1201}),
+    lambda value: value["grammar"].update({"reason": "x" * 241}),
 ])
 def test_malformed_schema_is_rejected_and_not_cached(change):
     result = checks()
@@ -180,6 +209,13 @@ def test_malformed_schema_is_rejected_and_not_cached(change):
     assert report["reasons"] == ["malformed_judgment"]
     assert gate.trace["cache_entries"] == 0
     assert gate.trace["errors"] == 1
+
+
+def test_word_conciseness_is_requested_but_only_character_bound_is_parsed():
+    result = checks()
+    result["grammar"]["reason"] = "word " * 21
+    server = FakeOllama(result)
+    assert server.gate()(TEXT)["accepted"]
 
 
 @pytest.mark.parametrize("overrides,reason", [
