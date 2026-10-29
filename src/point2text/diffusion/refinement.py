@@ -15,6 +15,7 @@ from .guidance import GuidanceConfig, SparseMapGuidance, _json_safe
 from .refinement_contracts import RefinementConfig, TextProposal
 from .search import technical_prompt
 from .verification import CanonicalVerifier
+from .work import native_work_summary
 
 
 def _proposal_policy(proposer):
@@ -554,6 +555,7 @@ class CanonicalRefinementSearch:
                            ("round_limit" if stop_reason == "budget_exhausted" else None),
             "candidates": candidates, "best_candidate": best_payload,
             "history": history, "native_traces": native_traces, "costs": costs,
+            "executed_work": native_work_summary(native_traces),
             "proposal_policy": policy_after, "proposal_policy_before": policy_before,
             "measured_combinations": self.combination_planner.cache_info() if self.combination_planner else None,
             "quality_policy": _json_safe(getattr(self.quality_callback, "trace", None)),

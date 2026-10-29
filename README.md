@@ -10,11 +10,13 @@ The new [canonical refinement prototype](docs/canonical-refinement.md) adds draf
 
 See [current optimization results](docs/optimization-progress.md) for the reviewed multi-target comparison, including failures and the limits of local epsilon recovery.
 
+The [2025–2026 research review](docs/research-2025-2026.md) maps recent inference-control and embedding-inversion methods to concrete experiments and their compatibility limits.
+
 **Pick a point. Generate a paragraph. See where it lands.**
 
 A local research tool for generating technical text toward a selected position on a fixed semantic map. The first demo embeds a bundled technical corpus, fits a two-dimensional PCA map, generates several paragraphs with a local Ollama model, and plots each paragraph's **actual decoded-text embedding**.
 
-This is a scoring-only baseline. It does not yet implement diffusion guidance, guarantee arbitrary target reachability, or establish research benchmark results. The encoder and generator weights remain frozen.
+The default command uses scoring-only candidate search; the separate diffusion command adds native denoising, approximate gradient steering and canonical refinement. Target reachability remains an open research question. The encoder and generator weights remain frozen.
 
 ## Quick start
 
@@ -53,6 +55,8 @@ Changing the target cancels the current search. Cancellation keeps any already v
 Zoom with the map controls, wheel, or pinch; drag in Pan mode and use **Fit all** to reset the view. Save completed paragraphs to the host library and show them as map overlays. Saved points keep their original map identity and never refit PCA. Native diffusion shows real intermediate drafts with changed-word animation; drafts remain separate from verified results.
 
 The refinement browser defaults to **6 initial candidates, 16 encoder updates/pass, tolerance 0.01, and 120 seconds**. Higher candidate/update counts and **No time limit** are available. Removing the clock limit retains query/round limits, stalls, and cancellation. Research experiments request `1e-4` explicitly.
+
+Refinement automatically tries fresh generation basins when local progress stops, retaining the closest verified paragraph. The browser starts with **3 extra restarts and 2 candidates per restart**; controls can increase or disable them. Initial candidates and restarts share the original time, query and round budgets. Actual executed diffusion passes and encoder updates appear in the completed run record and interface. Each browser search also chooses a fresh seed, shown in model details and stored in the run record; CLI/API callers can supply a fixed seed for comparisons.
 
 ## Bring your own model and use case
 

@@ -1,5 +1,7 @@
 # Canonical feedback refinement
 
+Automatic fresh-generation restarts and budget allocation are described in [fresh basins](canonical-restarts.md). The browser exposes restart count and candidates per restart; the CLI also offers experimental whole-sentence repair.
+
 This experimental path keeps the map and both models frozen. It optimizes
 `distance = ||PCA(canonical_encode(text)) - target||`, using ordinary decoded text
 for acceptance. The soft cross-tokenizer guidance loss proposes directions; it

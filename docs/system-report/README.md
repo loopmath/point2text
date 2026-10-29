@@ -16,4 +16,6 @@ The ten-target development panel records four numerical reductions and zero succ
 
 A later six-anchor paired test returned identical texts with and without measured combinations; two final gains passed independent quality review. [Current evidence](../optimization-progress.md) preserves the rejections and uncertain cases.
 
+Automatic fresh-generation restarts and subsequent off-corpus target experiments are covered in [canonical refinement](../canonical-refinement.md) and the current evidence page. The PDF remains the six-page snapshot published before those additions.
+
 Development measurements are linked in the report. They are not an equal-budget ablation or generalization benchmark. Quality-gated evaluation and ordinary mechanical/canonical scoring are distinguished.

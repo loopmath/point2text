@@ -5,6 +5,17 @@
   const NS = 'http://www.w3.org/2000/svg';
   const colors = ['#7b968a', '#8c91ad', '#b69a76', '#8f9f66', '#b58b8a', '#7196a4', '#a38dad', '#a5a179', '#557b78', '#a0768d'];
   const plot = { left: 54, top: 22, width: 718, height: 490 };
+  let previousSeed = null;
+
+  function freshSeed() {
+    const limit = 2 ** 31 - 7;
+    const random = new Uint32Array(1);
+    crypto.getRandomValues(random);
+    let seed = random[0] % (limit + 1);
+    if (seed === previousSeed) seed = (seed + 1) % (limit + 1);
+    previousSeed = seed;
+    return seed;
+  }
   const state = { map: null, status: null, target: null, runId: null, runTrace: null, busy: false, epoch: 0, candidates: [], selected: -1, tab: 'best', started: 0, runElapsed: 0, requested: 6, topicColors: new Map(), transform: null, baseScale: null, runTimer: null, statusTimer: null, tickTimer: null, mapLoading: false, hovered: null, saved: [], saving: false, panMode: false, pointers: new Map(), gesture: null, suppressClick: false, draft: null, draftSequence: 0, draftTokens: [] };
 
   function element(tag, attrs = {}, text) {
@@ -59,6 +70,8 @@
     $('refinement-epsilon').disabled = state.busy;
     $('refinement-seconds').disabled = state.busy || $('refinement-unlimited').checked;
     $('refinement-unlimited').disabled = state.busy;
+    $('refinement-restarts').disabled = state.busy;
+    $('refinement-restart-candidates').disabled = state.busy || Number($('refinement-restarts').value) === 0;
     $('candidate-label').textContent = state.status?.generator?.refinement ? 'INITIAL CANDIDATES' : 'CANDIDATES';
     $('clear-target').hidden = !state.target;
     updateSaveControl();
@@ -476,7 +489,8 @@
     const step = Number.isInteger(draft.step) ? draft.step + 1 : null;
     const total = Number.isInteger(draft.num_steps) && draft.num_steps > 0 ? draft.num_steps : null;
     const phase = (draft.phase || 'diffusion').replaceAll('_', ' ');
-    $('draft-step').textContent = `${phase}${step !== null ? ` · step ${total ? Math.min(step, total) : step}${total ? ` / ${total}` : ''}` : ''}`;
+    const basin = Number.isInteger(draft.basin_id) ? ` · basin ${draft.basin_id + 1}` : '';
+    $('draft-step').textContent = `${phase}${basin}${step !== null ? ` · step ${total ? Math.min(step, total) : step}${total ? ` / ${total}` : ''}` : ''}`;
     $('draft-status').textContent = state.busy ? draft.terminal ? 'Draft pass finished. Waiting for canonical measurement…' : 'Waiting for the next model revision…' : state.candidates.length ? 'Draft stream finished. Scored paragraphs are shown below.' : 'Draft stream finished. No canonically scored paragraph is available.';
   }
 
@@ -518,9 +532,13 @@
     const trajectory = Array.isArray(trajectories) ? trajectories.find(item => item.seed === candidate.seed) : null;
     const guidedSteps = trajectory?.guidance?.steps;
     const passes = trajectory?.runtime?.passes;
-    const hasCompute = Array.isArray(guidedSteps) && Number.isInteger(passes) && passes >= 0;
+    const executed = state.runTrace?.executed_work;
+    const searchTotals = state.status?.generator?.refinement && executed && Number.isInteger(executed.native_passes);
+    const hasCompute = searchTotals || Array.isArray(guidedSteps) && Number.isInteger(passes) && passes >= 0;
     $('result-compute').hidden = !hasCompute;
-    if (hasCompute) {
+    if (searchTotals) {
+      $('result-compute').textContent = `Search totals: ${executed.encoder_updates} encoder updates · ${executed.native_passes} diffusion passes${executed.trajectories_without_runtime_receipt ? ' · some failed work unmeasured' : ''}`;
+    } else if (hasCompute) {
       const updates = guidedSteps.reduce((total, step) => total + (Array.isArray(step.updates) ? step.updates.length : 0), 0);
       $('result-compute').textContent = `${updates} encoder ${updates === 1 ? 'update' : 'updates'} · ${passes} diffusion ${passes === 1 ? 'pass' : 'passes'}`;
     }
@@ -552,6 +570,7 @@
   function showRunError(message) { $('run-error').textContent = message; $('run-error').hidden = false; }
 
   function applyRun(run) {
+    if (Number.isInteger(run.seed)) $('detail-seed').textContent = String(run.seed);
     applyDraft(run);
     state.runTrace = run.trace || null;
     state.candidates = Array.isArray(run.candidates) ? run.candidates.map((c, sourceIndex) => ({ ...c, sourceIndex })).filter(c => typeof c.text === 'string' && finite(c.x) && finite(c.y) && finite(c.distance)) : [];
@@ -563,9 +582,12 @@
     $('progress-fill').style.width = `${Math.min(100, count / state.requested * 100)}%`;
     $('progress-label').textContent = running ? count ? `${count} of ${state.requested} measured · finding the next paragraph` : 'Writing the first paragraph locally' : run.status === 'cancelled' ? `Search stopped · ${count} measured` : run.status === 'error' ? 'Search interrupted' : `${count} ${count === 1 ? 'paragraph' : 'paragraphs'} measured · closest selected`;
     if (state.status?.generator?.refinement) {
-      const reasons = { epsilon_reached: 'Tolerance confirmed', budget_exhausted: 'Budget reached', stalled: 'Refinement stalled', cancelled: 'Search stopped', no_valid_text: 'No valid paragraph' };
+      const reasons = { epsilon_reached: 'Tolerance confirmed', budget_exhausted: 'Budget reached', restarts_exhausted: 'Restarts exhausted', stalled: 'Local search stalled', cancelled: 'Search stopped', no_valid_text: 'No valid paragraph' };
       const reason = run.trace?.stop_reason;
-      $('progress-label').textContent = running ? count ? `${count} verified improvements · refining actual text` : 'Generating and checking clean drafts' : `${reasons[reason] || 'Search finished'} · ${count} verified improvements`;
+      const restarting = running && run.draft?.phase?.includes('coarse') && run.draft?.basin_id > 0;
+      const restarts = run.trace?.restarts;
+      const restartCount = Array.isArray(restarts) ? restarts.length : 0;
+      $('progress-label').textContent = running ? restarting ? `${count} verified improvements · trying a fresh generation` : count ? `${count} verified improvements · refining actual text` : 'Generating and checking clean drafts' : `${reasons[reason] || 'Search finished'} · ${count} verified improvements${restartCount ? ` · ${restartCount} ${restartCount === 1 ? 'restart' : 'restarts'}` : ''}`;
     }
     if (run.error) showRunError(run.error);
     renderOutput();
@@ -612,11 +634,14 @@
     updateControls(); updateElapsed();
     announce(`Generating ${state.requested} candidate ${state.requested === 1 ? 'paragraph' : 'paragraphs'} locally.`);
     try {
-      const body = { map_id: state.map.map_id, target: [...state.target], candidates: state.requested, seed: 42 };
+      const body = { map_id: state.map.map_id, target: [...state.target], candidates: state.requested, seed: freshSeed() };
+      $('detail-seed').textContent = String(body.seed);
       if (state.status?.generator?.guided === true) body.guidance_updates = Number($('guidance-updates').value);
       if (state.status?.generator?.refinement === true) {
         body.refinement_epsilon = Number($('refinement-epsilon').value);
         body.refinement_seconds = Number($('refinement-seconds').value);
+        body.refinement_restarts = Number($('refinement-restarts').value);
+        body.refinement_restart_candidates = Number($('refinement-restart-candidates').value);
         if ($('refinement-unlimited').checked) {
           delete body.refinement_seconds;
           body.refinement_unlimited = true;
@@ -768,6 +793,7 @@
   });
   $('save-paragraph').addEventListener('click', saveParagraph);
   $('refinement-unlimited').addEventListener('change', updateControls);
+  $('refinement-restarts').addEventListener('change', updateControls);
   $('show-saved').addEventListener('change', renderSavedPoints);
   $('cancel').addEventListener('click', cancel);
   $('close-source').addEventListener('click', () => { $('source-preview').hidden = true; });

@@ -35,6 +35,8 @@ class RunRequest(BaseModel):
     refinement_epsilon: float | None = Field(default=None, gt=0, le=1)
     refinement_seconds: float | None = Field(default=None, ge=5, le=600)
     refinement_unlimited: bool = False
+    refinement_restarts: int | None = Field(default=None, ge=0, le=32)
+    refinement_restart_candidates: int | None = Field(default=None, ge=1, le=16)
 
     @field_validator("target")
     @classmethod
@@ -68,6 +70,8 @@ class Run:
     refinement_epsilon: float | None = None
     refinement_seconds: float | None = None
     refinement_unlimited: bool = False
+    refinement_restarts: int | None = None
+    refinement_restart_candidates: int | None = None
     draft: dict | None = None
     draft_sequence: int = 0
     status: str = "running"
@@ -98,6 +102,8 @@ class Run:
                 "refinement_epsilon": self.refinement_epsilon,
                 "refinement_seconds": self.refinement_seconds,
                 "refinement_unlimited": self.refinement_unlimited,
+                "refinement_restarts": self.refinement_restarts,
+                "refinement_restart_candidates": self.refinement_restart_candidates,
                 "draft": self.draft, "draft_sequence": self.draft_sequence,
                 "distance_metric": "euclidean-unwhitened-pca",
             }
@@ -183,6 +189,7 @@ def create_app(*, bundle: Any = None, generator: Any = None,
                     "text": update["text"][:24000],
                     "step": count(update.get("step")), "num_steps": count(update.get("num_steps")),
                     "phase": str(update.get("phase", "diffusion"))[:120],
+                    "basin_id": count(update.get("basin_id")),
                     "terminal": update.get("terminal") is True,
                     "received_at": datetime.now(timezone.utc).isoformat(),
                 }
@@ -201,6 +208,10 @@ def create_app(*, bundle: Any = None, generator: Any = None,
                     options["refinement_seconds"] = run.refinement_seconds
                 if run.refinement_unlimited:
                     options["refinement_unlimited"] = True
+                if run.refinement_restarts is not None:
+                    options["refinement_restarts"] = run.refinement_restarts
+                if run.refinement_restart_candidates is not None:
+                    options["refinement_restart_candidates"] = run.refinement_restart_candidates
             result = strategy.run(
                 map_bundle, run.target, max_candidates=run.requested_candidates,
                 seed=run.seed, on_candidate=on_candidate, cancel_event=run.cancel_event,
@@ -248,8 +259,10 @@ def create_app(*, bundle: Any = None, generator: Any = None,
             raise HTTPException(503, metadata.get("error", "The local generator is unavailable."))
         if request.guidance_updates is not None and not metadata.get("guided"):
             raise HTTPException(422, "Encoder updates per pass apply only to guided diffusion.")
-        if (request.refinement_epsilon is not None or request.refinement_seconds is not None or request.refinement_unlimited) and not metadata.get("refinement"):
-            raise HTTPException(422, "Refinement tolerance and time budget require the canonical refinement backend.")
+        if (request.refinement_epsilon is not None or request.refinement_seconds is not None
+                or request.refinement_unlimited or request.refinement_restarts is not None
+                or request.refinement_restart_candidates is not None) and not metadata.get("refinement"):
+            raise HTTPException(422, "Refinement settings require the canonical refinement backend.")
         with state_lock:
             if state["closed"]:
                 raise HTTPException(503, "The server is shutting down.")
@@ -264,6 +277,8 @@ def create_app(*, bundle: Any = None, generator: Any = None,
                 refinement_epsilon=request.refinement_epsilon,
                 refinement_seconds=request.refinement_seconds,
                 refinement_unlimited=request.refinement_unlimited,
+                refinement_restarts=request.refinement_restarts,
+                refinement_restart_candidates=request.refinement_restart_candidates,
             )
             # Bound browser-session history; completed records remain on disk.
             while len(runs) >= 30:

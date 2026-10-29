@@ -125,6 +125,7 @@ def test_http_refinement_overrides_reach_controller_and_preserve_confirmed_best(
             "map_id": bundle.map_id, "target": [0, 0], "candidates": 2,
             "guidance_updates": 5, "refinement_epsilon": 0.001,
             "refinement_seconds": 5,
+            "refinement_restarts": 0, "refinement_restart_candidates": 4,
         })
         assert response.status_code == 202
         result = finished(client, response.json()["id"])
@@ -133,6 +134,9 @@ def test_http_refinement_overrides_reach_controller_and_preserve_confirmed_best(
     assert result["trace"]["epsilon_confirmed"] is True
     assert result["trace"]["epsilon"] == 0.001
     assert result["trace"]["config"]["max_seconds"] == 5
+    assert result["trace"]["config"]["max_restarts"] == 0
+    assert result["trace"]["config"]["restart_candidates"] == 4
+    assert result["refinement_restarts"] == 0
     assert runtime.inner_updates == [5, 5]
     assert [request.seed for request in runtime.requests] == [42, 43]
     assert result["best"] == result["trace"]["best_candidate"]

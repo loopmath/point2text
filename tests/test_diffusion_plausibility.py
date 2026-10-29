@@ -67,3 +67,15 @@ def test_deadline_or_cancellation_prevents_uncached_native_probe():
     assert not runtime.calls
     assert provider.trace["entries"][-1]["reason"] == "deadline_or_cancel"
     assert provider.trace["denoising_forwards"] == 0
+
+
+def test_expired_basin_does_not_poison_a_fresh_basins_identical_source_span():
+    runtime = FakeRuntime()
+    stopped = [True]
+    provider = NativeReplacementProvider(runtime, DiffusionRequest("Prompt"),
+                                         should_stop=lambda: stopped[0])
+    assert provider("A model estimates costs.", (8, 17)) == ()
+    stopped[0] = False
+    assert provider("A model estimates costs.", (8, 17)) == ("rates",)
+    assert len(runtime.calls) == 1
+    assert provider.trace["cache_hits"] == 0

@@ -38,8 +38,10 @@ search changes basins. A new basin can improve from a worse starting point even
 while the previous basin's paragraph remains the global winner. Local repair
 uses the current basin's text, not the global winner from a different basin.
 
-The global best and published history remain strictly improving, canonical,
-quality-approved results. Starting or improving a worse basin does not publish
+The global best and published history remain strictly improving, canonical
+results that pass the configured verification policy. The default browser
+applies mechanical text checks; a supplied quality callback adds its own screen.
+Neither establishes scientific correctness. Starting or improving a worse basin does not publish
 it as a new winner. All basins share the same verifier, cache, hard-query cap,
 confirmation reserve, quality policy, cancellation event, and global clock.
 Fresh coarse and repair requests use distinct seeds; future initial seeds are

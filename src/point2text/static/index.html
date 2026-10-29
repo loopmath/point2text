@@ -73,6 +73,11 @@
             <select id="refinement-epsilon"><option value="0.01" selected>0.01</option><option value="0.001">0.001</option><option value="0.0001">0.0001</option></select>
             <label for="refinement-seconds">Time budget</label>
             <select id="refinement-seconds"><option value="30">30 s</option><option value="60">60 s</option><option value="120" selected>120 s</option><option value="300">300 s</option></select>
+            <label for="refinement-restarts">Fresh restarts on stall</label>
+            <select id="refinement-restarts" aria-describedby="restart-help"><option value="0">Off</option><option value="1">1</option><option value="3" selected>3</option><option value="6">6</option><option value="12">12</option><option value="32">32</option></select>
+            <label for="refinement-restart-candidates">Candidates per restart</label>
+            <select id="refinement-restart-candidates"><option value="1">1</option><option value="2" selected>2</option><option value="4">4</option><option value="6">6</option><option value="8">8</option><option value="16">16</option></select>
+            <p id="restart-help">Try fresh generations when local edits stop improving. Keep the closest measured text; all attempts share the time and query budgets.</p>
             <label class="unlimited-option" for="refinement-unlimited"><input type="checkbox" id="refinement-unlimited" aria-describedby="unlimited-help"> No time limit</label>
             <p id="unlimited-help">The clock deadline is disabled; query/round limits, stalls, and Stop search still apply.</p>
             <p>Keeps verified improvements; a completed search may finish above tolerance.</p>
@@ -100,7 +105,7 @@
       </section>
     </div>
 
-    <footer class="page-footer"><span>A map is a view, not the whole meaning.</span><details id="runtime-details"><summary>Map & local model details <span aria-hidden="true">+</span></summary><dl><dt>Encoder</dt><dd id="detail-encoder">Preparing</dd><dt>Projection</dt><dd id="detail-projection">Principal component analysis · fixed coordinates</dd><dt>Generator</dt><dd id="detail-generator">Checking availability</dd><dt>Status</dt><dd id="detail-status">Connecting to the local worker</dd></dl></details></footer>
+    <footer class="page-footer"><span>A map is a view, not the whole meaning.</span><details id="runtime-details"><summary>Map & local model details <span aria-hidden="true">+</span></summary><dl><dt>Encoder</dt><dd id="detail-encoder">Preparing</dd><dt>Projection</dt><dd id="detail-projection">Principal component analysis · fixed coordinates</dd><dt>Generator</dt><dd id="detail-generator">Checking availability</dd><dt>Status</dt><dd id="detail-status">Connecting to the local worker</dd><dt>Search seed</dt><dd id="detail-seed">A fresh recorded seed per search</dd></dl></details></footer>
     <p class="sr-only" id="announcement" role="status" aria-live="polite"></p>
   </main>
 </body>
