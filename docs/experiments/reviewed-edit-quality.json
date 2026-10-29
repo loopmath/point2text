@@ -1,0 +1,359 @@
+{
+  "method": "Independent distance-blinded review of six source/candidate pairs, assessing the sources independently as well as candidate preservation. Written before any optimizer receipt or numerical result was opened.",
+  "reviewed_at_utc": "2026-10-29T20:18:11.658722+00:00",
+  "input_artifact": "reviewed-final-blind.json",
+  "input_sha256": "171b89252f880ed34622f4273318f282d573a855aa5c52fb201acfdaea9e65d6",
+  "blinding": {
+    "distances_seen": false,
+    "optimizer_statuses_seen": false,
+    "optimizer_receipts_opened": false,
+    "inputs_read": [
+      "reviewed-final-blind.json"
+    ],
+    "local_model_calls": 0,
+    "gpu_calls": 0,
+    "primary_source_browsing": true
+  },
+  "acceptance_criterion": "Require grammatical, clear and coherent prose, preserved scientific claims and qualifications, and plausible intrinsic content. Faithful reproduction of a scientifically overbroad or ambiguous source does not establish full quality approval. Minor style preferences alone do not disqualify a text.",
+  "cases": [
+    {
+      "id": "hidden-systems",
+      "topic": "Distributed systems",
+      "source": "Consensus algorithms in distributed databases ensure that multiple nodes agree on a single state transition despite unreliable network conditions or partial failures. These protocols typically utilize a leader-based approach where a quorum must acknowledge an entry before it is committed. If the leader fails, the system must initiate an election process to appoint a new coordinator without losing data. Maintaining linearizability requires strict management of log indices and term numbers to prevent conflicting updates from being finalized simultaneously across different physical hardware instances.",
+      "candidate": "Consensus algorithms in distributed databases ensure multiple nodes agree on a single state transition despite unreliable network conditions or partial failures. These protocols typically employ a leader-based approach where a quorum must acknowledge an entry before it is committed. If the leader fails, the system must initiate an election process to appoint a new coordinator without losing data. Maintaining linearizability requires strict management of log indices and term numbers to prevent conflicting updates from being finalized simultaneously across different physical hardware instances.",
+      "source_sha256": "58ee6955e6c5754a191eccf502a141c1094663cc0e57758999355da7dd9ae0d4",
+      "candidate_sha256": "28f56d5318dde604685b95a71e7cb88cd7a5ae415115f13310a9f60e031ccf32",
+      "decision": "uncertain",
+      "accepted": false,
+      "dimensions": {
+        "grammar": {
+          "decision": "accepted",
+          "assessment": "Removing that after ensure and replacing utilize with employ are grammatical."
+        },
+        "clarity": {
+          "decision": "uncertain",
+          "assessment": "The paragraph reads coherently as a Raft-like description, but its scope is not stated explicitly."
+        },
+        "coherence": {
+          "decision": "accepted",
+          "assessment": "The candidate preserves the explanatory progression of the source; no new disconnected clause or contradiction is introduced by the edits."
+        },
+        "technical_claim_preservation": {
+          "decision": "accepted",
+          "assessment": "The omitted complementizer that and utilize-to-employ substitution preserve the original claims and their strength; the scope problems are inherited."
+        },
+        "scientific_plausibility": {
+          "decision": "uncertain",
+          "assessment": "Log indices and term numbers are protocol mechanisms, not universal requirements of linearizability. The last sentence reads as a general necessity claim. Without losing data also needs a committed-data qualification. A narrow Raft-style interpretation is plausible, but the supplied text does not establish that scope."
+        },
+        "no_material_edit_regression": {
+          "decision": "accepted",
+          "assessment": "The transformations introduce no material grammatical, semantic, or scientific regression. Intrinsic source issues are assessed separately."
+        }
+      },
+      "concrete_defects": [
+        {
+          "kind": "inherited_scope_ambiguity",
+          "quote": "Maintaining linearizability requires strict management of log indices and term numbers",
+          "assessment": "Unclear whether this is specifically a Raft-like implementation requirement or a universal claim about linearizability. The latter reading is false; this needs scoping before approval.",
+          "severity": "blocks_unqualified_acceptance"
+        },
+        {
+          "kind": "inherited_qualification_gap",
+          "quote": "without losing data",
+          "assessment": "The paragraph should distinguish preservation of committed state from preservation of uncommitted proposals after leader failure.",
+          "severity": "needs_clarification"
+        }
+      ],
+      "minor_style_notes": [],
+      "primary_sources": [
+        {
+          "title": "Herlihy and Wing: Linearizability: A Correctness Condition for Concurrent Objects",
+          "url": "https://pdos.csail.mit.edu/6.5840/papers/p463-herlihy.pdf",
+          "supports": "Linearizability specifies legal histories and real-time ordering independently of a particular replicated-log representation."
+        },
+        {
+          "title": "Ongaro and Ousterhout: In Search of an Understandable Consensus Algorithm",
+          "url": "https://raft.github.io/raft.pdf",
+          "supports": "Log indices and terms are concrete Raft mechanisms. Committed-entry preservation differs from preservation of every uncommitted log entry."
+        }
+      ],
+      "source_intrinsic_status": "uncertain"
+    },
+    {
+      "id": "hidden-quantum",
+      "topic": "Quantum computing",
+      "source": "Federated learning enables the training of machine learning models across decentralized edge devices without exchanging raw data. Instead of centralizing information, local nodes perform gradient computations and send only model weight updates to a central server for aggregation. A robust evaluation of this architecture requires accounting for statistical heterogeneity across clients and the impact of communication overhead on convergence speed. Researchers must balance the trade-off between global model performance and the privacy risks associated with potential gradient attacks during the weight synchronization process.",
+      "candidate": "Federated learning enables the training of machine learning models across decentralized edge devices without exchanging raw data. Rather than centralizing information, local nodes perform gradient computations and send only model weight updates to a central server for aggregation. A robust evaluation of this architecture requires accounting for statistical heterogeneity across clients and the impact of overhead from communication on convergence speed. Researchers must balance the trade-off between global model performance and the privacy risks that are associated with potential gradient attacks during the weight synchronization process.",
+      "source_sha256": "4d1dc9df4c413b614e3b69b6254d2723ab14f8c9eea902a97da118e96e01f0c6",
+      "candidate_sha256": "dff2198c7859deb0369178770d4e0847f25575e0bdf36de8a268470256e706a1",
+      "decision": "accepted",
+      "accepted": true,
+      "dimensions": {
+        "grammar": {
+          "decision": "accepted",
+          "assessment": "Rather than, overhead from communication, and risks that are associated with are grammatical."
+        },
+        "clarity": {
+          "decision": "accepted",
+          "assessment": "The latter two substitutions are longer but remain understandable. Training, aggregation, heterogeneity, communication costs, and privacy risk remain distinct."
+        },
+        "coherence": {
+          "decision": "accepted",
+          "assessment": "The candidate preserves the explanatory progression of the source; no new disconnected clause or contradiction is introduced by the edits."
+        },
+        "technical_claim_preservation": {
+          "decision": "accepted",
+          "assessment": "All claims about local computation, raw-data exchange, aggregation, heterogeneity, communication overhead, convergence, performance, and privacy tradeoffs are retained."
+        },
+        "scientific_plausibility": {
+          "decision": "accepted",
+          "assessment": "The text plausibly describes a central-server federated-training architecture and appropriately retains gradient-attack privacy risk. It introduces no claim that weight updates guarantee privacy."
+        },
+        "no_material_edit_regression": {
+          "decision": "accepted",
+          "assessment": "The transformations introduce no material grammatical, semantic, or scientific regression. Intrinsic source issues are assessed separately."
+        }
+      },
+      "concrete_defects": [],
+      "minor_style_notes": [
+        "Communication overhead and risks associated with are more concise than their replacements; no material clarity loss identified."
+      ],
+      "primary_sources": [],
+      "source_intrinsic_status": "accepted",
+      "metadata_note": "The supplied topic label is Quantum computing, but both texts discuss federated learning. This is a metadata mismatch rather than a candidate-induced scientific change."
+    },
+    {
+      "id": "hidden-robotics",
+      "topic": "Robotics",
+      "source": "Simultaneous localization and mapping allows an autonomous agent to build a map of an unknown environment while tracking its location within it. This process relies on a feedback loop where sensor observations inform map updates, which subsequently refine position estimates. To prevent error divergence, systems often employ recursive filters to fuse noisy odometry with external data. Robust performance depends on the ability to recognize previously visited landmarks to correct accumulated drift, ensuring the global map remains consistent despite local uncertainties or perceptual noise.",
+      "candidate": "Simultaneous localization and mapping allows an autonomous agent to build a map of an unknown environment while tracking its location inside it. This process is reliant on a feedback loop where sensor observations inform map updates, which subsequently refine position estimates. To prevent error divergence, systems often employ recursive filters to fuse noisy odometry with external data. Robust performance is dependent upon the ability to recognise landmarks visited previously to correct accumulated drift, ensuring the global map remains consistent in spite of local uncertainties or perceptual noise.",
+      "source_sha256": "1a09dd5454ba3fddd1c12f0df5ddaddf7bd1b9df284d90c35b718237a9b0370a",
+      "candidate_sha256": "f170af7188071d28255633283269a372b8c81d54d54550c8776f0d1fd209e414",
+      "decision": "rejected",
+      "accepted": false,
+      "dimensions": {
+        "grammar": {
+          "decision": "accepted",
+          "assessment": "The candidate remains grammatical; inside it, is reliant on, is dependent upon, and in spite of are valid constructions."
+        },
+        "clarity": {
+          "decision": "accepted",
+          "assessment": "The candidate is wordier, but the feedback, estimation, uncertainty, and drift narrative remains clear."
+        },
+        "coherence": {
+          "decision": "accepted",
+          "assessment": "The candidate preserves the explanatory progression of the source; no new disconnected clause or contradiction is introduced by the edits."
+        },
+        "technical_claim_preservation": {
+          "decision": "accepted",
+          "assessment": "The candidate preserves all source mechanisms and qualifications, including often for recursive filters. It also preserves the overbroad necessity claim in the final sentence."
+        },
+        "scientific_plausibility": {
+          "decision": "rejected",
+          "assessment": "Recognizing previously visited landmarks is useful for loop closure, but it is not a universal condition for robust SLAM. The final sentence states that dependence without limiting the architecture or environment. A published stereo SLAM counterexample operates without loop closure."
+        },
+        "no_material_edit_regression": {
+          "decision": "accepted",
+          "assessment": "The transformations introduce no material grammatical, semantic, or scientific regression. Intrinsic source issues are assessed separately."
+        }
+      },
+      "concrete_defects": [
+        {
+          "kind": "inherited_scientific_overstatement",
+          "quote": "Robust performance is dependent upon the ability to recognise landmarks visited previously",
+          "assessment": "The text treats loop/place recognition as necessary for robust SLAM in general. Effective SLAM systems without loop closure provide a counterexample.",
+          "severity": "disqualifying_as_written"
+        }
+      ],
+      "minor_style_notes": [
+        "Is reliant on and is dependent upon are less concise than relies on and depends on."
+      ],
+      "primary_sources": [
+        {
+          "title": "Bellavia et al.: Robust Selective Stereo SLAM without Loop Closure and Bundle Adjustment",
+          "url": "https://flore.unifi.it/handle/2158/900173",
+          "supports": "The authors report effective stereo SLAM without loop closure, contradicting a universal requirement for recognizing previously visited landmarks."
+        }
+      ],
+      "source_intrinsic_status": "rejected"
+    },
+    {
+      "id": "hidden-neuroscience",
+      "topic": "Neuroscience",
+      "source": "Synaptic plasticity involves the strengthening or weakening of connections between neurons based on recent patterns of activity. This mechanism often relies on the trafficking of neurotransmitter receptors to the postsynaptic membrane, which alters the sensitivity of the cell. Long-term potentiation represents a persistent increase in synaptic efficiency that can facilitate information storage within circuits. To accurately quantify these changes, researchers must control for baseline firing rate variations and distinguish between functional modifications and transient fluctuations in synaptic weight during the experimental protocol.",
+      "candidate": "Synaptic plasticity involves the strengthening or weakening of connections between neurons based on recent patterns of activity. This mechanism often relies on trafficking neurotransmitter receptors to the postsynaptic membrane, which alters the sensitivity of the cell. Long-term potentiation represents a persistent increase in synaptic efficiency that can facilitate information storage within circuits. In order to accurately quantify these changes, researchers must control for baseline firing rate variations and make a distinction between functional modifications and transient fluctuations in synaptic weight during the experimental protocol.",
+      "source_sha256": "aeea34f92eeac9008c9303163c1d2acbe89c452a77a6c127b571029685eb0dc9",
+      "candidate_sha256": "28bfeb0a05f541cbe2d581bc54dab552850fc50074d1176cd8e907965bed6988",
+      "decision": "uncertain",
+      "accepted": false,
+      "dimensions": {
+        "grammar": {
+          "decision": "accepted",
+          "assessment": "Trafficking neurotransmitter receptors, in order to, and make a distinction between are grammatical."
+        },
+        "clarity": {
+          "decision": "uncertain",
+          "assessment": "The last sentence does not define the timescale or measurement criterion that separates its two categories."
+        },
+        "coherence": {
+          "decision": "accepted",
+          "assessment": "The candidate preserves the explanatory progression of the source; no new disconnected clause or contradiction is introduced by the edits."
+        },
+        "technical_claim_preservation": {
+          "decision": "accepted",
+          "assessment": "The candidate preserves the source claims about activity, receptor trafficking, LTP, baseline firing rate, and the final contrast. The ambiguity is inherited rather than introduced by the substitutions."
+        },
+        "scientific_plausibility": {
+          "decision": "uncertain",
+          "assessment": "Functional modification and transient change in synaptic weight are overlapping categories: short-term synaptic plasticity can be transient and functional. The paragraph may intend persistent LTP versus measurement noise, but neither that restriction nor a noise criterion is stated."
+        },
+        "no_material_edit_regression": {
+          "decision": "accepted",
+          "assessment": "The transformations introduce no material grammatical, semantic, or scientific regression. Intrinsic source issues are assessed separately."
+        }
+      },
+      "concrete_defects": [
+        {
+          "kind": "inherited_conceptual_ambiguity",
+          "quote": "make a distinction between functional modifications and transient fluctuations in synaptic weight",
+          "assessment": "Transience does not establish a lack of function. A defined persistence/noise criterion or restriction to long-term plasticity is needed to interpret this contrast confidently.",
+          "severity": "blocks_unqualified_acceptance"
+        }
+      ],
+      "minor_style_notes": [
+        "In order to and make a distinction between are wordier than the source phrases."
+      ],
+      "primary_sources": [
+        {
+          "title": "Taschenberger et al.: Superpriming of synaptic vesicles as a common basis for intersynapse variability and modulation of synaptic strength",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4978258/",
+          "supports": "Short-term synaptic plasticity has functional roles including temporal filtering and gain control. Transience alone does not distinguish functional modification from nonfunctional fluctuation.",
+          "access_note": "Primary research abstract and significance text were available in search output; direct page opening encountered a browser check."
+        }
+      ],
+      "source_intrinsic_status": "uncertain"
+    },
+    {
+      "id": "hidden-materials",
+      "topic": "Materials science",
+      "source": "Phase transitions in solids involve the structural reorganization of atoms in response to changes in temperature or pressure. This process is driven by the competition between internal energy and entropy, where the system seeks to minimize Gibbs free energy. The kinetics of these transitions depend on the nucleation and growth of the new phase within the parent matrix. By analyzing diffraction patterns and thermal expansion during the transformation, researchers can determine how specific structural symmetries influence the stability and mechanical properties of the resulting material.",
+      "candidate": "Phase transitions in solids involve the structural reorganization of atoms in response to changes in temperature or pressure. This process is driven by the competition between internal energy and entropy, where the system seeks to minimise Gibbs free energy. The kinetics of these transitions depend on the nucleation and growth of the new phase within the parent matrix. By analysing diffraction patterns and thermal expansion during the transformation, researchers can determine how specific structural symmetries influence the stability and mechanical properties of the resulting material.",
+      "source_sha256": "9795eaafe94522fb5888e40abce2209e610fa270d4712ed77b7098a31b2b07c3",
+      "candidate_sha256": "3ae1ac7705296daff89a690e435fe01d9e10dcb4b966c0bd680e80d3ef9926dc",
+      "decision": "rejected",
+      "accepted": false,
+      "dimensions": {
+        "grammar": {
+          "decision": "accepted",
+          "assessment": "Minimise and analysing are valid spelling variants; syntax is unchanged."
+        },
+        "clarity": {
+          "decision": "accepted",
+          "assessment": "The prose is readable, but it gives one transformation mechanism the scope of solid-state phase transitions generally."
+        },
+        "coherence": {
+          "decision": "accepted",
+          "assessment": "The candidate preserves the explanatory progression of the source; no new disconnected clause or contradiction is introduced by the edits."
+        },
+        "technical_claim_preservation": {
+          "decision": "accepted",
+          "assessment": "Only spelling changes occur. Every scientific claim, including the inherited overgeneralization, is retained."
+        },
+        "scientific_plausibility": {
+          "decision": "rejected",
+          "assessment": "Nucleation and growth describe an important class of transformations but not all solid-state phase changes; spinodal decomposition is a concrete counterexample. Gibbs-free-energy minimization also assumes an equilibrium setting with specified thermodynamic constraints. The text needs a restricted transformation class rather than a universal-sounding account."
+        },
+        "no_material_edit_regression": {
+          "decision": "accepted",
+          "assessment": "The transformations introduce no material grammatical, semantic, or scientific regression. Intrinsic source issues are assessed separately."
+        }
+      },
+      "concrete_defects": [
+        {
+          "kind": "inherited_scientific_overgeneralization",
+          "quote": "The kinetics of these transitions depend on the nucleation and growth of the new phase within the parent matrix.",
+          "assessment": "As an account of phase transitions in solids generally, this excludes spinodal and other non-nucleation mechanisms. The text does not restrict itself to nucleation-and-growth transformations.",
+          "severity": "disqualifying_as_written"
+        }
+      ],
+      "minor_style_notes": [],
+      "primary_sources": [
+        {
+          "title": "Sarkar et al.: Nucleation-growth versus spinodal decomposition in Fe-Cr alloys: an experimental verification by atom probe tomography and small angle neutron scattering",
+          "url": "https://arxiv.org/abs/2111.11340",
+          "supports": "Experiments distinguish nucleation-growth and spinodal modes of solid-state phase separation; nucleation-growth is not a universal mechanism."
+        }
+      ],
+      "source_intrinsic_status": "rejected"
+    },
+    {
+      "id": "hidden-astronomy",
+      "topic": "Astronomy",
+      "source": "Spectroscopic analysis relies on the interaction of light with matter to reveal physical properties of celestial bodies. By measuring the shifts and intensities of spectral lines, researchers can determine chemical abundances, temperatures, and radial velocities. These measurements require precise modeling of atomic transitions to distinguish between physical signals and instrumental noise. Integrating this data is essential for characterizing the environments of distant galaxies and individual stars, providing a quantitative framework to test theoretical predictions regarding galactic evolution across the universe.",
+      "candidate": "Spectroscopic analysis is reliant on the interaction of light with matter to reveal physical properties of celestial bodies. Through measuring the shifts and intensities of spectral lines, researchers can determine chemical abundances, temperatures, and radial velocities. These measurements require precise modeling of atomic transitions to distinguish between physical signals and instrumental noise. Integrating this data is essential for characterizing the environments of distant galaxies and individual stars, providing a quantitative framework to test theoretical predictions regarding galactic evolution across the universe.",
+      "source_sha256": "d88e3ab2ad1d0d0c312f129663c27702288eb9a4f0bd3a434e996819a7569450",
+      "candidate_sha256": "3526958e1bba9d705bf7857b52eeefe147aa6c5eb41caef277f10a0dbaed2aae",
+      "decision": "accepted",
+      "accepted": true,
+      "dimensions": {
+        "grammar": {
+          "decision": "accepted",
+          "assessment": "Is reliant on and through measuring are grammatical. The mass-noun construction this data is acceptable."
+        },
+        "clarity": {
+          "decision": "accepted",
+          "assessment": "The replacements are slightly less concise, but the spectroscopy-to-parameter-estimation explanation remains understandable."
+        },
+        "coherence": {
+          "decision": "accepted",
+          "assessment": "The candidate preserves the explanatory progression of the source; no new disconnected clause or contradiction is introduced by the edits."
+        },
+        "technical_claim_preservation": {
+          "decision": "accepted",
+          "assessment": "The light-matter interaction, spectral measurements, physical properties, atomic modeling, noise distinction, and galaxy/star applications are unchanged."
+        },
+        "scientific_plausibility": {
+          "decision": "accepted",
+          "assessment": "Using spectral-line shifts and intensities with physical models to infer abundances, temperatures, and radial velocities is plausible. The text retains modeling requirements and adds no unsupported numeric measurements or direct-causality claim."
+        },
+        "no_material_edit_regression": {
+          "decision": "accepted",
+          "assessment": "The transformations introduce no material grammatical, semantic, or scientific regression. Intrinsic source issues are assessed separately."
+        }
+      },
+      "concrete_defects": [],
+      "minor_style_notes": [
+        "Relies on and by measuring are more idiomatic and concise than the candidate replacements, without a material quality regression here."
+      ],
+      "primary_sources": [],
+      "source_intrinsic_status": "accepted"
+    }
+  ],
+  "summary": {
+    "reviewed": 6,
+    "accepted": 2,
+    "rejected": 2,
+    "uncertain": 2,
+    "accepted_ids": [
+      "hidden-quantum",
+      "hidden-astronomy"
+    ],
+    "rejected_ids": [
+      "hidden-robotics",
+      "hidden-materials"
+    ],
+    "uncertain_ids": [
+      "hidden-systems",
+      "hidden-neuroscience"
+    ],
+    "claim_preservation_accepted": 6,
+    "candidate_introduced_material_regressions_identified": 0
+  },
+  "limits": [
+    "These are decisions on six supplied pairs by one reviewer, not an estimated general error rate or a scientific truth certificate.",
+    "Uncertain cases are not approved for unqualified quality-admissible research claims until the stated scope or interpretation is resolved.",
+    "No distance, epsilon achievement, optimizer status, or numerical improvement is examined or endorsed by this review.",
+    "Primary papers were consulted only to resolve specific scientific scope issues; no exhaustive factual audit was performed."
+  ]
+}
