@@ -11,11 +11,15 @@ from __future__ import annotations
 
 import importlib
 from importlib.metadata import PackageNotFoundError, version
+from numbers import Integral
 from threading import Event, RLock
 from time import perf_counter
 from typing import Any
 
-from .contracts import DiffusionRequest, DiffusionResult, DiffusionStep, GuidanceHook
+from .contracts import (
+    DiffusionDraft, DiffusionRequest, DiffusionResult, DiffusionStep,
+    DraftObserver, GuidanceHook,
+)
 
 
 DEFAULT_MODEL_ID = "mlx-community/diffusiongemma-26B-A4B-it-4bit"
@@ -130,12 +134,116 @@ class MLXDiffusionRuntime:
         *,
         hook: GuidanceHook | None = None,
         cancel_event: Event | None = None,
+        observer: DraftObserver | None = None,
+        observe_every: int = 3,
     ) -> DiffusionResult:
         """Generate real text; cancellation returns only a completed canvas.
 
         An interrupted denoising canvas is not presented as completed text.
         The trace always records cancellation, passes and native hook calls.
         """
+        return self._run(
+            request, hook=hook, cancel_event=cancel_event, observer=observer,
+            observe_every=observe_every,
+        )
+
+    @staticmethod
+    def _edit_inputs(initial_token_ids: Any, edit_mask: Any) -> tuple[list[int], list[bool]]:
+        def row(value: Any, name: str) -> list[Any]:
+            try:
+                value = value.tolist() if hasattr(value, "tolist") else list(value)
+            except TypeError as exc:
+                raise ValueError(f"{name} must be a token row") from exc
+            if value and isinstance(value[0], (list, tuple)):
+                if len(value) != 1:
+                    raise ValueError(f"{name} must have shape [positions] or [1, positions]")
+                value = list(value[0])
+            return value
+
+        ids, editable = row(initial_token_ids, "initial_token_ids"), row(edit_mask, "edit_mask")
+        if not 1 <= len(ids) <= 256:
+            raise ValueError("repair requires 1–256 initial token IDs")
+        if len(editable) != len(ids) or any(type(value) is not bool for value in editable):
+            raise ValueError("edit_mask must contain one boolean per initial token")
+        if any(isinstance(value, bool) or not isinstance(value, Integral) or value < 0 for value in ids):
+            raise ValueError("initial_token_ids must contain nonnegative integer IDs")
+        return [int(value) for value in ids], editable
+
+    def refine(
+        self, request: DiffusionRequest, initial_token_ids: Any, edit_mask: Any,
+        *, hook: GuidanceHook | None = None, cancel_event: Event | None = None,
+        observer: DraftObserver | None = None, observe_every: int = 3,
+    ) -> DiffusionResult:
+        """Uniformly corrupt selected positions, then repair a fixed-length canvas.
+
+        Protected IDs remain bit-exact. The canvas length is the supplied ID
+        count (1–256), rather than padding/truncating it to request.max_tokens.
+        Every repair owns a fresh prompt cache and self-conditioning state.
+        """
+        ids, editable = self._edit_inputs(initial_token_ids, edit_mask)
+        return self._run(
+            request, hook=hook, cancel_event=cancel_event, observer=observer,
+            observe_every=observe_every, initial_token_ids=ids, edit_mask=editable,
+        )
+
+    def refine_text(
+        self, request: DiffusionRequest, text: str, edit_span: tuple[int, int],
+        *, hook: GuidanceHook | None = None, cancel_event: Event | None = None,
+        observer: DraftObserver | None = None, observe_every: int = 3,
+    ) -> DiffusionResult:
+        """Repair tokens overlapping a Unicode character span [start, end).
+
+        Token boundaries can expand the selected span; trace records the actual
+        expanded span. Text must round-trip exactly, so normalization outside
+        the chosen span is never silently accepted.
+        """
+        if not isinstance(text, str) or not text:
+            raise ValueError("text must be a nonempty string")
+        if (not isinstance(edit_span, (tuple, list)) or len(edit_span) != 2
+                or any(isinstance(value, bool) or not isinstance(value, Integral) for value in edit_span)):
+            raise ValueError("edit_span must contain two integer character offsets")
+        start, end = map(int, edit_span)
+        if not 0 <= start <= end <= len(text):
+            raise ValueError("edit_span must satisfy 0 <= start <= end <= len(text)")
+        if cancel_event is not None and cancel_event.is_set():
+            return self._cancelled_result(perf_counter())
+        tokenizer = self.tokenizer
+        try:
+            encoded = tokenizer(text, add_special_tokens=False, return_offsets_mapping=True, truncation=False)
+        except (NotImplementedError, TypeError) as exc:
+            raise ValueError("refine_text requires tokenizer character-offset mapping") from exc
+        ids = encoded["input_ids"]
+        offsets = encoded["offset_mapping"]
+        if len(offsets) != len(ids) or any(
+            len(offset) != 2 or not 0 <= offset[0] <= offset[1] <= len(text)
+            for offset in offsets
+        ):
+            raise ValueError("tokenizer returned invalid character offsets")
+        if tokenizer.decode(ids, skip_special_tokens=True) != text:
+            raise ValueError("text does not round-trip exactly through the generator tokenizer")
+        editable = [start < end and b > a and a < end and b > start for a, b in offsets]
+        selected_offsets = [offset for offset, edit in zip(offsets, editable) if edit]
+        if start < end and not selected_offsets:
+            raise ValueError("edit_span overlaps no generator token")
+        result = self.refine(
+            request, ids, editable, hook=hook, cancel_event=cancel_event,
+            observer=observer, observe_every=observe_every,
+        )
+        result.trace["edit_span"] = [start, end]
+        result.trace["expanded_edit_span"] = (
+            [min(a for a, _ in selected_offsets), max(b for _, b in selected_offsets)]
+            if selected_offsets else [start, end]
+        )
+        return result
+
+    def _run(
+        self, request: DiffusionRequest, *, hook: GuidanceHook | None,
+        cancel_event: Event | None, observer: DraftObserver | None,
+        observe_every: int, initial_token_ids: list[int] | None = None,
+        edit_mask: list[bool] | None = None,
+    ) -> DiffusionResult:
+        if isinstance(observe_every, bool) or not isinstance(observe_every, int) or observe_every < 1:
+            raise ValueError("observe_every must be a positive integer")
         if not isinstance(request.prompt, str) or not request.prompt.strip():
             raise ValueError("prompt must be a nonempty string")
         if not 1 <= request.max_tokens <= 256:
@@ -154,11 +262,12 @@ class MLXDiffusionRuntime:
 
             native = importlib.import_module("mlx_vlm.generate.diffusion")
             model = self._model
-            tokenizer = self.tokenizer
             context_ids = self._prepare_prompt(request.prompt)
             if context_ids.ndim != 2 or context_ids.shape[0] != 1:
                 raise ValueError("Only one text prompt at a time is supported")
-            canvas_length = min(request.max_tokens, int(model.config.canvas_length))
+            canvas_length = len(initial_token_ids) if initial_token_ids is not None else min(request.max_tokens, int(model.config.canvas_length))
+            if canvas_length > int(model.config.canvas_length):
+                raise ValueError("initial canvas exceeds the model canvas length")
             mx.random.seed(request.seed)
             mx.reset_peak_memory()
             try:
@@ -166,6 +275,8 @@ class MLXDiffusionRuntime:
                     result = self._generate_canvas(
                         request, context_ids, canvas_length, native, hook,
                         cancel_event, started,
+                        observer=observer, observe_every=observe_every,
+                        initial_token_ids=initial_token_ids, edit_mask=edit_mask,
                     )
                 result.trace["peak_memory_bytes"] = int(mx.get_peak_memory())
                 return result
@@ -203,10 +314,29 @@ class MLXDiffusionRuntime:
                     return ids[len(prefix):], channel
         return ids, None
 
+    def _decode_canvas(self, canvas_ids: list[int]) -> tuple[str, list[int], dict[str, Any]]:
+        """One cleanup path for intermediate drafts and final results."""
+        config = self._model.config.generation_config or {}
+        eos = config.get("eos_token_id", getattr(self.tokenizer, "eos_token_id", None))
+        eos_ids = set(eos if isinstance(eos, (tuple, list)) else [eos])
+        ids = list(canvas_ids)
+        for index, token_id in enumerate(ids):
+            if token_id in eos_ids:
+                ids = ids[:index]
+                break
+        raw_token_count = len(ids)
+        ids, channel_header = self._strip_channel_header(ids)
+        return self.tokenizer.decode(ids, skip_special_tokens=True).strip(), ids, {
+            "raw_token_count": raw_token_count, "channel_header": channel_header,
+        }
+
     def _generate_canvas(
         self, request: DiffusionRequest, context_ids: Any, canvas_length: int,
         native: Any, hook: GuidanceHook | None, cancel_event: Event | None,
         started: float,
+        *, observer: DraftObserver | None = None, observe_every: int = 3,
+        initial_token_ids: list[int] | None = None,
+        edit_mask: list[bool] | None = None,
     ) -> DiffusionResult:
         import mlx.core as mx
 
@@ -222,6 +352,62 @@ class MLXDiffusionRuntime:
         sampler_config = config.get("sampler_config") or {}
         entropy_bound = float(sampler_config.get("entropy_bound", 0.1))
         vocab_size = int(model.config.text_config.vocab_size)
+        repairing = initial_token_ids is not None
+        if repairing:
+            initial_token_ids, edit_mask = self._edit_inputs(initial_token_ids, edit_mask)
+            if len(initial_token_ids) != canvas_length or max(initial_token_ids) >= vocab_size:
+                raise ValueError("initial token IDs must match canvas length and model vocabulary")
+        persistent_mask = mx.array([edit_mask], dtype=mx.bool_) if repairing else None
+        pinned = mx.array([initial_token_ids], dtype=context_ids.dtype) if repairing else None
+        editable_indices = [index for index, edit in enumerate(edit_mask or []) if edit]
+        has_protected = repairing and len(editable_indices) < canvas_length
+        index_array = mx.array([editable_indices], dtype=mx.int32) if has_protected else None
+        control_ids = set(getattr(self.tokenizer, "all_special_ids", []) or [])
+        eos = config.get("eos_token_id", getattr(self.tokenizer, "eos_token_id", None))
+        control_ids.update(eos if isinstance(eos, (tuple, list)) else [eos])
+        control_ids = sorted(value for value in control_ids if isinstance(value, Integral) and 0 <= value < vocab_size)
+        control_indices = mx.broadcast_to(mx.array(control_ids)[None, None, :], (1, canvas_length, len(control_ids))) if has_protected and control_ids else None
+
+        def constrain(logits: Any) -> Any:
+            if not has_protected:
+                return logits
+            if control_indices is not None:
+                # A repair cannot introduce an early EOS/control marker that
+                # would hide protected suffix text during ordinary decoding.
+                values = mx.take_along_axis(logits, control_indices, axis=-1)
+                values = mx.where(pinned[..., None] == control_indices, values, -10000.0)
+                logits = mx.put_along_axis(logits, control_indices, values, axis=-1)
+            pinned_logits = mx.where(mx.arange(vocab_size) == pinned[..., None], 0.0, -10000.0).astype(logits.dtype)
+            return mx.where(persistent_mask[..., None], logits, pinned_logits)
+        observer_calls = 0
+        terminal_observed = False
+
+        def observe(canvas: Any, step: int, terminal: bool) -> bool:
+            nonlocal observer_calls, terminal_observed
+            if observer is None:
+                return False
+            full_ids = [int(token_id) for token_id in canvas[0].tolist()]
+            text, clean_ids, _ = self._decode_canvas(full_ids)
+            observer_calls += 1
+            terminal_observed = terminal
+            return bool(observer(DiffusionDraft(
+                text=text, token_ids=clean_ids, canvas_token_ids=full_ids,
+                step=step, num_steps=request.steps, terminal=terminal,
+            )))
+
+        if repairing and not editable_indices:
+            text, ids, metadata = self._decode_canvas(initial_token_ids)
+            observe(pinned, 0, True)
+            return DiffusionResult(text, ids, {
+                "runtime": self.identity, "model_revision": self.revision,
+                "cancelled": False, "passes": 0, "hook_calls": 0,
+                "hook_count": 0, "observer_calls": observer_calls,
+                "stopping_reason": "no_editable_positions", "refinement": True,
+                "editable_positions": 0, "protected_positions": canvas_length,
+                "canvas_length": canvas_length, "canvas_token_ids": list(initial_token_ids),
+                "elapsed_seconds": perf_counter() - started, "step_trace": [],
+                **metadata,
+            })
         prefill_started = perf_counter()
         cache = model.make_cache()
         # No padding: one text-only prompt, native dynamic hybrid KV cache.
@@ -231,7 +417,9 @@ class MLXDiffusionRuntime:
         current_canvas = native._diffusion_initial_canvas(
             None, 0, 1, canvas_length, vocab_size, context_ids.dtype
         )
-        revealed = mx.zeros(current_canvas.shape, dtype=mx.bool_)
+        if has_protected:
+            current_canvas = mx.where(persistent_mask, current_canvas, pinned)
+        revealed = ~persistent_mask if has_protected else mx.zeros(current_canvas.shape, dtype=mx.bool_)
         draft_canvas = current_canvas
         self_conditioning = None
         self_conditioning_context = model.diffusion_prepare_self_conditioning()
@@ -250,6 +438,7 @@ class MLXDiffusionRuntime:
                     started, passes=index, hook_calls=hook_calls,
                     hook_count=hook_calls, step_trace=step_trace,
                     prefill_seconds=prefill_seconds,
+                    observer_calls=observer_calls, refinement=repairing,
                 )
             pass_started = perf_counter()
             logits = decoder_without_sc(current_canvas) if self_conditioning is None else decoder_with_sc(current_canvas, self_conditioning)
@@ -258,6 +447,12 @@ class MLXDiffusionRuntime:
                 logits = logits / temperature
             logits = mx.stop_gradient(logits)
             editable = mx.ones(current_canvas.shape, dtype=mx.bool_) if self.sampler == "entropy-bound" else ~revealed
+            if repairing:
+                editable = editable & persistent_mask
+            if has_protected:
+                # Finite one-hot logits keep frozen IDs in self-conditioning;
+                # explicit ID clamps below also protect against hostile hooks.
+                logits = constrain(logits)
             delta = 0.0
             if hook is not None:
                 guided = hook(DiffusionStep(
@@ -269,22 +464,31 @@ class MLXDiffusionRuntime:
                     raise ValueError("guidance hook must return an MLX array with the original logits shape")
                 if not bool(mx.all(mx.isfinite(guided)).item()):
                     raise ValueError("guidance hook returned nonfinite logits")
+                if has_protected:
+                    guided = constrain(guided)
                 delta = float(mx.max(mx.abs(guided.astype(mx.float32) - logits.astype(mx.float32))).item())
                 logits = mx.stop_gradient(guided)
                 hook_calls += 1
 
             # Every decision below consumes the SAME post-hook logits.
             argmax_canvas = mx.argmax(logits, axis=-1).astype(context_ids.dtype)
+            if has_protected:
+                argmax_canvas = mx.where(persistent_mask, argmax_canvas, pinned)
             if remaining == 1:
                 mx.eval(argmax_canvas)
-                step_trace.append({"step": index, "hook_max_abs_delta": delta, "accepted": canvas_length, "elapsed_seconds": perf_counter() - pass_started})
+                step_trace.append({"step": index, "hook_max_abs_delta": delta, "accepted": len(editable_indices) if repairing else canvas_length, "elapsed_seconds": perf_counter() - pass_started})
                 break
             sampled = argmax_canvas if request.temperature <= 0 else native._diffusion_sample_canvas(logits, context_ids.dtype, request.temperature)
             next_sc = None
             if self.sampler == "entropy-bound":
                 entropy = native._diffusion_token_entropy(logits)
                 next_sc = model.diffusion_self_conditioning(logits, self_conditioning_context)
-                acceptance = native._diffusion_entropy_transfer_mask(entropy, entropy_bound)
+                if has_protected:
+                    editable_entropy = mx.take_along_axis(entropy, index_array, axis=-1)
+                    selected = native._diffusion_entropy_transfer_mask(editable_entropy, entropy_bound)
+                    acceptance = mx.put_along_axis(mx.zeros_like(revealed), index_array, selected, axis=-1)
+                else:
+                    acceptance = native._diffusion_entropy_transfer_mask(entropy, entropy_bound)
                 accepted = mx.where(acceptance, sampled, current_canvas)
                 current_canvas = mx.where(
                     acceptance, accepted,
@@ -304,29 +508,38 @@ class MLXDiffusionRuntime:
                 )
                 revealed = revealed | acceptance
                 draft_canvas = mx.where(acceptance, accepted, draft_canvas)
+            if has_protected:
+                current_canvas = mx.where(persistent_mask, current_canvas, pinned)
+                draft_canvas = mx.where(persistent_mask, draft_canvas, pinned)
             mx.eval(current_canvas, argmax_canvas, revealed)
             step_trace.append({"step": index, "hook_max_abs_delta": delta, "accepted": int(mx.sum(acceptance).item()), "elapsed_seconds": perf_counter() - pass_started})
-            if self.sampler == "confidence-threshold" and bool(mx.all(revealed).item()):
+            complete = self.sampler == "confidence-threshold" and bool(mx.all(revealed).item())
+            if complete:
                 stopping_reason = "all_confident"
-                break
-            if native._diffusion_stable_and_confident(argmax_canvas, logits, history, stopping):
+            stable_ids, stable_logits = argmax_canvas, logits
+            if has_protected:
+                stable_ids = mx.take(argmax_canvas, index_array[0], axis=1)
+                stable_logits = mx.take(logits, index_array[0], axis=1)
+            stable = False if complete else native._diffusion_stable_and_confident(stable_ids, stable_logits, history, stopping)
+            if stable:
                 stopping_reason = "stable_and_confident"
+            natural_stop = complete or stable
+            if observer is not None and (natural_stop or (index + 1) % observe_every == 0):
+                if observe(argmax_canvas, index, natural_stop):
+                    if not natural_stop:
+                        stopping_reason = "observer_requested"
+                    break
+            if natural_stop:
                 break
             if next_sc is None:
                 next_sc = model.diffusion_self_conditioning(logits, self_conditioning_context)
             self_conditioning = next_sc
 
         mx.eval(argmax_canvas)
-        ids = [int(token_id) for token_id in argmax_canvas[0].tolist()]
-        eos = config.get("eos_token_id", getattr(self.tokenizer, "eos_token_id", None))
-        eos_ids = set(eos if isinstance(eos, (tuple, list)) else [eos])
-        for index, token_id in enumerate(ids):
-            if token_id in eos_ids:
-                ids = ids[:index]
-                break
-        raw_token_count = len(ids)
-        ids, channel_header = self._strip_channel_header(ids)
-        text = self.tokenizer.decode(ids, skip_special_tokens=True).strip()
+        canvas_ids = [int(token_id) for token_id in argmax_canvas[0].tolist()]
+        if observer is not None and not terminal_observed:
+            observe(argmax_canvas, len(step_trace) - 1, True)
+        text, ids, metadata = self._decode_canvas(canvas_ids)
         return DiffusionResult(text, ids, {
             "runtime": self.identity,
             "model_id": self.model_id,
@@ -338,12 +551,16 @@ class MLXDiffusionRuntime:
             "seed": request.seed,
             "canvas_length": canvas_length,
             "context_tokens": int(context_ids.size),
-            "raw_token_count": raw_token_count,
-            "channel_header": channel_header,
+            **metadata,
             "requested_steps": request.steps,
             "passes": len(step_trace),
             "hook_calls": hook_calls,
             "hook_count": hook_calls,
+            "observer_calls": observer_calls,
+            "refinement": repairing,
+            "editable_positions": len(editable_indices) if repairing else canvas_length,
+            "protected_positions": canvas_length - len(editable_indices) if repairing else 0,
+            "canvas_token_ids": canvas_ids,
             "stopping_reason": stopping_reason,
             "prefill_seconds": prefill_seconds,
             "elapsed_seconds": perf_counter() - started,
