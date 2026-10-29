@@ -66,7 +66,8 @@ def reward():
             assert key == 0
             return SimpleNamespace(auto_model=body)
 
-    encoder = SimpleNamespace(identity="tiny-frozen-encoder", model=TinySentenceModel())
+    encoder = SimpleNamespace(identity="tiny-frozen-encoder", model=TinySentenceModel(),
+                              gradient_capability=lambda: {"supported": True, "normalize": True})
     bundle = SimpleNamespace(encoder=encoder, mean=np.zeros(8),
                              components=np.eye(8)[:2], map_id="tiny-map")
     return TorchEmbeddingReward(encoder, bundle)
@@ -153,6 +154,14 @@ def test_shape_budget_and_identity_errors_are_clear(reward):
     logits, ids, current, editable = proposal()
     with pytest.raises(ValueError, match="temperature"):
         reward.loss_and_gradient(logits, ids, current, editable, TinyTokenizer(), (0, 0), temperature=0)
+
+
+def test_unsupported_adapter_is_rejected_before_model_use():
+    encoder = SimpleNamespace(identity="unsupported", gradient_capability=lambda: {
+        "supported": False, "reasons": ["CLS pooling is not implemented"],
+        "fallback": "Use unguided generation plus canonical measured text search."})
+    with pytest.raises(ValueError, match="CLS pooling.*unguided"):
+        TorchEmbeddingReward(encoder, SimpleNamespace(encoder=encoder))
 
 
 @pytest.mark.skipif(os.environ.get("POINT2TEXT_REAL_ENCODER_TEST") != "1",

@@ -1,0 +1,17 @@
+# Exact shipped encoder, authored demo corpus, and original prompts.
+# Omitting --profile has the same behavior and canonical map identity.
+[encoder]
+checkpoint = "sentence-transformers/all-MiniLM-L6-v2"
+revision = "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
+max_length = 256
+normalize = true
+prompt = ""
+
+[prompt]
+purpose = "Explain a mechanism or research concept precisely"
+domain = "technical or research"
+style = "original, accurate, clear explanations"
+min_words = 60
+max_words = 100
+neighbors = 4
+extra_instructions = ""

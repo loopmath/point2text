@@ -9,40 +9,37 @@ import time
 from typing import Callable
 
 from ..contracts import Candidate
-from ..generation import OllamaGenerator
+from ..profile import PromptPolicy
 from .contracts import DiffusionRequest, DiffusionResult
 from .guidance import GuidanceConfig, SparseMapGuidance, _json_safe
 
 
-def technical_prompt(examples) -> str:
+def technical_prompt(examples, policy: PromptPolicy | None = None) -> str:
     """Use the same example context as the scoring-only text baseline, without HTTP."""
-    return (
-        "Write one original, accurate technical or research paragraph of 60–100 words. "
-        "Return only the paragraph, without a heading, bullets, citations or reasoning. "
-        "Do not copy example sentences, invent references, or invent measurements.\n\n"
-        + OllamaGenerator._prompt(examples)
-    )
+    return (policy or PromptPolicy()).diffusion_prompt(examples)
 
 
 class DiffusionSearch:
     def __init__(self, runtime, reward=None,
-                 config: GuidanceConfig | None = None) -> None:
+                 config: GuidanceConfig | None = None, *,
+                 prompt_policy: PromptPolicy | None = None) -> None:
         self.runtime = runtime
         self.reward = reward
         self.config = config or GuidanceConfig()
+        self.prompt_policy = prompt_policy or PromptPolicy()
 
     def run(self, bundle, target, *, max_candidates: int = 1, seed: int = 42,
             on_candidate: Callable[[Candidate], None] | None = None,
             cancel_event: threading.Event | None = None,
             request: DiffusionRequest | None = None,
-            guided: bool = True) -> DiffusionResult:
+            guided: bool = True, on_draft=None) -> DiffusionResult:
         """Return the best real paragraph, with every verified candidate in trace.
 
         Supply the identical request to guided and unguided calls for a paired
         comparison. No surrogate map loss is ever used to rank final candidates.
         """
-        if not isinstance(max_candidates, int) or not 1 <= max_candidates <= 6:
-            raise ValueError("max_candidates must be between 1 and 6")
+        if type(max_candidates) is not int or not 1 <= max_candidates <= 64:
+            raise ValueError("max_candidates must be between 1 and 64")
         target = tuple(float(value) for value in target)
         if len(target) != 2 or not all(math.isfinite(value) for value in target):
             raise ValueError("Target must contain two finite map coordinates")
@@ -51,7 +48,7 @@ class DiffusionSearch:
         cancel_event = cancel_event if cancel_event is not None else threading.Event()
         started = time.perf_counter()
         if request is None:
-            request = DiffusionRequest(prompt=technical_prompt(bundle.nearest(target, k=4)),
+            request = DiffusionRequest(prompt=technical_prompt(bundle.nearest(target, k=self.prompt_policy.neighbors), self.prompt_policy),
                                        seed=seed)
         else:
             # A supplied request owns its seed, which makes paired replay explicit.
@@ -72,8 +69,15 @@ class DiffusionSearch:
             trajectories.append(trajectory)
             try:
                 generation_started = time.perf_counter()
-                result = self.runtime.generate(candidate_request, hook=hook,
-                                               cancel_event=cancel_event)
+                runtime_options = {"hook": hook, "cancel_event": cancel_event}
+                if on_draft is not None:
+                    def observe(draft):
+                        on_draft({"text": draft.text, "step": draft.step,
+                                  "num_steps": draft.num_steps, "phase": "coarse",
+                                  "terminal": draft.terminal})
+                        return False
+                    runtime_options.update(observer=observe, observe_every=1)
+                result = self.runtime.generate(candidate_request, **runtime_options)
                 trajectory["generation_seconds"] = time.perf_counter() - generation_started
                 trajectory["runtime"] = _json_safe(result.trace)
                 trajectory["guidance"] = hook.trace if hook else None

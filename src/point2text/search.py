@@ -28,7 +28,7 @@ class BaselineSearch:
         if cancel_event.is_set():
             return []
         started = time.perf_counter()
-        examples = bundle.nearest(target, k=4)
+        examples = bundle.nearest(target, k=getattr(getattr(self.generator, "prompt_policy", None), "neighbors", 4))
         candidates: list[Candidate] = []
         seen: set[str] = set()
         for attempt in range(max_candidates):

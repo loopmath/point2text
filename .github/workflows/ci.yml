@@ -5,6 +5,19 @@ on:
   pull_request:
 
 jobs:
+  canonical-encoder:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+          enable-cache: true
+      - run: uv sync --locked --extra encoder --extra dev
+      - name: Verify actual pinned encoder and gradient adapter
+        env:
+          POINT2TEXT_REAL_ENCODER_TEST: '1'
+        run: uv run --extra encoder --extra dev pytest -q tests/test_diffusion_encoder.py::test_real_minilm_canonical_token_parity
   test:
     runs-on: ${{ matrix.os }}
     strategy:

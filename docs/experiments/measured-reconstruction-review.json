@@ -1,0 +1,207 @@
+{
+  "method": "Independent distance-blinded text-first reasoning review of four source/candidate pairs. Decisions written before unblinding.",
+  "reviewed_at_utc": "2026-10-29T19:58:39.536791+00:00",
+  "input_artifact": "reconstruction-blind-texts.json",
+  "input_sha256": "3d92e7815a91432ca180abfd06cba60532154a56fb076d1b6ad499c418430727",
+  "blinding": {
+    "distances_seen": false,
+    "optimizer_statuses_seen": false,
+    "optimizer_receipts_opened": false,
+    "inputs_read": [
+      "reconstruction-blind-texts.json"
+    ],
+    "local_model_calls": 0,
+    "gpu_calls": 0,
+    "external_sources_consulted": []
+  },
+  "acceptance_criterion": "Grammatical, clear and coherent technical prose; plausible scientific content; preserved claims, entities, qualifications, causal direction and scope; no material deterioration from source. Minor non-disruptive style preferences do not alone reject a pair.",
+  "cases": [
+    {
+      "id": "hidden-systems",
+      "topic": "Distributed systems",
+      "source": "A replicated service must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client uncertain even when a quorum has accepted the write. Retrying with a stable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior explicit when a connection fails between commitment and acknowledgment.",
+      "candidate": "A replicated service must differentiate agreement about an operation from successful delivery of its result. Network delays can leave a client uncertain even when a quorum has accepted the write. Retrying with a stable request identifier allows the service to recognise duplicate work. This design separates the consistency protocol from the application response and makes recovery behaviour explicit when a connection fails between commitment and acknowledgment.",
+      "source_sha256": "c501058b3ebe085cf7b987342d62f745b00a1e505c6817cc6c3171d1df0beab5",
+      "candidate_sha256": "fc3c68e9ef8bff69ff7f5c2b0604f04144428957c0b03ac952a9748f2f2d3222",
+      "decision": "accepted",
+      "accepted": true,
+      "dimensions": {
+        "grammar": {
+          "decision": "accepted",
+          "assessment": "All sentences remain grammatical. Differentiate agreement about an operation from successful delivery is a valid construction; British spelling variants are valid."
+        },
+        "clarity": {
+          "decision": "accepted",
+          "assessment": "The distinction among agreement, client uncertainty, duplicate recognition, and acknowledgment remains explicit."
+        },
+        "coherence": {
+          "decision": "accepted",
+          "assessment": "The paragraph still connects uncertain write outcomes to stable request identifiers and recovery after a lost connection."
+        },
+        "technical_claim_preservation": {
+          "decision": "accepted",
+          "assessment": "Differentiate replaces distinguish, while recognise and behaviour change spelling only. Quorum acceptance, stable identifiers, commitment, acknowledgment, and the network-failure scenario are unchanged."
+        },
+        "scientific_plausibility": {
+          "decision": "accepted",
+          "assessment": "Client uncertainty after a write has been accepted and before its result is delivered is plausible. Stable request identifiers support duplicate recognition. The text makes no universal exactly-once or partition-availability guarantee."
+        },
+        "no_material_deterioration": {
+          "decision": "accepted",
+          "assessment": "No grammatical, explanatory, or scientific regression identified."
+        }
+      },
+      "concrete_defects": [],
+      "minor_style_notes": [],
+      "qualifications_preserved": [
+        "Network delays can leave a client uncertain.",
+        "A stable identifier allows duplicate recognition.",
+        "The connection failure occurs between commitment and acknowledgment."
+      ]
+    },
+    {
+      "id": "hidden-quantum",
+      "topic": "Quantum computing",
+      "source": "An error correction procedure infers likely faults from measurements that reveal information about an encoded state without directly reading its logical value. The usefulness of this inference depends on the physical noise process and the reliability of the measurements themselves. A decoder therefore needs assumptions that match the device. Tests should include correlated faults and changing calibration conditions rather than treating every physical operation as an independent source of error.",
+      "candidate": "An error correction procedure infers likely faults from measurements that reveal information about an encoded state without directly reading its logical value. The usefulness of this inference depends upon the physical noise process and the reliability of the measurements themselves. A decoder consequently needs assumptions that match the device. Tests should include correlated faults and changing calibration conditions instead of treating every physical operation as an independent source of error.",
+      "source_sha256": "64373e33075da83c49af24a62ac169e7f1c30ac5a5458049a452d84a6ad79dd0",
+      "candidate_sha256": "2147b56b5d83db12e95785b3875c4c5624eeab0af9f272f50c758cf23a091cd7",
+      "decision": "accepted",
+      "accepted": true,
+      "dimensions": {
+        "grammar": {
+          "decision": "accepted",
+          "assessment": "Depends upon, consequently, and instead of are grammatical replacements in their respective sentences."
+        },
+        "clarity": {
+          "decision": "accepted",
+          "assessment": "Likely faults, indirect information about the encoded state, device-matched assumptions, and correlated-fault tests remain clearly distinguished."
+        },
+        "coherence": {
+          "decision": "accepted",
+          "assessment": "Measurement-based fault inference still leads to noise-model assumptions and tests of departures from independence."
+        },
+        "technical_claim_preservation": {
+          "decision": "accepted",
+          "assessment": "The candidate retains likely rather than certain fault inference, the absence of direct logical-value measurement, dependence on physical noise and measurement reliability, and the recommendation to test correlated faults and changing calibration."
+        },
+        "scientific_plausibility": {
+          "decision": "accepted",
+          "assessment": "Error-syndrome measurements can support inference of faults without directly measuring the logical value. Noise-dependent decoding and tests of correlations are consistent with that mechanism. No claim of guaranteed correction or universal independence is introduced."
+        },
+        "no_material_deterioration": {
+          "decision": "accepted",
+          "assessment": "No material loss of precision, readability, or scientific qualification identified."
+        }
+      },
+      "concrete_defects": [],
+      "minor_style_notes": [],
+      "qualifications_preserved": [
+        "The procedure infers likely faults.",
+        "Measurements do not directly read the logical value.",
+        "Inference depends on the physical noise process and measurement reliability.",
+        "Correlated faults and changing calibration conditions should be tested."
+      ]
+    },
+    {
+      "id": "hidden-robotics",
+      "topic": "Robotics",
+      "source": "A mobile robot estimates its state by combining measurements with a model of how motion changes position and velocity. Each source carries uncertainty, and that uncertainty can change when the environment provides fewer useful landmarks. Consistent sensor fusion should account for shared errors instead of treating related observations as independent evidence. Comparing predictions with later measurements helps expose model mismatch before an inaccurate estimate drives a sequence of unsafe actions.",
+      "candidate": "A mobile robot estimates its state through combining measurements with a model of how motion changes position and velocity. Each source carries uncertainty, and that uncertainty can change when the environment provides fewer useful landmarks. Consistent sensor fusion should take into account shared errors rather than treating related observations as independent evidence. Comparing predictions with later measurements helps expose model mismatch before an inaccurate estimate drives a sequence of unsafe actions.",
+      "source_sha256": "6e37d3102c1f1b67de7579dc4311304a9f5476d737d58a7ca8496a1739a61912",
+      "candidate_sha256": "2028962dd4dae86f38bca6554b293452107268970c315d7977a938a5032f7026",
+      "decision": "accepted",
+      "accepted": true,
+      "dimensions": {
+        "grammar": {
+          "decision": "accepted",
+          "assessment": "Through combining takes a grammatical gerund complement. Take into account shared errors and rather than treating are also grammatical. Sentence capitalization is correct."
+        },
+        "clarity": {
+          "decision": "accepted",
+          "assessment": "The two information sources, uncertainty, shared errors, and comparison of predictions with later measurements retain their original roles."
+        },
+        "coherence": {
+          "decision": "accepted",
+          "assessment": "The paragraph still connects state estimation, environment-dependent uncertainty, correlated evidence, and model-mismatch detection before unsafe actions."
+        },
+        "technical_claim_preservation": {
+          "decision": "accepted",
+          "assessment": "Through combining preserves the original method relation expressed by by combining. Take into account preserves account for, and rather than preserves instead of. No state variable, uncertainty relation, timing relation, or safety qualification changes."
+        },
+        "scientific_plausibility": {
+          "decision": "accepted",
+          "assessment": "Combining motion models with sensor measurements and accounting for shared errors are plausible estimation principles. Prediction-versus-measurement comparison can help expose mismatch; the retained helps wording appropriately avoids a guarantee that every discrepancy identifies its cause."
+        },
+        "no_material_deterioration": {
+          "decision": "accepted",
+          "assessment": "The first construction is slightly less idiomatic and the shared-errors phrase slightly longer, but the wording remains readable and does not cause a material clarity, grammar, or technical regression."
+        }
+      },
+      "concrete_defects": [],
+      "minor_style_notes": [
+        "By combining is more idiomatic and concise than through combining.",
+        "Account for is more concise than take into account. These are editing preferences, not disqualifying errors in this pair."
+      ],
+      "qualifications_preserved": [
+        "Uncertainty can change with fewer useful landmarks.",
+        "Related observations must not be treated as independent evidence without accounting for shared errors.",
+        "Comparing predictions with later measurements helps expose mismatch."
+      ]
+    },
+    {
+      "id": "hidden-materials",
+      "topic": "Materials science",
+      "source": "The behavior of a material depends on its microscopic structure as well as its chemical composition. Defects, interfaces, and processing history can alter the mechanisms that transport heat or accommodate deformation. A useful model must connect the scale of its assumptions to the measurements used for evaluation. Comparing samples prepared through different procedures helps reveal whether an apparent relationship is robust or depends on an uncontrolled structural difference.",
+      "candidate": "The behaviour of a material depends upon its microscopic structure as well as its chemical composition. Defects, interfaces, and processing history can alter the mechanisms that transport heat or accommodate deformation. A useful model must connect the scale of its assumptions to the measurements used for evaluation. Comparing samples prepared through different procedures helps reveal whether an apparent relationship is robust or depends upon an uncontrolled structural difference.",
+      "source_sha256": "db004b0ebd37f9ede418eca57f5dc8c55b2f75274525c78fb1a082e9df8c44f0",
+      "candidate_sha256": "35748abe412d57de37b9b8781884c40ebcc28c094844365e6a3f7bb060a3826d",
+      "decision": "accepted",
+      "accepted": true,
+      "dimensions": {
+        "grammar": {
+          "decision": "accepted",
+          "assessment": "Behaviour is a valid spelling variant. Both occurrences of depends upon are grammatical."
+        },
+        "clarity": {
+          "decision": "accepted",
+          "assessment": "Microscopic structure, composition, transport or deformation mechanisms, evaluation scale, and uncontrolled structural differences retain the same meaning."
+        },
+        "coherence": {
+          "decision": "accepted",
+          "assessment": "The explanation still moves from structure-dependent properties to appropriate model evaluation and comparison across preparation procedures."
+        },
+        "technical_claim_preservation": {
+          "decision": "accepted",
+          "assessment": "The changes are behaviour for behavior and depends upon for depends on. Defects, interfaces, processing history, heat transport, deformation, scales, measurements, and the alternative explanation for an apparent relationship are all retained."
+        },
+        "scientific_plausibility": {
+          "decision": "accepted",
+          "assessment": "Microstructure and processing history can affect transport and deformation. Comparing preparation procedures can reveal sensitivity to structural differences. The retained can and helps reveal qualifications avoid claiming a universal effect or conclusive causal identification."
+        },
+        "no_material_deterioration": {
+          "decision": "accepted",
+          "assessment": "No material loss of grammar, clarity, coherence, or scientific meaning identified."
+        }
+      },
+      "concrete_defects": [],
+      "minor_style_notes": [],
+      "qualifications_preserved": [
+        "Defects, interfaces, and processing history can alter mechanisms.",
+        "A model must connect the scale of its assumptions to evaluation measurements.",
+        "Sample comparison helps reveal robustness or an uncontrolled structural dependence."
+      ]
+    }
+  ],
+  "summary": {
+    "reviewed": 4,
+    "accepted": 4,
+    "rejected": 0,
+    "uncertain": 0
+  },
+  "limits": [
+    "These are individual text judgments from one independent reviewer, not an estimated quality error rate or a certificate of scientific truth.",
+    "No optimizer result or numeric closeness claim was examined or endorsed by this review.",
+    "Scientific plausibility was assessed from the supplied text and established mechanisms; no experimental claims or external factual references were independently verified."
+  ]
+}

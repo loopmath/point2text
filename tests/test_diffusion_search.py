@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from point2text.contracts import CorpusRecord
-from point2text.diffusion.contracts import DiffusionRequest, DiffusionResult, DiffusionStep
+from point2text.diffusion.contracts import DiffusionDraft, DiffusionRequest, DiffusionResult, DiffusionStep
 from point2text.diffusion.guidance import GuidanceConfig
 from point2text.diffusion.search import DiffusionSearch
 
@@ -119,3 +119,26 @@ def test_empty_and_duplicate_outputs_do_not_become_extra_candidates():
 def test_guidance_without_reward_is_an_actionable_error():
     with pytest.raises(ValueError, match="encoder reward"):
         DiffusionSearch(TinySampler()).run(Bundle(), (0, 0))
+
+
+def test_native_drafts_are_not_scored_or_treated_as_candidates():
+    class ObservedSampler(TinySampler):
+        def generate(self, request, *, observer, observe_every, **kwargs):
+            assert observe_every == 1
+            assert observer(DiffusionDraft("Partial draft", [1], [1, 2], 1, 2)) is False
+            return super().generate(request, **kwargs)
+
+    bundle, drafts = Bundle(), []
+    result = DiffusionSearch(ObservedSampler()).run(bundle, (0, 0), guided=False,
+                                                  on_draft=drafts.append)
+    assert drafts == [{"text": "Partial draft", "step": 1, "num_steps": 2,
+                       "phase": "coarse", "terminal": False}]
+    assert bundle.scored == [result.text]
+
+
+def test_candidate_count_can_exceed_six_but_remains_bounded():
+    runtime = TinySampler()
+    DiffusionSearch(runtime).run(Bundle(), (0, 0), guided=False, max_candidates=7)
+    assert len(runtime.requests) == 7
+    with pytest.raises(ValueError, match="64"):
+        DiffusionSearch(runtime).run(Bundle(), (0, 0), guided=False, max_candidates=65)

@@ -11,7 +11,7 @@ from zipfile import BadZipFile
 import numpy as np
 
 from .contracts import CorpusRecord, TextEncoder
-from .corpus import load_corpus
+from .corpus import load_corpus, validate_records
 
 SCHEMA = "point2text-pca-v1"
 METRIC = "euclidean-unwhitened-pca"
@@ -51,7 +51,7 @@ def _target(target: tuple[float, float]) -> np.ndarray:
 @dataclass(frozen=True)
 class MapBundle:
     encoder: TextEncoder
-    records: list[CorpusRecord]
+    records: tuple[CorpusRecord, ...]
     embeddings: np.ndarray
     mean: np.ndarray
     components: np.ndarray  # [2, dimensions], orthonormal rows
@@ -59,12 +59,14 @@ class MapBundle:
     map_id: str
 
     def __post_init__(self) -> None:
+        object.__setattr__(self, "records", tuple(self.records))
         for array in (self.embeddings, self.mean, self.components, self.explained_variance):
             array.setflags(write=False)
 
     @classmethod
-    def build(cls, encoder: TextEncoder, cache_dir: Path) -> "MapBundle":
-        records = load_corpus()
+    def build(cls, encoder: TextEncoder, cache_dir: Path,
+              records: list[CorpusRecord] | None = None) -> "MapBundle":
+        records = validate_records(load_corpus() if records is None else records)
         if len(records) < 3:
             raise ValueError("A PCA map needs at least three corpus records")
         corpus_id = _digest({"records": [asdict(record) for record in records]})

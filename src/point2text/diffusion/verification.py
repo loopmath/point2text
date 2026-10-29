@@ -40,13 +40,14 @@ class CanonicalVerifier:
         self.rejections = Counter()
         self.confirmation: dict = {"confirmed": False, "checks": [], "worst_distance": None}
         self.last_confirmed: VerifiedText | None = None
+        self.quality_results: dict[str, dict] = {}
 
     def remaining_queries(self, *, confirmation: bool = False) -> int:
         reserve = 0 if confirmation else 2
         return max(0, self.config.max_hard_queries - self.counts["hard_queries"] - reserve)
 
     def budget_reason(self, *, confirmation: bool = False) -> str | None:
-        if self.clock() - self.started >= self.config.max_seconds:
+        if self.config.max_seconds is not None and self.clock() - self.started >= self.config.max_seconds:
             return "time_budget"
         if self.remaining_queries(confirmation=confirmation) < 1:
             return "query_budget"
@@ -77,7 +78,39 @@ class CanonicalVerifier:
         self.counts["rejected"] += 1
         self.rejections[reason] += 1
 
-    def _mechanical(self, text: str) -> tuple[bool, str, int]:
+    def check_quality(self, text: str) -> tuple[bool, str]:
+        """Apply an external quality policy without treating it as a certificate."""
+        if self.quality_callback is None:
+            return True, "not_requested"
+        self.counts["quality_checks"] += 1
+        try:
+            verdict = self.quality_callback(text)
+            if isinstance(verdict, dict):
+                accepted = bool(verdict.get("accepted", verdict.get("valid", False)))
+                details = verdict
+            elif isinstance(verdict, tuple):
+                accepted, details = bool(verdict[0]), None
+            else:
+                accepted, details = bool(verdict), None
+            self.quality_results[text] = {"accepted": accepted, "details": details}
+            self.counts["quality_passed" if accepted else "quality_rejected"] += 1
+            return accepted, "quality_callback" if not accepted else "quality_pass"
+        except Exception as exc:
+            self.counts["quality_errors"] += 1
+            self.quality_results[text] = {"accepted": False, "error": str(exc)}
+            return False, "quality_callback_error"
+
+    def verify_quality(self, candidate: VerifiedText) -> VerifiedText | None:
+        accepted, reason = self.check_quality(candidate.text)
+        if not accepted:
+            self._reject(reason)
+            return None
+        return replace(candidate, diagnostics={**candidate.diagnostics,
+                                               "quality_verdict": self.quality_results.get(candidate.text),
+                                               "validation": "mechanical_and_external_callback",
+                                               "coherence_certified": False})
+
+    def _mechanical(self, text: str, *, check_quality: bool = True) -> tuple[bool, str, int]:
         if not isinstance(text, str) or not text.strip():
             return False, "empty", 0
         words = len(text.split())
@@ -105,22 +138,20 @@ class CanonicalVerifier:
             run = run + 1 if same and adjacent else 1
             if run >= 3 or run == 2 and current.group().casefold() in repeated_function_words:
                 return False, "repeated_word", words
-        if self.quality_callback is not None:
-            try:
-                verdict = self.quality_callback(text)
-                if isinstance(verdict, dict):
-                    accepted = bool(verdict.get("accepted", verdict.get("valid", False)))
-                elif isinstance(verdict, tuple):
-                    accepted = bool(verdict[0])
-                else:
-                    accepted = bool(verdict)
-                if not accepted:
-                    return False, "quality_callback", words
-            except Exception:
-                return False, "quality_callback_error", words
+        if check_quality and self.quality_callback is not None:
+            accepted, reason = self.check_quality(text)
+            if not accepted:
+                return False, reason, words
         return True, "mechanical_pass", words
 
     def _token_ids(self, texts: Sequence[str]) -> list[tuple[int, ...]]:
+        canonical_ids = getattr(getattr(self.bundle, "encoder", None), "token_ids", None)
+        if callable(canonical_ids):
+            self.counts["tokenizer_calls"] += 1
+            rows = canonical_ids(texts)
+            if len(rows) != len(texts):
+                raise ValueError("Canonical tokenizer returned an unexpected batch length")
+            return [tuple(int(token) for token in row) for row in rows]
         if self.tokenizer is None:
             # Fixtures may supply only a scorer. This explicitly lacks ID dedup.
             lengths = getattr(getattr(self.bundle, "encoder", None), "token_lengths", None)
@@ -175,12 +206,13 @@ class CanonicalVerifier:
             self.counts["confirmation_queries"] += len(texts)
         return self._ordinary_scores(texts)
 
-    def verify_batch(self, proposals: Sequence[TextProposal | str]) -> list[VerifiedText]:
+    def verify_batch(self, proposals: Sequence[TextProposal | str], *,
+                     check_quality: bool = True) -> list[VerifiedText]:
         ready = []
         for proposal in proposals:
             self.counts["proposals"] += 1
             text = proposal.text if isinstance(proposal, TextProposal) else proposal
-            ok, reason, words = self._mechanical(text)
+            ok, reason, words = self._mechanical(text, check_quality=check_quality)
             if not ok:
                 self._reject(reason)
                 continue
@@ -246,7 +278,7 @@ class CanonicalVerifier:
             result = VerifiedText(text, x, y, distance,
                                   ids if self.tokenizer is not None else (),
                                   {"word_count": words, "encoder_token_count": len(ids) or None,
-                                   "validation": "mechanical_only" if not self.quality_callback
+                                   "validation": "mechanical_only" if not self.quality_callback or not check_quality
                                    else "mechanical_and_external_callback",
                                    "coherence_certified": False, "provenance": provenance})
             self.cache[key] = result

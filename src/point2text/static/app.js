@@ -5,7 +5,7 @@
   const NS = 'http://www.w3.org/2000/svg';
   const colors = ['#7b968a', '#8c91ad', '#b69a76', '#8f9f66', '#b58b8a', '#7196a4', '#a38dad', '#a5a179', '#557b78', '#a0768d'];
   const plot = { left: 54, top: 22, width: 718, height: 490 };
-  const state = { map: null, status: null, target: null, runId: null, runTrace: null, busy: false, epoch: 0, candidates: [], selected: -1, tab: 'best', started: 0, runElapsed: 0, requested: 3, topicColors: new Map(), transform: null, runTimer: null, statusTimer: null, tickTimer: null, mapLoading: false, hovered: null };
+  const state = { map: null, status: null, target: null, runId: null, runTrace: null, busy: false, epoch: 0, candidates: [], selected: -1, tab: 'best', started: 0, runElapsed: 0, requested: 6, topicColors: new Map(), transform: null, baseScale: null, runTimer: null, statusTimer: null, tickTimer: null, mapLoading: false, hovered: null, saved: [], saving: false, panMode: false, pointers: new Map(), gesture: null, suppressClick: false, draft: null, draftSequence: 0, draftTokens: [] };
 
   function element(tag, attrs = {}, text) {
     const el = document.createElement(tag);
@@ -57,9 +57,13 @@
     $('guidance-updates').disabled = state.busy;
     $('refinement-control').hidden = state.status?.generator?.refinement !== true;
     $('refinement-epsilon').disabled = state.busy;
-    $('refinement-seconds').disabled = state.busy;
+    $('refinement-seconds').disabled = state.busy || $('refinement-unlimited').checked;
+    $('refinement-unlimited').disabled = state.busy;
     $('candidate-label').textContent = state.status?.generator?.refinement ? 'INITIAL CANDIDATES' : 'CANDIDATES';
     $('clear-target').hidden = !state.target;
+    updateSaveControl();
+    renderDraftPanel();
+    for (const id of ['zoom-in', 'zoom-out', 'fit-map', 'pan-mode']) $(id).disabled = !state.map;
     if (state.busy) {
       $('action-help').textContent = 'Each completed paragraph is scored at its actual map position.';
     } else if (!state.map) {
@@ -132,7 +136,8 @@
         const [pc1, pc2] = data.explained_variance;
         $('detail-projection').textContent = `Fixed PCA · PC1 ${(pc1 * 100).toFixed(1)}% · PC2 ${(pc2 * 100).toFixed(1)}% of variance. Equal scale on both axes.`;
       }
-      announce(`Map ready. ${points.length} research paragraphs. Click to choose a target.`);
+      announce(`Map ready. ${points.length} corpus paragraphs. Click to choose a target.`);
+      await loadSaved();
     } catch (error) {
       showMapError('The map is not ready yet', error.message);
     } finally {
@@ -147,6 +152,11 @@
     const dx = Math.max(xmax - xmin, .001), dy = Math.max(ymax - ymin, .001);
     const scale = Math.min(plot.width / (dx * 1.18), plot.height / (dy * 1.18));
     const cx = (xmin + xmax) / 2, cy = (ymin + ymax) / 2;
+    if (!state.baseScale) state.baseScale = scale;
+    setView(scale, cx, cy);
+  }
+
+  function setView(scale, cx, cy) {
     const sx = plot.left + plot.width / 2, sy = plot.top + plot.height / 2;
     state.transform = {
       scale, cx, cy, sx, sy,
@@ -155,6 +165,15 @@
       minX: cx - plot.width / (2 * scale), maxX: cx + plot.width / (2 * scale),
       minY: cy - plot.height / (2 * scale), maxY: cy + plot.height / (2 * scale)
     };
+    $('zoom-level').textContent = `${Math.round(scale / state.baseScale * 100)}%`;
+  }
+
+  function zoomAt(factor, point = [plot.left + plot.width / 2, plot.top + plot.height / 2]) {
+    if (!state.transform) return;
+    const t = state.transform, anchor = t.toWorld(...point);
+    const scale = Math.max(state.baseScale / 8, Math.min(state.baseScale * 100, t.scale * factor));
+    setView(scale, anchor[0] - (point[0] - t.sx) / scale, anchor[1] + (point[1] - t.sy) / scale);
+    hideTooltip(); renderMap();
   }
 
   function niceStep(span) {
@@ -173,6 +192,7 @@
     };
     if (state.target) include(...state.target);
     state.candidates.forEach(candidate => include(candidate.x, candidate.y));
+    if ($('show-saved').checked) state.saved.forEach(item => include(item.x, item.y));
     prepareTransform(bounds);
     renderMap();
   }
@@ -209,7 +229,7 @@
         showSource(point);
       });
     });
-    renderTarget(); renderResults();
+    renderSavedPoints(); renderTarget(); renderResults();
   }
 
   function renderLegend(topics) {
@@ -225,7 +245,7 @@
   function showTooltip(point, dot) {
     state.hovered = dot;
     dot.classList.add('hovered'); dot.setAttribute('r', '6');
-    $('tooltip-topic').textContent = point.topic || 'Research paragraph';
+    $('tooltip-topic').textContent = point.topic || 'Corpus paragraph';
     $('tooltip-title').textContent = point.title || 'Untitled';
     const [x, y] = state.transform.toScreen(point.x, point.y);
     const shell = $('plot-shell');
@@ -243,7 +263,7 @@
   }
 
   function showSource(point) {
-    $('source-topic').textContent = point.topic || 'Research paragraph';
+    $('source-topic').textContent = point.topic || 'Corpus paragraph';
     $('source-title').textContent = point.title || 'Untitled';
     $('source-text').textContent = point.text || '';
     $('source-preview').hidden = false;
@@ -262,7 +282,7 @@
     closest.forEach(({ point, distance }) => {
       const button = element('button', { type: 'button', class: 'neighbor', title: `Read ${point.title}` });
       const dot = element('span', { class: 'neighbor-dot' }); dot.style.backgroundColor = topicColor(point.topic);
-      const label = element('span'); label.append(element('strong', {}, point.title || 'Untitled'), element('small', {}, `${point.topic || 'Research'} · ${format(distance)} away`));
+      const label = element('span'); label.append(element('strong', {}, point.title || 'Untitled'), element('small', {}, `${point.topic || 'Corpus'} · ${format(distance)} away`));
       button.append(dot, label); button.addEventListener('click', () => showSource(point));
       $('neighbors').append(button);
     });
@@ -283,6 +303,8 @@
 
   function resetOutput() {
     state.runTrace = null;
+    state.draft = null; state.draftSequence = 0; state.draftTokens = [];
+    $('draft-text').replaceChildren(); renderDraftPanel();
     state.candidates = []; state.selected = -1; state.tab = 'best'; state.runElapsed = 0;
     $('output-empty').hidden = false; $('output-content').hidden = true;
     $('progress').hidden = true; $('run-error').hidden = true;
@@ -292,13 +314,14 @@
 
   function setTarget(target) {
     if (!state.map) return;
+    hideTooltip();
     abandonRun(); resetOutput();
     const t = state.transform;
     state.target = [Math.max(t.minX, Math.min(t.maxX, target[0])), Math.max(t.minY, Math.min(t.maxY, target[1]))];
     $('plot-instruction').hidden = true;
     $('target-coordinates').textContent = coordinateText(state.target);
     $('target-coordinates').parentElement.classList.add('has-target');
-    frameMap(); renderNeighbors(); updateControls();
+    renderMap(); renderNeighbors(); updateControls();
     announce(`Target selected at ${coordinateText(state.target)}.`);
   }
 
@@ -345,6 +368,131 @@
     });
   }
 
+  function updateSaveControl() {
+    const candidate = state.candidates[selectedIndex()];
+    const saved = candidate && state.saved.some(item => item.source.run_id === state.runId && item.source.candidate_index === candidate.sourceIndex);
+    $('save-paragraph').disabled = !candidate || !state.runId || state.busy || state.saving || saved;
+    $('save-paragraph').textContent = saved ? 'Saved to library' : state.saving ? 'Saving…' : 'Save paragraph';
+    $('save-help').textContent = state.busy ? 'Finish or stop the search to save a measured paragraph.' : 'Keep this paragraph and its measured position on this host.';
+  }
+
+  function libraryError(message) {
+    $('library-error').textContent = message || '';
+    $('library-error').hidden = !message;
+  }
+
+  async function loadSaved() {
+    try {
+      const data = await api(`/api/saved?map_id=${encodeURIComponent(state.map.map_id)}`);
+      if (data.map_id !== state.map.map_id) throw new Error('The saved library belongs to another map. Reload this page.');
+      state.saved = data.paragraphs.filter(item => item.map_id === state.map.map_id && finite(item.x) && finite(item.y));
+      libraryError(); renderSavedList(); renderSavedPoints(); updateSaveControl();
+    } catch (error) { libraryError(`Could not load saved paragraphs. ${error.message}`); }
+  }
+
+  async function saveParagraph() {
+    const candidate = state.candidates[selectedIndex()];
+    if (!candidate || $('save-paragraph').disabled) return;
+    const body = { map_id: state.map.map_id, run_id: state.runId, candidate_index: candidate.sourceIndex };
+    state.saving = true; updateSaveControl(); libraryError();
+    try {
+      const saved = await api('/api/saved', { method: 'POST', body: JSON.stringify(body) });
+      state.saved = [saved, ...state.saved.filter(item => item.id !== saved.id)];
+      renderSavedList(); renderSavedPoints();
+      announce('Paragraph saved on this host with its measured map position.');
+    } catch (error) { libraryError(`Could not save this paragraph. ${error.message}`); }
+    finally { state.saving = false; updateSaveControl(); }
+  }
+
+  function openSaved(item) {
+    const details = $(`saved-${item.id}`);
+    if (!details) return;
+    details.open = true;
+    details.querySelector('summary').focus({ preventScroll: true });
+    details.scrollIntoView({ behavior: 'auto', block: 'nearest' });
+    announce(`Saved paragraph: ${item.title}. Position ${coordinateText([item.x, item.y])}.`);
+  }
+
+  function renderSavedList() {
+    const list = $('saved-list'); list.replaceChildren();
+    $('saved-count').textContent = String(state.saved.length);
+    if (!state.saved.length) list.append(element('p', { class: 'empty-context' }, 'Save a generated paragraph to keep its text and measured position here.'));
+    state.saved.forEach(item => {
+      const details = element('details', { class: 'saved-paragraph', id: `saved-${item.id}` });
+      details.append(element('summary', {}, item.title));
+      details.append(element('p', { class: 'saved-text' }, item.text));
+      const when = new Date(item.created_at).toLocaleString();
+      details.append(element('p', { class: 'saved-metadata' }, `Position ${coordinateText([item.x, item.y])} · target ${coordinateText(item.target)} · distance ${distanceText(item.distance)}\n${item.source.generator} · ${when}`));
+      const actions = element('div', { class: 'saved-actions' });
+      const locate = element('button', { type: 'button', class: 'text-button' }, 'Locate on map');
+      locate.addEventListener('click', () => {
+        $('show-saved').checked = true;
+        setView(state.transform.scale, item.x, item.y); renderMap();
+        $('map').focus({ preventScroll: true }); $('map').scrollIntoView({ block: 'nearest' });
+        announce(`View centered on saved paragraph ${item.title}.`);
+      });
+      const remove = element('button', { type: 'button', class: 'text-button', 'aria-label': `Remove saved paragraph ${item.title}` }, 'Remove');
+      remove.addEventListener('click', async () => {
+        remove.disabled = true; libraryError();
+        try {
+          await api(`/api/saved/${encodeURIComponent(item.id)}?map_id=${encodeURIComponent(state.map.map_id)}`, { method: 'DELETE' });
+          state.saved = state.saved.filter(record => record.id !== item.id);
+          renderSavedList(); renderSavedPoints(); updateSaveControl();
+          $('show-saved').focus({ preventScroll: true }); announce('Saved paragraph removed.');
+        } catch (error) { libraryError(error.message); remove.disabled = false; }
+      });
+      actions.append(locate, remove); details.append(actions); list.append(details);
+    });
+  }
+
+  function renderSavedPoints() {
+    const layer = $('saved-layer'); layer.replaceChildren();
+    if (!state.transform || !$('show-saved').checked) return;
+    state.saved.forEach(item => {
+      const [x, y] = state.transform.toScreen(item.x, item.y);
+      if (x < plot.left || x > plot.left + plot.width || y < plot.top || y > plot.top + plot.height) return;
+      const group = appendSVG(layer, 'g', { tabindex: '0', role: 'button', class: 'saved-point', 'aria-label': `Read saved paragraph: ${item.title}` });
+      appendSVG(group, 'path', { d: `M ${x} ${y - 7} L ${x + 7} ${y} L ${x} ${y + 7} L ${x - 7} ${y} Z` });
+      appendSVG(group, 'title', {}, `Saved: ${item.title}`);
+      group.addEventListener('click', event => { event.stopPropagation(); openSaved(item); });
+      group.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); event.stopPropagation(); openSaved(item); }
+      });
+    });
+  }
+
+  function renderDraftPanel() {
+    const visible = state.status?.generator?.draft_streaming === true && (state.busy || state.draft !== null);
+    $('draft-panel').hidden = !visible;
+    $('draft-panel').classList.toggle('waiting', visible && state.busy);
+    if (!visible) return;
+    if (!state.candidates.length) $('output-empty').hidden = true;
+    const draft = state.draft;
+    if (!draft) {
+      $('draft-step').textContent = '';
+      $('draft-status').textContent = 'Waiting for the first native diffusion pass…';
+      return;
+    }
+    const step = Number.isInteger(draft.step) ? draft.step + 1 : null;
+    const total = Number.isInteger(draft.num_steps) && draft.num_steps > 0 ? draft.num_steps : null;
+    const phase = (draft.phase || 'diffusion').replaceAll('_', ' ');
+    $('draft-step').textContent = `${phase}${step !== null ? ` · step ${total ? Math.min(step, total) : step}${total ? ` / ${total}` : ''}` : ''}`;
+    $('draft-status').textContent = state.busy ? draft.terminal ? 'Draft pass finished. Waiting for canonical measurement…' : 'Waiting for the next model revision…' : state.candidates.length ? 'Draft stream finished. Scored paragraphs are shown below.' : 'Draft stream finished. No canonically scored paragraph is available.';
+  }
+
+  function applyDraft(run) {
+    if (!run.draft || !Number.isInteger(run.draft_sequence) || run.draft_sequence <= state.draftSequence) return;
+    const tokens = String(run.draft.text || '').split(/(\s+)/);
+    const previous = state.draftTokens;
+    const content = document.createDocumentFragment();
+    tokens.forEach((word, index) => {
+      if (previous.length && word.trim() && word !== previous[index]) content.append(element('mark', { class: 'draft-change' }, word));
+      else content.append(document.createTextNode(word));
+    });
+    $('draft-text').replaceChildren(content);
+    state.draft = run.draft; state.draftSequence = run.draft_sequence; state.draftTokens = tokens;
+  }
+
   function candidateHeading(candidate, index, isBest) {
     const heading = element('div', { class: 'result-heading' });
     heading.append(element('span', { class: 'result-label' }, `CANDIDATE ${String(index + 1).padStart(2, '0')}${isBest ? ' · BEST MATCH' : ''}`));
@@ -357,8 +505,9 @@
   function renderOutput() {
     const count = state.candidates.length;
     $('output-empty').hidden = count > 0; $('output-content').hidden = count === 0;
-    if (!count) return;
+    if (!count) { renderDraftPanel(); return; }
     const index = selectedIndex(), best = bestIndex(), candidate = state.candidates[index];
+    updateSaveControl();
     $('candidate-total').textContent = String(count);
     $('result-label').textContent = `CANDIDATE ${String(index + 1).padStart(2, '0')}${index === best ? ' · BEST MATCH' : ''}`;
     $('result-distance').textContent = distanceText(candidate.distance);
@@ -403,9 +552,9 @@
   function showRunError(message) { $('run-error').textContent = message; $('run-error').hidden = false; }
 
   function applyRun(run) {
-    const previousCount = state.candidates.length;
+    applyDraft(run);
     state.runTrace = run.trace || null;
-    state.candidates = Array.isArray(run.candidates) ? run.candidates.filter(c => typeof c.text === 'string' && finite(c.x) && finite(c.y) && finite(c.distance)) : [];
+    state.candidates = Array.isArray(run.candidates) ? run.candidates.map((c, sourceIndex) => ({ ...c, sourceIndex })).filter(c => typeof c.text === 'string' && finite(c.x) && finite(c.y) && finite(c.distance)) : [];
     state.runElapsed = finite(run.elapsed_seconds) ? run.elapsed_seconds : state.runElapsed;
     const count = state.candidates.length;
     const running = run.status === 'running';
@@ -420,7 +569,8 @@
     }
     if (run.error) showRunError(run.error);
     renderOutput();
-    if (count !== previousCount) frameMap(); else renderResults();
+    renderDraftPanel();
+    renderResults();
     updateElapsed();
     return running;
   }
@@ -467,6 +617,10 @@
       if (state.status?.generator?.refinement === true) {
         body.refinement_epsilon = Number($('refinement-epsilon').value);
         body.refinement_seconds = Number($('refinement-seconds').value);
+        if ($('refinement-unlimited').checked) {
+          delete body.refinement_seconds;
+          body.refinement_unlimited = true;
+        }
       }
       const run = await api('/api/runs', { method: 'POST', body: JSON.stringify(body) });
       if (!run.id) throw new Error('The local worker did not return a run identifier.');
@@ -503,6 +657,70 @@
     } finally { $('cancel').disabled = false; }
   }
 
+  function eventPoint(event) {
+    const point = $('map').createSVGPoint(); point.x = event.clientX; point.y = event.clientY;
+    const matrix = $('map').getScreenCTM();
+    if (!matrix) return null;
+    const local = point.matrixTransform(matrix.inverse());
+    return [local.x, local.y];
+  }
+
+  function insidePlot(point) {
+    return point && point[0] >= plot.left && point[0] <= plot.left + plot.width && point[1] >= plot.top && point[1] <= plot.top + plot.height;
+  }
+
+  function beginGesture() {
+    const points = [...state.pointers.values()];
+    if (!points.length) { state.gesture = null; return; }
+    const center = points.length > 1 ? [(points[0][0] + points[1][0]) / 2, (points[0][1] + points[1][1]) / 2] : points[0];
+    state.gesture = { center, scale: state.transform.scale, cx: state.transform.cx, cy: state.transform.cy, anchor: state.transform.toWorld(...center), distance: points.length > 1 ? Math.hypot(points[0][0] - points[1][0], points[0][1] - points[1][1]) : 0, moved: state.suppressClick };
+  }
+
+  $('map').addEventListener('pointerdown', event => {
+    const point = eventPoint(event);
+    if (!state.map || !insidePlot(point) || event.button !== 0) return;
+    if (!state.pointers.size) state.suppressClick = false;
+    state.pointers.set(event.pointerId, point); beginGesture();
+    if (state.pointers.size > 1 || state.panMode) state.suppressClick = true;
+  });
+  $('map').addEventListener('pointermove', event => {
+    if (!state.pointers.has(event.pointerId) || !state.gesture) return;
+    const point = eventPoint(event); if (!point) return;
+    state.pointers.set(event.pointerId, point);
+    const points = [...state.pointers.values()], g = state.gesture;
+    const center = points.length > 1 ? [(points[0][0] + points[1][0]) / 2, (points[0][1] + points[1][1]) / 2] : point;
+    if (!g.moved && points.length < 2 && Math.hypot(center[0] - g.center[0], center[1] - g.center[1]) < 5) return;
+    g.moved = true; state.suppressClick = true;
+    $('map').setPointerCapture(event.pointerId);
+    $('map').classList.add('is-panning'); hideTooltip();
+    if (points.length > 1 && g.distance > 0) {
+      const distance = Math.hypot(points[0][0] - points[1][0], points[0][1] - points[1][1]);
+      const scale = Math.max(state.baseScale / 8, Math.min(state.baseScale * 100, g.scale * distance / g.distance));
+      const { sx, sy } = state.transform;
+      setView(scale, g.anchor[0] - (center[0] - sx) / scale, g.anchor[1] + (center[1] - sy) / scale);
+    } else setView(g.scale, g.cx - (center[0] - g.center[0]) / g.scale, g.cy + (center[1] - g.center[1]) / g.scale);
+    renderMap();
+  });
+  function endPointer(event) {
+    if (!state.pointers.has(event.pointerId)) return;
+    state.pointers.delete(event.pointerId);
+    if ($('map').hasPointerCapture(event.pointerId)) $('map').releasePointerCapture(event.pointerId);
+    $('map').classList.remove('is-panning'); beginGesture();
+  }
+  $('map').addEventListener('pointerup', endPointer);
+  $('map').addEventListener('pointercancel', endPointer);
+  $('map').addEventListener('pointerleave', event => { if (!$('map').hasPointerCapture(event.pointerId)) endPointer(event); });
+  $('map').addEventListener('click', event => {
+    if (state.suppressClick || state.panMode) { event.preventDefault(); event.stopImmediatePropagation(); state.suppressClick = false; }
+  }, true);
+  $('map').addEventListener('wheel', event => {
+    const point = eventPoint(event);
+    if (!state.map || !insidePlot(point)) return;
+    event.preventDefault();
+    const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? 490 : 1);
+    zoomAt(Math.exp(-Math.max(-200, Math.min(200, delta)) * (event.ctrlKey ? .008 : .002)), point);
+  }, { passive: false });
+
   $('map').addEventListener('click', event => {
     if (!state.map) return;
     const svgPoint = $('map').createSVGPoint(); svgPoint.x = event.clientX; svgPoint.y = event.clientY;
@@ -515,21 +733,42 @@
   $('map').addEventListener('keydown', event => {
     if (event.target !== $('map') || !state.map) return;
     const delta = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] }[event.key];
+    if (['+', '=', '-', '0'].includes(event.key)) {
+      event.preventDefault();
+      if (event.key === '0') frameMap(); else zoomAt(event.key === '-' ? 1 / 1.4 : 1.4);
+      return;
+    }
     if (!delta) return;
     event.preventDefault();
     const t = state.transform, target = state.target || [t.cx, t.cy];
+    if (event.altKey) {
+      setView(t.scale, t.cx + delta[0] * 45 / t.scale, t.cy + delta[1] * 45 / t.scale); renderMap();
+      return;
+    }
     const step = (event.shiftKey ? 12 : 3) / t.scale;
     setTarget([target[0] + delta[0] * step, target[1] + delta[1] * step]);
   });
 
   $('clear-target').addEventListener('click', () => {
-    abandonRun(); state.target = null; resetOutput(); frameMap(); renderNeighbors();
+    abandonRun(); state.target = null; resetOutput(); renderMap(); renderNeighbors();
     $('target-coordinates').textContent = 'Choose a point on the map';
     $('target-coordinates').parentElement.classList.remove('has-target');
     $('plot-instruction').hidden = !state.map;
     updateControls(); announce('Target cleared.');
   });
   $('generate').addEventListener('click', generate);
+  $('zoom-in').addEventListener('click', () => zoomAt(1.4));
+  $('zoom-out').addEventListener('click', () => zoomAt(1 / 1.4));
+  $('fit-map').addEventListener('click', frameMap);
+  $('pan-mode').addEventListener('click', () => {
+    state.panMode = !state.panMode;
+    $('pan-mode').setAttribute('aria-pressed', String(state.panMode));
+    $('map').classList.toggle('pan-mode', state.panMode);
+    announce(state.panMode ? 'Pan mode on. Drag the map. Turn pan mode off to select a target.' : 'Target mode on. Click to select a target, or drag to pan.');
+  });
+  $('save-paragraph').addEventListener('click', saveParagraph);
+  $('refinement-unlimited').addEventListener('change', updateControls);
+  $('show-saved').addEventListener('change', renderSavedPoints);
   $('cancel').addEventListener('click', cancel);
   $('close-source').addEventListener('click', () => { $('source-preview').hidden = true; });
   $('tab-best').addEventListener('click', () => { state.selected = -1; renderOutput(); setTab('best'); renderResults(); });

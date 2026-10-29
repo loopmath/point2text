@@ -17,50 +17,64 @@
   <main>
     <div class="page-heading">
       <div><p class="eyebrow">AN EXPERIMENT IN SEMANTIC SPACE</p><h1>A place for a paragraph.</h1></div>
-      <p class="intro">Choose a point among research ideas.<br>Generate text and see where it actually lands.</p>
+      <p class="intro">Choose a point among your texts and ideas.<br>Generate text and see where it actually lands.</p>
     </div>
 
     <div class="workspace">
       <section class="map-panel" aria-labelledby="map-title">
         <div class="panel-heading"><div><span class="step-number">01</span><h2 id="map-title">Choose a position</h2></div><span class="map-meta" id="map-meta">Preparing the map</span></div>
+        <div class="map-toolbar" role="toolbar" aria-label="Map view controls">
+          <div><button type="button" id="zoom-in" aria-label="Zoom in">+</button><button type="button" id="zoom-out" aria-label="Zoom out">−</button><button type="button" id="fit-map">Fit all</button><span id="zoom-level" aria-live="polite">100%</span></div>
+          <button type="button" id="pan-mode" aria-pressed="false">Pan mode</button>
+        </div>
+        <p id="map-help" class="map-help">Scroll or pinch to zoom. Drag to pan; click to set a target. Arrow keys move the target; Alt + arrows pan. + / − zoom; 0 fits all.</p>
         <div class="plot-shell" id="plot-shell">
-          <svg id="map" viewBox="0 0 800 565" role="group" tabindex="0" aria-label="Semantic map. Click to set a target, or use arrow keys to move the target. Hold Shift for larger steps.">
+          <svg id="map" viewBox="0 0 800 565" role="group" tabindex="0" aria-label="Semantic map" aria-describedby="map-help">
             <defs><clipPath id="plot-clip"><rect x="54" y="22" width="718" height="490" rx="0"></rect></clipPath></defs>
             <g id="grid-layer"></g>
             <g id="points-layer" clip-path="url(#plot-clip)"></g>
+            <g id="saved-layer" clip-path="url(#plot-clip)"></g>
             <g id="trail-layer" clip-path="url(#plot-clip)"></g>
             <g id="result-layer" clip-path="url(#plot-clip)"></g>
             <g id="target-layer" clip-path="url(#plot-clip)"></g>
             <text class="axis-name" x="413" y="553" text-anchor="middle">PC1</text>
             <text class="axis-name" transform="translate(15,267) rotate(-90)" text-anchor="middle">PC2</text>
           </svg>
-          <div class="map-overlay" id="map-overlay"><span class="loader" aria-hidden="true"></span><strong id="loading-title">Preparing your semantic map</strong><p id="loading-copy">The local encoder is placing the research corpus.<br>This can take a minute on first launch.</p></div>
+          <div class="map-overlay" id="map-overlay"><span class="loader" aria-hidden="true"></span><strong id="loading-title">Preparing your semantic map</strong><p id="loading-copy">The local encoder is placing your reference corpus.<br>This can take a minute on first launch.</p></div>
           <div class="plot-instruction" id="plot-instruction" hidden><span class="crosshair-icon" aria-hidden="true">+</span> Click anywhere to set a target</div>
           <div class="point-tooltip" id="point-tooltip" hidden><span id="tooltip-topic"></span><strong id="tooltip-title"></strong></div>
         </div>
-        <div class="map-footer"><div id="legend" class="legend" aria-label="Research topics"></div><span class="keyboard-hint"><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> to move</span></div>
+        <div class="map-footer"><div id="legend" class="legend" aria-label="Corpus topics"></div><span class="keyboard-hint"><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> to move</span></div>
         <div class="context-section">
           <div class="context-heading"><p class="eyebrow">NEAR YOUR TARGET</p><span id="neighbor-caption">Select a point to explore its neighborhood</span></div>
           <div id="neighbors" class="neighbors"><p class="empty-context">Every dot is a real paragraph. Hover to inspect it, or select a position between ideas.</p></div>
           <div class="source-preview" id="source-preview" hidden><div><span id="source-topic" class="source-topic"></span><button type="button" id="close-source" class="text-button" aria-label="Close source paragraph">Close ×</button></div><h3 id="source-title"></h3><p id="source-text"></p></div>
         </div>
+        <section class="saved-section" aria-labelledby="saved-title">
+          <div class="saved-heading"><h3 id="saved-title">Saved paragraphs <span id="saved-count">0</span></h3><label><input type="checkbox" id="show-saved" checked> Show on map</label></div>
+          <p class="saved-help">Saved on this host for this map. Overlays use the fixed projection; saving never moves the corpus. Other maps keep separate libraries.</p>
+          <p id="library-error" class="error-message" role="alert" hidden></p>
+          <div id="saved-list"><p class="empty-context">Save a generated paragraph to keep its text and measured position here.</p></div>
+        </section>
       </section>
 
       <section class="generation-panel" aria-labelledby="generation-title">
         <div class="panel-heading"><div><span class="step-number">02</span><h2 id="generation-title">Find the words</h2></div><span class="tiny-label">FROZEN MODELS</span></div>
         <div class="generation-controls">
           <div class="target-readout"><div><span class="field-label">TARGET POSITION</span><div class="coordinates"><span class="target-symbol" aria-hidden="true">⊕</span><span id="target-coordinates">Choose a point on the map</span></div></div><button type="button" id="clear-target" class="text-button" hidden>Clear</button></div>
-          <div class="action-row"><label class="candidate-control" for="candidate-count"><span class="field-label" id="candidate-label">CANDIDATES</span><select id="candidate-count"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></label><button type="button" id="generate" class="generate-button" disabled><span>Generate paragraphs</span><span aria-hidden="true">↗</span></button><button type="button" id="cancel" class="cancel-button" hidden>Stop search</button></div>
+          <div class="action-row"><label class="candidate-control" for="candidate-count"><span class="field-label" id="candidate-label">CANDIDATES</span><select id="candidate-count"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option><option>12</option><option>24</option><option>48</option><option>64</option></select></label><button type="button" id="generate" class="generate-button" disabled><span>Generate paragraphs</span><span aria-hidden="true">↗</span></button><button type="button" id="cancel" class="cancel-button" hidden>Stop search</button></div>
           <div id="guidance-control" class="guidance-control" hidden>
             <label for="guidance-updates">Encoder updates / pass</label>
-            <select id="guidance-updates" aria-describedby="guidance-help"><option>1</option><option selected>2</option><option>4</option><option>8</option><option>16</option></select>
+            <select id="guidance-updates" aria-describedby="guidance-help"><option>1</option><option>2</option><option>4</option><option>8</option><option selected>16</option><option>32</option><option>64</option></select>
             <p id="guidance-help">More encoder refinements before each diffusion decision</p>
           </div>
           <div id="refinement-control" class="guidance-control" hidden>
             <label for="refinement-epsilon">Canonical tolerance</label>
-            <select id="refinement-epsilon"><option value="0.01">0.01</option><option value="0.001">0.001</option><option value="0.0001" selected>0.0001</option></select>
+            <select id="refinement-epsilon"><option value="0.01" selected>0.01</option><option value="0.001">0.001</option><option value="0.0001">0.0001</option></select>
             <label for="refinement-seconds">Time budget</label>
             <select id="refinement-seconds"><option value="30">30 s</option><option value="60">60 s</option><option value="120" selected>120 s</option><option value="300">300 s</option></select>
+            <label class="unlimited-option" for="refinement-unlimited"><input type="checkbox" id="refinement-unlimited" aria-describedby="unlimited-help"> No time limit</label>
+            <p id="unlimited-help">The clock deadline is disabled; query/round limits, stalls, and Stop search still apply.</p>
             <p>Keeps verified improvements; a completed search may finish above tolerance.</p>
           </div>
           <p class="action-help" id="action-help">Select a target to begin.</p>
@@ -69,10 +83,16 @@
         </div>
 
         <div class="output-area">
+          <section id="draft-panel" class="draft-panel" aria-labelledby="draft-title" hidden>
+            <div class="draft-heading"><h3 id="draft-title">Unverified diffusion draft</h3><span id="draft-step"></span></div>
+            <p class="draft-explanation">Live model revisions. Highlighted words changed in the latest update. Only measured paragraphs appear on the map.</p>
+            <p id="draft-text" class="draft-text"></p>
+            <p id="draft-status" class="draft-status" role="status"></p>
+          </section>
           <div id="output-empty" class="output-empty"><span class="empty-glyph" aria-hidden="true">Aa<span>+</span></span><h3>Let an idea take shape.</h3><p>Your generated paragraphs will appear here, with their measured positions on the map.</p><div class="empty-note"><span class="mini-dot"></span> Generated position <span class="mini-line"></span> Distance to target</div></div>
           <div id="output-content" hidden>
             <div class="output-toolbar"><div class="output-tabs" role="tablist" aria-label="Candidate view"><button type="button" id="tab-best" role="tab" aria-selected="true" aria-controls="best-view" class="active">Best match</button><button type="button" id="tab-all" role="tab" aria-selected="false" aria-controls="all-view">All candidates <span id="candidate-total">0</span></button></div><button type="button" id="copy" class="text-button">Copy text</button></div>
-            <div id="best-view" role="tabpanel" aria-labelledby="tab-best"><div class="result-heading"><span class="result-label" id="result-label">CANDIDATE 01</span><span class="distance-chip"><span aria-hidden="true">↔</span> <strong id="result-distance">—</strong> <span>from target</span></span></div><p id="result-text" class="result-text"></p><div class="result-footer"><span id="result-position"></span><span id="result-time"></span></div><p id="result-compute" class="result-compute" hidden></p></div>
+            <div id="best-view" role="tabpanel" aria-labelledby="tab-best"><div class="result-heading"><span class="result-label" id="result-label">CANDIDATE 01</span><span class="distance-chip"><span aria-hidden="true">↔</span> <strong id="result-distance">—</strong> <span>from target</span></span></div><p id="result-text" class="result-text"></p><div class="result-footer"><span id="result-position"></span><span id="result-time"></span></div><p id="result-compute" class="result-compute" hidden></p><button type="button" id="save-paragraph" class="save-button">Save paragraph</button><p class="save-help" id="save-help">Keep this paragraph and its measured position on this host.</p></div>
             <div id="all-view" role="tabpanel" aria-labelledby="tab-all" hidden></div>
           </div>
         </div>

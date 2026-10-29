@@ -1,0 +1,719 @@
+{
+  "timestamp_utc": "2026-10-29T19:45:34.872872+00:00",
+  "purpose": "Adversarial diagnostic calibration after four independently reviewed false passes in ten prior judged texts. Selected development cases, not held-out accuracy estimation.",
+  "prior_review": {
+    "reviewed_current_texts": 10,
+    "clear_false_passes": 4,
+    "case_ids": [
+      "hidden-ml",
+      "hidden-biology",
+      "hidden-climate",
+      "hidden-robotics"
+    ],
+    "limitation": "Counts from one independent reviewer, include inherited coarse defects and one regression; not random independent samples."
+  },
+  "cases": [
+    {
+      "id": "intrinsic_physics_error",
+      "text": "Quantum decoherence describes the process by which a system loses its quantum properties through interaction with its environment. This mechanism effectively entangles the system with external degrees of freedom, collapsing a superposition into a classical statistical mixture. To mitigate this effect, researchers employ error correction codes and dynamical decoupling techniques to preserve coherence times. A rigorous experimental analysis must distinguish between intrinsic decoherence rates and operational noise introduced by the control hardware to accurately characterize the fidelity of quantum gates.",
+      "reference": "Quantum decoherence describes the process by which a system loses its quantum properties through interaction with its environment. This mechanism effectively entangles the system with external degrees of freedom, collapsing a superposition into a classical statistical mixture. To mitigate this effect, researchers employ error correction codes and dynamical decoupling sequences to preserve coherence times. A rigorous experimental analysis must distinguish between intrinsic decoherence rates and operational noise introduced by the control hardware to accurately characterize the fidelity of quantum gates.",
+      "expected_accepted": false,
+      "defect": "Decoherence entangles a system with its environment and suppresses reduced-state interference; it does not itself select an outcome or establish physical collapse."
+    },
+    {
+      "id": "grammar_regression",
+      "text": "simultaneous localization and mapping lets an autonomous agent to create a map of an unknown space while tracking its position inside. this process employs iterative estimation, where sensor measurements update a probabilistic model of the spatial layout. However, errors in motion estimation can lead to map drift, causing the geometric representation to become inconsistent over time. Robust algorithms must utilize loop closure detection to recognize previously visited landmarks, correcting errors and ensuring global consistency of the resulting spatial data.",
+      "reference": "Simultaneous localization and mapping allows an autonomous agent to build a map of an unknown environment while tracking its location within it. This process relies on iterative estimation, where sensor measurements update a probabilistic model of the spatial layout. However, errors in motion estimation can lead to map drift, causing the geometric representation to become inconsistent over time. Robust algorithms must utilize loop closure detection to recognize previously visited landmarks, correcting accumulated errors and ensuring the global consistency of the generated spatial data.",
+      "expected_accepted": false,
+      "defect": "Causative lets ... to create requires bare infinitive; lowercase sentence openings worsen the grammatical reference."
+    },
+    {
+      "id": "sound_control",
+      "text": "Federated learning enables the training of machine learning models across decentralized edge devices without exchanging raw data. Instead of centralizing information, local nodes perform gradient computations and send only model weight updates to a central server for aggregation. A robust evaluation of this architecture requires accounting for statistical heterogeneity across clients and the impact of communication overhead on convergence speed. Researchers must balance the trade-off between global model performance and the privacy risks associated with potential gradient leakage during the synchronization process.",
+      "reference": "Federated learning enables the training of machine learning models across decentralized edge devices without exchanging raw data. Instead of centralizing information, local nodes perform gradient computations and send only model weight updates to a central server for aggregation. A robust evaluation of this architecture requires accounting for statistical heterogeneity across clients and the impact of communication overhead on convergence speed. Researchers must balance the trade-off between global model performance and the privacy risks associated with potential gradient leakage during the synchronization process.",
+      "expected_accepted": true,
+      "defect": null
+    }
+  ],
+  "runs": [
+    {
+      "model": "gemma4:12b",
+      "case_id": "intrinsic_physics_error",
+      "report": {
+        "accepted": false,
+        "reasons": [
+          "malformed_judgment"
+        ],
+        "dimensions": {},
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:gemma4:12b@http://127.0.0.1:11434#4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+        "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 788,
+          "eval_count": 236,
+          "server_total_duration_ns": 10516358917,
+          "elapsed_seconds": 10.614646999980323
+        },
+        "error": "Invalid claim_preservation assessment"
+      }
+    },
+    {
+      "model": "gemma4:12b",
+      "case_id": "grammar_regression",
+      "report": {
+        "accepted": false,
+        "reasons": [
+          "malformed_judgment"
+        ],
+        "dimensions": {},
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:gemma4:12b@http://127.0.0.1:11434#4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+        "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 790,
+          "eval_count": 253,
+          "server_total_duration_ns": 9930140875,
+          "elapsed_seconds": 9.996999333961867
+        },
+        "error": "Invalid claim_preservation assessment"
+      }
+    },
+    {
+      "model": "gemma4:12b",
+      "case_id": "sound_control",
+      "report": {
+        "accepted": true,
+        "reasons": [],
+        "dimensions": {
+          "claim_preservation": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          },
+          "coherence": {
+            "reason": "The text maintains a logical flow and consistent terminology throughout.",
+            "verdict": "pass"
+          },
+          "grammar": {
+            "reason": "No grammatical errors, punctuation issues, or awkward constructions identified.",
+            "verdict": "pass"
+          },
+          "no_deterioration": {
+            "reason": "The candidate is identical to the reference; no loss of clarity or precision.",
+            "verdict": "pass"
+          },
+          "technical_plausibility": {
+            "reason": "The description of federated learning, gradient updates, and privacy risks is scientifically accurate.",
+            "verdict": "pass"
+          }
+        },
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:gemma4:12b@http://127.0.0.1:11434#4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+        "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 792,
+          "eval_count": 192,
+          "server_total_duration_ns": 8020296458,
+          "elapsed_seconds": 8.087462458992377
+        }
+      }
+    },
+    {
+      "model": "gemma4:31b",
+      "case_id": "intrinsic_physics_error",
+      "report": {
+        "accepted": true,
+        "reasons": [],
+        "dimensions": {
+          "claim_preservation": {
+            "reason": "The term 'sequences' was changed to 'techniques', which is a plausible synonym in this context.",
+            "verdict": "pass"
+          },
+          "coherence": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          },
+          "grammar": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          },
+          "no_deterioration": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          },
+          "technical_plausibility": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          }
+        },
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:gemma4:31b@http://127.0.0.1:11434#6316f0629137b426c9d9b853ffc4c8209589f30ee39aebede6285096c0ff47e7",
+        "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 788,
+          "eval_count": 134,
+          "server_total_duration_ns": 23376058875,
+          "elapsed_seconds": 23.43935766699724
+        }
+      }
+    },
+    {
+      "model": "gemma4:31b",
+      "case_id": "grammar_regression",
+      "report": {
+        "accepted": false,
+        "reasons": [
+          "grammar:fail",
+          "no_deterioration:fail"
+        ],
+        "dimensions": {
+          "claim_preservation": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          },
+          "coherence": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          },
+          "grammar": {
+            "reason": "The phrase 'lets an autonomous agent to create' is ungrammatical; 'let' requires a bare infinitive.",
+            "verdict": "fail"
+          },
+          "no_deterioration": {
+            "reason": "Grammatical quality deteriorated due to the incorrect use of the infinitive with 'lets'.",
+            "verdict": "fail"
+          },
+          "technical_plausibility": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          }
+        },
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:gemma4:31b@http://127.0.0.1:11434#6316f0629137b426c9d9b853ffc4c8209589f30ee39aebede6285096c0ff47e7",
+        "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 790,
+          "eval_count": 152,
+          "server_total_duration_ns": 15790902958,
+          "elapsed_seconds": 15.849719082994852
+        }
+      }
+    },
+    {
+      "model": "gemma4:31b",
+      "case_id": "sound_control",
+      "report": {
+        "accepted": true,
+        "reasons": [],
+        "dimensions": {
+          "claim_preservation": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          },
+          "coherence": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          },
+          "grammar": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          },
+          "no_deterioration": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          },
+          "technical_plausibility": {
+            "reason": "No defect identified.",
+            "verdict": "pass"
+          }
+        },
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:gemma4:31b@http://127.0.0.1:11434#6316f0629137b426c9d9b853ffc4c8209589f30ee39aebede6285096c0ff47e7",
+        "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 792,
+          "eval_count": 108,
+          "server_total_duration_ns": 13485689125,
+          "elapsed_seconds": 13.55842020799173
+        }
+      }
+    },
+    {
+      "model": "qwen3.6:latest",
+      "case_id": "intrinsic_physics_error",
+      "report": {
+        "accepted": false,
+        "reasons": [
+          "malformed_judgment"
+        ],
+        "dimensions": {},
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:qwen3.6:latest@http://127.0.0.1:11434#07d35212591fc27746f0a317c975a6d68754fb38e9053d82e25f06057af28522",
+        "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 796,
+          "eval_count": 268,
+          "server_total_duration_ns": 14783864083,
+          "elapsed_seconds": 14.876676791987848
+        },
+        "error": "Invalid claim_preservation assessment"
+      },
+      "raw_judgment": "{\n  \"claim_preservation\": {\n    \"reason\": \"The candidate text replaces 'sequences' with 'techniques'. While semantically similar, this is a lexical substitution that technically alters the specific terminology used in the reference. However, given the context of scientific claims, '\",\"verdict\": \"pass\"\n  },\n  \"coherence\": {\n    \"reason\": \"The text flows logically with consistent terminology and clear causal links between decoherence, mitigation, and analysis.\",\n    \"verdict\": \"pass\"\n  },\n  \"grammar\": {\n    \"reason\": \"Grammar, syntax, and punctuation are correct. No agreement errors or awkward phrasing detected.\",\n    \"verdict\": \"pass\"\n  },\n  \"no_deterioration\": {\n    \"reason\": \"The candidate text is grammatically sound and scientifically accurate, showing no loss of clarity or precision compared to the reference.\",\n    \"verdict\": \"pass\"\n  },\n  \"technical_plausibility\": {\n    \"reason\": \"The description of decoherence, entanglement with environment, and mitigation strategies (error correction, dynamical decoupling) is scientifically accurate and plausible.\",\n    \"verdict\": \"pass\"\n  }\n}"
+    },
+    {
+      "model": "qwen3.6:latest",
+      "case_id": "grammar_regression",
+      "report": {
+        "accepted": false,
+        "reasons": [
+          "claim_preservation:fail",
+          "grammar:fail",
+          "no_deterioration:fail"
+        ],
+        "dimensions": {
+          "claim_preservation": {
+            "reason": "Candidate omits 'accumulated' before 'errors', altering the specific nature of the correction described in the reference.",
+            "verdict": "fail"
+          },
+          "coherence": {
+            "reason": "Text flows logically with consistent terminology and clear causal links between SLAM, drift, and loop closure.",
+            "verdict": "pass"
+          },
+          "grammar": {
+            "reason": "'Lets ... to create' is grammatically incorrect; 'let' requires a bare infinitive ('create'), not 'to create'.",
+            "verdict": "fail"
+          },
+          "no_deterioration": {
+            "reason": "Grammar error and loss of the qualifier 'accumulated' constitute deterioration relative to the reference.",
+            "verdict": "fail"
+          },
+          "technical_plausibility": {
+            "reason": "The description of SLAM, map drift, and loop closure is scientifically accurate and plausible.",
+            "verdict": "pass"
+          }
+        },
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:qwen3.6:latest@http://127.0.0.1:11434#07d35212591fc27746f0a317c975a6d68754fb38e9053d82e25f06057af28522",
+        "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 794,
+          "eval_count": 240,
+          "server_total_duration_ns": 5017516958,
+          "elapsed_seconds": 5.073192375013605
+        }
+      },
+      "raw_judgment": "{\n  \"claim_preservation\": {\n    \"reason\": \"Candidate omits 'accumulated' before 'errors', altering the specific nature of the correction described in the reference.\",\n    \"verdict\": \"fail\"\n  },\n  \"coherence\": {\n    \"reason\": \"Text flows logically with consistent terminology and clear causal links between SLAM, drift, and loop closure.\",\n    \"verdict\": \"pass\"\n  },\n  \"grammar\": {\n    \"reason\": \"'Lets ... to create' is grammatically incorrect; 'let' requires a bare infinitive ('create'), not 'to create'.\",\n    \"verdict\": \"fail\"\n  },\n  \"no_deterioration\": {\n    \"reason\": \"Grammar error and loss of the qualifier 'accumulated' constitute deterioration relative to the reference.\",\n    \"verdict\": \"fail\"\n  },\n  \"technical_plausibility\": {\n    \"reason\": \"The description of SLAM, map drift, and loop closure is scientifically accurate and plausible.\",\n    \"verdict\": \"pass\"\n  }\n}"
+    },
+    {
+      "model": "qwen3.6:latest",
+      "case_id": "sound_control",
+      "report": {
+        "accepted": true,
+        "reasons": [],
+        "dimensions": {
+          "claim_preservation": {
+            "reason": "The candidate text is an exact character-for-character copy of the reference text.",
+            "verdict": "pass"
+          },
+          "coherence": {
+            "reason": "The text presents a logically connected explanation with consistent terminology and clear causal links regarding federated learning mechanics.",
+            "verdict": "pass"
+          },
+          "grammar": {
+            "reason": "The text exhibits correct grammatical structure, subject-verb agreement, and appropriate technical phrasing throughout all sentences.",
+            "verdict": "pass"
+          },
+          "no_deterioration": {
+            "reason": "As an exact copy, there is no loss of quality, clarity, or meaning compared to the reference.",
+            "verdict": "pass"
+          },
+          "technical_plausibility": {
+            "reason": "The description of federated learning mechanics, heterogeneity, and privacy risks is scientifically accurate and plausible.",
+            "verdict": "pass"
+          }
+        },
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:qwen3.6:latest@http://127.0.0.1:11434#07d35212591fc27746f0a317c975a6d68754fb38e9053d82e25f06057af28522",
+        "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 790,
+          "eval_count": 232,
+          "server_total_duration_ns": 4938686708,
+          "elapsed_seconds": 5.003555000002962
+        }
+      },
+      "raw_judgment": "{\n  \"claim_preservation\": {\n    \"reason\": \"The candidate text is an exact character-for-character copy of the reference text.\",\n    \"verdict\": \"pass\"\n  },\n  \"coherence\": {\n    \"reason\": \"The text presents a logically connected explanation with consistent terminology and clear causal links regarding federated learning mechanics.\",\n    \"verdict\": \"pass\"\n  },\n  \"grammar\": {\n    \"reason\": \"The text exhibits correct grammatical structure, subject-verb agreement, and appropriate technical phrasing throughout all sentences.\",\n    \"verdict\": \"pass\"\n  },\n  \"no_deterioration\": {\n    \"reason\": \"As an exact copy, there is no loss of quality, clarity, or meaning compared to the reference.\",\n    \"verdict\": \"pass\"\n  },\n  \"technical_plausibility\": {\n    \"reason\": \"The description of federated learning mechanics, heterogeneity, and privacy risks is scientifically accurate and plausible.\",\n    \"verdict\": \"pass\"\n  }\n}"
+    }
+  ],
+  "traces": {
+    "gemma4:12b": {
+      "method": "local-technical-quality-v2",
+      "model": "gemma4:12b",
+      "model_identity": "ollama:gemma4:12b@http://127.0.0.1:11434#4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+      "model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+      "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+      "calls": 3,
+      "precheck_calls": 3,
+      "precheck_errors": 0,
+      "judge_requests": 3,
+      "cache_hits": 0,
+      "accepted": 1,
+      "rejected": 2,
+      "errors": 2,
+      "elapsed_seconds": 28.699108792934567,
+      "prompt_eval_count": 2370,
+      "eval_count": 681,
+      "server_total_duration_ns": 28466796250,
+      "judge_options": {
+        "seed": 0,
+        "temperature": 0,
+        "top_p": 1.0,
+        "num_predict": 512,
+        "num_ctx": 8192
+      },
+      "timeout_seconds": 180.0,
+      "cache_entries": 1,
+      "entries": [
+        {
+          "text_hash": "b697fc9c894812451b6d3601ce5125bd09ca316705c7b7d43b418a9836175f19",
+          "reference_hash": "d95dafa1c3930075d0edba85f74d9fb53e5cdfbad0f03aafc6e41a72a468677b",
+          "cache_key": null,
+          "accepted": false,
+          "reasons": [
+            "malformed_judgment"
+          ],
+          "cache_hit": false,
+          "cost": {
+            "precheck_calls": 1,
+            "judge_requests": 1,
+            "prompt_eval_count": 788,
+            "eval_count": 236,
+            "server_total_duration_ns": 10516358917,
+            "elapsed_seconds": 10.614646999980323
+          },
+          "error": "Invalid claim_preservation assessment"
+        },
+        {
+          "text_hash": "087d8bf218ce0b35b01fdbe7cb72b2ff5315104cfb7335604db22c6d8c57be5b",
+          "reference_hash": "fc46a0545b8770057a230f092c1d9bdbd17870d016cdf223eca6d7979156868f",
+          "cache_key": null,
+          "accepted": false,
+          "reasons": [
+            "malformed_judgment"
+          ],
+          "cache_hit": false,
+          "cost": {
+            "precheck_calls": 1,
+            "judge_requests": 1,
+            "prompt_eval_count": 790,
+            "eval_count": 253,
+            "server_total_duration_ns": 9930140875,
+            "elapsed_seconds": 9.996999333961867
+          },
+          "error": "Invalid claim_preservation assessment"
+        },
+        {
+          "text_hash": "84054ada0ce1950f0c118be3e4f5fd905de06fb287be22ee4b94d51593ea8150",
+          "reference_hash": "84054ada0ce1950f0c118be3e4f5fd905de06fb287be22ee4b94d51593ea8150",
+          "cache_key": "78b30af92a80a9da9e5c5ab06070f36c19dd275d1e837656b64b3b98e5413b6a",
+          "accepted": true,
+          "reasons": [],
+          "cache_hit": false,
+          "cost": {
+            "precheck_calls": 1,
+            "judge_requests": 1,
+            "prompt_eval_count": 792,
+            "eval_count": 192,
+            "server_total_duration_ns": 8020296458,
+            "elapsed_seconds": 8.087462458992377
+          }
+        }
+      ],
+      "quality_guarantee": false,
+      "heuristic": true,
+      "canonical_coordinates_in_judge_input": false
+    },
+    "gemma4:31b": {
+      "method": "local-technical-quality-v2",
+      "model": "gemma4:31b",
+      "model_identity": "ollama:gemma4:31b@http://127.0.0.1:11434#6316f0629137b426c9d9b853ffc4c8209589f30ee39aebede6285096c0ff47e7",
+      "model_digest": "6316f0629137b426c9d9b853ffc4c8209589f30ee39aebede6285096c0ff47e7",
+      "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+      "calls": 3,
+      "precheck_calls": 3,
+      "precheck_errors": 0,
+      "judge_requests": 3,
+      "cache_hits": 0,
+      "accepted": 2,
+      "rejected": 1,
+      "errors": 0,
+      "elapsed_seconds": 52.84749695798382,
+      "prompt_eval_count": 2370,
+      "eval_count": 394,
+      "server_total_duration_ns": 52652650958,
+      "judge_options": {
+        "seed": 0,
+        "temperature": 0,
+        "top_p": 1.0,
+        "num_predict": 512,
+        "num_ctx": 8192
+      },
+      "timeout_seconds": 180.0,
+      "cache_entries": 3,
+      "entries": [
+        {
+          "text_hash": "b697fc9c894812451b6d3601ce5125bd09ca316705c7b7d43b418a9836175f19",
+          "reference_hash": "d95dafa1c3930075d0edba85f74d9fb53e5cdfbad0f03aafc6e41a72a468677b",
+          "cache_key": "8f8f29c665159fc812c3221b21905a0fd16199a1e7827a42daf7807cc390a736",
+          "accepted": true,
+          "reasons": [],
+          "cache_hit": false,
+          "cost": {
+            "precheck_calls": 1,
+            "judge_requests": 1,
+            "prompt_eval_count": 788,
+            "eval_count": 134,
+            "server_total_duration_ns": 23376058875,
+            "elapsed_seconds": 23.43935766699724
+          }
+        },
+        {
+          "text_hash": "087d8bf218ce0b35b01fdbe7cb72b2ff5315104cfb7335604db22c6d8c57be5b",
+          "reference_hash": "fc46a0545b8770057a230f092c1d9bdbd17870d016cdf223eca6d7979156868f",
+          "cache_key": "617a75d87b440158ee2bbd0428be28e002d8bd4d06091c7d1a7b603a8de79de7",
+          "accepted": false,
+          "reasons": [
+            "grammar:fail",
+            "no_deterioration:fail"
+          ],
+          "cache_hit": false,
+          "cost": {
+            "precheck_calls": 1,
+            "judge_requests": 1,
+            "prompt_eval_count": 790,
+            "eval_count": 152,
+            "server_total_duration_ns": 15790902958,
+            "elapsed_seconds": 15.849719082994852
+          }
+        },
+        {
+          "text_hash": "84054ada0ce1950f0c118be3e4f5fd905de06fb287be22ee4b94d51593ea8150",
+          "reference_hash": "84054ada0ce1950f0c118be3e4f5fd905de06fb287be22ee4b94d51593ea8150",
+          "cache_key": "6743931646409c9cd6fb8d68dc00403a7e0a241461e8b5689fa12d42cbdf72fc",
+          "accepted": true,
+          "reasons": [],
+          "cache_hit": false,
+          "cost": {
+            "precheck_calls": 1,
+            "judge_requests": 1,
+            "prompt_eval_count": 792,
+            "eval_count": 108,
+            "server_total_duration_ns": 13485689125,
+            "elapsed_seconds": 13.55842020799173
+          }
+        }
+      ],
+      "quality_guarantee": false,
+      "heuristic": true,
+      "canonical_coordinates_in_judge_input": false
+    },
+    "qwen3.6:latest": {
+      "method": "local-technical-quality-v2",
+      "model": "qwen3.6:latest",
+      "model_identity": "ollama:qwen3.6:latest@http://127.0.0.1:11434#07d35212591fc27746f0a317c975a6d68754fb38e9053d82e25f06057af28522",
+      "model_digest": "07d35212591fc27746f0a317c975a6d68754fb38e9053d82e25f06057af28522",
+      "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+      "calls": 3,
+      "precheck_calls": 3,
+      "precheck_errors": 0,
+      "judge_requests": 3,
+      "cache_hits": 0,
+      "accepted": 1,
+      "rejected": 2,
+      "errors": 1,
+      "elapsed_seconds": 24.953424167004414,
+      "prompt_eval_count": 2380,
+      "eval_count": 740,
+      "server_total_duration_ns": 24740067749,
+      "judge_options": {
+        "seed": 0,
+        "temperature": 0,
+        "top_p": 1.0,
+        "num_predict": 512,
+        "num_ctx": 8192
+      },
+      "timeout_seconds": 180.0,
+      "cache_entries": 2,
+      "entries": [
+        {
+          "text_hash": "b697fc9c894812451b6d3601ce5125bd09ca316705c7b7d43b418a9836175f19",
+          "reference_hash": "d95dafa1c3930075d0edba85f74d9fb53e5cdfbad0f03aafc6e41a72a468677b",
+          "cache_key": null,
+          "accepted": false,
+          "reasons": [
+            "malformed_judgment"
+          ],
+          "cache_hit": false,
+          "cost": {
+            "precheck_calls": 1,
+            "judge_requests": 1,
+            "prompt_eval_count": 796,
+            "eval_count": 268,
+            "server_total_duration_ns": 14783864083,
+            "elapsed_seconds": 14.876676791987848
+          },
+          "error": "Invalid claim_preservation assessment"
+        },
+        {
+          "text_hash": "087d8bf218ce0b35b01fdbe7cb72b2ff5315104cfb7335604db22c6d8c57be5b",
+          "reference_hash": "fc46a0545b8770057a230f092c1d9bdbd17870d016cdf223eca6d7979156868f",
+          "cache_key": "8c95cfff56b7f17ca82dbf1d5d437dfef9bb598dc777a75c76ea1fe7c4f3c203",
+          "accepted": false,
+          "reasons": [
+            "claim_preservation:fail",
+            "grammar:fail",
+            "no_deterioration:fail"
+          ],
+          "cache_hit": false,
+          "cost": {
+            "precheck_calls": 1,
+            "judge_requests": 1,
+            "prompt_eval_count": 794,
+            "eval_count": 240,
+            "server_total_duration_ns": 5017516958,
+            "elapsed_seconds": 5.073192375013605
+          }
+        },
+        {
+          "text_hash": "84054ada0ce1950f0c118be3e4f5fd905de06fb287be22ee4b94d51593ea8150",
+          "reference_hash": "84054ada0ce1950f0c118be3e4f5fd905de06fb287be22ee4b94d51593ea8150",
+          "cache_key": "4a10262c581387b03b5b7860e079ba573fb981a7e0ec6c827bf36a32b7f33188",
+          "accepted": true,
+          "reasons": [],
+          "cache_hit": false,
+          "cost": {
+            "precheck_calls": 1,
+            "judge_requests": 1,
+            "prompt_eval_count": 790,
+            "eval_count": 232,
+            "server_total_duration_ns": 4938686708,
+            "elapsed_seconds": 5.003555000002962
+          }
+        }
+      ],
+      "quality_guarantee": false,
+      "heuristic": true,
+      "canonical_coordinates_in_judge_input": false
+    }
+  },
+  "observed_runtime_summary": [
+    {
+      "model": "gemma4:12b",
+      "model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+      "known_bad_cases": 2,
+      "observed_gate_false_passes": 0,
+      "observed_bad_case_format_rejections": 2,
+      "sound_controls_accepted": 1,
+      "sound_controls": 1,
+      "all_three_cases_elapsed_seconds": 28.699108792934567,
+      "semantic_physics_failure": "Unknown: original raw judgment not captured, only schema rejection was recorded; must not count as semantic detection."
+    },
+    {
+      "model": "gemma4:31b",
+      "model_digest": "6316f0629137b426c9d9b853ffc4c8209589f30ee39aebede6285096c0ff47e7",
+      "known_bad_cases": 2,
+      "observed_gate_false_passes": 1,
+      "observed_bad_case_format_rejections": 0,
+      "sound_controls_accepted": 1,
+      "sound_controls": 1,
+      "all_three_cases_elapsed_seconds": 52.84749695798382,
+      "semantic_physics_failure": "Direct valid all-pass verdict."
+    },
+    {
+      "model": "qwen3.6:latest",
+      "model_digest": "07d35212591fc27746f0a317c975a6d68754fb38e9053d82e25f06057af28522",
+      "known_bad_cases": 2,
+      "observed_gate_false_passes": 0,
+      "observed_bad_case_format_rejections": 1,
+      "sound_controls_accepted": 1,
+      "sound_controls": 1,
+      "all_three_cases_elapsed_seconds": 24.953424167004414,
+      "semantic_physics_failure": "Raw recorded all-pass verdict despite the physics error; rejected only for assessment word count."
+    }
+  ],
+  "calibration_runtime_policy": {
+    "method": "local-technical-quality-v2",
+    "policy_digest": "0a657a3f3b60f1495cade925ff8c600726739a96f2ec65c04073ab50c56fa729",
+    "reason_parser": "Nonempty, at most 240 characters AND at most 20 whitespace-separated words.",
+    "calls": 9,
+    "limitation": "The two Gemma12b raw judgment strings were not captured; original returned reports and costs are retained without reconstructing their lost dimensions."
+  },
+  "final_committed_policy": {
+    "method": "local-technical-quality-v2",
+    "policy_digest": "1d2246ff8ee1ddbbc2d729e71020d0a876bb095396f2f777afe40f267260edbc",
+    "reason_parser": "Nonempty, at most 240 characters. Twenty-word conciseness is a prompt instruction only.",
+    "gpu_calls_after_parser_change": 0,
+    "model_selection": "No tested model validated as a standalone scientific truth judge; default remains gemma4:12b for compatibility, optional heuristic only.",
+    "required_for_research_claims": "Independent factual and grammar review of each admitted final text; vetted references rather than assuming generated baselines are correct."
+  },
+  "offline_final_parser_replay_only": {
+    "method": "No model or network requests; re-parse stored raw Qwen judgments under final character-only parser.",
+    "not_observed_model_accuracy": true,
+    "results": [
+      {
+        "model": "qwen3.6:latest",
+        "case_id": "intrinsic_physics_error",
+        "recorded_raw_output_would_parse": true,
+        "recorded_raw_output_would_accept": true
+      },
+      {
+        "model": "qwen3.6:latest",
+        "case_id": "grammar_regression",
+        "recorded_raw_output_would_parse": true,
+        "recorded_raw_output_would_accept": false
+      },
+      {
+        "model": "qwen3.6:latest",
+        "case_id": "sound_control",
+        "recorded_raw_output_would_parse": true,
+        "recorded_raw_output_would_accept": true
+      }
+    ],
+    "finding": "The saved Qwen physics all-pass response would be accepted after removing the brittle word cap. This is a known remaining semantic false pass, not a quality success."
+  }
+}

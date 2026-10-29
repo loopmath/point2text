@@ -67,11 +67,11 @@ def test_factory_defers_and_caches_reward_per_bundle(components, tmp_path):
     first, second = factory(bundle), factory(bundle)
     assert len(rewards) == 1
     assert searches[0].reward is searches[1].reward is rewards[0]
-    assert searches[0].config.inner_updates == 2
+    assert searches[0].config.inner_updates == 16
     assert first.run(bundle, (0.1, 0.2), seed=42)["guided"] is True
     first.run(bundle, (0.1, 0.2), seed=42, guidance_updates=8)
     assert searches[0].config.inner_updates == 8
-    assert searches[1].config.inner_updates == 2
+    assert searches[1].config.inner_updates == 16
     factory(SimpleNamespace(encoder=object()))
     assert len(rewards) == 2
 

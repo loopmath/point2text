@@ -1,5 +1,7 @@
 # point2text
 
+Read the [six-page system report](docs/system-report/point2text-system-report.pdf) for DiffusionGemma, the full procedure, measured benefits, quality failures, and current limits.
+
 **Experimental diffusion:** a working local diffusion path is included in `main`. See [diffusion setup, algorithm, and observed probes](docs/diffusion.md) and the [parallel implementation plan](docs/diffusion-plan.md). The default `point2text` command remains the scoring-only baseline; `point2text-diffusion` runs the new path.
 
 Read the [two-page diffusion paper](docs/diffusion-paper/point2text-diffusion-report.pdf) for the implemented method and [efficiency audit](docs/diffusion-efficiency.md) for measured work and remaining optimization gates.
@@ -41,10 +43,27 @@ The wheel includes the corpus and web interface. Running from the repository dir
 
 1. Explore the technical corpus and its neighboring paragraphs.
 2. Click a target on the map, or move the target with the keyboard.
-3. Generate up to six candidates. Neighboring corpus paragraphs provide topic context to the local model.
+3. Generate candidates. The browser starts with six and offers counts through 64. Neighboring corpus paragraphs provide topic context to the local model.
 4. Compare the target with each paragraph's measured point. The lowest Euclidean PCA distance is selected as the best candidate.
 
 Changing the target cancels the current search. Cancellation keeps any already verified results in the run record. Sparse areas and positions between topics may be difficult to reach; the app reports remaining distance instead of declaring a guaranteed match.
+
+Zoom with the map controls, wheel, or pinch; drag in Pan mode and use **Fit all** to reset the view. Save completed paragraphs to the host library and show them as map overlays. Saved points keep their original map identity and never refit PCA. Native diffusion shows real intermediate drafts with changed-word animation; drafts remain separate from verified results.
+
+The refinement browser defaults to **6 initial candidates, 16 encoder updates/pass, tolerance 0.01, and 120 seconds**. Higher candidate/update counts and **No time limit** are available. Removing the clock limit retains query/round limits, stalls, and cancellation. Research experiments request `1e-4` explicitly.
+
+## Bring your own model and use case
+
+Choose the embedding checkpoint, revision, preprocessing, corpus and writing policy once at setup:
+
+```bash
+uv run point2text --profile examples/profiles/support.toml --inspect-profile
+uv run --extra encoder point2text --profile examples/profiles/support.toml
+```
+
+Profiles support other SentenceTransformer models and custom JSONL corpora. A different model/corpus produces a separate frozen map; old coordinates retain their original identity. Scoring support is broader than gradient guidance, which needs a compatible differentiable adapter. See [adapting a use case](docs/adapting.md) for the actual prompts, configurable content rules and capability limits.
+
+For setup through an agent, start with the [repository skill](skills/point2text-use-case/SKILL.md) and [onboarding guide](docs/agent-onboarding.md). They cover representative target tests and domain-specific quality review; the bundled scientific judge is a fallible heuristic.
 
 The bundled corpus consists of original, curated conceptual paragraphs for a usable first demo. It is not a collection of published research abstracts or an independent evaluation set. Neighbor-conditioned generation on it is a demonstration, not held-out reconstruction performance. PCA also discards embedding dimensions; map proximity alone does not establish full semantic equivalence.
 
@@ -83,6 +102,8 @@ uv build
 ```
 
 Unit and API tests use fixtures and mocked generators; they do not download models or require Ollama. CI runs checks on Linux and macOS and verifies packaged assets outside the checkout. Real-model smoke tests run separately.
+
+An additional explicit CI job downloads the pinned small reference encoder and checks actual token/gradient-adapter parity, covering dependency changes that fixture graphs cannot detect.
 
 The `encoder` extra contains the reference sentence encoder's PyTorch stack. Core APIs, alternative adapters, and fixture tests can be installed without it using `uv sync --extra dev` or `pip install .`.
 
