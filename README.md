@@ -56,6 +56,8 @@ Zoom with the map controls, wheel, or pinch; drag in Pan mode and use **Fit all*
 
 The refinement browser defaults to **6 initial candidates, 16 encoder updates/pass, tolerance 0.01, and 120 seconds**. Higher candidate/update counts and **No time limit** are available. Removing the clock limit retains query/round limits, stalls, and cancellation. Research experiments request `1e-4` explicitly.
 
+See [restart scheduling and budgets](docs/canonical-restarts.md), [sentence-bank APIs](docs/sentence-bank.md), and [validation](docs/validation-restarts.md) for the optional research components.
+
 Refinement automatically tries fresh generation basins when local progress stops, retaining the closest verified paragraph. The browser starts with **3 extra restarts and 2 candidates per restart**; controls can increase or disable them. Initial candidates and restarts share the original time, query and round budgets. Actual executed diffusion passes and encoder updates appear in the completed run record and interface. Each browser search also chooses a fresh seed, shown in model details and stored in the run record; CLI/API callers can supply a fixed seed for comparisons.
 
 ## Bring your own model and use case

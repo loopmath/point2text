@@ -4,7 +4,30 @@ The research objective remains canonical Euclidean distance `<=1e-4` with usable
 text. The browser's requested default is `0.01`. Neither a lower distance nor a
 local model's approval establishes scientific correctness.
 
-## Current evidence
+## Latest six-click result
+
+Six off-corpus targets were fixed before generation. Public-neighbor generation,
+native repairs/restarts and optional local-model sentence banks supplied
+independently reviewed text for all six. Retained reviewed distances improved
+for five targets; **none reached `1e-4`**. The best is **0.009275**, about 93 times
+the objective. Rejected lower-distance outputs are excluded from these gains.
+
+| Fixed target | Approved generated start | Retained reviewed text |
+| --- | ---: | ---: |
+| 01 | 0.033695 | 0.033695 |
+| 02 | 0.046790 | 0.023555 |
+| 03 | 0.033952 | 0.009275 |
+| 04 | 0.076398 | 0.027391 |
+| 05 | 0.050411 | 0.046745 |
+| 06 | 0.041483 | 0.037211 |
+
+This is an adaptive development panel with different source/repair stages,
+not an equal-compute comparison or held-out generalization result. Quality
+assessments came from distance-blinded GPT-6.1-sol agents and are fallible.
+The [derived summary](experiments/fresh-overall-reviewed-progress.json) records
+exact values and input hashes. Detailed stages, failures and reviews follow.
+
+## Earlier development evidence
 
 The [six-page report](system-report/point2text-system-report.pdf) contains the
 first ten-target experiment and the four independently reviewed local witness
@@ -163,7 +186,7 @@ four targets; neuroscience and climate/cosmology clicks still had none. The
 [summary](experiments/fresh-grounded-conservative-reviewed-summary-v2.json), raw
 drafts and failures remain available. No epsilon success follows from this
 coverage improvement. Word-span, sentence-span and fresh-restart refinement are
-now being compared from approved generated anchors under equal per-arm budgets,
+compared below from approved generated anchors under equal per-arm budgets,
 with separate blinded post-review required for their new text.
 
 ## Reviewed word, sentence and restart refinements
@@ -260,8 +283,8 @@ fidelity **and** preservation of the approved starting anchor's claims. The
 provider is target blind; canonical selection is target conditioned. Raw
 responses, screening failures, all initial/rebased bank atoms and normal
 controller measurements are retained. This arm is hybrid research, not a claim
-that DiffusionGemma alone supplied the new proposals. Its outputs require a new
-blinded review before any quality-preserving progress is claimed.
+that DiffusionGemma alone supplied the new proposals. Its predeclared quality policy required a new
+blinded review before counting any quality-preserving progress.
 
 The [completed hybrid receipt](experiments/fresh-hybrid-sentence-bank-v1.json.gz)
 used frozen source `a00c2d6`. It executed 22 local autoregressive calls and 40

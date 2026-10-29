@@ -1,6 +1,6 @@
 # Restart validation
 
-The restart implementation and subsequent cache fixes passed **353 tests**, with
+The complete package, including restarts and sentence-bank guards, passed **395 tests**, with
 one optional real-encoder test skipped locally. GitHub's Linux/macOS package
 checks and separate pinned-encoder parity job passed. Tests cover independent
 basin progress, a monotone global winner, duplicate reactivation with current

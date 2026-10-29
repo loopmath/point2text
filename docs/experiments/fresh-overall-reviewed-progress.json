@@ -1,0 +1,63 @@
+{
+  "schema": "adaptive-six-click-reviewed-progress-v1",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "targets": 6,
+  "improved_targets": 5,
+  "epsilon_targets": 0,
+  "best_reviewed_distance": 0.00927456032850203,
+  "rows": [
+    {
+      "target_id": "fresh-click-01",
+      "approved_generated_start_distance": 0.033694809793621994,
+      "best_retained_reviewed_distance": 0.033694809793621994,
+      "improved": false,
+      "epsilon_reached": false
+    },
+    {
+      "target_id": "fresh-click-02",
+      "approved_generated_start_distance": 0.04678990375836383,
+      "best_retained_reviewed_distance": 0.023555059149155913,
+      "improved": true,
+      "epsilon_reached": false
+    },
+    {
+      "target_id": "fresh-click-03",
+      "approved_generated_start_distance": 0.03395225229591064,
+      "best_retained_reviewed_distance": 0.00927456032850203,
+      "improved": true,
+      "epsilon_reached": false
+    },
+    {
+      "target_id": "fresh-click-04",
+      "approved_generated_start_distance": 0.07639833644536279,
+      "best_retained_reviewed_distance": 0.027391238195194866,
+      "improved": true,
+      "epsilon_reached": false
+    },
+    {
+      "target_id": "fresh-click-05",
+      "approved_generated_start_distance": 0.05041098604857374,
+      "best_retained_reviewed_distance": 0.04674543309288771,
+      "improved": true,
+      "epsilon_reached": false
+    },
+    {
+      "target_id": "fresh-click-06",
+      "approved_generated_start_distance": 0.04148313144455914,
+      "best_retained_reviewed_distance": 0.03721133339695361,
+      "improved": true,
+      "epsilon_reached": false
+    }
+  ],
+  "sources": [
+    {
+      "path": "docs/experiments/fresh-all-six-reviewed-anchor-summary-v3.json",
+      "sha256": "4428f1a8dc6011e63c62b60b47c5e7decdd1119d3de1fb725e680083b5650028"
+    },
+    {
+      "path": "docs/experiments/fresh-hybrid-sentence-bank-reviewed-summary-v1.json",
+      "sha256": "82ac99d5c061af1182670987013ebb9a4f8d452522bc2e1720d36f206522cdcd"
+    }
+  ],
+  "limits": "Adaptive development panel with heterogeneous generation, repair and optional hybrid stages; individual AI-agent quality review, not a held-out generalization benchmark or equal-compute causal comparison. Retains approved starts when new text is rejected. No new model or encoder queries."
+}
