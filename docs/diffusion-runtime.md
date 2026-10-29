@@ -60,6 +60,66 @@ generation. Request lengths are constrained to 1–256 tokens; the first demo us
 128 tokens and 32 denoising passes. Cancellation is checked between passes and
 returns no text from an unfinished canvas.
 
+## Canonical draft observation and targeted repair
+
+`generate(..., observer=None, observe_every=3)` optionally emits shared
+`DiffusionDraft` snapshots after clean greedy proposals every N passes and at
+normal termination. Draft and final output use one EOS/channel-cleanup routine.
+Snapshots include clean text/IDs and the complete raw `canvas_token_ids`, plus
+zero-based step, requested step count, and `terminal`. Returning `True` requests
+a safe stop at that clean proposal; its terminal notification can repeat the
+just-observed draft, so controllers should deduplicate text. Returning `False`
+does not change native decisions or random draws. Observers must not consume
+MLX's global RNG. An external cancellation still returns no unfinished final
+text; a controller may retain previously observed, canonically verified drafts.
+
+`refine(request, initial_token_ids, edit_mask, ...)` repairs an exact-length
+1–256-token canvas. IDs and boolean masks accept `[positions]` or `[1, positions]`.
+Only editable positions receive native uniform-vocabulary corruption; this is
+not a MASK-token model. Protected IDs are clamped before/after guidance, in
+sampling/acceptance and renoising, in self-conditioning, and in final greedy
+output. Entropy selection and stability operate only on editable positions.
+Partial repairs cannot introduce new structural/EOS tokens that would hide the
+protected suffix. All-false masks return the cleaned original canvas with zero
+denoising passes; all-true masks retain ordinary generation's seeded behavior.
+Each repair builds fresh hybrid prompt KV and self-conditioning state.
+
+`refine_text(request, text, edit_span=(start, end), ...)` uses actual generator
+tokenizer Unicode-character offsets. The input must decode back exactly, and
+must fit a single canvas; no truncation is allowed. Tokens overlapping the
+character span are editable, so token boundaries may expand the selected span
+(for example, to include a preceding space). `edit_span` and
+`expanded_edit_span` in the trace make that expansion explicit. Repair length is
+the input ID count, rather than padding/truncating to `request.max_tokens`.
+
+The optional observer is a scoring seam, not an acceptance criterion: a caller
+must run the canonical sentence encoder on actual decoded text, retain the best
+valid incumbent, and reject repairs that worsen distance or violate quality.
+Warm-start repair is an inference heuristic; no exact-posterior or epsilon
+attainment claim is made.
+
+## Optional contextual replacement vocabulary
+
+`NativeReplacementProvider(runtime, request, top_k=32, max_spans=4)` can be
+passed as a contextual `allowed_replacements` object to the canonical discrete
+edit proposer. Its `replacements(text, span)` method returns alphabetic word
+surfaces from one native denoiser forward, with only the target generator token
+uniformly corrupted. Other text IDs remain the exact context; the prompt uses
+a fresh native cache. No full diffusion trajectory, generator backward pass,
+or separate autoregressive model is involved.
+
+The first version supports only exact whole words covered by one generator
+token. Decoding each replacement must preserve the complete original character
+prefix and suffix. Unsupported words return an empty sequence and a reason;
+the caller must not fall back to unrestricted edits. The provider caches by
+text, span, prompt, seed, runtime identity/revision and top-k; it caps actual
+native probes per text. `.trace` records cache hits, native forwards, elapsed
+costs and unsupported reasons. A failed probe explicitly marks its work as
+unmeasured. This screens vocabulary, not grammaticality or technical validity;
+its logits are not claimed to be calibrated sequence probabilities.
+An optional `should_stop()` callback is checked before each uncached probe;
+deadline/cancellation returns no alternatives and records `deadline_or_cancel`.
+
 The public [mlx-vlm source](https://github.com/Blaizzy/mlx-vlm/blob/217548e24d0d1586b4981c3b50d2f1d3a8e64975/mlx_vlm/generate/diffusion.py)
 matches the installed 0.7.11 diffusion module (SHA-256
 `76e88e4faa8823feb278e7078b714244c6a570a5d3d990cc4ad1863e1a75c8f8`).

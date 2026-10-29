@@ -4,7 +4,7 @@
 
 Read the [two-page diffusion paper](docs/diffusion-paper/point2text-diffusion-report.pdf) for the implemented method and [efficiency audit](docs/diffusion-efficiency.md) for measured work and remaining optimization gates.
 
-The [path to canonical distance 1e-4](docs/optimization-to-epsilon.md) explains the required closed-loop refinement and discrete optimization, with measured numerical precision and explicit feasibility limits.
+The new [canonical refinement prototype](docs/canonical-refinement.md) adds draft feedback, protected-span diffusion repair, and canonical-token discrete search. Run `point2text-diffusion --refine --serve` on port 8479. Its tolerance is a stopping objective, not a guarantee of a readable paragraph at every point. The [optimization plan](docs/optimization-to-epsilon.md) records the motivation and feasibility limits.
 
 **Pick a point. Generate a paragraph. See where it lands.**
 

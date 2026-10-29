@@ -1,0 +1,625 @@
+{
+  "created_at": "2026-10-29T18:57:46.061900+00:00",
+  "mode": "local_repair_diagnostic",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "config": {
+    "epsilon": 0.0001,
+    "max_seconds": 30.0,
+    "max_hard_queries": 512,
+    "max_rounds": 12,
+    "observe_every": 3,
+    "beam_width": 4,
+    "proposals_per_round": 64,
+    "stall_rounds": 4,
+    "min_improvement": 2e-07,
+    "min_words": 60,
+    "max_words": 100,
+    "max_encoder_tokens": 256,
+    "repair_steps": 8,
+    "repair_every": 2
+  },
+  "constraints": "60-100 whitespace words; <=256 canonical encoder tokens",
+  "quality_note": "Mechanical checks only; inspect text for coherence and scientific meaning.",
+  "novelty_note": "Witness recovery in local-repair mode is not novel generation.",
+  "cases": [
+    {
+      "id": "hidden-ml",
+      "target": [
+        0.103571861884376,
+        -0.05270703300984539
+      ],
+      "initial_text": "A predictive system can remain accurate on its training distribution while becoming unreliable after deployment. Changes in measurement procedures, class proportions, or the relationship between observations and outcomes create different forms of distribution shift. Evaluation should separate these mechanisms before choosing an adaptation strategy. Repeated measurements on representative data help distinguish persistent changes from sampling noise without assuming that a single aggregate accuracy captures every failure.",
+      "mutation": {
+        "original": "model",
+        "replacement": "system",
+        "span": [
+          13,
+          18
+        ]
+      },
+      "text": "A predictive model can remain accurate on its training distribution while becoming unreliable after deployment. Changes in measurement procedures, class proportions, or the relationship between observations and outcomes create different forms of distribution shift. Evaluation should separate these mechanisms before choosing an adaptation strategy. Repeated measurements on representative data help distinguish persistent changes from sampling noise without assuming that a single aggregate accuracy captures every failure.",
+      "trace": {
+        "strategy": "canonical-feedback-refinement-v1",
+        "status": "complete",
+        "stop_reason": "epsilon_reached",
+        "error": null,
+        "errors": [],
+        "epsilon": 0.0001,
+        "epsilon_confirmed": true,
+        "epsilon_worst_distance": 0.0,
+        "epsilon_confirmation": {
+          "confirmed": true,
+          "checks": [
+            {
+              "x": 0.103571861884376,
+              "y": -0.05270703300984539,
+              "distance": 0.0,
+              "cached": false,
+              "batch_size": 1
+            },
+            {
+              "x": 0.103571861884376,
+              "y": -0.05270703300984539,
+              "distance": 0.0,
+              "cached": false,
+              "batch_size": 1
+            }
+          ],
+          "worst_distance": 0.0,
+          "reason": "epsilon_reached"
+        },
+        "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+        "target": [
+          0.103571861884376,
+          -0.05270703300984539
+        ],
+        "distance_metric": "euclidean-unwhitened-pca",
+        "config": {
+          "epsilon": 0.0001,
+          "max_seconds": 30.0,
+          "max_hard_queries": 512,
+          "max_rounds": 12,
+          "observe_every": 3,
+          "beam_width": 4,
+          "proposals_per_round": 64,
+          "stall_rounds": 4,
+          "min_improvement": 2e-07,
+          "min_words": 60,
+          "max_words": 100,
+          "max_encoder_tokens": 256,
+          "repair_steps": 8,
+          "repair_every": 2
+        },
+        "request": {
+          "prompt": "",
+          "seed": 42,
+          "max_tokens": 128,
+          "steps": 32,
+          "temperature": 0.8
+        },
+        "prompt_policy": "no_generator",
+        "requested_candidates": 1,
+        "runtime_identity": null,
+        "elapsed_seconds": 0.14326545904623345,
+        "rounds": 1,
+        "stall_rounds": 0,
+        "incumbent_improvements": 2,
+        "hard_queries": 67,
+        "accepted_proposals": 65,
+        "rejected_proposals": 0,
+        "budget_kind": null,
+        "candidates": [
+          {
+            "text": "A predictive system can remain accurate on its training distribution while becoming unreliable after deployment. Changes in measurement procedures, class proportions, or the relationship between observations and outcomes create different forms of distribution shift. Evaluation should separate these mechanisms before choosing an adaptation strategy. Repeated measurements on representative data help distinguish persistent changes from sampling noise without assuming that a single aggregate accuracy captures every failure.",
+            "x": 0.13798903089325776,
+            "y": -0.034257476580389065,
+            "distance": 0.039050322086118874,
+            "elapsed_seconds": 0.006808709003962576,
+            "seed": 42
+          },
+          {
+            "text": "A predictive model can remain accurate on its training distribution while becoming unreliable after deployment. Changes in measurement procedures, class proportions, or the relationship between observations and outcomes create different forms of distribution shift. Evaluation should separate these mechanisms before choosing an adaptation strategy. Repeated measurements on representative data help distinguish persistent changes from sampling noise without assuming that a single aggregate accuracy captures every failure.",
+            "x": 0.103571861884376,
+            "y": -0.05270703300984539,
+            "distance": 0.0,
+            "elapsed_seconds": 0.14323037501890212,
+            "seed": 42
+          }
+        ],
+        "best_candidate": {
+          "text": "A predictive model can remain accurate on its training distribution while becoming unreliable after deployment. Changes in measurement procedures, class proportions, or the relationship between observations and outcomes create different forms of distribution shift. Evaluation should separate these mechanisms before choosing an adaptation strategy. Repeated measurements on representative data help distinguish persistent changes from sampling noise without assuming that a single aggregate accuracy captures every failure.",
+          "x": 0.103571861884376,
+          "y": -0.05270703300984539,
+          "distance": 0.0,
+          "elapsed_seconds": 0.14323037501890212,
+          "seed": 42
+        },
+        "history": [
+          {
+            "phase": "initial_text",
+            "round": 0,
+            "seed": 42,
+            "previous_distance": null,
+            "distance": 0.039050322086118874,
+            "x": 0.13798903089325776,
+            "y": -0.034257476580389065,
+            "text": "A predictive system can remain accurate on its training distribution while becoming unreliable after deployment. Changes in measurement procedures, class proportions, or the relationship between observations and outcomes create different forms of distribution shift. Evaluation should separate these mechanisms before choosing an adaptation strategy. Repeated measurements on representative data help distinguish persistent changes from sampling noise without assuming that a single aggregate accuracy captures every failure.",
+            "elapsed_seconds": 0.006808709003962576,
+            "diagnostics": {
+              "word_count": 66,
+              "encoder_token_count": 75,
+              "validation": "mechanical_only",
+              "coherence_certified": false,
+              "provenance": {
+                "phase": "initial_text"
+              }
+            }
+          },
+          {
+            "phase": "discrete_edit",
+            "round": 1,
+            "seed": 42,
+            "previous_distance": 0.039050322086118874,
+            "distance": 0.0,
+            "x": 0.103571861884376,
+            "y": -0.05270703300984539,
+            "text": "A predictive model can remain accurate on its training distribution while becoming unreliable after deployment. Changes in measurement procedures, class proportions, or the relationship between observations and outcomes create different forms of distribution shift. Evaluation should separate these mechanisms before choosing an adaptation strategy. Repeated measurements on representative data help distinguish persistent changes from sampling noise without assuming that a single aggregate accuracy captures every failure.",
+            "elapsed_seconds": 0.14323037501890212,
+            "diagnostics": {
+              "word_count": 66,
+              "encoder_token_count": 75,
+              "validation": "mechanical_only",
+              "coherence_certified": false,
+              "provenance": {
+                "method": "canonical-input-gradient-discrete-v1",
+                "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                "kind": "replace-word",
+                "source_spans": [
+                  [
+                    13,
+                    19
+                  ]
+                ],
+                "replacements": [
+                  "model"
+                ],
+                "predicted_map_delta": [
+                  -0.02865787094494939,
+                  0.005684121857087283
+                ],
+                "predicted_squared_distance": 0.0006156030949028683,
+                "predicted_loss_change": -0.000909322921834418,
+                "gradient_dot_embedding_change": -0.0017629057302180101,
+                "source_map_location": [
+                  0.13798901438713074,
+                  -0.03425749018788338
+                ],
+                "source_gradient_norm": 0.053707552577315416,
+                "prediction_kinds": [
+                  "same-length-input-linearization"
+                ],
+                "lexical_policy": "curated-technical-families",
+                "quality": "mechanical-constraints-only; canonical and semantic verification required",
+                "canonical_verified": false
+              },
+              "epsilon_confirmation": {
+                "confirmed": true,
+                "checks": [
+                  {
+                    "x": 0.103571861884376,
+                    "y": -0.05270703300984539,
+                    "distance": 0.0,
+                    "cached": false,
+                    "batch_size": 1
+                  },
+                  {
+                    "x": 0.103571861884376,
+                    "y": -0.05270703300984539,
+                    "distance": 0.0,
+                    "cached": false,
+                    "batch_size": 1
+                  }
+                ],
+                "worst_distance": 0.0,
+                "reason": "epsilon_reached"
+              }
+            }
+          }
+        ],
+        "native_traces": [],
+        "costs": {
+          "proposer_seconds": 0.03303558396873996,
+          "native_seconds": 0.0,
+          "verification_seconds": 0.11013725097291172,
+          "repair_calls": 0
+        },
+        "verification": {
+          "proposals": 65,
+          "tokenizer_calls": 2,
+          "hard_queries": 67,
+          "batch_calls": 4,
+          "singleton_calls": 3,
+          "accepted": 65,
+          "confirmation_queries": 2,
+          "rejected": 0,
+          "rejections": {},
+          "cache_size": 65,
+          "elapsed_seconds": 0.1432934160111472,
+          "max_seconds": 30.0,
+          "max_hard_queries": 512,
+          "reserved_confirmation_queries": 2,
+          "remaining_search_queries": 443,
+          "budget_reason": null,
+          "encoder_token_fingerprint_available": true,
+          "encoder_token_limit_checked": true,
+          "quality_validation_state": "mechanical_checks_only",
+          "coherence_certificate": false,
+          "epsilon_confirmation": {
+            "confirmed": true,
+            "checks": [
+              {
+                "x": 0.103571861884376,
+                "y": -0.05270703300984539,
+                "distance": 0.0,
+                "cached": false,
+                "batch_size": 1
+              },
+              {
+                "x": 0.103571861884376,
+                "y": -0.05270703300984539,
+                "distance": 0.0,
+                "cached": false,
+                "batch_size": 1
+              }
+            ],
+            "worst_distance": 0.0,
+            "reason": "epsilon_reached"
+          }
+        },
+        "quality_validation_state": "mechanical_checks_only",
+        "epsilon_is_attainability_claim": false
+      },
+      "equals_witness": true
+    },
+    {
+      "id": "hidden-systems",
+      "target": [
+        0.3617932812459739,
+        -0.12315898265624298
+      ],
+      "initial_text": "A replicated system must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client uncertain even when a quorum has accepted the write. Retrying with a stable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior explicit when a connection fails between commitment and acknowledgment.",
+      "mutation": {
+        "original": "service",
+        "replacement": "system",
+        "span": [
+          13,
+          20
+        ]
+      },
+      "text": "A replicated process must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client uncertain even when a quorum has accepted the write. Retrying with a reliable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior clear when a relationship fails between commitment and acknowledgment.",
+      "trace": {
+        "strategy": "canonical-feedback-refinement-v1",
+        "status": "complete",
+        "stop_reason": "stalled",
+        "error": null,
+        "errors": [],
+        "epsilon": 0.0001,
+        "epsilon_confirmed": false,
+        "epsilon_worst_distance": null,
+        "epsilon_confirmation": {
+          "confirmed": false,
+          "checks": [],
+          "worst_distance": null
+        },
+        "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+        "target": [
+          0.3617932812459739,
+          -0.12315898265624298
+        ],
+        "distance_metric": "euclidean-unwhitened-pca",
+        "config": {
+          "epsilon": 0.0001,
+          "max_seconds": 30.0,
+          "max_hard_queries": 512,
+          "max_rounds": 12,
+          "observe_every": 3,
+          "beam_width": 4,
+          "proposals_per_round": 64,
+          "stall_rounds": 4,
+          "min_improvement": 2e-07,
+          "min_words": 60,
+          "max_words": 100,
+          "max_encoder_tokens": 256,
+          "repair_steps": 8,
+          "repair_every": 2
+        },
+        "request": {
+          "prompt": "",
+          "seed": 42,
+          "max_tokens": 128,
+          "steps": 32,
+          "temperature": 0.8
+        },
+        "prompt_policy": "no_generator",
+        "requested_candidates": 1,
+        "runtime_identity": null,
+        "elapsed_seconds": 0.8098783749737777,
+        "rounds": 7,
+        "stall_rounds": 4,
+        "incumbent_improvements": 4,
+        "hard_queries": 184,
+        "accepted_proposals": 184,
+        "rejected_proposals": 239,
+        "budget_kind": null,
+        "candidates": [
+          {
+            "text": "A replicated system must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client uncertain even when a quorum has accepted the write. Retrying with a stable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior explicit when a connection fails between commitment and acknowledgment.",
+            "x": 0.37122658251591256,
+            "y": -0.1183374042557022,
+            "distance": 0.010594092274564546,
+            "elapsed_seconds": 0.006393457995727658,
+            "seed": 42
+          },
+          {
+            "text": "A replicated explicit system must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client ambiguous even when a quorum has accepted the write. Retrying with a stable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior explicit when a connection fails between commitment and acknowledgment.",
+            "x": 0.3615379931069619,
+            "y": -0.1183686732984025,
+            "distance": 0.00479710702170946,
+            "elapsed_seconds": 0.09247683297144249,
+            "seed": 42
+          },
+          {
+            "text": "A replicated independent procedure must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client uncertain even when a quorum has accepted the write. Retrying with a stable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior precise when a connection fails between commitment and acknowledgment.",
+            "x": 0.36263487097035485,
+            "y": -0.12249840264404133,
+            "distance": 0.001069878131706588,
+            "elapsed_seconds": 0.2704197079874575,
+            "seed": 42
+          },
+          {
+            "text": "A replicated process must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client uncertain even when a quorum has accepted the write. Retrying with a reliable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior clear when a relationship fails between commitment and acknowledgment.",
+            "x": 0.3615513996143358,
+            "y": -0.12253027854789784,
+            "distance": 0.0006736286659383973,
+            "elapsed_seconds": 0.4312239999999292,
+            "seed": 42
+          }
+        ],
+        "best_candidate": {
+          "text": "A replicated process must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client uncertain even when a quorum has accepted the write. Retrying with a reliable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior clear when a relationship fails between commitment and acknowledgment.",
+          "x": 0.3615513996143358,
+          "y": -0.12253027854789784,
+          "distance": 0.0006736286659383973,
+          "elapsed_seconds": 0.4312239999999292,
+          "seed": 42
+        },
+        "history": [
+          {
+            "phase": "initial_text",
+            "round": 0,
+            "seed": 42,
+            "previous_distance": null,
+            "distance": 0.010594092274564546,
+            "x": 0.37122658251591256,
+            "y": -0.1183374042557022,
+            "text": "A replicated system must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client uncertain even when a quorum has accepted the write. Retrying with a stable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior explicit when a connection fails between commitment and acknowledgment.",
+            "elapsed_seconds": 0.006393457995727658,
+            "diagnostics": {
+              "word_count": 66,
+              "encoder_token_count": 83,
+              "validation": "mechanical_only",
+              "coherence_certified": false,
+              "provenance": {
+                "phase": "initial_text"
+              }
+            }
+          },
+          {
+            "phase": "discrete_edit",
+            "round": 1,
+            "seed": 42,
+            "previous_distance": 0.010594092274564546,
+            "distance": 0.00479710702170946,
+            "x": 0.3615379931069619,
+            "y": -0.1183686732984025,
+            "text": "A replicated explicit system must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client ambiguous even when a quorum has accepted the write. Retrying with a stable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior explicit when a connection fails between commitment and acknowledgment.",
+            "elapsed_seconds": 0.09247683297144249,
+            "diagnostics": {
+              "word_count": 67,
+              "encoder_token_count": 84,
+              "validation": "mechanical_only",
+              "coherence_certified": false,
+              "provenance": {
+                "method": "canonical-input-gradient-discrete-v1",
+                "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                "kind": "disjoint-pair",
+                "source_spans": [
+                  [
+                    140,
+                    149
+                  ],
+                  [
+                    13,
+                    13
+                  ]
+                ],
+                "replacements": [
+                  "ambiguous",
+                  "explicit "
+                ],
+                "predicted_map_delta": [
+                  -0.005857748858848532,
+                  -0.0008506731551664505
+                ],
+                "predicted_squared_distance": 2.8552942062006177e-05,
+                "predicted_loss_change": -8.368245447092188e-05,
+                "gradient_dot_embedding_change": -0.00011871932098118399,
+                "source_map_location": [
+                  0.37122660875320435,
+                  -0.11833739280700684
+                ],
+                "source_gradient_norm": 0.011219183446014169,
+                "prediction_kinds": [
+                  "same-length-input-linearization",
+                  "insertion-mean-input-approximation"
+                ],
+                "lexical_policy": "curated-technical-families",
+                "quality": "mechanical-constraints-only; canonical and semantic verification required",
+                "canonical_verified": false
+              }
+            }
+          },
+          {
+            "phase": "discrete_edit",
+            "round": 2,
+            "seed": 42,
+            "previous_distance": 0.00479710702170946,
+            "distance": 0.001069878131706588,
+            "x": 0.36263487097035485,
+            "y": -0.12249840264404133,
+            "text": "A replicated independent procedure must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client uncertain even when a quorum has accepted the write. Retrying with a stable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior precise when a connection fails between commitment and acknowledgment.",
+            "elapsed_seconds": 0.2704197079874575,
+            "diagnostics": {
+              "word_count": 67,
+              "encoder_token_count": 84,
+              "validation": "mechanical_only",
+              "coherence_certified": false,
+              "provenance": {
+                "method": "canonical-input-gradient-discrete-v1",
+                "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                "kind": "disjoint-pair",
+                "source_spans": [
+                  [
+                    400,
+                    408
+                  ],
+                  [
+                    25,
+                    31
+                  ]
+                ],
+                "replacements": [
+                  "precise",
+                  "procedure"
+                ],
+                "predicted_map_delta": [
+                  0.0029211440707564394,
+                  -0.002680147751877658
+                ],
+                "predicted_squared_distance": 4.281116773128745e-06,
+                "predicted_loss_change": -3.0247416255935777e-05,
+                "gradient_dot_embedding_change": -4.596369090994615e-05,
+                "source_map_location": [
+                  0.3581709563732147,
+                  -0.11853218078613281
+                ],
+                "source_gradient_norm": 0.006269083084968706,
+                "prediction_kinds": [
+                  "same-length-input-linearization",
+                  "same-length-input-linearization"
+                ],
+                "lexical_policy": "curated-technical-families",
+                "quality": "mechanical-constraints-only; canonical and semantic verification required",
+                "canonical_verified": false
+              }
+            }
+          },
+          {
+            "phase": "discrete_edit",
+            "round": 3,
+            "seed": 42,
+            "previous_distance": 0.001069878131706588,
+            "distance": 0.0006736286659383973,
+            "x": 0.3615513996143358,
+            "y": -0.12253027854789784,
+            "text": "A replicated process must distinguish agreement about an operation from successful delivery of its result. Network delays can leave a client uncertain even when a quorum has accepted the write. Retrying with a reliable request identifier allows the service to recognize duplicate work. This design separates the consistency protocol from the application response and makes recovery behavior clear when a relationship fails between commitment and acknowledgment.",
+            "elapsed_seconds": 0.4312239999999292,
+            "diagnostics": {
+              "word_count": 66,
+              "encoder_token_count": 83,
+              "validation": "mechanical_only",
+              "coherence_certified": false,
+              "provenance": {
+                "method": "canonical-input-gradient-discrete-v1",
+                "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                "kind": "disjoint-pair",
+                "source_spans": [
+                  [
+                    407,
+                    417
+                  ],
+                  [
+                    391,
+                    399
+                  ]
+                ],
+                "replacements": [
+                  "relationship",
+                  "clear"
+                ],
+                "predicted_map_delta": [
+                  -0.0019319459101141416,
+                  -0.0003159356779899353
+                ],
+                "predicted_squared_distance": 1.4150934492868694e-06,
+                "predicted_loss_change": -3.77396337494715e-06,
+                "gradient_dot_embedding_change": -7.606193727180869e-06,
+                "source_map_location": [
+                  0.3639025092124939,
+                  -0.12401933968067169
+                ],
+                "source_gradient_norm": 0.0023795657553982597,
+                "prediction_kinds": [
+                  "same-length-input-linearization",
+                  "same-length-input-linearization"
+                ],
+                "lexical_policy": "curated-technical-families",
+                "quality": "mechanical-constraints-only; canonical and semantic verification required",
+                "canonical_verified": false
+              }
+            }
+          }
+        ],
+        "native_traces": [],
+        "costs": {
+          "proposer_seconds": 0.49868166691157967,
+          "native_seconds": 0.0,
+          "verification_seconds": 0.31084999890299514,
+          "repair_calls": 0
+        },
+        "verification": {
+          "proposals": 423,
+          "tokenizer_calls": 5,
+          "hard_queries": 184,
+          "batch_calls": 5,
+          "singleton_calls": 1,
+          "accepted": 184,
+          "cache_hits": 239,
+          "rejected": 239,
+          "rejections": {
+            "duplicate_text": 239
+          },
+          "cache_size": 184,
+          "elapsed_seconds": 0.8098955830209889,
+          "max_seconds": 30.0,
+          "max_hard_queries": 512,
+          "reserved_confirmation_queries": 2,
+          "remaining_search_queries": 326,
+          "budget_reason": null,
+          "encoder_token_fingerprint_available": true,
+          "encoder_token_limit_checked": true,
+          "quality_validation_state": "mechanical_checks_only",
+          "coherence_certificate": false,
+          "epsilon_confirmation": {
+            "confirmed": false,
+            "checks": [],
+            "worst_distance": null
+          }
+        },
+        "quality_validation_state": "mechanical_checks_only",
+        "epsilon_is_attainability_claim": false
+      },
+      "equals_witness": false
+    }
+  ]
+}

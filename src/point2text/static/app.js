@@ -30,7 +30,8 @@
   function announce(message) { $('announcement').textContent = message; }
   function finite(value) { return typeof value === 'number' && Number.isFinite(value); }
   function format(value, digits = 3) { return finite(value) ? value.toFixed(digits).replace(/^-0\.0+$/, (0).toFixed(digits)) : '—'; }
-  function coordinateText(point) { return `${format(point[0])}, ${format(point[1])}`; }
+  function coordinateText(point) { const digits = state.status?.generator?.refinement ? 6 : 3; return `${format(point[0], digits)}, ${format(point[1], digits)}`; }
+  function distanceText(value) { return finite(value) ? format(value, value < 0.01 ? 6 : 3) : '—'; }
   function topicColor(topic) { return state.topicColors.get(topic) || colors[0]; }
 
   async function api(path, options = {}) {
@@ -54,6 +55,10 @@
     $('candidate-count').disabled = state.busy;
     $('guidance-control').hidden = state.status?.generator?.guided !== true;
     $('guidance-updates').disabled = state.busy;
+    $('refinement-control').hidden = state.status?.generator?.refinement !== true;
+    $('refinement-epsilon').disabled = state.busy;
+    $('refinement-seconds').disabled = state.busy;
+    $('candidate-label').textContent = state.status?.generator?.refinement ? 'INITIAL CANDIDATES' : 'CANDIDATES';
     $('clear-target').hidden = !state.target;
     if (state.busy) {
       $('action-help').textContent = 'Each completed paragraph is scored at its actual map position.';
@@ -75,8 +80,9 @@
       const status = await api('/api/status');
       state.status = status;
       const diffusion = Boolean(status.generator?.runtime);
-      document.querySelector('.mode-label').textContent = diffusion ? status.generator.guided ? 'Experimental diffusion guidance' : 'Unguided diffusion' : 'Local candidate search';
-      document.querySelector('.method-note p').textContent = diffusion && status.generator.guided ? 'A frozen diffusion model refines token choices with an approximate map-gradient signal. We re-embed the finished text and keep the closest measured paragraph.' : 'We generate candidates, embed their actual text, and keep the closest match. The line shows the remaining distance in this two-dimensional map.';
+      const refinement = status.generator?.refinement === true;
+      document.querySelector('.mode-label').textContent = refinement ? 'Canonical refinement · experimental' : diffusion ? status.generator.guided ? 'Experimental diffusion guidance' : 'Unguided diffusion' : 'Local candidate search';
+      document.querySelector('.method-note p').textContent = refinement ? 'Diffusion proposes text and span repairs; canonical encoder gradients propose local edits. We keep measured improvements. Target tolerance is confirmed with fresh text scores; text quality remains unverified.' : diffusion && status.generator.guided ? 'A frozen diffusion model refines token choices with an approximate map-gradient signal. We re-embed the finished text and keep the closest measured paragraph.' : 'We generate candidates, embed their actual text, and keep the closest match. The line shows the remaining distance in this two-dimensional map.';
       $('detail-generator').textContent = status.generator?.model || 'No model selected';
       const problems = [status.error, status.generator?.error].filter(Boolean);
       $('detail-status').textContent = problems.length ? problems.join('\n') : status.ready ? status.generator?.available ? 'Local worker ready. Models remain frozen.' : 'Local generator unavailable. Start Ollama and load the model listed above. This page checks again automatically.' : 'Encoding the corpus and preparing its fixed projection.';
@@ -327,10 +333,10 @@
         if (Math.hypot(x - tx, y - ty) > 55) {
           const lx = (x + tx) / 2, ly = (y + ty) / 2;
           appendSVG(trails, 'rect', { x: lx - 23, y: ly - 8, width: 46, height: 16, rx: 2, class: 'result-label-bg' });
-          appendSVG(trails, 'text', { x: lx, y: ly + 3, 'text-anchor': 'middle', class: 'plot-distance' }, format(candidate.distance));
+          appendSVG(trails, 'text', { x: lx, y: ly + 3, 'text-anchor': 'middle', class: 'plot-distance' }, distanceText(candidate.distance));
         }
       }
-      const g = appendSVG(layer, 'g', { tabindex: '0', role: 'button', 'aria-label': `Read candidate ${index + 1}, distance ${format(candidate.distance)}` });
+      const g = appendSVG(layer, 'g', { tabindex: '0', role: 'button', 'aria-label': `Read candidate ${index + 1}, distance ${distanceText(candidate.distance)}` });
       appendSVG(g, 'circle', { cx: x, cy: y, r: index === selected ? 8 : 5.5, class: 'result-dot', fill: index === selected ? '#b55c3d' : '#d5a890' });
       appendSVG(g, 'text', { x: x + 10, y: y - 9, class: 'result-number' }, String(index + 1).padStart(2, '0'));
       const select = event => { event.stopPropagation(); state.selected = index; state.tab = 'best'; renderOutput(); renderResults(); };
@@ -343,7 +349,7 @@
     const heading = element('div', { class: 'result-heading' });
     heading.append(element('span', { class: 'result-label' }, `CANDIDATE ${String(index + 1).padStart(2, '0')}${isBest ? ' · BEST MATCH' : ''}`));
     const distance = element('span', { class: 'distance-chip' });
-    distance.append(element('span', { 'aria-hidden': 'true' }, '↔'), element('strong', {}, format(candidate.distance)), element('span', {}, 'from target'));
+    distance.append(element('span', { 'aria-hidden': 'true' }, '↔'), element('strong', {}, distanceText(candidate.distance)), element('span', {}, 'from target'));
     heading.append(distance);
     return heading;
   }
@@ -355,7 +361,7 @@
     const index = selectedIndex(), best = bestIndex(), candidate = state.candidates[index];
     $('candidate-total').textContent = String(count);
     $('result-label').textContent = `CANDIDATE ${String(index + 1).padStart(2, '0')}${index === best ? ' · BEST MATCH' : ''}`;
-    $('result-distance').textContent = format(candidate.distance);
+    $('result-distance').textContent = distanceText(candidate.distance);
     $('result-text').textContent = candidate.text;
     $('result-position').textContent = `ACTUAL POSITION  ${coordinateText([candidate.x, candidate.y])}`;
     $('result-time').textContent = `${format(candidate.elapsed_seconds, 1)}s`;
@@ -407,6 +413,11 @@
     $('progress').hidden = false;
     $('progress-fill').style.width = `${Math.min(100, count / state.requested * 100)}%`;
     $('progress-label').textContent = running ? count ? `${count} of ${state.requested} measured · finding the next paragraph` : 'Writing the first paragraph locally' : run.status === 'cancelled' ? `Search stopped · ${count} measured` : run.status === 'error' ? 'Search interrupted' : `${count} ${count === 1 ? 'paragraph' : 'paragraphs'} measured · closest selected`;
+    if (state.status?.generator?.refinement) {
+      const reasons = { epsilon_reached: 'Tolerance confirmed', budget_exhausted: 'Budget reached', stalled: 'Refinement stalled', cancelled: 'Search stopped', no_valid_text: 'No valid paragraph' };
+      const reason = run.trace?.stop_reason;
+      $('progress-label').textContent = running ? count ? `${count} verified improvements · refining actual text` : 'Generating and checking clean drafts' : `${reasons[reason] || 'Search finished'} · ${count} verified improvements`;
+    }
     if (run.error) showRunError(run.error);
     renderOutput();
     if (count !== previousCount) frameMap(); else renderResults();
@@ -453,6 +464,10 @@
     try {
       const body = { map_id: state.map.map_id, target: [...state.target], candidates: state.requested, seed: 42 };
       if (state.status?.generator?.guided === true) body.guidance_updates = Number($('guidance-updates').value);
+      if (state.status?.generator?.refinement === true) {
+        body.refinement_epsilon = Number($('refinement-epsilon').value);
+        body.refinement_seconds = Number($('refinement-seconds').value);
+      }
       const run = await api('/api/runs', { method: 'POST', body: JSON.stringify(body) });
       if (!run.id) throw new Error('The local worker did not return a run identifier.');
       if (epoch !== state.epoch) { void quietlyCancel(run.id); return; }
