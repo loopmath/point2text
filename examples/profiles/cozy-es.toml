@@ -1,0 +1,21 @@
+# Illustrative original corpus; configuration/prompt-tested, not model-quality validated.
+# E5 symmetric prefix: https://huggingface.co/intfloat/multilingual-e5-small
+[encoder]
+checkpoint = "intfloat/multilingual-e5-small"
+revision = "614241f622f53c4eeff9890bdc4f31cfecc418b3"
+max_length = 512
+normalize = true
+prompt = "query: "
+
+[corpus]
+path = "cozy-es.jsonl"
+
+[prompt]
+purpose = "Crear el arranque de una escena de misterio acogedor con una pista concreta y una pregunta sin resolver"
+domain = "ficción de misterio acogedor en español"
+style = "español natural, tercera persona en pasado, ambiente cálido de pueblo, intriga amable y detalles concretos"
+min_words = 40
+max_words = 65
+neighbors = 4
+extra_instructions = "Escribe exclusivamente en español. Mantén un punto de vista coherente, presenta una pista comprensible, evita violencia gráfica y no resuelvas el misterio. No copies nombres, frases ni tramas enteras de los ejemplos."
+content_rules = "Inventa personajes y sucesos ficticios originales. Mantén la coherencia del mundo narrativo y no presentes los acontecimientos como hechos reales."

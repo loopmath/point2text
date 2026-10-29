@@ -9,6 +9,7 @@ import argparse
 from dataclasses import asdict
 from datetime import datetime, timezone
 import hashlib
+import gzip
 import json
 from pathlib import Path
 
@@ -29,7 +30,7 @@ def main():
     parser.add_argument("--seconds", type=float, default=60)
     parser.add_argument("--queries", type=int, default=4096)
     args = parser.parse_args()
-    pool = json.loads(args.pool.read_text())
+    pool = json.loads(gzip.decompress(args.pool.read_bytes())) if args.pool.suffix == ".gz" else json.loads(args.pool.read_text())
     review = json.loads(args.reviews.read_text())
     approved = {row["candidate_id"] for case in review["cases"] for row in case["candidates"]
                 if row.get("accepted") is True}

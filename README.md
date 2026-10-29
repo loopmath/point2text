@@ -8,6 +8,8 @@ Read the [two-page diffusion paper](docs/diffusion-paper/point2text-diffusion-re
 
 The new [canonical refinement prototype](docs/canonical-refinement.md) adds draft feedback, protected-span diffusion repair, and canonical-token discrete search. Run `point2text-diffusion --refine --serve` on port 8479. Its tolerance is a stopping objective, not a guarantee of a readable paragraph at every point. The [optimization plan](docs/optimization-to-epsilon.md) records the motivation and feasibility limits.
 
+See [current optimization results](docs/optimization-progress.md) for the reviewed multi-target comparison, including failures and the limits of local epsilon recovery.
+
 **Pick a point. Generate a paragraph. See where it lands.**
 
 A local research tool for generating technical text toward a selected position on a fixed semantic map. The first demo embeds a bundled technical corpus, fits a two-dimensional PCA map, generates several paragraphs with a local Ollama model, and plots each paragraph's **actual decoded-text embedding**.

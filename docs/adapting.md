@@ -15,6 +15,14 @@ model or corpus deliberately produces a separate fingerprint.
 
 ## Profile settings
 
+The [Spanish fiction example](../examples/profiles/cozy-es.toml) combines a
+different embedding checkpoint, its documented symmetric-input prefix, an
+original nine-text corpus, and fiction-specific content rules. Its configuration
+and rendered prompts were checked without downloading model weights; it is not
+a validated generation benchmark. It needs a separate map and cannot reuse the
+demo's coordinates. See the embedding model's
+[input guidance](https://huggingface.co/intfloat/multilingual-e5-small).
+
 Start with [`support.toml`](../examples/profiles/support.toml) and its small
 [`support.jsonl`](../examples/profiles/support.jsonl) example, or
 [`alternate-encoder.toml`](../examples/profiles/alternate-encoder.toml) for a
