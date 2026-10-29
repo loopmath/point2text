@@ -51,6 +51,11 @@
         <div class="generation-controls">
           <div class="target-readout"><div><span class="field-label">TARGET POSITION</span><div class="coordinates"><span class="target-symbol" aria-hidden="true">⊕</span><span id="target-coordinates">Choose a point on the map</span></div></div><button type="button" id="clear-target" class="text-button" hidden>Clear</button></div>
           <div class="action-row"><label class="candidate-control" for="candidate-count"><span class="field-label">CANDIDATES</span><select id="candidate-count"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></label><button type="button" id="generate" class="generate-button" disabled><span>Generate paragraphs</span><span aria-hidden="true">↗</span></button><button type="button" id="cancel" class="cancel-button" hidden>Stop search</button></div>
+          <div id="guidance-control" class="guidance-control" hidden>
+            <label for="guidance-updates">Encoder updates / pass</label>
+            <select id="guidance-updates" aria-describedby="guidance-help"><option>1</option><option selected>2</option><option>4</option><option>8</option><option>16</option></select>
+            <p id="guidance-help">More encoder refinements before each diffusion decision</p>
+          </div>
           <p class="action-help" id="action-help">Select a target to begin.</p>
           <div class="progress" id="progress" hidden><div class="progress-info"><span id="progress-label">Starting local generation</span><span id="elapsed">0.0s</span></div><div class="progress-track"><div id="progress-fill"></div></div></div>
           <div id="run-error" class="error-message" role="alert" hidden></div>
@@ -60,7 +65,7 @@
           <div id="output-empty" class="output-empty"><span class="empty-glyph" aria-hidden="true">Aa<span>+</span></span><h3>Let an idea take shape.</h3><p>Your generated paragraphs will appear here, with their measured positions on the map.</p><div class="empty-note"><span class="mini-dot"></span> Generated position <span class="mini-line"></span> Distance to target</div></div>
           <div id="output-content" hidden>
             <div class="output-toolbar"><div class="output-tabs" role="tablist" aria-label="Candidate view"><button type="button" id="tab-best" role="tab" aria-selected="true" aria-controls="best-view" class="active">Best match</button><button type="button" id="tab-all" role="tab" aria-selected="false" aria-controls="all-view">All candidates <span id="candidate-total">0</span></button></div><button type="button" id="copy" class="text-button">Copy text</button></div>
-            <div id="best-view" role="tabpanel" aria-labelledby="tab-best"><div class="result-heading"><span class="result-label" id="result-label">CANDIDATE 01</span><span class="distance-chip"><span aria-hidden="true">↔</span> <strong id="result-distance">—</strong> <span>from target</span></span></div><p id="result-text" class="result-text"></p><div class="result-footer"><span id="result-position"></span><span id="result-time"></span></div></div>
+            <div id="best-view" role="tabpanel" aria-labelledby="tab-best"><div class="result-heading"><span class="result-label" id="result-label">CANDIDATE 01</span><span class="distance-chip"><span aria-hidden="true">↔</span> <strong id="result-distance">—</strong> <span>from target</span></span></div><p id="result-text" class="result-text"></p><div class="result-footer"><span id="result-position"></span><span id="result-time"></span></div><p id="result-compute" class="result-compute" hidden></p></div>
             <div id="all-view" role="tabpanel" aria-labelledby="tab-all" hidden></div>
           </div>
         </div>

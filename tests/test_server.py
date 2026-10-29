@@ -7,6 +7,8 @@ import time
 from fastapi.testclient import TestClient
 
 from point2text.contracts import CorpusRecord
+from point2text.contracts import Candidate
+from types import SimpleNamespace
 from point2text.server import create_app
 
 
@@ -81,6 +83,9 @@ def test_wrong_map_and_invalid_budgets_are_rejected(tmp_path):
         assert client.post("/api/runs", json={"map_id": "old", "target": [0, 0]}).status_code == 409
         for target, count in [(["NaN", 0], 2), ([0, 0], 0), ([0, 0], 7), ([0], 2)]:
             assert client.post("/api/runs", json={"map_id": "fixed-test-map", "target": target, "candidates": count}).status_code == 422
+        for updates in [0, 17, 2]:
+            # The baseline has no encoder-guidance capability, even for a valid count.
+            assert client.post("/api/runs", json={"map_id": "fixed-test-map", "target": [0, 0], "guidance_updates": updates}).status_code == 422
 
 
 def test_cancellation_releases_single_worker_and_unknown_run_is_404(tmp_path):
@@ -104,3 +109,21 @@ def test_unavailable_local_model_is_actionable(tmp_path):
         response = client.post("/api/runs", json={"map_id": "fixed-test-map", "target": [0, 0]})
         assert response.status_code == 503
         assert "Start Ollama" in response.json()["detail"]
+
+
+def test_custom_strategy_records_native_trace_and_preserves_partial_error(tmp_path):
+    class Strategy:
+        def run(self, bundle, target, **kwargs):
+            kwargs["on_candidate"](Candidate("Verified custom paragraph.", 1, 2, .3, .2, 42))
+            return SimpleNamespace(trace={"strategy": "custom-diffusion", "status": "error",
+                                          "error": "Second trajectory failed.", "passes": 9})
+    app = create_app(bundle=FakeBundle(), generator=FakeGenerator(), cache_dir=tmp_path,
+                     search_factory=lambda bundle: Strategy())
+    with TestClient(app) as client:
+        run_id = client.post("/api/runs", json={"map_id": "fixed-test-map", "target": [0, 0]}).json()["id"]
+        result = wait_run(client, run_id)
+        assert result["status"] == "error"
+        assert result["best"]["text"] == "Verified custom paragraph."
+        assert result["strategy"] == "custom-diffusion"
+        assert result["trace"]["passes"] == 9
+        assert result["error"] == "Second trajectory failed."

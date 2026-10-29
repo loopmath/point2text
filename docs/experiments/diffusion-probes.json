@@ -1,0 +1,2263 @@
+{
+  "scope": "Single-target engineering probes, not a held-out or equal-wall-clock benchmark.",
+  "probes": [
+    {
+      "created_at": "2026-10-29T17:40:40.620984+00:00",
+      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+      "target": [
+        0.03782757211018523,
+        -0.020649042373064936
+      ],
+      "guidance_config": {
+        "strength": 1,
+        "top_k": 32,
+        "guided_steps": 8,
+        "inner_updates": 2,
+        "step_size": 4,
+        "temperature": 1.0,
+        "kl_weight": 0.01,
+        "gradient_clip": 1.0,
+        "max_delta": 1.0,
+        "normalize_gradient": true,
+        "start_fraction": 0.2,
+        "end_fraction": 0.9,
+        "max_positions": 254
+      },
+      "comparison_note": "Paired requests are a plumbing probe, not an equal-wall-clock quality benchmark.",
+      "probe": "paired-probe",
+      "runs": {
+        "unguided": {
+          "text": "Stochastic gradient descent optimizes objective functions by estimating the gradient using small subsets of data. This approach introduces noise into the optimization process, which can help the algorithm escape local minima that might trap deterministic methods. However, the effectiveness of this mechanism depends on the learning rate schedule and the batch size chosen for each iteration. Researchers must monitor the variance of the gradient estimates to ensure that the model converges to a stable, generalizable solution rather than oscillating around the optimal point.",
+          "best_candidate": {
+            "text": "Stochastic gradient descent optimizes objective functions by estimating the gradient using small subsets of data. This approach introduces noise into the optimization process, which can help the algorithm escape local minima that might trap deterministic methods. However, the effectiveness of this mechanism depends on the learning rate schedule and the batch size chosen for each iteration. Researchers must monitor the variance of the gradient estimates to ensure that the model converges to a stable, generalizable solution rather than oscillating around the optimal point.",
+            "x": 0.10029326635418927,
+            "y": 0.020561228222476073,
+            "distance": 0.0748348138231339,
+            "elapsed_seconds": 5.338591667008586,
+            "seed": 42
+          },
+          "elapsed_seconds": 5.338619042013306,
+          "runtime_identity": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+          "request": {
+            "prompt": "Write one original, accurate technical or research paragraph of 60\u2013100 words. Return only the paragraph, without a heading, bullets, citations or reasoning. Do not copy example sentences, invent references, or invent measurements.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Explain a mechanism or research concept precisely rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Machine learning\", \"title\": \"Distribution shift\", \"paragraph\": \"A model trained on one collection of examples may encounter different conditions after deployment. Studying distribution shift requires specifying which variables change and which relationships are expected to remain stable. Separate tests for changed inputs, labels, and acquisition procedures make failures easier to interpret.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Entanglement characterization\", \"paragraph\": \"Entanglement characterization asks whether correlations between quantum systems admit a separable explanation. The answer depends on the measurements performed and the assumptions allowed in the analysis. Experimental imperfections and incomplete measurement coverage must be considered before interpreting a witness or reconstruction.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Variational quantum circuits\", \"paragraph\": \"A variational quantum algorithm adjusts parameters in a circuit using a classical optimization loop. Its behavior depends on the circuit structure, objective, and measurement budget. A comparison with classical methods should use the same problem instances and report the cost of estimating each objective value.\"}, {\"topic\": \"Machine learning\", \"title\": \"Learning with limited labels\", \"paragraph\": \"Semi-supervised learning combines labeled examples with a larger unlabeled collection. The usefulness of the unlabeled data depends on how well its structure aligns with the prediction task. Evaluation should track class imbalance and label quality instead of treating the number of labels as the only constraint.\"}]\n\nWrite the original 60\u2013100 word paragraph now.",
+            "seed": 42,
+            "max_tokens": 128,
+            "steps": 32,
+            "temperature": 0.8
+          },
+          "native": {
+            "runtime": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+            "model_id": "mlx-community/diffusiongemma-26B-A4B-it-4bit",
+            "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+            "mlx_vlm_version": "0.7.11",
+            "sampler": "entropy-bound",
+            "native_schedule": {
+              "t_min": 0.4,
+              "t_max": 0.8
+            },
+            "cancelled": false,
+            "seed": 42,
+            "canvas_length": 128,
+            "context_tokens": 394,
+            "raw_token_count": 96,
+            "channel_header": "thought",
+            "requested_steps": 32,
+            "passes": 9,
+            "hook_calls": 0,
+            "hook_count": 0,
+            "stopping_reason": "stable_and_confident",
+            "prefill_seconds": 0.9105911669903435,
+            "elapsed_seconds": 5.310992540966254,
+            "step_trace": [
+              {
+                "step": 0,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 20,
+                "elapsed_seconds": 0.3385973750264384
+              },
+              {
+                "step": 1,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 25,
+                "elapsed_seconds": 0.15441362495766953
+              },
+              {
+                "step": 2,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 33,
+                "elapsed_seconds": 0.15718887496041134
+              },
+              {
+                "step": 3,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 40,
+                "elapsed_seconds": 0.1604538339888677
+              },
+              {
+                "step": 4,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 51,
+                "elapsed_seconds": 0.1618851670064032
+              },
+              {
+                "step": 5,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 75,
+                "elapsed_seconds": 0.1714183340081945
+              },
+              {
+                "step": 6,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 85,
+                "elapsed_seconds": 0.1786385839805007
+              },
+              {
+                "step": 7,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 117,
+                "elapsed_seconds": 0.18700287502724677
+              },
+              {
+                "step": 8,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 127,
+                "elapsed_seconds": 0.1922622499987483
+              }
+            ],
+            "peak_memory_bytes": 17557882036
+          },
+          "guidance": null
+        },
+        "guided": {
+          "text": "Stochastic gradient descent optimizes objective functions by estimating the gradient using small subsets of data. This approach introduces noise into the optimization process, which can help the algorithm escape local minima that might trap deterministic methods. However, the effectiveness of this mechanism depends on the learning rate schedule and the batch size chosen for each iteration. Researchers must monitor the variance of the gradient estimates to ensure that the model converges to a stable, generalizable solution rather than oscillating around the optimal point.",
+          "best_candidate": {
+            "text": "Stochastic gradient descent optimizes objective functions by estimating the gradient using small subsets of data. This approach introduces noise into the optimization process, which can help the algorithm escape local minima that might trap deterministic methods. However, the effectiveness of this mechanism depends on the learning rate schedule and the batch size chosen for each iteration. Researchers must monitor the variance of the gradient estimates to ensure that the model converges to a stable, generalizable solution rather than oscillating around the optimal point.",
+            "x": 0.10029326635418927,
+            "y": 0.020561228222476073,
+            "distance": 0.0748348138231339,
+            "elapsed_seconds": 3.1589727090322413,
+            "seed": 42
+          },
+          "elapsed_seconds": 3.1589972089859657,
+          "runtime_identity": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+          "request": {
+            "prompt": "Write one original, accurate technical or research paragraph of 60\u2013100 words. Return only the paragraph, without a heading, bullets, citations or reasoning. Do not copy example sentences, invent references, or invent measurements.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Explain a mechanism or research concept precisely rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Machine learning\", \"title\": \"Distribution shift\", \"paragraph\": \"A model trained on one collection of examples may encounter different conditions after deployment. Studying distribution shift requires specifying which variables change and which relationships are expected to remain stable. Separate tests for changed inputs, labels, and acquisition procedures make failures easier to interpret.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Entanglement characterization\", \"paragraph\": \"Entanglement characterization asks whether correlations between quantum systems admit a separable explanation. The answer depends on the measurements performed and the assumptions allowed in the analysis. Experimental imperfections and incomplete measurement coverage must be considered before interpreting a witness or reconstruction.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Variational quantum circuits\", \"paragraph\": \"A variational quantum algorithm adjusts parameters in a circuit using a classical optimization loop. Its behavior depends on the circuit structure, objective, and measurement budget. A comparison with classical methods should use the same problem instances and report the cost of estimating each objective value.\"}, {\"topic\": \"Machine learning\", \"title\": \"Learning with limited labels\", \"paragraph\": \"Semi-supervised learning combines labeled examples with a larger unlabeled collection. The usefulness of the unlabeled data depends on how well its structure aligns with the prediction task. Evaluation should track class imbalance and label quality instead of treating the number of labels as the only constraint.\"}]\n\nWrite the original 60\u2013100 word paragraph now.",
+            "seed": 42,
+            "max_tokens": 128,
+            "steps": 32,
+            "temperature": 0.8
+          },
+          "native": {
+            "runtime": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+            "model_id": "mlx-community/diffusiongemma-26B-A4B-it-4bit",
+            "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+            "mlx_vlm_version": "0.7.11",
+            "sampler": "entropy-bound",
+            "native_schedule": {
+              "t_min": 0.4,
+              "t_max": 0.8
+            },
+            "cancelled": false,
+            "seed": 42,
+            "canvas_length": 128,
+            "context_tokens": 394,
+            "raw_token_count": 96,
+            "channel_header": "thought",
+            "requested_steps": 32,
+            "passes": 10,
+            "hook_calls": 10,
+            "hook_count": 10,
+            "stopping_reason": "stable_and_confident",
+            "prefill_seconds": 0.33952304197009653,
+            "elapsed_seconds": 3.1189236249774694,
+            "step_trace": [
+              {
+                "step": 0,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 20,
+                "elapsed_seconds": 0.20143470802577212
+              },
+              {
+                "step": 1,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 25,
+                "elapsed_seconds": 0.22510850004618987
+              },
+              {
+                "step": 2,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 33,
+                "elapsed_seconds": 0.22817829198902473
+              },
+              {
+                "step": 3,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 40,
+                "elapsed_seconds": 0.2393146670074202
+              },
+              {
+                "step": 4,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 51,
+                "elapsed_seconds": 0.2514311249833554
+              },
+              {
+                "step": 5,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 75,
+                "elapsed_seconds": 0.2628499999991618
+              },
+              {
+                "step": 6,
+                "hook_max_abs_delta": 1.0,
+                "accepted": 85,
+                "elapsed_seconds": 0.4908156670280732
+              },
+              {
+                "step": 7,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 106,
+                "elapsed_seconds": 0.22101791598834097
+              },
+              {
+                "step": 8,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 127,
+                "elapsed_seconds": 0.23138304200256243
+              },
+              {
+                "step": 9,
+                "hook_max_abs_delta": 1.0,
+                "accepted": 128,
+                "elapsed_seconds": 0.4163467919570394
+              }
+            ],
+            "peak_memory_bytes": 18025251990
+          },
+          "guidance": {
+            "method": "sparse-topk-map-gradient-v1",
+            "config": {
+              "strength": 1,
+              "top_k": 32,
+              "guided_steps": 8,
+              "inner_updates": 2,
+              "step_size": 4,
+              "temperature": 1.0,
+              "kl_weight": 0.01,
+              "gradient_clip": 1.0,
+              "max_delta": 1.0,
+              "normalize_gradient": true,
+              "start_fraction": 0.2,
+              "end_fraction": 0.9,
+              "max_positions": 254
+            },
+            "hook_calls": 10,
+            "guided_step_count": 2,
+            "steps": [
+              {
+                "step": 6,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9998798370361328,
+                "max_delta": 1.0,
+                "applied_max_delta": 1.0,
+                "changed_logits": 2063,
+                "seconds": 0.47143299999879673,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.0016731936484575272,
+                    "gradient_norm": 0.0021623174234678857,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 1.0,
+                    "seconds": 0.1446419580024667,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0016731936484575272,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.07838169485330582,
+                        -0.015305176377296448
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7425100803375244,
+                      "unknown_mass": 4.4814757505610004e-07,
+                      "special_mass": 0.24967747926712036,
+                      "empty_surface_mass": 0.007812505587935448,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08675768971443176,
+                      "topk_retained_mass": 0.9998798370361328,
+                      "cached_token_ids": 1560,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.002162317046895623,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.0005506937159225345,
+                    "gradient_norm": 0.0005697002028771129,
+                    "direction_norm": 1.0,
+                    "max_delta": 1.0,
+                    "seconds": 0.02610449999338016,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0004543154500424862,
+                      "kl_loss": 0.00963782798498869,
+                      "soft_map_location": [
+                        0.050695307552814484,
+                        -0.03764130175113678
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7425024509429932,
+                      "unknown_mass": 4.4813685832944253e-07,
+                      "special_mass": 0.24968500435352325,
+                      "empty_surface_mass": 0.007812505587935448,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08808238059282303,
+                      "topk_retained_mass": 0.9998798370361328,
+                      "cached_token_ids": 1560,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.000569700263440609,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 9,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9999999697320163,
+                "max_delta": 1.0,
+                "applied_max_delta": 1.0,
+                "changed_logits": 916,
+                "seconds": 0.39706529199611396,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.0074480087496340275,
+                    "gradient_norm": 0.0016269783268739767,
+                    "direction_norm": 1.0,
+                    "max_delta": 1.0,
+                    "seconds": 0.10332958400249481,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0074480087496340275,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.12098671495914459,
+                        0.0024283528327941895
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7421885132789612,
+                      "unknown_mass": 2.5054957835307375e-07,
+                      "special_mass": 0.24999885261058807,
+                      "empty_surface_mass": 0.007812634110450745,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08593800663948059,
+                      "topk_retained_mass": 0.9999999697320163,
+                      "cached_token_ids": 2782,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0016269782790914178,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.0060249618254601955,
+                    "gradient_norm": 0.000892890540122875,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 1.0,
+                    "seconds": 0.04778491600882262,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0060249618254601955,
+                      "kl_loss": -8.071052715052929e-10,
+                      "soft_map_location": [
+                        0.11270616948604584,
+                        -0.00020013749599456787
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7421885132789612,
+                      "unknown_mass": 2.505478064596916e-07,
+                      "special_mass": 0.24999886751174927,
+                      "empty_surface_mass": 0.007812634110450745,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08593801409006119,
+                      "topk_retained_mass": 0.9999999697320163,
+                      "cached_token_ids": 2782,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0008928905008360744,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              }
+            ],
+            "approximation": "top-k generator-token to encoder-input bridge; hard decoded-text scoring required"
+          }
+        }
+      }
+    },
+    {
+      "created_at": "2026-10-29T17:42:21.867407+00:00",
+      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+      "target": [
+        0.03782757211018523,
+        -0.020649042373064936
+      ],
+      "guidance_config": {
+        "strength": 10.0,
+        "top_k": 32,
+        "guided_steps": 32,
+        "inner_updates": 2,
+        "step_size": 20.0,
+        "temperature": 1.0,
+        "kl_weight": 0.01,
+        "gradient_clip": 1.0,
+        "max_delta": 1.0,
+        "normalize_gradient": true,
+        "start_fraction": 0.2,
+        "end_fraction": 0.9,
+        "max_positions": 254
+      },
+      "comparison_note": "Paired requests are a plumbing probe, not an equal-wall-clock quality benchmark.",
+      "probe": "paired-guidance-strong-01",
+      "runs": {
+        "unguided": {
+          "text": "Stochastic gradient descent optimizes objective functions by estimating the gradient using small subsets of data. This approach introduces noise into the optimization process, which can help the algorithm escape local minima that might trap deterministic methods. However, the effectiveness of this mechanism depends on the learning rate schedule and the batch size chosen for each iteration. Researchers must monitor the variance of the gradient estimates to ensure that the model converges to a stable, generalizable solution rather than oscillating around the optimal point.",
+          "best_candidate": {
+            "text": "Stochastic gradient descent optimizes objective functions by estimating the gradient using small subsets of data. This approach introduces noise into the optimization process, which can help the algorithm escape local minima that might trap deterministic methods. However, the effectiveness of this mechanism depends on the learning rate schedule and the batch size chosen for each iteration. Researchers must monitor the variance of the gradient estimates to ensure that the model converges to a stable, generalizable solution rather than oscillating around the optimal point.",
+            "x": 0.10029326635418927,
+            "y": 0.020561228222476073,
+            "distance": 0.0748348138231339,
+            "elapsed_seconds": 5.889646959025413,
+            "seed": 42
+          },
+          "elapsed_seconds": 5.889687874994706,
+          "runtime_identity": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+          "request": {
+            "prompt": "Write one original, accurate technical or research paragraph of 60\u2013100 words. Return only the paragraph, without a heading, bullets, citations or reasoning. Do not copy example sentences, invent references, or invent measurements.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Explain a mechanism or research concept precisely rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Machine learning\", \"title\": \"Distribution shift\", \"paragraph\": \"A model trained on one collection of examples may encounter different conditions after deployment. Studying distribution shift requires specifying which variables change and which relationships are expected to remain stable. Separate tests for changed inputs, labels, and acquisition procedures make failures easier to interpret.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Entanglement characterization\", \"paragraph\": \"Entanglement characterization asks whether correlations between quantum systems admit a separable explanation. The answer depends on the measurements performed and the assumptions allowed in the analysis. Experimental imperfections and incomplete measurement coverage must be considered before interpreting a witness or reconstruction.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Variational quantum circuits\", \"paragraph\": \"A variational quantum algorithm adjusts parameters in a circuit using a classical optimization loop. Its behavior depends on the circuit structure, objective, and measurement budget. A comparison with classical methods should use the same problem instances and report the cost of estimating each objective value.\"}, {\"topic\": \"Machine learning\", \"title\": \"Learning with limited labels\", \"paragraph\": \"Semi-supervised learning combines labeled examples with a larger unlabeled collection. The usefulness of the unlabeled data depends on how well its structure aligns with the prediction task. Evaluation should track class imbalance and label quality instead of treating the number of labels as the only constraint.\"}]\n\nWrite the original 60\u2013100 word paragraph now.",
+            "seed": 42,
+            "max_tokens": 128,
+            "steps": 32,
+            "temperature": 0.8
+          },
+          "native": {
+            "runtime": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+            "model_id": "mlx-community/diffusiongemma-26B-A4B-it-4bit",
+            "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+            "mlx_vlm_version": "0.7.11",
+            "sampler": "entropy-bound",
+            "native_schedule": {
+              "t_min": 0.4,
+              "t_max": 0.8
+            },
+            "cancelled": false,
+            "seed": 42,
+            "canvas_length": 128,
+            "context_tokens": 394,
+            "raw_token_count": 96,
+            "channel_header": "thought",
+            "requested_steps": 32,
+            "passes": 9,
+            "hook_calls": 0,
+            "hook_count": 0,
+            "stopping_reason": "stable_and_confident",
+            "prefill_seconds": 1.2300982080050744,
+            "elapsed_seconds": 5.865066791011486,
+            "step_trace": [
+              {
+                "step": 0,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 20,
+                "elapsed_seconds": 0.6942400420084596
+              },
+              {
+                "step": 1,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 25,
+                "elapsed_seconds": 0.2369055000017397
+              },
+              {
+                "step": 2,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 33,
+                "elapsed_seconds": 0.15547116700327024
+              },
+              {
+                "step": 3,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 40,
+                "elapsed_seconds": 0.15742695797234774
+              },
+              {
+                "step": 4,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 51,
+                "elapsed_seconds": 0.15774608304491267
+              },
+              {
+                "step": 5,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 75,
+                "elapsed_seconds": 0.16170495800906792
+              },
+              {
+                "step": 6,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 85,
+                "elapsed_seconds": 0.16311904200119898
+              },
+              {
+                "step": 7,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 117,
+                "elapsed_seconds": 0.17121516703628004
+              },
+              {
+                "step": 8,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 127,
+                "elapsed_seconds": 0.17682333395350724
+              }
+            ],
+            "peak_memory_bytes": 17557882036
+          },
+          "guidance": null
+        },
+        "guided": {
+          "text": "Stochastic gradient descent optimizes objective functions by estimating the gradient using small subsets of data. This approach introduces noise into the optimization process, which can help the algorithm escape local minima that might trap batch methods. However, the effectiveness of this mechanism depends on the learning rate schedule and the batch size chosen for each iteration. Researchers must monitor the variance of the gradient estimates to ensure that the model converges to a stable, generalizable solution rather than oscillating around the optimal point.",
+          "best_candidate": {
+            "text": "Stochastic gradient descent optimizes objective functions by estimating the gradient using small subsets of data. This approach introduces noise into the optimization process, which can help the algorithm escape local minima that might trap batch methods. However, the effectiveness of this mechanism depends on the learning rate schedule and the batch size chosen for each iteration. Researchers must monitor the variance of the gradient estimates to ensure that the model converges to a stable, generalizable solution rather than oscillating around the optimal point.",
+            "x": 0.11442947887473981,
+            "y": 0.027543234819095153,
+            "distance": 0.09050053978254222,
+            "elapsed_seconds": 3.0323909589787945,
+            "seed": 42
+          },
+          "elapsed_seconds": 3.0324157089926302,
+          "runtime_identity": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+          "request": {
+            "prompt": "Write one original, accurate technical or research paragraph of 60\u2013100 words. Return only the paragraph, without a heading, bullets, citations or reasoning. Do not copy example sentences, invent references, or invent measurements.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Explain a mechanism or research concept precisely rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Machine learning\", \"title\": \"Distribution shift\", \"paragraph\": \"A model trained on one collection of examples may encounter different conditions after deployment. Studying distribution shift requires specifying which variables change and which relationships are expected to remain stable. Separate tests for changed inputs, labels, and acquisition procedures make failures easier to interpret.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Entanglement characterization\", \"paragraph\": \"Entanglement characterization asks whether correlations between quantum systems admit a separable explanation. The answer depends on the measurements performed and the assumptions allowed in the analysis. Experimental imperfections and incomplete measurement coverage must be considered before interpreting a witness or reconstruction.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Variational quantum circuits\", \"paragraph\": \"A variational quantum algorithm adjusts parameters in a circuit using a classical optimization loop. Its behavior depends on the circuit structure, objective, and measurement budget. A comparison with classical methods should use the same problem instances and report the cost of estimating each objective value.\"}, {\"topic\": \"Machine learning\", \"title\": \"Learning with limited labels\", \"paragraph\": \"Semi-supervised learning combines labeled examples with a larger unlabeled collection. The usefulness of the unlabeled data depends on how well its structure aligns with the prediction task. Evaluation should track class imbalance and label quality instead of treating the number of labels as the only constraint.\"}]\n\nWrite the original 60\u2013100 word paragraph now.",
+            "seed": 42,
+            "max_tokens": 128,
+            "steps": 32,
+            "temperature": 0.8
+          },
+          "native": {
+            "runtime": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+            "model_id": "mlx-community/diffusiongemma-26B-A4B-it-4bit",
+            "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+            "mlx_vlm_version": "0.7.11",
+            "sampler": "entropy-bound",
+            "native_schedule": {
+              "t_min": 0.4,
+              "t_max": 0.8
+            },
+            "cancelled": false,
+            "seed": 42,
+            "canvas_length": 128,
+            "context_tokens": 394,
+            "raw_token_count": 96,
+            "channel_header": "thought",
+            "requested_steps": 32,
+            "passes": 10,
+            "hook_calls": 10,
+            "hook_count": 10,
+            "stopping_reason": "stable_and_confident",
+            "prefill_seconds": 0.29639295797096565,
+            "elapsed_seconds": 3.0112756669986993,
+            "step_trace": [
+              {
+                "step": 0,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 20,
+                "elapsed_seconds": 0.19529925001552328
+              },
+              {
+                "step": 1,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 25,
+                "elapsed_seconds": 0.18829645798541605
+              },
+              {
+                "step": 2,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 33,
+                "elapsed_seconds": 0.19463845796417445
+              },
+              {
+                "step": 3,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 40,
+                "elapsed_seconds": 0.20348825003020465
+              },
+              {
+                "step": 4,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 51,
+                "elapsed_seconds": 0.21257620898541063
+              },
+              {
+                "step": 5,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 75,
+                "elapsed_seconds": 0.22635362501023337
+              },
+              {
+                "step": 6,
+                "hook_max_abs_delta": 1.0,
+                "accepted": 86,
+                "elapsed_seconds": 0.5485716669936664
+              },
+              {
+                "step": 7,
+                "hook_max_abs_delta": 1.0000009536743164,
+                "accepted": 110,
+                "elapsed_seconds": 0.3117390839615837
+              },
+              {
+                "step": 8,
+                "hook_max_abs_delta": 1.0,
+                "accepted": 125,
+                "elapsed_seconds": 0.3187778330175206
+              },
+              {
+                "step": 9,
+                "hook_max_abs_delta": 1.0,
+                "accepted": 127,
+                "elapsed_seconds": 0.3071097079664469
+              }
+            ],
+            "peak_memory_bytes": 18025284758
+          },
+          "guidance": {
+            "method": "sparse-topk-map-gradient-v1",
+            "config": {
+              "strength": 10.0,
+              "top_k": 32,
+              "guided_steps": 32,
+              "inner_updates": 2,
+              "step_size": 20.0,
+              "temperature": 1.0,
+              "kl_weight": 0.01,
+              "gradient_clip": 1.0,
+              "max_delta": 1.0,
+              "normalize_gradient": true,
+              "start_fraction": 0.2,
+              "end_fraction": 0.9,
+              "max_positions": 254
+            },
+            "hook_calls": 10,
+            "guided_step_count": 4,
+            "steps": [
+              {
+                "step": 6,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9998798370361328,
+                "max_delta": 1.0,
+                "applied_max_delta": 1.0,
+                "changed_logits": 2825,
+                "seconds": 0.5303532909601927,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.0016731936484575272,
+                    "gradient_norm": 0.0021623174234678857,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 1.0,
+                    "seconds": 0.07626091595739126,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0016731936484575272,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.07838169485330582,
+                        -0.015305176377296448
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7425100803375244,
+                      "unknown_mass": 4.4814757505610004e-07,
+                      "special_mass": 0.24967747926712036,
+                      "empty_surface_mass": 0.007812505587935448,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08675768971443176,
+                      "topk_retained_mass": 0.9998798370361328,
+                      "cached_token_ids": 1560,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.002162317046895623,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.0008690583053976297,
+                    "gradient_norm": 0.0004302788365716352,
+                    "direction_norm": 1.0,
+                    "max_delta": 1.0,
+                    "seconds": 0.023457542003598064,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0002692969865165651,
+                      "kl_loss": 0.05997613072395325,
+                      "soft_map_location": [
+                        0.046088624745607376,
+                        -0.03482832387089729
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.742430567741394,
+                      "unknown_mass": 4.4763632437004774e-07,
+                      "special_mass": 0.24975687265396118,
+                      "empty_surface_mass": 0.007812505587935448,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08942769467830658,
+                      "topk_retained_mass": 0.9998798370361328,
+                      "cached_token_ids": 1560,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.000430278800195083,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 7,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9999990691430867,
+                "max_delta": 1.0000009536743164,
+                "applied_max_delta": 1.0000009536743164,
+                "changed_logits": 2673,
+                "seconds": 0.2927876670146361,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.007804650813341141,
+                    "gradient_norm": 0.0010030575945981586,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 1.0,
+                    "seconds": 0.05794937501195818,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.007804650813341141,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.10907699167728424,
+                        0.03158285468816757
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7421985864639282,
+                      "unknown_mass": 1.6684480581694823e-07,
+                      "special_mass": 0.24998889863491058,
+                      "empty_surface_mass": 0.007812507450580597,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08408860117197037,
+                      "topk_retained_mass": 0.9999990691430867,
+                      "cached_token_ids": 2239,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0010030576959252357,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.004738926887512207,
+                    "gradient_norm": 0.0005615998378449438,
+                    "direction_norm": 1.0,
+                    "max_delta": 1.0,
+                    "seconds": 0.024693583021871746,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.00461924122646451,
+                      "kl_loss": 0.011968553066253662,
+                      "soft_map_location": [
+                        0.1005418449640274,
+                        0.0055456385016441345
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7421970367431641,
+                      "unknown_mass": 1.6581113174149635e-07,
+                      "special_mass": 0.24999046325683594,
+                      "empty_surface_mass": 0.007812507450580597,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08574074506759644,
+                      "topk_retained_mass": 0.9999990691430867,
+                      "cached_token_ids": 2239,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0005615998525172472,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 8,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9999998868443072,
+                "max_delta": 1.0,
+                "applied_max_delta": 1.0,
+                "changed_logits": 1890,
+                "seconds": 0.3006681670085527,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.0081623001024127,
+                    "gradient_norm": 0.003764176177632003,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 1.0,
+                    "seconds": 0.060223666951060295,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0081623001024127,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.12128354609012604,
+                        0.013954438269138336
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7421873807907104,
+                      "unknown_mass": 2.0207406788817725e-07,
+                      "special_mass": 0.2500000596046448,
+                      "empty_surface_mass": 0.007812504656612873,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08205556869506836,
+                      "topk_retained_mass": 0.9999998868443072,
+                      "cached_token_ids": 2912,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.003764175809919834,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.005260934587568045,
+                    "gradient_norm": 0.0004698948480701403,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 1.0,
+                    "seconds": 0.025464417005423456,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.005233838688582182,
+                      "kl_loss": 0.0027096099220216274,
+                      "soft_map_location": [
+                        0.1044737920165062,
+                        0.0074955858290195465
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7421873807907104,
+                      "unknown_mass": 1.964462590230139e-07,
+                      "special_mass": 0.25000008940696716,
+                      "empty_surface_mass": 0.007812504656612873,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08503595739603043,
+                      "topk_retained_mass": 0.9999998868443072,
+                      "cached_token_ids": 2912,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.00046989484690129757,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 9,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9999999995343387,
+                "max_delta": 1.0,
+                "applied_max_delta": 1.0,
+                "changed_logits": 1371,
+                "seconds": 0.28821825003251433,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.008453914895653725,
+                    "gradient_norm": 0.001497455733861535,
+                    "direction_norm": 0.9999999999999998,
+                    "max_delta": 1.0,
+                    "seconds": 0.04553458304144442,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.008453914895653725,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.12056824564933777,
+                        0.019449535757303238
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7421876192092896,
+                      "unknown_mass": 8.02422500119365e-08,
+                      "special_mass": 0.24999989569187164,
+                      "empty_surface_mass": 0.00781251396983862,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.07832993566989899,
+                      "topk_retained_mass": 0.9999999995343387,
+                      "cached_token_ids": 3412,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0014974556397646666,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.0038658888079226017,
+                    "gradient_norm": 0.0010482088555597436,
+                    "direction_norm": 1.0,
+                    "max_delta": 1.0,
+                    "seconds": 0.025194082991220057,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.003856062423437834,
+                      "kl_loss": 0.0009826470632106066,
+                      "soft_map_location": [
+                        0.09413670003414154,
+                        0.005530048161745071
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7421876192092896,
+                      "unknown_mass": 8.025324521382297e-08,
+                      "special_mass": 0.24999991059303284,
+                      "empty_surface_mass": 0.00781251396983862,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.07914659380912781,
+                      "topk_retained_mass": 0.9999999995343387,
+                      "cached_token_ids": 3412,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0010482087964192033,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              }
+            ],
+            "approximation": "top-k generator-token to encoder-input bridge; hard decoded-text scoring required"
+          }
+        }
+      }
+    },
+    {
+      "created_at": "2026-10-29T17:43:06.120632+00:00",
+      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+      "target": [
+        0.03782757211018523,
+        -0.020649042373064936
+      ],
+      "guidance_config": {
+        "strength": 10.0,
+        "top_k": 32,
+        "guided_steps": 32,
+        "inner_updates": 2,
+        "step_size": 20.0,
+        "temperature": 1.0,
+        "kl_weight": 0.01,
+        "gradient_clip": 1.0,
+        "max_delta": 4.0,
+        "normalize_gradient": true,
+        "start_fraction": 0.0,
+        "end_fraction": 0.9,
+        "max_positions": 254
+      },
+      "comparison_note": "Paired requests are a plumbing probe, not an equal-wall-clock quality benchmark.",
+      "probe": "paired-guidance-early-strong-02",
+      "runs": {
+        "unguided": {
+          "text": "Stochastic gradient descent optimizes objective functions by estimating the gradient using small subsets of data. This approach introduces noise into the optimization process, which can help the algorithm escape local minima that might trap deterministic methods. However, the effectiveness of this mechanism depends on the learning rate schedule and the batch size chosen for each iteration. Researchers must monitor the variance of the gradient estimates to ensure that the model converges to a stable, generalizable solution rather than oscillating around the optimal point.",
+          "best_candidate": {
+            "text": "Stochastic gradient descent optimizes objective functions by estimating the gradient using small subsets of data. This approach introduces noise into the optimization process, which can help the algorithm escape local minima that might trap deterministic methods. However, the effectiveness of this mechanism depends on the learning rate schedule and the batch size chosen for each iteration. Researchers must monitor the variance of the gradient estimates to ensure that the model converges to a stable, generalizable solution rather than oscillating around the optimal point.",
+            "x": 0.10029326635418927,
+            "y": 0.020561228222476073,
+            "distance": 0.0748348138231339,
+            "elapsed_seconds": 4.157913542003371,
+            "seed": 42
+          },
+          "elapsed_seconds": 4.157943375001196,
+          "runtime_identity": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+          "request": {
+            "prompt": "Write one original, accurate technical or research paragraph of 60\u2013100 words. Return only the paragraph, without a heading, bullets, citations or reasoning. Do not copy example sentences, invent references, or invent measurements.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Explain a mechanism or research concept precisely rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Machine learning\", \"title\": \"Distribution shift\", \"paragraph\": \"A model trained on one collection of examples may encounter different conditions after deployment. Studying distribution shift requires specifying which variables change and which relationships are expected to remain stable. Separate tests for changed inputs, labels, and acquisition procedures make failures easier to interpret.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Entanglement characterization\", \"paragraph\": \"Entanglement characterization asks whether correlations between quantum systems admit a separable explanation. The answer depends on the measurements performed and the assumptions allowed in the analysis. Experimental imperfections and incomplete measurement coverage must be considered before interpreting a witness or reconstruction.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Variational quantum circuits\", \"paragraph\": \"A variational quantum algorithm adjusts parameters in a circuit using a classical optimization loop. Its behavior depends on the circuit structure, objective, and measurement budget. A comparison with classical methods should use the same problem instances and report the cost of estimating each objective value.\"}, {\"topic\": \"Machine learning\", \"title\": \"Learning with limited labels\", \"paragraph\": \"Semi-supervised learning combines labeled examples with a larger unlabeled collection. The usefulness of the unlabeled data depends on how well its structure aligns with the prediction task. Evaluation should track class imbalance and label quality instead of treating the number of labels as the only constraint.\"}]\n\nWrite the original 60\u2013100 word paragraph now.",
+            "seed": 42,
+            "max_tokens": 128,
+            "steps": 32,
+            "temperature": 0.8
+          },
+          "native": {
+            "runtime": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+            "model_id": "mlx-community/diffusiongemma-26B-A4B-it-4bit",
+            "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+            "mlx_vlm_version": "0.7.11",
+            "sampler": "entropy-bound",
+            "native_schedule": {
+              "t_min": 0.4,
+              "t_max": 0.8
+            },
+            "cancelled": false,
+            "seed": 42,
+            "canvas_length": 128,
+            "context_tokens": 394,
+            "raw_token_count": 96,
+            "channel_header": "thought",
+            "requested_steps": 32,
+            "passes": 9,
+            "hook_calls": 0,
+            "hook_count": 0,
+            "stopping_reason": "stable_and_confident",
+            "prefill_seconds": 0.347644500026945,
+            "elapsed_seconds": 4.135603667004034,
+            "step_trace": [
+              {
+                "step": 0,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 20,
+                "elapsed_seconds": 0.13158995797857642
+              },
+              {
+                "step": 1,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 25,
+                "elapsed_seconds": 0.1545290420181118
+              },
+              {
+                "step": 2,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 33,
+                "elapsed_seconds": 0.1572622919920832
+              },
+              {
+                "step": 3,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 40,
+                "elapsed_seconds": 0.15637487499043345
+              },
+              {
+                "step": 4,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 51,
+                "elapsed_seconds": 0.1572847500210628
+              },
+              {
+                "step": 5,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 75,
+                "elapsed_seconds": 0.1568800420500338
+              },
+              {
+                "step": 6,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 85,
+                "elapsed_seconds": 0.1584069580421783
+              },
+              {
+                "step": 7,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 117,
+                "elapsed_seconds": 0.15852325002197176
+              },
+              {
+                "step": 8,
+                "hook_max_abs_delta": 0.0,
+                "accepted": 127,
+                "elapsed_seconds": 0.1582959999796003
+              }
+            ],
+            "peak_memory_bytes": 17557882036
+          },
+          "guidance": null
+        },
+        "guided": {
+          "text": "Stochastic gradient descent optimizes loss functions by estimating gradients from small subsets of data rather than the entire dataset. This approach introduces noise that help the model escape local minima and avoid overfitting to specific training samples. However, the effectiveness of the algorithm depends on the choice of the learning rate schedule and the batch size used to navigate the loss landscape. Proper analysis should account for the trade-off between computational speed and the variance of the gradient estimates to ensure the model generalizes to unseen data.",
+          "best_candidate": {
+            "text": "Stochastic gradient descent optimizes loss functions by estimating gradients from small subsets of data rather than the entire dataset. This approach introduces noise that help the model escape local minima and avoid overfitting to specific training samples. However, the effectiveness of the algorithm depends on the choice of the learning rate schedule and the batch size used to navigate the loss landscape. Proper analysis should account for the trade-off between computational speed and the variance of the gradient estimates to ensure the model generalizes to unseen data.",
+            "x": 0.052573093885369446,
+            "y": -0.0015677921740388755,
+            "distance": 0.024114819542767965,
+            "elapsed_seconds": 3.4588917499640957,
+            "seed": 42
+          },
+          "elapsed_seconds": 3.4589151249965653,
+          "runtime_identity": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+          "request": {
+            "prompt": "Write one original, accurate technical or research paragraph of 60\u2013100 words. Return only the paragraph, without a heading, bullets, citations or reasoning. Do not copy example sentences, invent references, or invent measurements.\n\nThese nearby examples describe the requested semantic neighborhood. Write a new standalone paragraph near their subject matter, drawing on a coherent combination of related ideas. Explain a mechanism or research concept precisely rather than discussing these examples.\n\nEXAMPLE DATA:\n[{\"topic\": \"Machine learning\", \"title\": \"Distribution shift\", \"paragraph\": \"A model trained on one collection of examples may encounter different conditions after deployment. Studying distribution shift requires specifying which variables change and which relationships are expected to remain stable. Separate tests for changed inputs, labels, and acquisition procedures make failures easier to interpret.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Entanglement characterization\", \"paragraph\": \"Entanglement characterization asks whether correlations between quantum systems admit a separable explanation. The answer depends on the measurements performed and the assumptions allowed in the analysis. Experimental imperfections and incomplete measurement coverage must be considered before interpreting a witness or reconstruction.\"}, {\"topic\": \"Quantum computing\", \"title\": \"Variational quantum circuits\", \"paragraph\": \"A variational quantum algorithm adjusts parameters in a circuit using a classical optimization loop. Its behavior depends on the circuit structure, objective, and measurement budget. A comparison with classical methods should use the same problem instances and report the cost of estimating each objective value.\"}, {\"topic\": \"Machine learning\", \"title\": \"Learning with limited labels\", \"paragraph\": \"Semi-supervised learning combines labeled examples with a larger unlabeled collection. The usefulness of the unlabeled data depends on how well its structure aligns with the prediction task. Evaluation should track class imbalance and label quality instead of treating the number of labels as the only constraint.\"}]\n\nWrite the original 60\u2013100 word paragraph now.",
+            "seed": 42,
+            "max_tokens": 128,
+            "steps": 32,
+            "temperature": 0.8
+          },
+          "native": {
+            "runtime": "mlx-vlm/0.7.11:mlx-community/diffusiongemma-26B-A4B-it-4bit@a7a81407613811e8ba63af92ac0d852b809e191f:entropy-bound",
+            "model_id": "mlx-community/diffusiongemma-26B-A4B-it-4bit",
+            "model_revision": "a7a81407613811e8ba63af92ac0d852b809e191f",
+            "mlx_vlm_version": "0.7.11",
+            "sampler": "entropy-bound",
+            "native_schedule": {
+              "t_min": 0.4,
+              "t_max": 0.8
+            },
+            "cancelled": false,
+            "seed": 42,
+            "canvas_length": 128,
+            "context_tokens": 394,
+            "raw_token_count": 99,
+            "channel_header": "thought",
+            "requested_steps": 32,
+            "passes": 13,
+            "hook_calls": 13,
+            "hook_count": 13,
+            "stopping_reason": "stable_and_confident",
+            "prefill_seconds": 0.25617504195543006,
+            "elapsed_seconds": 3.4248182080336846,
+            "step_trace": [
+              {
+                "step": 0,
+                "hook_max_abs_delta": 4.000001907348633,
+                "accepted": 18,
+                "elapsed_seconds": 0.22444912500213832
+              },
+              {
+                "step": 1,
+                "hook_max_abs_delta": 4.000001907348633,
+                "accepted": 8,
+                "elapsed_seconds": 0.23368333402322605
+              },
+              {
+                "step": 2,
+                "hook_max_abs_delta": 4.000001907348633,
+                "accepted": 11,
+                "elapsed_seconds": 0.23737837502267212
+              },
+              {
+                "step": 3,
+                "hook_max_abs_delta": 4.000001907348633,
+                "accepted": 26,
+                "elapsed_seconds": 0.2414497910067439
+              },
+              {
+                "step": 4,
+                "hook_max_abs_delta": 4.0,
+                "accepted": 34,
+                "elapsed_seconds": 0.24313599994638935
+              },
+              {
+                "step": 5,
+                "hook_max_abs_delta": 4.0,
+                "accepted": 49,
+                "elapsed_seconds": 0.24051020800834522
+              },
+              {
+                "step": 6,
+                "hook_max_abs_delta": 4.0,
+                "accepted": 60,
+                "elapsed_seconds": 0.2345599160180427
+              },
+              {
+                "step": 7,
+                "hook_max_abs_delta": 4.0,
+                "accepted": 80,
+                "elapsed_seconds": 0.2390212079626508
+              },
+              {
+                "step": 8,
+                "hook_max_abs_delta": 4.000001907348633,
+                "accepted": 101,
+                "elapsed_seconds": 0.24563933396711946
+              },
+              {
+                "step": 9,
+                "hook_max_abs_delta": 4.000000953674316,
+                "accepted": 114,
+                "elapsed_seconds": 0.25482775003183633
+              },
+              {
+                "step": 10,
+                "hook_max_abs_delta": 4.000000953674316,
+                "accepted": 124,
+                "elapsed_seconds": 0.24608750001061708
+              },
+              {
+                "step": 11,
+                "hook_max_abs_delta": 4.000000953674316,
+                "accepted": 126,
+                "elapsed_seconds": 0.26153054099995643
+              },
+              {
+                "step": 12,
+                "hook_max_abs_delta": 4.000000953674316,
+                "accepted": 128,
+                "elapsed_seconds": 0.2551892910269089
+              }
+            ],
+            "peak_memory_bytes": 18025251990
+          },
+          "guidance": {
+            "method": "sparse-topk-map-gradient-v1",
+            "config": {
+              "strength": 10.0,
+              "top_k": 32,
+              "guided_steps": 32,
+              "inner_updates": 2,
+              "step_size": 20.0,
+              "temperature": 1.0,
+              "kl_weight": 0.01,
+              "gradient_clip": 1.0,
+              "max_delta": 4.0,
+              "normalize_gradient": true,
+              "start_fraction": 0.0,
+              "end_fraction": 0.9,
+              "max_positions": 254
+            },
+            "hook_calls": 13,
+            "guided_step_count": 13,
+            "steps": [
+              {
+                "step": 0,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.7787310015410185,
+                "max_delta": 4.000001907348633,
+                "applied_max_delta": 4.000001907348633,
+                "changed_logits": 3983,
+                "seconds": 0.20412762503838167,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.010214487090706825,
+                    "gradient_norm": 0.005758837675164701,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.0427226250176318,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.010214487090706825,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        -0.013322312384843826,
+                        0.06651847064495087
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7408117055892944,
+                      "unknown_mass": 3.183349271034322e-11,
+                      "special_mass": 0.25137579441070557,
+                      "empty_surface_mass": 0.0078125,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.02617316134274006,
+                      "topk_retained_mass": 0.7787310015410185,
+                      "cached_token_ids": 428,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.005758837331086397,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.008570775389671326,
+                    "gradient_norm": 0.003230591753308621,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.021626542031299323,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0029107178561389446,
+                      "kl_loss": 0.5660057067871094,
+                      "soft_map_location": [
+                        -0.008371657691895962,
+                        -0.04851207882165909
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7399289011955261,
+                      "unknown_mass": 3.186013180166668e-11,
+                      "special_mass": 0.2522585988044739,
+                      "empty_surface_mass": 0.0078125,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.029022060334682465,
+                      "topk_retained_mass": 0.7787310015410185,
+                      "cached_token_ids": 428,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.003230589907616377,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 1,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.8156921472400427,
+                "max_delta": 4.000001907348633,
+                "applied_max_delta": 4.000001907348633,
+                "changed_logits": 4010,
+                "seconds": 0.21553437504917383,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.016615409404039383,
+                    "gradient_norm": 0.0072854063890909005,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.03238829202018678,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.016615409404039383,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        -0.05201900005340576,
+                        0.07177931815385818
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7455205917358398,
+                      "unknown_mass": 1.7455406815065563e-07,
+                      "special_mass": 0.24666672945022583,
+                      "empty_surface_mass": 0.007812684401869774,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.02926483191549778,
+                      "topk_retained_mass": 0.8156921472400427,
+                      "cached_token_ids": 686,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.007285404484719038,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.008744001388549805,
+                    "gradient_norm": 0.0015822163638871305,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.02086774999042973,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.002564357127994299,
+                      "kl_loss": 0.6179644465446472,
+                      "soft_map_location": [
+                        -0.0011333632282912731,
+                        -0.05299718677997589
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.763769268989563,
+                      "unknown_mass": 2.4948285480465987e-08,
+                      "special_mass": 0.22841908037662506,
+                      "empty_surface_mass": 0.007811674848198891,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.026151416823267937,
+                      "topk_retained_mass": 0.8156921472400427,
+                      "cached_token_ids": 686,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0015822156565263867,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 2,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.860007279086858,
+                "max_delta": 4.000001907348633,
+                "applied_max_delta": 4.000001907348633,
+                "changed_logits": 3979,
+                "seconds": 0.21932333300355822,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.005261796526610851,
+                    "gradient_norm": 0.0027819234331028972,
+                    "direction_norm": 0.9999999999999998,
+                    "max_delta": 4.0,
+                    "seconds": 0.03451091697206721,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.005261796526610851,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.0015427134931087494,
+                        0.04216182976961136
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7454837560653687,
+                      "unknown_mass": 6.873090139560001e-11,
+                      "special_mass": 0.24670375883579254,
+                      "empty_surface_mass": 0.007812492549419403,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.0472477450966835,
+                      "topk_retained_mass": 0.860007279086858,
+                      "cached_token_ids": 937,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.002781924093142152,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.01211078092455864,
+                    "gradient_norm": 0.004987135883233343,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.021266499999910593,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.006866462994366884,
+                      "kl_loss": 0.5244317650794983,
+                      "soft_map_location": [
+                        0.06481170654296875,
+                        -0.09899647533893585
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7482978105545044,
+                      "unknown_mass": 6.873660082958033e-11,
+                      "special_mass": 0.243889719247818,
+                      "empty_surface_mass": 0.007812465541064739,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.043668217957019806,
+                      "topk_retained_mass": 0.860007279086858,
+                      "cached_token_ids": 937,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.004987133201211691,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 3,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9233826813288033,
+                "max_delta": 4.000001907348633,
+                "applied_max_delta": 4.000001907348633,
+                "changed_logits": 3971,
+                "seconds": 0.22279691701987758,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.013662817887961864,
+                    "gradient_norm": 0.005786761787692424,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.03547175001585856,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.013662817887961864,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.09967882931232452,
+                        0.07853382080793381
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7384132146835327,
+                      "unknown_mass": 1.7200264444076213e-10,
+                      "special_mass": 0.2537743151187897,
+                      "empty_surface_mass": 0.0078124706633389,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.05594077706336975,
+                      "topk_retained_mass": 0.9233826813288033,
+                      "cached_token_ids": 1164,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.005786760710179806,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.006298283580690622,
+                    "gradient_norm": 0.0009712272852576808,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.023532124992925674,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0008678590529598296,
+                      "kl_loss": 0.5430424809455872,
+                      "soft_map_location": [
+                        0.009122839197516441,
+                        -0.027274541556835175
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7443117499351501,
+                      "unknown_mass": 1.720150373052745e-10,
+                      "special_mass": 0.24787619709968567,
+                      "empty_surface_mass": 0.0078120450489223,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.05634573847055435,
+                      "topk_retained_mass": 0.9233826813288033,
+                      "cached_token_ids": 1164,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0009712271275930107,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 4,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.968815925065428,
+                "max_delta": 4.0,
+                "applied_max_delta": 4.0,
+                "changed_logits": 3906,
+                "seconds": 0.22526541695697233,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.007264814339578152,
+                    "gradient_norm": 0.003782735612184892,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.041033416986465454,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.007264814339578152,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.07435039430856705,
+                        0.05636328086256981
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7595131397247314,
+                      "unknown_mass": 8.05963535927684e-09,
+                      "special_mass": 0.23267436027526855,
+                      "empty_surface_mass": 0.007812507450580597,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.07887554168701172,
+                      "topk_retained_mass": 0.968815925065428,
+                      "cached_token_ids": 1473,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0037827349733561277,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.006134683266282082,
+                    "gradient_norm": 0.0011768602769885764,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 4.0,
+                    "seconds": 0.023306792019866407,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0017177944537252188,
+                      "kl_loss": 0.4416888952255249,
+                      "soft_map_location": [
+                        0.0766521468758583,
+                        -0.03515583276748657
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.762041449546814,
+                      "unknown_mass": 7.454453929568033e-09,
+                      "special_mass": 0.23014622926712036,
+                      "empty_surface_mass": 0.00781231140717864,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.06177001819014549,
+                      "topk_retained_mass": 0.968815925065428,
+                      "cached_token_ids": 1473,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.00117686006706208,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 5,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.989916427526623,
+                "max_delta": 4.0,
+                "applied_max_delta": 4.0,
+                "changed_logits": 3794,
+                "seconds": 0.2222350420197472,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.0006421314319595695,
+                    "gradient_norm": 0.0010652160859575897,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 4.0,
+                    "seconds": 0.03792683396022767,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0006421314319595695,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.055455222725868225,
+                        -0.03885336592793465
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7657701969146729,
+                      "unknown_mass": 1.9708827939397252e-07,
+                      "special_mass": 0.22641730308532715,
+                      "empty_surface_mass": 0.007812500931322575,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08216201514005661,
+                      "topk_retained_mass": 0.989916427526623,
+                      "cached_token_ids": 1822,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0010652159107849002,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.0058210259303450584,
+                    "gradient_norm": 0.0013837414393502094,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 4.0,
+                    "seconds": 0.02072379202581942,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0020509427413344383,
+                      "kl_loss": 0.377008318901062,
+                      "soft_map_location": [
+                        -0.003002205863595009,
+                        -0.0010563936084508896
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7657238841056824,
+                      "unknown_mass": 1.8843095551359707e-07,
+                      "special_mass": 0.22646360099315643,
+                      "empty_surface_mass": 0.007812502793967724,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.07187557965517044,
+                      "topk_retained_mass": 0.989916427526623,
+                      "cached_token_ids": 1822,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.001383740920573473,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 6,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9984636497683823,
+                "max_delta": 4.0,
+                "applied_max_delta": 4.0,
+                "changed_logits": 3659,
+                "seconds": 0.2162122919689864,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.0034364191815257072,
+                    "gradient_norm": 0.0019507179948603552,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.03233533300226554,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0034364191815257072,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.09489291161298752,
+                        -0.007233884185552597
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7656117081642151,
+                      "unknown_mass": 2.6635122286673984e-07,
+                      "special_mass": 0.22657577693462372,
+                      "empty_surface_mass": 0.007812520489096642,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.0870656967163086,
+                      "topk_retained_mass": 0.9984636497683823,
+                      "cached_token_ids": 2134,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0019507172983139753,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.004075868520885706,
+                    "gradient_norm": 0.0005027826803421924,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.021354291995521635,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0008880338282324374,
+                      "kl_loss": 0.3187834918498993,
+                      "soft_map_location": [
+                        0.009051995351910591,
+                        -0.02839500457048416
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7653409242630005,
+                      "unknown_mass": 2.8243919520392644e-07,
+                      "special_mass": 0.22684651613235474,
+                      "empty_surface_mass": 0.007812520489096642,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.10095611214637756,
+                      "topk_retained_mass": 0.9984636497683823,
+                      "cached_token_ids": 2134,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.000502782582771033,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 7,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9993480448611081,
+                "max_delta": 4.0,
+                "applied_max_delta": 4.0,
+                "changed_logits": 3416,
+                "seconds": 0.22045899997465312,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.0005797063931822777,
+                    "gradient_norm": 0.00031779189681437314,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 4.0,
+                    "seconds": 0.03575358301168308,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0005797063931822777,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.0562499538064003,
+                        -0.036151375621557236
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7674123048782349,
+                      "unknown_mass": 7.707499384109956e-08,
+                      "special_mass": 0.22477519512176514,
+                      "empty_surface_mass": 0.007812535390257835,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08404016494750977,
+                      "topk_retained_mass": 0.9993480448611081,
+                      "cached_token_ids": 2486,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0003177918551955372,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.0040674167685210705,
+                    "gradient_norm": 0.00016891271870214875,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.020615125016774982,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 4.7784658818272874e-05,
+                      "kl_loss": 0.4019632041454315,
+                      "soft_map_location": [
+                        0.03464135527610779,
+                        -0.014514494687318802
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7665756344795227,
+                      "unknown_mass": 7.470369657223803e-08,
+                      "special_mass": 0.2256118655204773,
+                      "empty_surface_mass": 0.007812511175870895,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08871658146381378,
+                      "topk_retained_mass": 0.9993480448611081,
+                      "cached_token_ids": 2486,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.00016891268023755401,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 8,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9999070535413921,
+                "max_delta": 4.000001907348633,
+                "applied_max_delta": 4.000001907348633,
+                "changed_logits": 3071,
+                "seconds": 0.2272830830188468,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.001628735102713108,
+                    "gradient_norm": 0.0004694918960690955,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 4.0,
+                    "seconds": 0.04441608296474442,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.001628735102713108,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.07677679508924484,
+                        -0.0312175452709198
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7687249183654785,
+                      "unknown_mass": 7.078895624946836e-07,
+                      "special_mass": 0.22346258163452148,
+                      "empty_surface_mass": 0.007812529802322388,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08997347950935364,
+                      "topk_retained_mass": 0.9999070535413921,
+                      "cached_token_ids": 2960,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0004694918461609632,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.0011957618407905102,
+                    "gradient_norm": 0.00012465177149953414,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 4.0,
+                    "seconds": 0.02133204200072214,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0001049620914272964,
+                      "kl_loss": 0.10907997936010361,
+                      "soft_map_location": [
+                        0.04259571060538292,
+                        -0.02971694990992546
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7684204578399658,
+                      "unknown_mass": 6.51196679854694e-07,
+                      "special_mass": 0.2237670123577118,
+                      "empty_surface_mass": 0.007812530733644962,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.09207392483949661,
+                      "topk_retained_mass": 0.9999070535413921,
+                      "cached_token_ids": 2960,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.00012465174950193614,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 9,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9999781954102218,
+                "max_delta": 4.000000953674316,
+                "applied_max_delta": 4.000000953674316,
+                "changed_logits": 2391,
+                "seconds": 0.23640066699590534,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.0012138636084273458,
+                    "gradient_norm": 0.0008354535515930503,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.04723229195224121,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0012138636084273458,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.07086198031902313,
+                        -0.03172115236520767
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.766096293926239,
+                      "unknown_mass": 3.6221893980658103e-06,
+                      "special_mass": 0.226091206073761,
+                      "empty_surface_mass": 0.00781251024454832,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08791622519493103,
+                      "topk_retained_mass": 0.9999781954102218,
+                      "cached_token_ids": 3706,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0008354535093531013,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.0009320942335762084,
+                    "gradient_norm": 0.0002230411365488043,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 4.0,
+                    "seconds": 0.023229749989695847,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0005320110940374434,
+                      "kl_loss": 0.040008313953876495,
+                      "soft_map_location": [
+                        0.06042032316327095,
+                        -0.025294337421655655
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7660948038101196,
+                      "unknown_mass": 6.758429212526395e-07,
+                      "special_mass": 0.22609272599220276,
+                      "empty_surface_mass": 0.00781251024454832,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.09359222650527954,
+                      "topk_retained_mass": 0.9999781954102218,
+                      "cached_token_ids": 3706,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0002230411337222904,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 10,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9999984633177519,
+                "max_delta": 4.000000953674316,
+                "applied_max_delta": 4.000000953674316,
+                "changed_logits": 2033,
+                "seconds": 0.22804025001823902,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.0019548991695046425,
+                    "gradient_norm": 0.0006894704867480954,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.042207583028357476,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0019548991695046425,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.08102692663669586,
+                        -0.01123017817735672
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.765625,
+                      "unknown_mass": 8.396628790512888e-07,
+                      "special_mass": 0.2265624701976776,
+                      "empty_surface_mass": 0.00781250186264515,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08596006035804749,
+                      "topk_retained_mass": 0.9999984633177519,
+                      "cached_token_ids": 4224,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0006894705584272742,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.0009314450435340405,
+                    "gradient_norm": 0.00017563264521492346,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.021747208025772125,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0005658204318024218,
+                      "kl_loss": 0.03656245768070221,
+                      "soft_map_location": [
+                        0.051190804690122604,
+                        -0.0009705126285552979
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7656252384185791,
+                      "unknown_mass": 5.867573134386368e-07,
+                      "special_mass": 0.22656220197677612,
+                      "empty_surface_mass": 0.00781250186264515,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08598168939352036,
+                      "topk_retained_mass": 0.9999984633177519,
+                      "cached_token_ids": 4224,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.00017563262372277677,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 11,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9999998202547431,
+                "max_delta": 4.000000953674316,
+                "applied_max_delta": 4.000000953674316,
+                "changed_logits": 1272,
+                "seconds": 0.24251662503229454,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.0013559235958382487,
+                    "gradient_norm": 0.000995923852982258,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.0487649169517681,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0013559235958382487,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.06520605832338333,
+                        0.003974974155426025
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7656294107437134,
+                      "unknown_mass": 1.9253391658619988e-07,
+                      "special_mass": 0.22655805945396423,
+                      "empty_surface_mass": 0.00781251210719347,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08594615757465363,
+                      "topk_retained_mass": 0.9999998202547431,
+                      "cached_token_ids": 4729,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.000995923881419003,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.0007659472757950425,
+                    "gradient_norm": 0.00041560821990433723,
+                    "direction_norm": 0.9999999999999998,
+                    "max_delta": 4.0,
+                    "seconds": 0.02570333401672542,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0006525996141135693,
+                      "kl_loss": 0.011334769427776337,
+                      "soft_map_location": [
+                        0.018053777515888214,
+                        -0.03682298958301544
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7656329870223999,
+                      "unknown_mass": 1.9065625840252532e-07,
+                      "special_mass": 0.2265544980764389,
+                      "empty_surface_mass": 0.00781251210719347,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.0859500914812088,
+                      "topk_retained_mass": 0.9999998202547431,
+                      "cached_token_ids": 4729,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0004156081995461136,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              },
+              {
+                "step": 12,
+                "positions": 128,
+                "editable_positions": 128,
+                "top_k": 32,
+                "retained_mass_mean": 0.9999999394640326,
+                "max_delta": 4.000000953674316,
+                "applied_max_delta": 4.000000953674316,
+                "changed_logits": 1151,
+                "seconds": 0.23647816700395197,
+                "updates": [
+                  {
+                    "update": 0,
+                    "loss": 0.00046745879808440804,
+                    "gradient_norm": 0.0007117243211377949,
+                    "direction_norm": 0.9999999999999999,
+                    "max_delta": 4.0,
+                    "seconds": 0.036853874975349754,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.00046745879808440804,
+                      "kl_loss": 0.0,
+                      "soft_map_location": [
+                        0.058904487639665604,
+                        -0.025468014180660248
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7656252384185791,
+                      "unknown_mass": 9.736204248985682e-08,
+                      "special_mass": 0.2265622317790985,
+                      "empty_surface_mass": 0.007812513038516045,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08594042807817459,
+                      "topk_retained_mass": 0.9999999394640326,
+                      "cached_token_ids": 5015,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0007117242785170674,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  },
+                  {
+                    "update": 1,
+                    "loss": 0.0017276317812502384,
+                    "gradient_norm": 0.0006663691202498233,
+                    "direction_norm": 1.0,
+                    "max_delta": 4.0,
+                    "seconds": 0.02481970895314589,
+                    "diagnostics": {
+                      "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+                      "map_loss": 0.0017233443213626742,
+                      "kl_loss": 0.00042874188511632383,
+                      "soft_map_location": [
+                        0.0009681787341833115,
+                        -0.039746932685375214
+                      ],
+                      "bridge_exact": false,
+                      "bridge_method": "isolated-surface-mean-encoder-embeddings",
+                      "bridge_coverage": 0.7656335234642029,
+                      "unknown_mass": 1.0307321824072143e-07,
+                      "special_mass": 0.22655394673347473,
+                      "empty_surface_mass": 0.007812513038516045,
+                      "mask_mass": 0.0,
+                      "one_to_many_mass": 0.08594069629907608,
+                      "topk_retained_mass": 0.9999999394640326,
+                      "cached_token_ids": 5015,
+                      "canvas_positions": 128,
+                      "editable_positions": 128,
+                      "unrepresented_editable_positions": 0,
+                      "gradient_norm": 0.0006663691019639373,
+                      "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required"
+                    }
+                  }
+                ]
+              }
+            ],
+            "approximation": "top-k generator-token to encoder-input bridge; hard decoded-text scoring required"
+          }
+        }
+      }
+    }
+  ]
+}
