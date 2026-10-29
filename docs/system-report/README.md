@@ -2,7 +2,9 @@
 
 [Read the complete six-page PDF](point2text-system-report.pdf) or [the Markdown source](report.md).
 
-The report covers the fixed map and baseline, actual uniform-state DiffusionGemma sampler, sparse gradient bridge, canonical feedback, protected repair, measured edit combinations, paraphrases, scientific quality gate, profiles and browser/storage. It separates measured improvements, negative results and verified interfaces; it does not claim an epsilon or text-quality guarantee.
+Updated for implementation snapshot **0fdfde3** on 29 October 2026. The report covers the fixed map and baseline, uniform-state DiffusionGemma sampler, top-k gradient bridge, shared-budget restarts, protected word/sentence repairs, measured edit combinations, phrase and sentence banks, quality policies, profiles and browser/storage.
+
+The current adaptive six-click panel improved retained quality-reviewed text on five targets. Best distance is **0.009275**; **zero targets reached 1e-4**. The native-only, optional hybrid and offline-review stages are distinguished. The default browser's mechanical checks do not certify scientific quality.
 
 Rebuild from the repository root:
 
@@ -12,10 +14,4 @@ uv run --extra paper python docs/system-report/build_report.py
 
 The renderer requires exactly six explicit source pages with two columns each, rejects overflow, and checks the output's page count and extracted text. Its fonts are the standard PDF Times/Helvetica/Courier families; equations are rendered at 350 DPI. No model weights, model calls or private files are needed to build the PDF.
 
-The ten-target development panel records four numerical reductions and zero successes at the research tolerance of 1e-4. Independent blinded review found four clear quality false passes despite all ten final texts passing the local judge. A separate constructed-bank local diagnostic recovered four exact three-edit witnesses out of four eligible cases; six fixtures lacked bank coverage. Independent blinded review found the four edits preserved grammar and claims. This demonstrates local feasibility, not novel target-only generation. Full receipts are linked in the report.
-
-A later six-anchor paired test returned identical texts with and without measured combinations; two final gains passed independent quality review. [Current evidence](../optimization-progress.md) preserves the rejections and uncertain cases.
-
-Automatic fresh-generation restarts and subsequent off-corpus target experiments are covered in [canonical refinement](../canonical-refinement.md) and the current evidence page. The PDF remains the six-page snapshot published before those additions.
-
-Development measurements are linked in the report. They are not an equal-budget ablation or generalization benchmark. Quality-gated evaluation and ordinary mechanical/canonical scoring are distinguished.
+The report also preserves historical quality failures and separates constructed local witness recoveries from actual target-to-text generation. A fixed-bank replay admitted five additional variants without improving any final distance. [Current evidence](../optimization-progress.md) links all requests, texts, hashes, rejection records and blinded reviews. These development results are not an equal-compute causal comparison or a held-out generalization benchmark.

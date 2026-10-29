@@ -71,15 +71,16 @@ def equation(text):
 class Architecture(Flowable):
     def __init__(self):
         super().__init__()
-        self.width, self.height = COL_W, 196
+        self.width, self.height = COL_W, 237
 
     def draw(self):
         c = self.canv
-        nodes = [(0, 154, COL_W, 33, ['Frozen corpus + canonical encoder', '384-D embeddings -> saved 2-D PCA']),
-                 (0, 107, COL_W, 33, ['Clicked target + nearest examples', 'Fixed map, prompt policy and model IDs']),
-                 (0, 58, 117, 35, ['Diffusion / Ollama', 'draft proposals']),
-                 (136, 58, COL_W-136, 35, ['Text edit search', 'repair + combinations']),
-                 (0, 8, COL_W, 35, ['Canonical verifier + optional quality gate', 'Best measured text -> browser / SQLite'])]
+        nodes = [(0, 194, COL_W, 33, ['Frozen corpus + canonical encoder', '384-D embeddings -> saved 2-D PCA']),
+                 (0, 148, COL_W, 33, ['Clicked target + nearest examples', 'Fixed map, writing policy and model IDs']),
+                 (0, 98, COL_W, 35, ['Global incumbent + active basin', 'Shared budgets; fresh-seed restarts']),
+                 (0, 49, 119, 35, ['Native DiffusionGemma', 'coarse / protected repair']),
+                 (136, 49, COL_W-136, 35, ['Text edit proposals', 'words / sentence banks']),
+                 (0, 0, COL_W, 35, ['Canonical verifier + optional quality policy', 'Measured best -> browser / SQLite'])]
         for x, y, w, h, lines in nodes:
             c.setFillColor(colors.HexColor('#f1f5f6'))
             c.setStrokeColor(colors.HexColor('#9eb3bb'))
@@ -90,14 +91,18 @@ class Architecture(Flowable):
             c.setFont('Helvetica', 7.6)
             c.drawCentredString(x+w/2, y+8, lines[1])
         c.setStrokeColor(ACCENT)
-        for x1,y1,x2,y2 in [(COL_W/2,154,COL_W/2,140),(58,107,58,93),
-                              (192,107,192,93),(58,58,58,43),(192,58,192,43)]:
+        for x1,y1,x2,y2 in [(COL_W/2,194,COL_W/2,181),
+                              (COL_W/2,148,COL_W/2,133),
+                              (58,98,58,84),(192,98,192,84),
+                              (58,49,58,35),(192,49,192,35)]:
             c.line(x1,y1,x2,y2)
             c.line(x2,y2,x2-2.5,y2+4)
             c.line(x2,y2,x2+2.5,y2+4)
-        c.setFont('Helvetica', 7.2)
-        c.setFillColor(ACCENT)
-        c.drawCentredString(COL_W/2, 1, 'Canonical feedback preserves a verified incumbent')
+        c.line(COL_W, 17, COL_W+6, 17)
+        c.line(COL_W+6, 17, COL_W+6, 115)
+        c.line(COL_W+6, 115, COL_W, 115)
+        c.line(COL_W, 115, COL_W+4, 112.5)
+        c.line(COL_W, 115, COL_W+4, 117.5)
 
 
 class Displacements(Flowable):
@@ -201,9 +206,9 @@ def build(source,output):
             c.setFillColor(INK);c.setFont('Times-Bold',20)
             c.drawString(MARGIN,728,'Text Optimization on a Frozen Semantic Map')
             c.setFont('Times-Roman',11)
-            c.drawString(MARGIN,707,'Architecture, DiffusionGemma guidance, canonical refinement and evidence')
+            c.drawString(MARGIN,707,'Native diffusion, budgeted restarts, sentence banks and reviewed results')
             c.setFont('Helvetica',8.5);c.setFillColor(MUTED)
-            c.drawString(MARGIN,688,'point2text contributors - loopmath  |  Experimental MIT-licensed implementation')
+            c.drawString(MARGIN,688,'point2text contributors - loopmath  |  Implementation snapshot 0fdfde3  |  MIT')
             top=674
         for k,col in enumerate(cols):
             story=parse(col)
