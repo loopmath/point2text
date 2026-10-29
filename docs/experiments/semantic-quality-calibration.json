@@ -1,0 +1,211 @@
+{
+  "timestamp_utc": "2026-10-29T19:25:22.303499+00:00",
+  "reference_text": "Gradient descent updates model parameters in the direction opposite to the estimated loss gradient. This local update aims to reduce the training objective, although convergence depends on the objective and the optimization settings. A suitable learning rate can support stable progress, whereas an excessively large rate may cause oscillation or divergence. In stochastic training, gradients computed from minibatches introduce noise, so a single update need not reduce the full training loss.",
+  "purpose": "Two-candidate local judge calibration plus numeric precheck; not an accuracy benchmark or quality certificate.",
+  "cases": [
+    {
+      "name": "authored_reference",
+      "text": "Gradient descent updates model parameters in the direction opposite to the estimated loss gradient. This local update aims to reduce the training objective, although convergence depends on the objective and the optimization settings. A suitable learning rate can support stable progress, whereas an excessively large rate may cause oscillation or divergence. In stochastic training, gradients computed from minibatches introduce noise, so a single update need not reduce the full training loss.",
+      "report": {
+        "accepted": true,
+        "reasons": [],
+        "dimensions": {
+          "claim_preservation": {
+            "reason": "The candidate text preserves all scientific claims, quantities, and nuances from the reference text exactly.",
+            "verdict": "pass"
+          },
+          "coherence": {
+            "reason": "The text follows a logical progression from the definition of gradient descent to the role of learning rates and the effects of stochasticity.",
+            "verdict": "pass"
+          },
+          "grammar": {
+            "reason": "The prose is grammatically correct and follows standard technical writing conventions.",
+            "verdict": "pass"
+          },
+          "no_deterioration": {
+            "reason": "The candidate is identical to the reference, maintaining all clarity, precision, and meaning.",
+            "verdict": "pass"
+          },
+          "technical_plausibility": {
+            "reason": "The description of gradient descent, learning rate effects, and stochastic noise is scientifically accurate.",
+            "verdict": "pass"
+          }
+        },
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:gemma4:12b@http://127.0.0.1:11434#4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+        "policy_digest": "eafb89a26543c1bb6c872e9e5ceeb0597a8e923051913844b8a83e0645c6436a",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 527,
+          "eval_count": 207,
+          "server_total_duration_ns": 18582073083,
+          "elapsed_seconds": 18.731445750046987
+        }
+      }
+    },
+    {
+      "name": "scientific_corruption",
+      "text": "Gradient descent updates model parameters in the direction parallel to the estimated loss gradient. This local update aims to reduce the training objective, although convergence depends on the objective and the optimization settings. A suitable learning rate can support stable progress, whereas an excessively large rate always prevents oscillation or divergence. In stochastic training, gradients computed from minibatches introduce noise, so a single update must strictly reduce the full training loss.",
+      "report": {
+        "accepted": false,
+        "reasons": [
+          "claim_preservation:fail",
+          "no_deterioration:fail",
+          "technical_plausibility:fail"
+        ],
+        "dimensions": {
+          "claim_preservation": {
+            "reason": "The candidate contains three significant errors: 'parallel' instead of 'opposite', 'always prevents' instead of 'may cause', and 'must strictly reduce' instead of 'need not reduce'.",
+            "verdict": "fail"
+          },
+          "coherence": {
+            "reason": "The text is logically structured, but the factual errors in the final sentence create a logical contradiction regarding the nature of stochastic gradient descent.",
+            "verdict": "pass"
+          },
+          "grammar": {
+            "reason": "The prose is grammatically correct and follows standard technical conventions.",
+            "verdict": "pass"
+          },
+          "no_deterioration": {
+            "reason": "The candidate significantly alters the meaning of the technical claims regarding gradient direction, learning rate effects, and stochasticity.",
+            "verdict": "fail"
+          },
+          "technical_plausibility": {
+            "reason": "The claim that a large learning rate 'always prevents' oscillation is scientifically incorrect; it typically causes it. The claim that a stochastic update 'must strictly reduce' the full loss is also incorrect for SGD.",
+            "verdict": "fail"
+          }
+        },
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:gemma4:12b@http://127.0.0.1:11434#4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+        "policy_digest": "eafb89a26543c1bb6c872e9e5ceeb0597a8e923051913844b8a83e0645c6436a",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 527,
+          "eval_count": 277,
+          "server_total_duration_ns": 12118296083,
+          "elapsed_seconds": 12.199752458021976
+        }
+      }
+    },
+    {
+      "name": "numeric_corruption_precheck",
+      "text": "The experiment used 30 samples.",
+      "reference": "The experiment used 20 samples.",
+      "report": {
+        "accepted": false,
+        "reasons": [
+          "reference_numbers_changed"
+        ],
+        "dimensions": {},
+        "heuristic": true,
+        "quality_guarantee": false,
+        "model_identity": "ollama:gemma4:12b@http://127.0.0.1:11434#4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+        "policy_digest": "eafb89a26543c1bb6c872e9e5ceeb0597a8e923051913844b8a83e0645c6436a",
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 0,
+          "judge_requests": 0,
+          "prompt_eval_count": 0,
+          "eval_count": 0,
+          "server_total_duration_ns": 0,
+          "elapsed_seconds": 4.1583029087632895e-05
+        },
+        "error": "Numeric literals must be preserved exactly"
+      }
+    }
+  ],
+  "trace": {
+    "method": "local-technical-quality-v1",
+    "model": "gemma4:12b",
+    "model_identity": "ollama:gemma4:12b@http://127.0.0.1:11434#4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+    "model_digest": "4eb23ef187e2c5462566d6a1d3bbbc2f1346d0b4327cbb66d58fffbcc9b2b05c",
+    "policy_digest": "eafb89a26543c1bb6c872e9e5ceeb0597a8e923051913844b8a83e0645c6436a",
+    "calls": 3,
+    "precheck_calls": 2,
+    "precheck_errors": 0,
+    "judge_requests": 2,
+    "cache_hits": 0,
+    "accepted": 1,
+    "rejected": 2,
+    "errors": 1,
+    "elapsed_seconds": 30.93123979109805,
+    "prompt_eval_count": 1054,
+    "eval_count": 484,
+    "server_total_duration_ns": 30700369166,
+    "judge_options": {
+      "seed": 0,
+      "temperature": 0,
+      "top_p": 1.0,
+      "num_predict": 768,
+      "num_ctx": 8192
+    },
+    "timeout_seconds": 90.0,
+    "cache_entries": 2,
+    "entries": [
+      {
+        "text_hash": "0b7ebe122c64c2a7811806dbd5e3275d497a17afa744d80ccc88474b65b19c55",
+        "reference_hash": "0b7ebe122c64c2a7811806dbd5e3275d497a17afa744d80ccc88474b65b19c55",
+        "cache_key": "5a09fe5934ee91d4f6c3c1122703a6102da994c85f2e4c36cd5f7179bb5ab8e1",
+        "accepted": true,
+        "reasons": [],
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 527,
+          "eval_count": 207,
+          "server_total_duration_ns": 18582073083,
+          "elapsed_seconds": 18.731445750046987
+        }
+      },
+      {
+        "text_hash": "8df70663fba519b03bc276564221a77a941fd38adf172a6137445b3eab67cd23",
+        "reference_hash": "0b7ebe122c64c2a7811806dbd5e3275d497a17afa744d80ccc88474b65b19c55",
+        "cache_key": "0b088145031b367a135f308aa1b54a7142514fc91565a0009db26c46f2b58744",
+        "accepted": false,
+        "reasons": [
+          "claim_preservation:fail",
+          "no_deterioration:fail",
+          "technical_plausibility:fail"
+        ],
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 1,
+          "judge_requests": 1,
+          "prompt_eval_count": 527,
+          "eval_count": 277,
+          "server_total_duration_ns": 12118296083,
+          "elapsed_seconds": 12.199752458021976
+        }
+      },
+      {
+        "text_hash": "7eb110d290fb7a19e18b6402fd83e627643763ce694548a73da7721c8af18ee9",
+        "reference_hash": "1cea9359afb9b97fb1722660532c5753b11613cda515d525bc655defa9cde819",
+        "cache_key": null,
+        "accepted": false,
+        "reasons": [
+          "reference_numbers_changed"
+        ],
+        "cache_hit": false,
+        "cost": {
+          "precheck_calls": 0,
+          "judge_requests": 0,
+          "prompt_eval_count": 0,
+          "eval_count": 0,
+          "server_total_duration_ns": 0,
+          "elapsed_seconds": 4.1583029087632895e-05
+        },
+        "error": "Numeric literals must be preserved exactly"
+      }
+    ],
+    "quality_guarantee": false,
+    "heuristic": true,
+    "canonical_coordinates_in_judge_input": false
+  }
+}
