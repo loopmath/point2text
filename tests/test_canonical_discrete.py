@@ -72,6 +72,10 @@ def bundle():
     class Encoder:
         identity = "tiny-canonical"
 
+        def gradient_capability(self):
+            # This fixture implements the exact mean/L2 token-input contract.
+            return {"supported": True, "normalize": True}
+
         def __init__(self):
             self.model = Model()
 

@@ -1,4 +1,4 @@
-"""Frozen MiniLM input gradients and a sparse, approximate map reward.
+"""Audited frozen mean-pooling input gradients and approximate map reward.
 
 Only logits for the selected generator candidates enter autograd. Generator
 weights and computation never enter this graph. Exact parity applies to normal
@@ -11,7 +11,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from ..encoder import MAX_TOKENS, SentenceEncoder
+from ..encoder import SentenceEncoder
 from ..geometry import MapBundle
 from .bridge import SparseTokenBridge
 
@@ -20,6 +20,16 @@ class TorchEmbeddingReward:
     def __init__(self, encoder: SentenceEncoder, bundle: MapBundle) -> None:
         if encoder.identity != bundle.encoder.identity:
             raise ValueError("Reward encoder identity does not match the frozen map")
+        capability_method = getattr(encoder, "gradient_capability", None)
+        if capability_method is None:
+            raise ValueError("Encoder has no audited gradient_capability(). Use unguided generation "
+                             "plus canonical measured text search, or supply a verified reward adapter.")
+        capability = capability_method()
+        if not capability.get("supported", False):
+            raise ValueError("Encoder gradient adapter is unsupported: "
+                             + "; ".join(capability.get("reasons", []))
+                             + ". " + capability.get("fallback", "Use unguided generation and canonical scoring."))
+        self.normalize = capability.get("normalize", True)
         self.encoder = encoder
         self.tokenizer = encoder.model.tokenizer
         self.body = encoder.model[0].auto_model
@@ -31,10 +41,10 @@ class TorchEmbeddingReward:
         self.mean = torch.tensor(np.array(bundle.mean, copy=True), dtype=self.dtype, device=self.device)
         self.components = torch.tensor(np.array(bundle.components, copy=True), dtype=self.dtype, device=self.device)
         self.map_id = bundle.map_id
-        self.max_tokens = min(int(encoder.model.max_seq_length), MAX_TOKENS)
+        self.max_tokens = int(encoder.model.max_seq_length)
         self.cls_id, self.sep_id = self.tokenizer.cls_token_id, self.tokenizer.sep_token_id
         if self.cls_id is None or self.sep_id is None:
-            raise ValueError("This MiniLM adapter requires fixed CLS and SEP tokens")
+            raise ValueError("This token-input adapter requires fixed CLS and SEP tokens")
         self._bridges: dict[int, SparseTokenBridge] = {}
 
     def embed_inputs(self, input_vectors: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
@@ -47,7 +57,7 @@ class TorchEmbeddingReward:
                             return_dict=True)
         mask = attention_mask.unsqueeze(-1).to(outputs.last_hidden_state.dtype)
         pooled = (outputs.last_hidden_state * mask).sum(dim=1) / mask.sum(dim=1).clamp_min(1e-9)
-        return F.normalize(pooled, p=2, dim=-1)
+        return F.normalize(pooled, p=2, dim=-1) if self.normalize else pooled
 
     def embed_encoder_tokens(self, input_ids: torch.Tensor,
                              attention_mask: torch.Tensor | None = None) -> torch.Tensor:
@@ -166,6 +176,8 @@ class TorchEmbeddingReward:
             "editable_positions": int(editable.sum()),
             "unrepresented_editable_positions": int(np.sum(editable & ~has_surface)),
             "gradient_norm": float(torch.linalg.vector_norm(gradients).detach()),
-            "constraints": "fixed CLS/SEP; mask-aware mean; L2 norm; no residual or quality loss; canonical acceptance required",
+            "constraints": ("fixed CLS/SEP; mask-aware mean; "
+                            + ("L2 norm" if self.normalize else "unnormalized")
+                            + "; no residual or quality loss; canonical acceptance required"),
         }
         return float(loss.detach()), gradients.detach().cpu().numpy(), diagnostics

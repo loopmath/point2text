@@ -1,0 +1,20 @@
+# Small illustrative corpus, not a benchmark or actual support policy.
+# Replace it with representative, approved paragraphs before evaluating a use case.
+[encoder]
+checkpoint = "sentence-transformers/all-MiniLM-L6-v2"
+revision = "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
+max_length = 256
+normalize = true
+prompt = ""
+
+[corpus]
+path = "support.jsonl"
+
+[prompt]
+purpose = "Explain a practical next action to a customer"
+domain = "software customer support"
+style = "calm, direct, helpful, and plain language"
+min_words = 30
+max_words = 60
+neighbors = 3
+extra_instructions = "Do not promise refunds, deadlines, or account changes. Ask for a relevant detail when the cause is uncertain."

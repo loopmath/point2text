@@ -1,0 +1,12 @@
+# Setup starter for a DIFFERENT embedding model, not an evaluated recommendation.
+# Before a reproducible run, add revision = "<immutable checkpoint commit>".
+# No MiniLM revision is inherited when the checkpoint changes.
+# Loading this explicitly configured checkpoint may download its weights to HF cache.
+[encoder]
+checkpoint = "sentence-transformers/all-mpnet-base-v2"
+max_length = 384
+normalize = true
+prompt = ""
+
+# Use your own corpus and [prompt] policy together; for illustration this profile
+# otherwise uses the bundled demo corpus and default research paragraph policy.
