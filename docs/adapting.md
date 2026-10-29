@@ -39,6 +39,7 @@ style = "calm, direct, helpful, and plain language"
 min_words = 30
 max_words = 60
 neighbors = 4
+content_rules = "Do not copy sentences, invent references, invent measurements, or make unsupported factual claims."
 extra_instructions = "Do not promise refunds or deadlines."
 ```
 
@@ -67,7 +68,7 @@ truncating it.
 
 `PromptPolicy` in [`profile.py`](../src/point2text/profile.py) is the single
 definition for both Ollama and diffusion. Change `[prompt]` for the output's
-purpose, domain, style, length and number of nearby examples. Change
+purpose, domain, style, content rules, length and number of nearby examples. Change
 `encoder.prompt` only for the embedding model's input preprocessing; it is a
 separate setting with a separate role.
 
@@ -102,7 +103,23 @@ strings as Ollama, joined by two newlines. A custom system string says:
 `Write one standalone paragraph of <min>–<max> words. Purpose: <purpose>. Domain:
 <domain>. Style: <style>.` It then retains the output-format and example-data
 rules and appends `extra_instructions`. The custom user string asks it to fulfil
-that purpose near the supplied examples. Both paths continue to produce one
+that purpose near the supplied examples. `content_rules` replaces the default
+factuality rules in custom prompts; it must be a string and may be explicitly
+empty when your other instructions already state the applicable domain rules.
+Changing purpose or domain alone retains the default factuality rules. For
+fiction, configure rules that permit invention and require internal consistency,
+for example:
+
+```toml
+[prompt]
+purpose = "Write a Spanish cozy mystery scene"
+domain = "fiction"
+style = "Spanish, warm, playful, and suspenseful"
+content_rules = "Invent fictional events and characters. Keep clues and character actions internally consistent. Do not copy example sentences."
+```
+
+This replaces the instruction against unsupported factual claims; no special
+fiction detection or runtime exception is used. Both paths continue to produce one
 paragraph; changing output format requires editing `PromptPolicy` and reviewing
 the downstream paragraph handling.
 

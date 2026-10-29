@@ -264,6 +264,33 @@ def test_custom_policy_shared_by_ollama_and_diffusion():
     assert policy.identity in generator.identity
 
 
+def test_fiction_content_rules_replace_factuality_rules_in_both_prompts(tmp_path):
+    path = tmp_path / "fiction.toml"
+    path.write_text(
+        '[prompt]\n'
+        'purpose = "Write a Spanish cozy mystery scene"\n'
+        'domain = "fiction"\n'
+        'style = "Spanish, warm, playful, and suspenseful"\n'
+        'content_rules = "Invent fictional events and characters. Keep clues and character actions internally consistent. Do not copy example sentences."\n'
+    )
+    policy = load_profile(path).prompt_policy
+    actual = policy.describe()
+    for name in ("ollama_system", "diffusion_prompt"):
+        assert "Invent fictional events and characters." in actual[name]
+        assert "internally consistent" in actual[name]
+        assert "unsupported factual claims" not in actual[name]
+        assert "invent measurements" not in actual[name]
+    assert actual["settings"]["content_rules"] == policy.content_rules
+    assert policy.identity != replace(policy, content_rules=PromptPolicy().content_rules).identity
+
+
+def test_content_rules_allow_explicit_empty_text_and_reject_nontext():
+    policy = PromptPolicy(domain="fiction", content_rules="")
+    assert "unsupported factual claims" not in policy.system_prompt()
+    with pytest.raises(ValueError, match="content_rules"):
+        PromptPolicy(content_rules=False)
+
+
 def test_shipped_example_profiles_parse():
     examples = Path(__file__).resolve().parents[1] / "examples" / "profiles"
     for path in examples.glob("*.toml"):
