@@ -84,7 +84,7 @@ With the demo running, `python scripts/smoke_local.py` requests one real candida
 
 The package separates corpus/encoder/map, generation, search, and web delivery. See [architecture and parallel workflows](docs/plan.md), [contributing](CONTRIBUTING.md), and [research notes](docs/research/README.md). Diffusion adapters, differentiable token bridges, residual priors, and rigorous evaluation are planned extensions.
 
-For the underlying mathematics and implemented algorithm, read the [four-page technical report](docs/paper/point2text-technical-report.pdf), with [reproducible source](docs/paper/README.md).
+For the underlying mathematics and implemented algorithm, read the [two-page technical report](docs/paper/point2text-technical-report.pdf), with [reproducible source](docs/paper/README.md).
 
 ## License
 

@@ -26,3 +26,7 @@ The demo corpus is original project material. External corpora need documented s
 Research changes should compare actual-text quality/error against elapsed time, use appropriate held-out targets, and separate evidence from hypotheses. A small soft loss or a working runtime hook alone does not establish useful guidance.
 
 Contributions use the repository's MIT license. Model and dependency licenses remain separate.
+
+## Technical writing
+
+Use the shortest clear explanation that preserves the technical content. Remove repetition and process detail; never add sentences to fill a page budget. Prefer a compact equation, algorithm, or measured table when it explains more directly. Page limits are ceilings, not targets, and readable type should not be reduced to compensate for excess prose.

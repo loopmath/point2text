@@ -1,4 +1,4 @@
-"""Build the four-page technical report from its readable Markdown source.
+"""Build a concise technical report from its readable Markdown source.
 
 Run: uv run --extra paper python docs/paper/build.py
 The layout is conference-inspired, not an official NeurIPS submission template.
@@ -32,6 +32,7 @@ WIDTH = 396
 
 def rich(text):
     value = escape(text)
+    value = value.replace("q_i^0", "q<sub>i</sub><super>0</super>").replace("q_i", "q<sub>i</sub>")
     value = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", value)
     value = re.sub(r"(https?://[^\s]+)", r'<link href="\1" color="#244f67">\1</link>', value)
     return value
@@ -89,7 +90,7 @@ def equation(text):
     return Image(buffer,width=w*factor,height=h*factor,hAlign="CENTER")
 
 
-def build(output):
+def build(output, source=None, expected_pages=2):
     body = ParagraphStyle("Body",fontName="Times-Roman",fontSize=10,leading=12,
                           alignment=TA_JUSTIFY,spaceAfter=6)
     heading=ParagraphStyle("Heading",parent=body,fontName="Times-Bold",fontSize=11,
@@ -103,8 +104,11 @@ def build(output):
     code=ParagraphStyle("Code",fontName="Courier",fontSize=8.0,leading=10,
                         leftIndent=9,spaceBefore=6,spaceAfter=7)
     story=[]
-    pages=(HERE/"paper.md").read_text().split("<!-- page -->")
-    if len(pages)!=4: raise ValueError("Source must define exactly four pages")
+    source = source or HERE / "paper.md"
+    content = source.read_text()
+    document_title = content.splitlines()[0].removeprefix("# ")
+    pages=content.split("<!-- page -->")
+    if len(pages)!=expected_pages: raise ValueError(f"Source must define exactly {expected_pages} pages")
     for page_number,page in enumerate(pages):
         if page_number: story.append(PageBreak())
         lines=page.strip().splitlines();i=0;in_abstract=False;in_refs=False
@@ -113,9 +117,9 @@ def build(output):
             if not line: i+=1;continue
             if line.startswith("# "):
                 story.append(HRFlowable(width=WIDTH,thickness=1.5,color=colors.black,spaceAfter=10))
-                title=ParagraphStyle("Title",fontName="Times-Bold",fontSize=16,leading=19,
+                title_style=ParagraphStyle("Title",fontName="Times-Bold",fontSize=16,leading=19,
                                      alignment=TA_CENTER,spaceAfter=9)
-                story.append(Paragraph(rich(line[2:]),title));i+=1;continue
+                story.append(Paragraph(rich(line[2:]),title_style));i+=1;continue
             if line.startswith("@authors ") or line.startswith("@date "):
                 value=line.split(" ",1)[1]
                 style=ParagraphStyle("Meta",parent=body,alignment=TA_CENTER,fontSize=9,
@@ -143,7 +147,8 @@ def build(output):
                     i+=1
                 cell_style=ParagraphStyle("Cell",parent=body,fontSize=8.8,leading=10.5,spaceAfter=0,alignment=TA_LEFT)
                 rows=[[Paragraph(rich(t),cell_style) for t in row] for row in rows]
-                table=Table(rows,colWidths=[159,237],hAlign="LEFT")
+                widths = [159,237] if len(rows[0]) == 2 else [110,100,186]
+                table=Table(rows,colWidths=widths,hAlign="LEFT")
                 table.setStyle(TableStyle([("LINEABOVE",(0,0),(-1,0),.7,colors.black),
                                            ("LINEBELOW",(0,0),(-1,0),.5,colors.black),
                                            ("LINEBELOW",(0,-1),(-1,-1),.7,colors.black),
@@ -163,7 +168,7 @@ def build(output):
             story.append(Paragraph(rich(" ".join(paragraph)),reference if in_refs else abstract if in_abstract else body))
 
     def footer(canvas,doc):
-        canvas.setTitle("point2text: Local Text Generation Toward a Point in Semantic Space")
+        canvas.setTitle(document_title)
         canvas.setAuthor("point2text contributors - loopmath")
         canvas.setFont("Times-Roman",8);canvas.setFillColor(colors.HexColor("#555555"))
         canvas.drawString(108,35,"point2text | Technical report | 29 October 2026")
@@ -174,11 +179,14 @@ def build(output):
                           topMargin=48,bottomMargin=49,author="point2text contributors - loopmath")
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     count=len(PdfReader(output).pages)
-    if count!=4: raise RuntimeError(f"Expected 4 pages, rendered {count}; revise source/layout")
+    if count!=expected_pages: raise RuntimeError(f"Expected {expected_pages} pages, rendered {count}; revise source/layout")
     print(f"Built {output}: {count} pages")
 
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output",type=Path,default=HERE/"point2text-technical-report.pdf")
-    build(parser.parse_args().output)
+    parser.add_argument("--source",type=Path)
+    parser.add_argument("--pages",type=int,default=2)
+    args=parser.parse_args()
+    build(args.output, args.source, args.pages)
