@@ -1,0 +1,88 @@
+{
+  "items": [
+    {
+      "review_id": "5d01c67e1f58",
+      "target_id": "fresh-click-01",
+      "seed": 1973431,
+      "mechanically_valid": true,
+      "distance": 0.12567835764057497
+    },
+    {
+      "review_id": "b689cb3b8a41",
+      "target_id": "fresh-click-01",
+      "seed": 1973532,
+      "mechanically_valid": true,
+      "distance": 0.12538285630933763
+    },
+    {
+      "review_id": "050f4c8da0d0",
+      "target_id": "fresh-click-02",
+      "seed": 1983431,
+      "mechanically_valid": true,
+      "distance": 0.09191409754329141
+    },
+    {
+      "review_id": "90edd313c4cb",
+      "target_id": "fresh-click-02",
+      "seed": 1983532,
+      "mechanically_valid": true,
+      "distance": 0.08347705794502563
+    },
+    {
+      "review_id": "75095c6db9c4",
+      "target_id": "fresh-click-03",
+      "seed": 1993431,
+      "mechanically_valid": true,
+      "distance": 0.07408382870244337
+    },
+    {
+      "review_id": "4c42d832bcb5",
+      "target_id": "fresh-click-03",
+      "seed": 1993532,
+      "mechanically_valid": true,
+      "distance": 0.1192290024946364
+    },
+    {
+      "review_id": "e4b65461be49",
+      "target_id": "fresh-click-04",
+      "seed": 2003431,
+      "mechanically_valid": true,
+      "distance": 0.0313550439977808
+    },
+    {
+      "review_id": "95f98f24d40e",
+      "target_id": "fresh-click-04",
+      "seed": 2003532,
+      "mechanically_valid": true,
+      "distance": 0.06070271473684909
+    },
+    {
+      "review_id": "33421764d5ca",
+      "target_id": "fresh-click-05",
+      "seed": 2013431,
+      "mechanically_valid": true,
+      "distance": 0.11290162703515402
+    },
+    {
+      "review_id": "186ab7fa3ab8",
+      "target_id": "fresh-click-05",
+      "seed": 2013532,
+      "mechanically_valid": true,
+      "distance": 0.0772841229125955
+    },
+    {
+      "review_id": "90bace989ea7",
+      "target_id": "fresh-click-06",
+      "seed": 2023431,
+      "mechanically_valid": true,
+      "distance": 0.09079899928545367
+    },
+    {
+      "review_id": "2b9111342115",
+      "target_id": "fresh-click-06",
+      "seed": 2023532,
+      "mechanically_valid": true,
+      "distance": 0.06171676697776843
+    }
+  ]
+}

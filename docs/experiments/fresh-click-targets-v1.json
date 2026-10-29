@@ -1,0 +1,69 @@
+{
+  "schema": "fresh-off-corpus-clicks-v1",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "seed": 810731,
+  "method": "farthest topic centroids; convex .84 topic + .12 global + .04 seeded corpus point",
+  "witness_text_used": false,
+  "targets": [
+    {
+      "id": "fresh-click-01",
+      "topic_anchor": "Neuroscience",
+      "target": [
+        -0.05943739182128624,
+        0.35056816038875493
+      ],
+      "nearest_corpus_distance": 0.03586202453903963,
+      "nearest_corpus_id": "t07-01"
+    },
+    {
+      "id": "fresh-click-02",
+      "topic_anchor": "Climate science",
+      "target": [
+        -0.20038882281515585,
+        -0.22882952016940825
+      ],
+      "nearest_corpus_distance": 0.030964047362403213,
+      "nearest_corpus_id": "t10-05"
+    },
+    {
+      "id": "fresh-click-03",
+      "topic_anchor": "Distributed systems",
+      "target": [
+        0.2422801570083117,
+        -0.07816226547108725
+      ],
+      "nearest_corpus_distance": 0.011499114109796201,
+      "nearest_corpus_id": "t05-01"
+    },
+    {
+      "id": "fresh-click-04",
+      "topic_anchor": "Materials science",
+      "target": [
+        -0.11750784993385428,
+        0.0062444893440342245
+      ],
+      "nearest_corpus_distance": 0.03398909535501155,
+      "nearest_corpus_id": "t08-05"
+    },
+    {
+      "id": "fresh-click-05",
+      "topic_anchor": "Robotics",
+      "target": [
+        0.17669038297785927,
+        0.08263553511232669
+      ],
+      "nearest_corpus_distance": 0.07769392161534044,
+      "nearest_corpus_id": "t06-10"
+    },
+    {
+      "id": "fresh-click-06",
+      "topic_anchor": "Molecular biology",
+      "target": [
+        -0.19386310057797443,
+        0.1503665721979977
+      ],
+      "nearest_corpus_distance": 0.01808746203502304,
+      "nearest_corpus_id": "t03-03"
+    }
+  ]
+}

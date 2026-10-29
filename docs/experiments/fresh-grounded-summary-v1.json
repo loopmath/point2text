@@ -1,0 +1,46 @@
+{
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "targets": 6,
+  "trajectories": 24,
+  "native_passes": 195,
+  "actual_guided_passes": 0,
+  "actual_encoder_updates": 0,
+  "cases": [
+    {
+      "id": "fresh-click-01",
+      "topic_anchor": "Neuroscience",
+      "best_mechanical_distance": 0.016634244774045678,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    },
+    {
+      "id": "fresh-click-02",
+      "topic_anchor": "Climate science",
+      "best_mechanical_distance": 0.01962326035637566,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    },
+    {
+      "id": "fresh-click-03",
+      "topic_anchor": "Distributed systems",
+      "best_mechanical_distance": 0.04842505073065291,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    },
+    {
+      "id": "fresh-click-04",
+      "topic_anchor": "Materials science",
+      "best_mechanical_distance": 0.13634642607712244,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    },
+    {
+      "id": "fresh-click-05",
+      "topic_anchor": "Robotics",
+      "best_mechanical_distance": 0.055171988593269564,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    },
+    {
+      "id": "fresh-click-06",
+      "topic_anchor": "Molecular biology",
+      "best_mechanical_distance": 0.10805405681706601,
+      "quality": "Independent review required; mechanical validity alone is insufficient."
+    }
+  ]
+}

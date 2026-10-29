@@ -74,3 +74,70 @@ The runner rejects a different map identity. If a platform or embedding setup
 produces a different fingerprint, generate a new pool with
 `scripts/evaluate_quality_refinement.py prepare` and review its actual texts;
 do not reinterpret the reference coordinates as belonging to the new map.
+
+## Fresh off-corpus clicks
+
+A new [six-click panel](experiments/fresh-click-targets-v1.json) uses only public
+corpus geometry: far-apart topic centroids mixed with the global centroid and a
+seeded corpus point using positive weights. Thus the clicks lie inside the
+corpus hull, but none equals a corpus location. No hidden witness text defines
+these targets, enters prompts, or serves as a reconstruction reference.
+
+We generated two fresh native seeds per click at 192 tokens and 32 requested
+denoising steps. The first arm requested 16 encoder updates per guided pass;
+actual early stopping produced **142 native passes, 28 guided passes and 448
+encoder updates** across all twelve trajectories. Every trajectory received
+guidance; per-trajectory update counts were 32–64, not `16 × 32`. A paired arm
+used exactly the same requests/seeds with no guidance hook. The
+[programmatic pairing/count audit](experiments/fresh-native-paired-summary-v1.json)
+verifies identical targets and requests.
+
+The distance-blinded reviewer examined one mechanically valid closest draft per
+trajectory: **2 accepted, 6 rejected, 4 uncertain** with guidance, and
+**3 accepted, 6 rejected, 3 uncertain** without it. These individual assessments
+do not establish judge accuracy or a population quality effect. None of the
+mechanical results reached `1e-4`, and most targets still lacked an approved
+generated anchor. Complete [guided](experiments/fresh-native-basins-v1.json.gz)
+and [unguided](experiments/fresh-native-unguided-v1.json.gz) pools retain requests,
+raw drafts, mechanical failures and native/guidance traces. Both
+[guided review](experiments/fresh-native-root-review-v1.json) and
+[unguided review](experiments/fresh-native-unguided-root-review-v1.json) retain
+text hashes, verdicts and reasons.
+
+We next independently reviewed the six nearest public corpus references; all
+six were accepted as cautious references. An exploratory, source-grounded arm
+then generated four fresh native paraphrases per click without guidance. It
+uses one public reference, explicit preservation of claims and qualifications,
+and an experimental **40–100-word** policy because those sources contain only
+40–46 words. This changes prompt, seed pool and word policy together and is
+not an isolated guidance ablation. The application's 60–100-word default is
+unchanged. Literal complete-reference-sentence copies are excluded from
+candidate ranking, while their raw drafts remain in the evidence.
+
+The [24-trajectory grounded pool](experiments/fresh-grounded-basins-v1.json.gz)
+and its [distance-blinded packet](experiments/fresh-grounded-blind-review-v1.json)
+are preserved for independent review. Mechanical acceptance alone is not a
+claim of scientific validity, claim preservation, or epsilon attainment. Local
+refinement must start from approved **generated** text, not from the public
+reference itself. The harness supports equal-budget word-span versus whole-
+sentence repair and fresh-restart comparisons once the reviewed anchors and
+restart core are available.
+
+Reproduce the paired initial pools with the same target file and frozen map:
+
+```sh
+uv run --extra encoder --extra diffusion python scripts/evaluate_fresh_basins.py \
+  generate --targets docs/experiments/fresh-click-targets-v1.json \
+  --cache-dir .cache/point2text --output .cache/fresh-guided.json.gz \
+  --attempts 2 --inner-updates 16 --seconds 1200
+
+uv run --extra encoder --extra diffusion python scripts/evaluate_fresh_basins.py \
+  generate --targets docs/experiments/fresh-click-targets-v1.json \
+  --cache-dir .cache/point2text --output .cache/fresh-unguided.json.gz \
+  --attempts 2 --inner-updates 16 --seconds 1200 --unguided
+```
+
+The grounded command additionally uses `--grounded --unguided --min-words 40
+--attempts 4 --seed 2973431`. `summary` checks paired request equality and reports
+actual native/guidance work. `packet` omits target labels, coordinates, seeds and
+distances from reviewer items; its separate key preserves linkage.
