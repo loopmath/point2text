@@ -9,6 +9,7 @@ from point2text.contracts import CorpusRecord
 from point2text.diffusion.contracts import DiffusionDraft, DiffusionResult
 from point2text.diffusion.refinement import CanonicalRefinementSearch
 from point2text.diffusion.refinement_contracts import RefinementConfig, TextProposal
+from point2text.diffusion.verification import CanonicalVerifier
 
 
 class Bundle:
@@ -202,3 +203,65 @@ def test_failure_after_observed_draft_retains_it_and_native_error_trace():
     assert result.text == "Paragraph 0.1"
     assert result.trace["status"] == "error"
     assert result.trace["native_traces"][0]["error"] == "native pass failed"
+
+
+def test_hotspot_analysis_expiring_deadline_does_not_start_repair(monkeypatch):
+    now = [0.0]
+
+    def verifier_factory(*args, **kwargs):
+        return CanonicalVerifier(*args, **kwargs, clock=lambda: now[0])
+
+    monkeypatch.setattr("point2text.diffusion.refinement.CanonicalVerifier", verifier_factory)
+
+    class SlowHotspots(Proposer):
+        def propose(self, *args, **kwargs):
+            return []
+
+        def hotspots(self, text, target, *, limit):
+            now[0] = 2.0
+            return [(0, len(text))]
+
+    class Runtime:
+        identity = "must-not-repair-after-deadline"
+
+        def refine_text(self, *args, **kwargs):
+            raise AssertionError("Expired hotspot analysis must not start native repair")
+
+    result = CanonicalRefinementSearch(Runtime(), edit_proposer=SlowHotspots(),
+                                        config=config(max_seconds=1)).run(
+        Bundle(), (0, 0), initial_text="Paragraph 0.1", guided=False)
+    assert result.text == "Paragraph 0.1"
+    assert result.trace["status"] == "complete"
+    assert result.trace["stop_reason"] == "budget_exhausted"
+    assert result.trace["budget_kind"] == "time_budget"
+    assert result.trace["costs"]["repair_calls"] == 0
+
+
+def test_native_deadline_signal_retains_draft_and_is_not_user_cancellation(monkeypatch):
+    now = [0.0]
+    user_cancel = threading.Event()
+
+    def verifier_factory(*args, **kwargs):
+        return CanonicalVerifier(*args, **kwargs, clock=lambda: now[0])
+
+    monkeypatch.setattr("point2text.diffusion.refinement.CanonicalVerifier", verifier_factory)
+
+    class Runtime:
+        identity = "deadline-aware-native-fixture"
+
+        def generate(self, request, *, observer, cancel_event, **kwargs):
+            assert not cancel_event.is_set()
+            observer(DiffusionDraft("Paragraph 0.1", [], [], 0, 32))
+            now[0] = 2.0
+            assert cancel_event.is_set()
+            return DiffusionResult("", [], {"cancelled": True, "passes": 1})
+
+    result = CanonicalRefinementSearch(Runtime(), edit_proposer=Proposer(),
+                                        config=config(max_seconds=1)).run(
+        Bundle(), (0, 0), guided=False, cancel_event=user_cancel)
+    assert result.text == "Paragraph 0.1"
+    assert result.trace["status"] == "complete"
+    assert result.trace["stop_reason"] == "budget_exhausted"
+    assert result.trace["budget_kind"] == "time_budget"
+    assert not user_cancel.is_set()
+    assert result.trace["native_traces"][0]["runtime"]["cancelled"] is True

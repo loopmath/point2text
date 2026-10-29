@@ -15,6 +15,17 @@ from .search import technical_prompt
 from .verification import CanonicalVerifier
 
 
+class _DeadlineSignal:
+    """Native stop signal; deadline expiry does not mutate the user's event."""
+
+    def __init__(self, user_event, verifier):
+        self.user_event = user_event
+        self.verifier = verifier
+
+    def is_set(self):
+        return self.user_event.is_set() or self.verifier.budget_reason() == "time_budget"
+
+
 class CanonicalRefinementSearch:
     def __init__(self, runtime, reward=None, guidance_config=None, edit_proposer=None,
                  config: RefinementConfig | None = None, *, quality_callback=None) -> None:
@@ -32,6 +43,7 @@ class CanonicalRefinementSearch:
         cancel_event = cancel_event if cancel_event is not None else threading.Event()
         verifier = CanonicalVerifier(bundle, target, self.config,
                                      quality_callback=self.quality_callback)
+        native_stop = _DeadlineSignal(cancel_event, verifier)
         target = verifier.target
         started = time.monotonic()
         if request is None:
@@ -130,7 +142,7 @@ class CanonicalRefinementSearch:
             hook = make_hook()
             before = time.monotonic()
             kwargs = dict(hook=hook, observer=observer_for(phase),
-                          observe_every=self.config.observe_every, cancel_event=cancel_event)
+                          observe_every=self.config.observe_every, cancel_event=native_stop)
             try:
                 if text is None:
                     result = self.runtime.generate(native_request, **kwargs)
@@ -197,6 +209,8 @@ class CanonicalRefinementSearch:
                             and hasattr(self.runtime, "refine_text")
                             and (stalled_round or rounds % self.config.repair_every == 0)):
                         span = self._repair_span(best.text, target, proposer, round_index)
+                        if halted():
+                            break
                         if span is not None:
                             current_seed = seed + max_candidates + round_index
                             repair_request = replace(request, seed=current_seed,
