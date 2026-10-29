@@ -1,0 +1,41 @@
+[project]
+name = "point2text"
+version = "0.1.0"
+description = "Local click-to-text experiments on a frozen semantic map"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11,<3.14"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.34,<1",
+  "numpy>=2,<3",
+  "httpx>=0.28,<1",
+]
+
+[project.optional-dependencies]
+encoder = ["sentence-transformers>=3,<6"]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+point2text = "point2text.server:main"
+
+[project.urls]
+Repository = "https://github.com/loopmath/point2text"
+Issues = "https://github.com/loopmath/point2text/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/point2text"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

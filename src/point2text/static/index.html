@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f3ed">
+  <title>point2text — A place for a paragraph</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="wordmark" href="/" aria-label="point2text home">point<span class="wordmark-two">2</span>text<span class="wordmark-dot">.</span></a>
+    <div class="header-right"><span class="mode-label">Local candidate search</span><span class="connection" id="connection"><i></i><span id="connection-text">Connecting</span></span></div>
+  </header>
+
+  <main>
+    <div class="page-heading">
+      <div><p class="eyebrow">AN EXPERIMENT IN SEMANTIC SPACE</p><h1>A place for a paragraph.</h1></div>
+      <p class="intro">Choose a point among research ideas.<br>Generate text and see where it actually lands.</p>
+    </div>
+
+    <div class="workspace">
+      <section class="map-panel" aria-labelledby="map-title">
+        <div class="panel-heading"><div><span class="step-number">01</span><h2 id="map-title">Choose a position</h2></div><span class="map-meta" id="map-meta">Preparing the map</span></div>
+        <div class="plot-shell" id="plot-shell">
+          <svg id="map" viewBox="0 0 800 565" role="group" tabindex="0" aria-label="Semantic map. Click to set a target, or use arrow keys to move the target. Hold Shift for larger steps.">
+            <defs><clipPath id="plot-clip"><rect x="54" y="22" width="718" height="490" rx="0"></rect></clipPath></defs>
+            <g id="grid-layer"></g>
+            <g id="points-layer" clip-path="url(#plot-clip)"></g>
+            <g id="trail-layer" clip-path="url(#plot-clip)"></g>
+            <g id="result-layer" clip-path="url(#plot-clip)"></g>
+            <g id="target-layer" clip-path="url(#plot-clip)"></g>
+            <text class="axis-name" x="413" y="553" text-anchor="middle">PC1</text>
+            <text class="axis-name" transform="translate(15,267) rotate(-90)" text-anchor="middle">PC2</text>
+          </svg>
+          <div class="map-overlay" id="map-overlay"><span class="loader" aria-hidden="true"></span><strong id="loading-title">Preparing your semantic map</strong><p id="loading-copy">The local encoder is placing the research corpus.<br>This can take a minute on first launch.</p></div>
+          <div class="plot-instruction" id="plot-instruction" hidden><span class="crosshair-icon" aria-hidden="true">+</span> Click anywhere to set a target</div>
+          <div class="point-tooltip" id="point-tooltip" hidden><span id="tooltip-topic"></span><strong id="tooltip-title"></strong></div>
+        </div>
+        <div class="map-footer"><div id="legend" class="legend" aria-label="Research topics"></div><span class="keyboard-hint"><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> to move</span></div>
+        <div class="context-section">
+          <div class="context-heading"><p class="eyebrow">NEAR YOUR TARGET</p><span id="neighbor-caption">Select a point to explore its neighborhood</span></div>
+          <div id="neighbors" class="neighbors"><p class="empty-context">Every dot is a real paragraph. Hover to inspect it, or select a position between ideas.</p></div>
+          <div class="source-preview" id="source-preview" hidden><div><span id="source-topic" class="source-topic"></span><button type="button" id="close-source" class="text-button" aria-label="Close source paragraph">Close ×</button></div><h3 id="source-title"></h3><p id="source-text"></p></div>
+        </div>
+      </section>
+
+      <section class="generation-panel" aria-labelledby="generation-title">
+        <div class="panel-heading"><div><span class="step-number">02</span><h2 id="generation-title">Find the words</h2></div><span class="tiny-label">FROZEN MODELS</span></div>
+        <div class="generation-controls">
+          <div class="target-readout"><div><span class="field-label">TARGET POSITION</span><div class="coordinates"><span class="target-symbol" aria-hidden="true">⊕</span><span id="target-coordinates">Choose a point on the map</span></div></div><button type="button" id="clear-target" class="text-button" hidden>Clear</button></div>
+          <div class="action-row"><label class="candidate-control" for="candidate-count"><span class="field-label">CANDIDATES</span><select id="candidate-count"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></label><button type="button" id="generate" class="generate-button" disabled><span>Generate paragraphs</span><span aria-hidden="true">↗</span></button><button type="button" id="cancel" class="cancel-button" hidden>Stop search</button></div>
+          <p class="action-help" id="action-help">Select a target to begin.</p>
+          <div class="progress" id="progress" hidden><div class="progress-info"><span id="progress-label">Starting local generation</span><span id="elapsed">0.0s</span></div><div class="progress-track"><div id="progress-fill"></div></div></div>
+          <div id="run-error" class="error-message" role="alert" hidden></div>
+        </div>
+
+        <div class="output-area">
+          <div id="output-empty" class="output-empty"><span class="empty-glyph" aria-hidden="true">Aa<span>+</span></span><h3>Let an idea take shape.</h3><p>Your generated paragraphs will appear here, with their measured positions on the map.</p><div class="empty-note"><span class="mini-dot"></span> Generated position <span class="mini-line"></span> Distance to target</div></div>
+          <div id="output-content" hidden>
+            <div class="output-toolbar"><div class="output-tabs" role="tablist" aria-label="Candidate view"><button type="button" id="tab-best" role="tab" aria-selected="true" aria-controls="best-view" class="active">Best match</button><button type="button" id="tab-all" role="tab" aria-selected="false" aria-controls="all-view">All candidates <span id="candidate-total">0</span></button></div><button type="button" id="copy" class="text-button">Copy text</button></div>
+            <div id="best-view" role="tabpanel" aria-labelledby="tab-best"><div class="result-heading"><span class="result-label" id="result-label">CANDIDATE 01</span><span class="distance-chip"><span aria-hidden="true">↔</span> <strong id="result-distance">—</strong> <span>from target</span></span></div><p id="result-text" class="result-text"></p><div class="result-footer"><span id="result-position"></span><span id="result-time"></span></div></div>
+            <div id="all-view" role="tabpanel" aria-labelledby="tab-all" hidden></div>
+          </div>
+        </div>
+        <div class="method-note"><span aria-hidden="true">↳</span><p>We generate candidates, embed their actual text, and keep the closest match. The line shows the remaining distance in this two-dimensional map.</p></div>
+      </section>
+    </div>
+
+    <footer class="page-footer"><span>A map is a view, not the whole meaning.</span><details id="runtime-details"><summary>Map & local model details <span aria-hidden="true">+</span></summary><dl><dt>Encoder</dt><dd id="detail-encoder">Preparing</dd><dt>Projection</dt><dd id="detail-projection">Principal component analysis · fixed coordinates</dd><dt>Generator</dt><dd id="detail-generator">Checking availability</dd><dt>Status</dt><dd id="detail-status">Connecting to the local worker</dd></dl></details></footer>
+    <p class="sr-only" id="announcement" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>

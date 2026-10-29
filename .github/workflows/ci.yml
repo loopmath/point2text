@@ -1,0 +1,28 @@
+name: Package checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.12'
+          enable-cache: true
+      - run: uv sync --locked --extra dev
+      - run: uv run --extra dev pytest
+      - run: uv build
+      - name: Verify installed wheel resources outside checkout
+        shell: bash
+        run: |
+          uv venv --python 3.12 /tmp/point2text-wheel
+          uv pip install --python /tmp/point2text-wheel/bin/python --no-deps dist/*.whl
+          cd /tmp
+          /tmp/point2text-wheel/bin/python -c "from importlib.resources import files; p = files('point2text'); assert (p/'assets'/'corpus.jsonl').is_file(); assert (p/'static'/'index.html').is_file(); assert (p/'static'/'app.js').is_file(); assert (p/'static'/'style.css').is_file()"
