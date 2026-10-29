@@ -93,7 +93,7 @@ class _ConfiguredSearch:
                 settings["max_seconds"] = seconds
             self.search.config = replace(self.search.config, **settings)
         if self.proposer_factory is not None:
-            self.search.edit_proposer = self.proposer_factory(
+            self.search.edit_proposer, kwargs["request"] = self.proposer_factory(
                 bundle, target, self.search.config, kwargs)
         return self.search.run(bundle, target, guided=self.guided, **kwargs)
 
@@ -134,15 +134,17 @@ def create_diffusion_app(
 
         deadline = time.monotonic() + settings.max_seconds
         cancel = options.get("cancel_event")
-        request = DiffusionRequest(prompt=technical_prompt(bundle.nearest(target, k=4)),
-                                   seed=options.get("seed", 42))
+        request = options.get("request") or DiffusionRequest(
+            prompt=technical_prompt(bundle.nearest(target, k=4)),
+            seed=options.get("seed", 42), max_tokens=192)
         provider = NativeReplacementProvider(
-            runtime, request, max_spans=4,
+            runtime, request, max_spans=4, top_k=8,
             should_stop=lambda: time.monotonic() >= deadline or
             (cancel is not None and cancel.is_set()))
-        return CanonicalEditProposer(bundle, allowed_replacements=provider,
-                                     max_hotspots=4, allow_insertions=False,
-                                     allow_deletions=False, allow_phrases=False)
+        proposer = CanonicalEditProposer(bundle, allowed_replacements=provider,
+                                        max_hotspots=4, allow_insertions=False,
+                                        allow_deletions=False, allow_phrases=False)
+        return proposer, request
 
     def search_factory(bundle: Any) -> _ConfiguredSearch:
         from .search import DiffusionSearch

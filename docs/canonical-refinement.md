@@ -38,8 +38,10 @@ uv run point2text-diffusion --refine --target-record t01-03 \
 3. In native CLI/browser mode, restrict word candidates to a frozen DiffusionGemma
    vocabulary screen: corrupt one generator token, keep surrounding context, and
    run one denoising forward. Only supported whole-word, single-generator-token
-   replacements are allowed. Cache the result, probe at most four spans per text,
-   and disable unscreened insertions/deletions/phrase changes. This screen is not
+   replacements are allowed. Intersect the top eight native tokens with curated
+   grammatical word families and protect listed technical collocations. Cache the
+   result, probe at most four spans per text, and disable unscreened
+   insertions/deletions/phrase changes. This screen is not
    a sequence likelihood or proof of grammatical or scientific correctness.
 4. Every other round, or when discrete edits stall, repair a selected one-to-four
    word span with diffusion. The remaining generator tokens are locked in sampling,
@@ -48,7 +50,8 @@ uv run point2text-diffusion --refine --target-record t01-03 \
 5. Stop on confirmed tolerance, cancellation, a query/time/round limit, or four
    rounds without meaningful improvement. Always retain the best verified text.
 
-Default limits are 120 seconds, 1,024 scored texts, 20 rounds, beam width four,
+Refinement uses a 192-token canvas to reduce sentence cutoffs. Default limits are
+120 seconds, 1,024 scored texts, 20 rounds, beam width four,
 64 proposals per round, and eight passes per native repair. Timing includes model
 work inside the search. Expiry is checked between native passes and contextual
 word probes; a running forward cannot be interrupted. CPU proposal analysis and
@@ -57,7 +60,8 @@ batched encoding also finish their current operation before stopping.
 ## Verification and interfaces
 
 `CanonicalVerifier` requires 60–100 whitespace words, at most 256 canonical
-encoder tokens, finite coordinates, and no obvious model headers/special tokens.
+encoder tokens, finite coordinates, complete sentence punctuation, no obvious
+model headers/special tokens, and no detected repetitive draft artifacts.
 It deduplicates normalized text and canonical encoder token sequences.
 These are mechanical checks. An optional external `quality_callback(text)` can
 reject additional candidates; the bundled demo has no coherence certificate.
@@ -89,7 +93,8 @@ On the development M4 Max, using the pinned models and fixed map:
 | ML witness with one word changed | Recovered witness; two fresh checks at `0`; epsilon confirmed | 67 | 0.14 s |
 | Systems witness with one word changed | `0.000674`; stalled; meaning degraded | 184 | 0.44 s |
 
-These are three development cases, not a success-rate benchmark. The local-repair
+These are three development cases before the final draft/lexical hardening, not
+a success-rate benchmark. The local-repair
 cases used curated lexical edits without a native contextual screen. The failed
 systems case changed “connection fails” to “relationship fails,” illustrating
 that low distance can reward a bad edit. The generation case used native
@@ -99,6 +104,11 @@ screening, but its text has not undergone scientific quality review. Full
 texts, histories, and budget information. The first generation record predates
 the additional contextual-screen cost counters; native work is included in its
 wall time and proposer time.
+
+A subsequent hosted request exposed repetitive incomplete drafts and a bad native
+substitution (“ensure stability” → “ensure model”). The current defaults reject
+incomplete/repetitive drafts and require both native screening and curated word
+families. These guards address observed failures; they do not certify meaning.
 
 ## Limits
 

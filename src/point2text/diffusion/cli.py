@@ -32,7 +32,7 @@ def parser():
     mode.add_argument("--paired", action="store_true", help="Run the same request with guidance off and on.")
     result.add_argument("--seed", type=int, default=42)
     result.add_argument("--candidates", type=int, choices=range(1, 7), default=1)
-    result.add_argument("--max-tokens", type=int, choices=range(1, 255), default=128, metavar="1..254")
+    result.add_argument("--max-tokens", type=int, choices=range(1, 255), default=None, metavar="1..254", help="Canvas length; default 192 for refinement, otherwise 128.")
     result.add_argument("--steps", type=int, choices=range(1, 257), default=32, metavar="1..256")
     result.add_argument("--temperature", type=float, default=.8)
     result.add_argument("--top-k", type=int, default=32)
@@ -65,6 +65,7 @@ def parser():
 def main():
     arguments = parser()
     args = arguments.parse_args()
+    args.max_tokens = args.max_tokens if args.max_tokens is not None else (192 if args.refine else 128)
     try:
         config = GuidanceConfig(strength=args.strength, top_k=args.top_k,
                                 guided_steps=args.guided_steps,
@@ -96,8 +97,9 @@ def main():
             arguments.error("Initial text files and local-only diagnostics are CLI-only.")
         if args.paired:
             arguments.error("--paired is a CLI experiment; omit it when serving.")
-        if args.max_tokens != 128 or args.steps != 32 or args.temperature != .8:
-            arguments.error("The first browser backend uses 128 tokens, 32 steps, temperature 0.8; custom settings are CLI-only.")
+        expected_tokens = 192 if args.refine else 128
+        if args.max_tokens != expected_tokens or args.steps != 32 or args.temperature != .8:
+            arguments.error(f"This browser backend uses {expected_tokens} tokens, 32 steps, temperature 0.8; custom settings are CLI-only.")
         if args.tailnet:
             try:
                 args.host = tailnet_ipv4()
@@ -155,7 +157,7 @@ def main():
                 from .plausibility import NativeReplacementProvider
                 deadline = time.monotonic() + refinement_config.max_seconds
                 provider = NativeReplacementProvider(
-                    runtime, request, max_spans=4,
+                    runtime, request, max_spans=4, top_k=8,
                     should_stop=lambda: cancel.is_set() or time.monotonic() >= deadline)
                 proposer = CanonicalEditProposer(bundle, allowed_replacements=provider,
                                                  max_hotspots=4)

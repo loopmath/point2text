@@ -414,7 +414,7 @@
     $('progress-fill').style.width = `${Math.min(100, count / state.requested * 100)}%`;
     $('progress-label').textContent = running ? count ? `${count} of ${state.requested} measured · finding the next paragraph` : 'Writing the first paragraph locally' : run.status === 'cancelled' ? `Search stopped · ${count} measured` : run.status === 'error' ? 'Search interrupted' : `${count} ${count === 1 ? 'paragraph' : 'paragraphs'} measured · closest selected`;
     if (state.status?.generator?.refinement) {
-      const reasons = { epsilon_reached: 'Tolerance confirmed', budget_exhausted: 'Budget reached', stalled: 'Refinement stalled', cancelled: 'Search stopped', no_valid_candidate: 'No valid paragraph' };
+      const reasons = { epsilon_reached: 'Tolerance confirmed', budget_exhausted: 'Budget reached', stalled: 'Refinement stalled', cancelled: 'Search stopped', no_valid_text: 'No valid paragraph' };
       const reason = run.trace?.stop_reason;
       $('progress-label').textContent = running ? count ? `${count} verified improvements · refining actual text` : 'Generating and checking clean drafts' : `${reasons[reason] || 'Search finished'} · ${count} verified improvements`;
     }

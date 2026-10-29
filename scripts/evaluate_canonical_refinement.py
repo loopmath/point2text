@@ -89,8 +89,8 @@ def main():
             from point2text.diffusion.search import technical_prompt
             deadline = time.monotonic() + config.max_seconds
             provider = NativeReplacementProvider(
-                runtime, DiffusionRequest(technical_prompt(bundle.nearest(target, k=4)), seed=args.seed),
-                max_spans=4, should_stop=lambda: time.monotonic() >= deadline)
+                runtime, DiffusionRequest(technical_prompt(bundle.nearest(target, k=4)), seed=args.seed, max_tokens=192),
+                max_spans=4, top_k=8, should_stop=lambda: time.monotonic() >= deadline)
             proposer = CanonicalEditProposer(bundle, allowed_replacements=provider, max_hotspots=4)
         strategy = CanonicalRefinementSearch(runtime, reward=reward, edit_proposer=proposer,
                                              config=config)
