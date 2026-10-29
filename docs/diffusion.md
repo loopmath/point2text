@@ -70,3 +70,5 @@ POINT2TEXT_REAL_ENCODER_TEST=1 uv run --extra encoder --extra dev pytest tests/t
 Fixture tests need no checkpoint. Native sampler tests use MLX but tiny tensors; optional real encoder parity uses the cached/downloaded pinned MiniLM. The native smoke script is `tests/smoke_diffusion_runtime.py`. It checks real native generation, seeded identity, native sampler parity, and a controlled pre-commit intervention.
 
 See [orthogonal work plan](diffusion-plan.md) for ownership and acceptance gates. Next measure paired target/seed panels under equal end-to-end time budgets, with quality, diversity, invalidity, and hard map error together. Residual priors and broader encoders/hardware remain separate directions.
+
+The next optimization design is [canonical refinement toward distance 1e-4](optimization-to-epsilon.md): retain verified drafts, repair the incumbent, and use exact-score discrete edits for fine correction. It is a proposal; the current implementation has no epsilon-convergence loop.

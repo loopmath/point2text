@@ -4,6 +4,8 @@
 
 The report describes the implemented native sampler hook, frozen encoder surrogate, update-count hyperparameter, canonical verification, observed probes, and current compute costs. It reports both an improving and a worsening development probe; no general quality or efficiency advantage is claimed.
 
+Sections 2-3 spell out the selected logits, input-vector bridge, gradient path, and native/inner loops. They distinguish the existing heuristic from the proposed [closed-loop path to canonical distance 1e-4](../optimization-to-epsilon.md).
+
 Rebuild from the repository root:
 
 ```bash

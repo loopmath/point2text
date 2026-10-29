@@ -4,6 +4,8 @@
 
 Read the [two-page diffusion paper](docs/diffusion-paper/point2text-diffusion-report.pdf) for the implemented method and [efficiency audit](docs/diffusion-efficiency.md) for measured work and remaining optimization gates.
 
+The [path to canonical distance 1e-4](docs/optimization-to-epsilon.md) explains the required closed-loop refinement and discrete optimization, with measured numerical precision and explicit feasibility limits.
+
 **Pick a point. Generate a paragraph. See where it lands.**
 
 A local research tool for generating technical text toward a selected position on a fixed semantic map. The first demo embeds a bundled technical corpus, fits a two-dimensional PCA map, generates several paragraphs with a local Ollama model, and plots each paragraph's **actual decoded-text embedding**.

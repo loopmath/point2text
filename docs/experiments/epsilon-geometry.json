@@ -1,0 +1,752 @@
+{
+  "created_at": "2026-10-29T18:16:04.456371+00:00",
+  "scope": "CPU encoder-only numerical and local-edit probes; no generator calls, no reachability certification",
+  "epsilon_distance": 0.0001,
+  "epsilon_squared_loss": 1e-08,
+  "metric": "euclidean-unwhitened-pca",
+  "map_id": "6b6f4e24edfccb558b78535986cc0611d5ce23ab9dda441c992b896977b0aa2d",
+  "encoder_id": "sentence-transformers/all-MiniLM-L6-v2@1110a243fdf4706b3f48f1d95db1a4f5529b4d41;backend=torch;device=cpu;dtype=float32;pooling=attention-mask-mean;normalize=l2;prompt=none;tokenizer=checkpoint;truncation=longest-first:256;special_tokens=true",
+  "corpus_size": 100,
+  "encoder_dimensions": 384,
+  "environment": {
+    "python": "3.12.12",
+    "torch": "2.15.0",
+    "sentence_transformers": "5.7.0",
+    "cpu_threads": 2,
+    "device": "cpu",
+    "dtype": "float32"
+  },
+  "repeatability": {
+    "same_batch_repeat": {
+      "embedding_l2": {
+        "count": 100,
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0
+      },
+      "map_distance": {
+        "count": 100,
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0
+      }
+    },
+    "permuted_batch_order": {
+      "embedding_l2": {
+        "count": 100,
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0
+      },
+      "map_distance": {
+        "count": 100,
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0
+      }
+    },
+    "singleton_vs_batch": {
+      "embedding_l2": {
+        "count": 20,
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 5.438246334295864e-07,
+        "p90": 6.746481388739317e-07,
+        "max": 7.357056073438364e-07
+      },
+      "map_distance": {
+        "count": 20,
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 4.040042707244173e-08,
+        "p90": 8.779249339300211e-08,
+        "max": 1.0870098627102135e-07
+      }
+    },
+    "cached_map_embeddings_vs_fresh": {
+      "embedding_l2": {
+        "count": 100,
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0
+      },
+      "map_distance": {
+        "count": 100,
+        "min": 0.0,
+        "p10": 0.0,
+        "median": 0.0,
+        "p90": 0.0,
+        "max": 0.0
+      }
+    }
+  },
+  "max_observed_map_drift": 1.0870098627102135e-07,
+  "epsilon_over_max_observed_drift": 919.9548544175358,
+  "local_edit_summary": {
+    "append_short_sentence": {
+      "count": 10,
+      "min": 0.011464352433865996,
+      "p10": 0.012908887764510539,
+      "median": 0.026682381190009635,
+      "p90": 0.046714903690962276,
+      "max": 0.053983435187106354
+    },
+    "change_final_punctuation": {
+      "count": 10,
+      "min": 0.001392554306372065,
+      "p10": 0.0014804007732055452,
+      "median": 0.0032831419757183957,
+      "p90": 0.008567736731144814,
+      "max": 0.011208420766857208
+    },
+    "delete_one_word": {
+      "count": 10,
+      "min": 0.001372538717003765,
+      "p10": 0.0019260171548742613,
+      "median": 0.005801048251327652,
+      "p90": 0.017577376061554732,
+      "max": 0.01932077731726487
+    },
+    "replace_one_word": {
+      "count": 10,
+      "min": 0.0028823691704446368,
+      "p10": 0.005980958341575356,
+      "median": 0.012373569702354082,
+      "p90": 0.03662822082172852,
+      "max": 0.04754388254235735
+    }
+  },
+  "local_edits": [
+    {
+      "id": "t01-01",
+      "topic": "Machine learning",
+      "kind": "delete_one_word",
+      "source_index": 0,
+      "text": "Representation learning asks a neural network to organize observations into useful internal features. A research study can compare embeddings from different training  while holding the data and architecture fixed. Neighborhood inspection helps reveal whether semantic similarity or superficial formatting drives the representation.",
+      "map_distance": 0.006379029790011019,
+      "embedding_l2": 0.06726342534987739,
+      "same_token_ids": false,
+      "token_count": 51
+    },
+    {
+      "id": "t01-01",
+      "topic": "Machine learning",
+      "kind": "replace_one_word",
+      "source_index": 0,
+      "text": "Representation learning asks a neural network to organize observations into compact internal features. A research study can compare embeddings from different training objectives while holding the data and architecture fixed. Neighborhood inspection helps reveal whether semantic similarity or superficial formatting drives the representation.",
+      "map_distance": 0.0148657238219014,
+      "embedding_l2": 0.16228628216995605,
+      "same_token_ids": false,
+      "token_count": 52
+    },
+    {
+      "id": "t01-01",
+      "topic": "Machine learning",
+      "kind": "change_final_punctuation",
+      "source_index": 0,
+      "text": "Representation learning asks a neural network to organize observations into useful internal features. A research study can compare embeddings from different training objectives while holding the data and architecture fixed. Neighborhood inspection helps reveal whether semantic similarity or superficial formatting drives the representation;",
+      "map_distance": 0.0018222571089006698,
+      "embedding_l2": 0.032877182261386806,
+      "same_token_ids": false,
+      "token_count": 52
+    },
+    {
+      "id": "t01-01",
+      "topic": "Machine learning",
+      "kind": "append_short_sentence",
+      "source_index": 0,
+      "text": "Representation learning asks a neural network to organize observations into useful internal features. A research study can compare embeddings from different training objectives while holding the data and architecture fixed. Neighborhood inspection helps reveal whether semantic similarity or superficial formatting drives the representation. The analysis requires a clearly stated evaluation criterion.",
+      "map_distance": 0.017618631580891872,
+      "embedding_l2": 0.16633253712195242,
+      "same_token_ids": false,
+      "token_count": 61
+    },
+    {
+      "id": "t02-01",
+      "topic": "Distributed systems",
+      "kind": "delete_one_word",
+      "source_index": 10,
+      "text": "A replicated service needs an explicit rule for agreeing on updates when machines or networks fail. Consensus protocols separate safety, which concerns conflicting , from liveness, which concerns eventual progress. Experiments should introduce delayed messages and node restarts rather than measuring only failure-free throughput.",
+      "map_distance": 0.00335300259344669,
+      "embedding_l2": 0.04912116039305787,
+      "same_token_ids": false,
+      "token_count": 57
+    },
+    {
+      "id": "t02-01",
+      "topic": "Distributed systems",
+      "kind": "replace_one_word",
+      "source_index": 10,
+      "text": "A replicated service needs an explicit rule for agreeing on transactions when machines or networks fail. Consensus protocols separate safety, which concerns conflicting decisions, from liveness, which concerns eventual progress. Experiments should introduce delayed messages and node restarts rather than measuring only failure-free throughput.",
+      "map_distance": 0.006325246027256547,
+      "embedding_l2": 0.2248191091687672,
+      "same_token_ids": false,
+      "token_count": 58
+    },
+    {
+      "id": "t02-01",
+      "topic": "Distributed systems",
+      "kind": "change_final_punctuation",
+      "source_index": 10,
+      "text": "A replicated service needs an explicit rule for agreeing on updates when machines or networks fail. Consensus protocols separate safety, which concerns conflicting decisions, from liveness, which concerns eventual progress. Experiments should introduce delayed messages and node restarts rather than measuring only failure-free throughput;",
+      "map_distance": 0.004493643986312218,
+      "embedding_l2": 0.0452323320617794,
+      "same_token_ids": false,
+      "token_count": 58
+    },
+    {
+      "id": "t02-01",
+      "topic": "Distributed systems",
+      "kind": "append_short_sentence",
+      "source_index": 10,
+      "text": "A replicated service needs an explicit rule for agreeing on updates when machines or networks fail. Consensus protocols separate safety, which concerns conflicting decisions, from liveness, which concerns eventual progress. Experiments should introduce delayed messages and node restarts rather than measuring only failure-free throughput. The analysis requires a clearly stated evaluation criterion.",
+      "map_distance": 0.01306939169013771,
+      "embedding_l2": 0.1369891232628751,
+      "same_token_ids": false,
+      "token_count": 67
+    },
+    {
+      "id": "t03-01",
+      "topic": "Molecular biology",
+      "kind": "delete_one_word",
+      "source_index": 20,
+      "text": "Gene regulation studies how a cell controls the expression of genes under different conditions. Measurements of RNA abundance can be combined with information  regulatory proteins and DNA accessibility. A useful analysis distinguishes changes in individual cells from changes in the mixture of cell types.",
+      "map_distance": 0.01932077731726487,
+      "embedding_l2": 0.1831999861360913,
+      "same_token_ids": false,
+      "token_count": 49
+    },
+    {
+      "id": "t03-01",
+      "topic": "Molecular biology",
+      "kind": "replace_one_word",
+      "source_index": 20,
+      "text": "Gene regulation studies how a cell controls the expression of proteins under different conditions. Measurements of RNA abundance can be combined with information about regulatory proteins and DNA accessibility. A useful analysis distinguishes changes in individual cells from changes in the mixture of cell types.",
+      "map_distance": 0.00838575009127152,
+      "embedding_l2": 0.08093739909929869,
+      "same_token_ids": false,
+      "token_count": 50
+    },
+    {
+      "id": "t03-01",
+      "topic": "Molecular biology",
+      "kind": "change_final_punctuation",
+      "source_index": 20,
+      "text": "Gene regulation studies how a cell controls the expression of genes under different conditions. Measurements of RNA abundance can be combined with information about regulatory proteins and DNA accessibility. A useful analysis distinguishes changes in individual cells from changes in the mixture of cell types;",
+      "map_distance": 0.008274327393843438,
+      "embedding_l2": 0.06432022404388897,
+      "same_token_ids": false,
+      "token_count": 50
+    },
+    {
+      "id": "t03-01",
+      "topic": "Molecular biology",
+      "kind": "append_short_sentence",
+      "source_index": 20,
+      "text": "Gene regulation studies how a cell controls the expression of genes under different conditions. Measurements of RNA abundance can be combined with information about regulatory proteins and DNA accessibility. A useful analysis distinguishes changes in individual cells from changes in the mixture of cell types. The analysis requires a clearly stated evaluation criterion.",
+      "map_distance": 0.030960469335821642,
+      "embedding_l2": 0.1796700657379688,
+      "same_token_ids": false,
+      "token_count": 59
+    },
+    {
+      "id": "t04-01",
+      "topic": "Climate science",
+      "kind": "delete_one_word",
+      "source_index": 30,
+      "text": "An Earth system model couples representations of the atmosphere, oceans, land, and other interacting components. Researchers can compare simulated behavior under clearly  forcing assumptions. Model evaluation should examine regional patterns and physical balances rather than relying on one global summary statistic.",
+      "map_distance": 0.017383664810920272,
+      "embedding_l2": 0.14355006249747054,
+      "same_token_ids": false,
+      "token_count": 51
+    },
+    {
+      "id": "t04-01",
+      "topic": "Climate science",
+      "kind": "replace_one_word",
+      "source_index": 30,
+      "text": "An Earth system model couples representations of the atmosphere, oceans, land, and other interacting components. Researchers can compare simulated behavior under clearly specified forcing assumptions. Model evaluation should examine seasonal patterns and physical balances rather than relying on one global summary statistic.",
+      "map_distance": 0.009881415582806762,
+      "embedding_l2": 0.29025706715869465,
+      "same_token_ids": false,
+      "token_count": 52
+    },
+    {
+      "id": "t04-01",
+      "topic": "Climate science",
+      "kind": "change_final_punctuation",
+      "source_index": 30,
+      "text": "An Earth system model couples representations of the atmosphere, oceans, land, and other interacting components. Researchers can compare simulated behavior under clearly specified forcing assumptions. Model evaluation should examine regional patterns and physical balances rather than relying on one global summary statistic;",
+      "map_distance": 0.001392554306372065,
+      "embedding_l2": 0.03301512255813828,
+      "same_token_ids": false,
+      "token_count": 52
+    },
+    {
+      "id": "t04-01",
+      "topic": "Climate science",
+      "kind": "append_short_sentence",
+      "source_index": 30,
+      "text": "An Earth system model couples representations of the atmosphere, oceans, land, and other interacting components. Researchers can compare simulated behavior under clearly specified forcing assumptions. Model evaluation should examine regional patterns and physical balances rather than relying on one global summary statistic. The analysis requires a clearly stated evaluation criterion.",
+      "map_distance": 0.028059152331265352,
+      "embedding_l2": 0.1251720508589596,
+      "same_token_ids": false,
+      "token_count": 61
+    },
+    {
+      "id": "t05-01",
+      "topic": "Quantum computing",
+      "kind": "delete_one_word",
+      "source_index": 40,
+      "text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and  assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "map_distance": 0.005504625383627209,
+      "embedding_l2": 0.11610823327100504,
+      "same_token_ids": false,
+      "token_count": 53
+    },
+    {
+      "id": "t05-01",
+      "topic": "Quantum computing",
+      "kind": "replace_one_word",
+      "source_index": 40,
+      "text": "Quantum error correction encodes information across several noisy systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation.",
+      "map_distance": 0.0028823691704446368,
+      "embedding_l2": 0.13924931792972742,
+      "same_token_ids": false,
+      "token_count": 54
+    },
+    {
+      "id": "t05-01",
+      "topic": "Quantum computing",
+      "kind": "change_final_punctuation",
+      "source_index": 40,
+      "text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation;",
+      "map_distance": 0.0032174999166026345,
+      "embedding_l2": 0.04696163793584506,
+      "same_token_ids": false,
+      "token_count": 54
+    },
+    {
+      "id": "t05-01",
+      "topic": "Quantum computing",
+      "kind": "append_short_sentence",
+      "source_index": 40,
+      "text": "Quantum error correction encodes information across several physical systems so that certain errors can be detected and corrected. The code, measurement procedure, and noise assumptions must be specified together. A performance study should examine logical errors rather than only the fidelity of an individual physical operation. The analysis requires a clearly stated evaluation criterion.",
+      "map_distance": 0.011464352433865996,
+      "embedding_l2": 0.1251662180798628,
+      "same_token_ids": false,
+      "token_count": 63
+    },
+    {
+      "id": "t06-01",
+      "topic": "Robotics",
+      "kind": "delete_one_word",
+      "source_index": 50,
+      "text": "A mobile robot estimates its position by combining observations with a model of motion. Localization becomes difficult when landmarks repeat or sensors  lose useful information. Evaluation should include accumulated drift and recovery after failure rather than only average error on an easy route.",
+      "map_distance": 0.006097471119028095,
+      "embedding_l2": 0.04639726048318457,
+      "same_token_ids": false,
+      "token_count": 49
+    },
+    {
+      "id": "t06-01",
+      "topic": "Robotics",
+      "kind": "replace_one_word",
+      "source_index": 50,
+      "text": "A autonomous robot estimates its position by combining observations with a model of motion. Localization becomes difficult when landmarks repeat or sensors temporarily lose useful information. Evaluation should include accumulated drift and recovery after failure rather than only average error on an easy route.",
+      "map_distance": 0.009593531690729315,
+      "embedding_l2": 0.43436881279755435,
+      "same_token_ids": false,
+      "token_count": 50
+    },
+    {
+      "id": "t06-01",
+      "topic": "Robotics",
+      "kind": "change_final_punctuation",
+      "source_index": 50,
+      "text": "A mobile robot estimates its position by combining observations with a model of motion. Localization becomes difficult when landmarks repeat or sensors temporarily lose useful information. Evaluation should include accumulated drift and recovery after failure rather than only average error on an easy route;",
+      "map_distance": 0.00263267075610609,
+      "embedding_l2": 0.06844721855721206,
+      "same_token_ids": false,
+      "token_count": 50
+    },
+    {
+      "id": "t06-01",
+      "topic": "Robotics",
+      "kind": "append_short_sentence",
+      "source_index": 50,
+      "text": "A mobile robot estimates its position by combining observations with a model of motion. Localization becomes difficult when landmarks repeat or sensors temporarily lose useful information. Evaluation should include accumulated drift and recovery after failure rather than only average error on an easy route. The analysis requires a clearly stated evaluation criterion.",
+      "map_distance": 0.025305610048753917,
+      "embedding_l2": 0.2307530993815128,
+      "same_token_ids": false,
+      "token_count": 59
+    },
+    {
+      "id": "t07-01",
+      "topic": "Neuroscience",
+      "kind": "delete_one_word",
+      "source_index": 60,
+      "text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the  without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance.",
+      "map_distance": 0.002569772559954519,
+      "embedding_l2": 0.11611042892551576,
+      "same_token_ids": false,
+      "token_count": 53
+    },
+    {
+      "id": "t07-01",
+      "topic": "Neuroscience",
+      "kind": "replace_one_word",
+      "source_index": 60,
+      "text": "Neural population coding studies how patterns across many neurons relate to decisions or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance.",
+      "map_distance": 0.01603060094256737,
+      "embedding_l2": 0.11695592666398352,
+      "same_token_ids": false,
+      "token_count": 54
+    },
+    {
+      "id": "t07-01",
+      "topic": "Neuroscience",
+      "kind": "change_final_punctuation",
+      "source_index": 60,
+      "text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance;",
+      "map_distance": 0.011208420766857208,
+      "embedding_l2": 0.06701921564188668,
+      "same_token_ids": false,
+      "token_count": 54
+    },
+    {
+      "id": "t07-01",
+      "topic": "Neuroscience",
+      "kind": "append_short_sentence",
+      "source_index": 60,
+      "text": "Neural population coding studies how patterns across many neurons relate to stimuli or behavior. A decoder can reveal information present in the recordings without proving how the brain uses it. Holding out entire trials helps prevent temporal correlations from inflating estimates of decoding performance. The analysis requires a clearly stated evaluation criterion.",
+      "map_distance": 0.0185632485463771,
+      "embedding_l2": 0.2152917662348917,
+      "same_token_ids": false,
+      "token_count": 63
+    },
+    {
+      "id": "t08-01",
+      "topic": "Materials science",
+      "kind": "delete_one_word",
+      "source_index": 70,
+      "text": "Crystal defects interrupt the regular arrangement of atoms in a material. Their effects depend on defect type, concentration, and interaction with the  structure. Combining microscopy with a physical model can help relate local defects to measurements of the material's overall behavior.",
+      "map_distance": 0.001372538717003765,
+      "embedding_l2": 0.05117078504714926,
+      "same_token_ids": false,
+      "token_count": 50
+    },
+    {
+      "id": "t08-01",
+      "topic": "Materials science",
+      "kind": "replace_one_word",
+      "source_index": 70,
+      "text": "Crystal vacancies interrupt the regular arrangement of atoms in a material. Their effects depend on defect type, concentration, and interaction with the surrounding structure. Combining microscopy with a physical model can help relate local defects to measurements of the material's overall behavior.",
+      "map_distance": 0.04754388254235735,
+      "embedding_l2": 0.3734222060397642,
+      "same_token_ids": false,
+      "token_count": 53
+    },
+    {
+      "id": "t08-01",
+      "topic": "Materials science",
+      "kind": "change_final_punctuation",
+      "source_index": 70,
+      "text": "Crystal defects interrupt the regular arrangement of atoms in a material. Their effects depend on defect type, concentration, and interaction with the surrounding structure. Combining microscopy with a physical model can help relate local defects to measurements of the material's overall behavior;",
+      "map_distance": 0.003348784034834157,
+      "embedding_l2": 0.06200875744221389,
+      "same_token_ids": false,
+      "token_count": 51
+    },
+    {
+      "id": "t08-01",
+      "topic": "Materials science",
+      "kind": "append_short_sentence",
+      "source_index": 70,
+      "text": "Crystal defects interrupt the regular arrangement of atoms in a material. Their effects depend on defect type, concentration, and interaction with the surrounding structure. Combining microscopy with a physical model can help relate local defects to measurements of the material's overall behavior. The analysis requires a clearly stated evaluation criterion.",
+      "map_distance": 0.03985303282880695,
+      "embedding_l2": 0.22235628239687288,
+      "same_token_ids": false,
+      "token_count": 60
+    },
+    {
+      "id": "t09-01",
+      "topic": "Computer security",
+      "kind": "delete_one_word",
+      "source_index": 80,
+      "text": "Threat modeling identifies what a system needs to protect and which adversary actions it must withstand. A useful model states the attacker's  and capabilities instead of assuming every component is equally exposed. The resulting assumptions guide which defenses and tests are relevant.",
+      "map_distance": 0.007028558610540759,
+      "embedding_l2": 0.08014517680834121,
+      "same_token_ids": false,
+      "token_count": 49
+    },
+    {
+      "id": "t09-01",
+      "topic": "Computer security",
+      "kind": "replace_one_word",
+      "source_index": 80,
+      "text": "Threat modeling identifies what a system needs to protect and which attacker actions it must withstand. A useful model states the attacker's access and capabilities instead of assuming every component is equally exposed. The resulting assumptions guide which defenses and tests are relevant.",
+      "map_distance": 0.025395005586648586,
+      "embedding_l2": 0.10995912607810877,
+      "same_token_ids": false,
+      "token_count": 50
+    },
+    {
+      "id": "t09-01",
+      "topic": "Computer security",
+      "kind": "change_final_punctuation",
+      "source_index": 80,
+      "text": "Threat modeling identifies what a system needs to protect and which adversary actions it must withstand. A useful model states the attacker's access and capabilities instead of assuming every component is equally exposed. The resulting assumptions guide which defenses and tests are relevant;",
+      "map_distance": 0.0014901614917425985,
+      "embedding_l2": 0.05784530795065768,
+      "same_token_ids": false,
+      "token_count": 50
+    },
+    {
+      "id": "t09-01",
+      "topic": "Computer security",
+      "kind": "append_short_sentence",
+      "source_index": 80,
+      "text": "Threat modeling identifies what a system needs to protect and which adversary actions it must withstand. A useful model states the attacker's access and capabilities instead of assuming every component is equally exposed. The resulting assumptions guide which defenses and tests are relevant. The analysis requires a clearly stated evaluation criterion.",
+      "map_distance": 0.053983435187106354,
+      "embedding_l2": 0.2853391361318171,
+      "same_token_ids": false,
+      "token_count": 59
+    },
+    {
+      "id": "t10-01",
+      "topic": "Astronomy",
+      "kind": "delete_one_word",
+      "source_index": 90,
+      "text": "An exoplanet transit produces a change in measured starlight when a planet passes across the visible stellar disk. Interpreting a candidate signal requires  for instrumental variation and other astrophysical explanations. Observations over several events can test whether the timing and shape are consistent with an orbital model.",
+      "map_distance": 0.001987514759082094,
+      "embedding_l2": 0.04800733223770585,
+      "same_token_ids": false,
+      "token_count": 57
+    },
+    {
+      "id": "t10-01",
+      "topic": "Astronomy",
+      "kind": "replace_one_word",
+      "source_index": 90,
+      "text": "An exoplanet transit produces a change in measured brightness when a planet passes across the visible stellar disk. Interpreting a candidate signal requires accounting for instrumental variation and other astrophysical explanations. Observations over several events can test whether the timing and shape are consistent with an orbital model.",
+      "map_distance": 0.03541536951943643,
+      "embedding_l2": 0.22393719220034222,
+      "same_token_ids": false,
+      "token_count": 57
+    },
+    {
+      "id": "t10-01",
+      "topic": "Astronomy",
+      "kind": "change_final_punctuation",
+      "source_index": 90,
+      "text": "An exoplanet transit produces a change in measured starlight when a planet passes across the visible stellar disk. Interpreting a candidate signal requires accounting for instrumental variation and other astrophysical explanations. Observations over several events can test whether the timing and shape are consistent with an orbital model;",
+      "map_distance": 0.00764214688966293,
+      "embedding_l2": 0.05148421348796659,
+      "same_token_ids": false,
+      "token_count": 58
+    },
+    {
+      "id": "t10-01",
+      "topic": "Astronomy",
+      "kind": "append_short_sentence",
+      "source_index": 90,
+      "text": "An exoplanet transit produces a change in measured starlight when a planet passes across the visible stellar disk. Interpreting a candidate signal requires accounting for instrumental variation and other astrophysical explanations. Observations over several events can test whether the timing and shape are consistent with an orbital model. The analysis requires a clearly stated evaluation criterion.",
+      "map_distance": 0.045907289080279606,
+      "embedding_l2": 0.21053733470167638,
+      "same_token_ids": false,
+      "token_count": 67
+    }
+  ],
+  "tokenization_collisions": [
+    {
+      "id": "t01-01",
+      "kind": "double_spaces",
+      "source_index": 0,
+      "text": "Representation  learning  asks  a  neural  network  to  organize  observations  into  useful  internal  features.  A  research  study  can  compare  embeddings  from  different  training  objectives  while  holding  the  data  and  architecture  fixed.  Neighborhood  inspection  helps  reveal  whether  semantic  similarity  or  superficial  formatting  drives  the  representation.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t01-01",
+      "kind": "swap_case",
+      "source_index": 0,
+      "text": "rEPRESENTATION LEARNING ASKS A NEURAL NETWORK TO ORGANIZE OBSERVATIONS INTO USEFUL INTERNAL FEATURES. a RESEARCH STUDY CAN COMPARE EMBEDDINGS FROM DIFFERENT TRAINING OBJECTIVES WHILE HOLDING THE DATA AND ARCHITECTURE FIXED. nEIGHBORHOOD INSPECTION HELPS REVEAL WHETHER SEMANTIC SIMILARITY OR SUPERFICIAL FORMATTING DRIVES THE REPRESENTATION.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t02-01",
+      "kind": "double_spaces",
+      "source_index": 10,
+      "text": "A  replicated  service  needs  an  explicit  rule  for  agreeing  on  updates  when  machines  or  networks  fail.  Consensus  protocols  separate  safety,  which  concerns  conflicting  decisions,  from  liveness,  which  concerns  eventual  progress.  Experiments  should  introduce  delayed  messages  and  node  restarts  rather  than  measuring  only  failure-free  throughput.",
+      "map_distance": 7.014637119830968e-08,
+      "same_token_ids": true
+    },
+    {
+      "id": "t02-01",
+      "kind": "swap_case",
+      "source_index": 10,
+      "text": "a REPLICATED SERVICE NEEDS AN EXPLICIT RULE FOR AGREEING ON UPDATES WHEN MACHINES OR NETWORKS FAIL. cONSENSUS PROTOCOLS SEPARATE SAFETY, WHICH CONCERNS CONFLICTING DECISIONS, FROM LIVENESS, WHICH CONCERNS EVENTUAL PROGRESS. eXPERIMENTS SHOULD INTRODUCE DELAYED MESSAGES AND NODE RESTARTS RATHER THAN MEASURING ONLY FAILURE-FREE THROUGHPUT.",
+      "map_distance": 7.014637119830968e-08,
+      "same_token_ids": true
+    },
+    {
+      "id": "t03-01",
+      "kind": "double_spaces",
+      "source_index": 20,
+      "text": "Gene  regulation  studies  how  a  cell  controls  the  expression  of  genes  under  different  conditions.  Measurements  of  RNA  abundance  can  be  combined  with  information  about  regulatory  proteins  and  DNA  accessibility.  A  useful  analysis  distinguishes  changes  in  individual  cells  from  changes  in  the  mixture  of  cell  types.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t03-01",
+      "kind": "swap_case",
+      "source_index": 20,
+      "text": "gENE REGULATION STUDIES HOW A CELL CONTROLS THE EXPRESSION OF GENES UNDER DIFFERENT CONDITIONS. mEASUREMENTS OF rna ABUNDANCE CAN BE COMBINED WITH INFORMATION ABOUT REGULATORY PROTEINS AND dna ACCESSIBILITY. a USEFUL ANALYSIS DISTINGUISHES CHANGES IN INDIVIDUAL CELLS FROM CHANGES IN THE MIXTURE OF CELL TYPES.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t04-01",
+      "kind": "double_spaces",
+      "source_index": 30,
+      "text": "An  Earth  system  model  couples  representations  of  the  atmosphere,  oceans,  land,  and  other  interacting  components.  Researchers  can  compare  simulated  behavior  under  clearly  specified  forcing  assumptions.  Model  evaluation  should  examine  regional  patterns  and  physical  balances  rather  than  relying  on  one  global  summary  statistic.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t04-01",
+      "kind": "swap_case",
+      "source_index": 30,
+      "text": "aN eARTH SYSTEM MODEL COUPLES REPRESENTATIONS OF THE ATMOSPHERE, OCEANS, LAND, AND OTHER INTERACTING COMPONENTS. rESEARCHERS CAN COMPARE SIMULATED BEHAVIOR UNDER CLEARLY SPECIFIED FORCING ASSUMPTIONS. mODEL EVALUATION SHOULD EXAMINE REGIONAL PATTERNS AND PHYSICAL BALANCES RATHER THAN RELYING ON ONE GLOBAL SUMMARY STATISTIC.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t05-01",
+      "kind": "double_spaces",
+      "source_index": 40,
+      "text": "Quantum  error  correction  encodes  information  across  several  physical  systems  so  that  certain  errors  can  be  detected  and  corrected.  The  code,  measurement  procedure,  and  noise  assumptions  must  be  specified  together.  A  performance  study  should  examine  logical  errors  rather  than  only  the  fidelity  of  an  individual  physical  operation.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t05-01",
+      "kind": "swap_case",
+      "source_index": 40,
+      "text": "qUANTUM ERROR CORRECTION ENCODES INFORMATION ACROSS SEVERAL PHYSICAL SYSTEMS SO THAT CERTAIN ERRORS CAN BE DETECTED AND CORRECTED. tHE CODE, MEASUREMENT PROCEDURE, AND NOISE ASSUMPTIONS MUST BE SPECIFIED TOGETHER. a PERFORMANCE STUDY SHOULD EXAMINE LOGICAL ERRORS RATHER THAN ONLY THE FIDELITY OF AN INDIVIDUAL PHYSICAL OPERATION.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t06-01",
+      "kind": "double_spaces",
+      "source_index": 50,
+      "text": "A  mobile  robot  estimates  its  position  by  combining  observations  with  a  model  of  motion.  Localization  becomes  difficult  when  landmarks  repeat  or  sensors  temporarily  lose  useful  information.  Evaluation  should  include  accumulated  drift  and  recovery  after  failure  rather  than  only  average  error  on  an  easy  route.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t06-01",
+      "kind": "swap_case",
+      "source_index": 50,
+      "text": "a MOBILE ROBOT ESTIMATES ITS POSITION BY COMBINING OBSERVATIONS WITH A MODEL OF MOTION. lOCALIZATION BECOMES DIFFICULT WHEN LANDMARKS REPEAT OR SENSORS TEMPORARILY LOSE USEFUL INFORMATION. eVALUATION SHOULD INCLUDE ACCUMULATED DRIFT AND RECOVERY AFTER FAILURE RATHER THAN ONLY AVERAGE ERROR ON AN EASY ROUTE.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t07-01",
+      "kind": "double_spaces",
+      "source_index": 60,
+      "text": "Neural  population  coding  studies  how  patterns  across  many  neurons  relate  to  stimuli  or  behavior.  A  decoder  can  reveal  information  present  in  the  recordings  without  proving  how  the  brain  uses  it.  Holding  out  entire  trials  helps  prevent  temporal  correlations  from  inflating  estimates  of  decoding  performance.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t07-01",
+      "kind": "swap_case",
+      "source_index": 60,
+      "text": "nEURAL POPULATION CODING STUDIES HOW PATTERNS ACROSS MANY NEURONS RELATE TO STIMULI OR BEHAVIOR. a DECODER CAN REVEAL INFORMATION PRESENT IN THE RECORDINGS WITHOUT PROVING HOW THE BRAIN USES IT. hOLDING OUT ENTIRE TRIALS HELPS PREVENT TEMPORAL CORRELATIONS FROM INFLATING ESTIMATES OF DECODING PERFORMANCE.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t08-01",
+      "kind": "double_spaces",
+      "source_index": 70,
+      "text": "Crystal  defects  interrupt  the  regular  arrangement  of  atoms  in  a  material.  Their  effects  depend  on  defect  type,  concentration,  and  interaction  with  the  surrounding  structure.  Combining  microscopy  with  a  physical  model  can  help  relate  local  defects  to  measurements  of  the  material's  overall  behavior.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t08-01",
+      "kind": "swap_case",
+      "source_index": 70,
+      "text": "cRYSTAL DEFECTS INTERRUPT THE REGULAR ARRANGEMENT OF ATOMS IN A MATERIAL. tHEIR EFFECTS DEPEND ON DEFECT TYPE, CONCENTRATION, AND INTERACTION WITH THE SURROUNDING STRUCTURE. cOMBINING MICROSCOPY WITH A PHYSICAL MODEL CAN HELP RELATE LOCAL DEFECTS TO MEASUREMENTS OF THE MATERIAL'S OVERALL BEHAVIOR.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t09-01",
+      "kind": "double_spaces",
+      "source_index": 80,
+      "text": "Threat  modeling  identifies  what  a  system  needs  to  protect  and  which  adversary  actions  it  must  withstand.  A  useful  model  states  the  attacker's  access  and  capabilities  instead  of  assuming  every  component  is  equally  exposed.  The  resulting  assumptions  guide  which  defenses  and  tests  are  relevant.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t09-01",
+      "kind": "swap_case",
+      "source_index": 80,
+      "text": "tHREAT MODELING IDENTIFIES WHAT A SYSTEM NEEDS TO PROTECT AND WHICH ADVERSARY ACTIONS IT MUST WITHSTAND. a USEFUL MODEL STATES THE ATTACKER'S ACCESS AND CAPABILITIES INSTEAD OF ASSUMING EVERY COMPONENT IS EQUALLY EXPOSED. tHE RESULTING ASSUMPTIONS GUIDE WHICH DEFENSES AND TESTS ARE RELEVANT.",
+      "map_distance": 0.0,
+      "same_token_ids": true
+    },
+    {
+      "id": "t10-01",
+      "kind": "double_spaces",
+      "source_index": 90,
+      "text": "An  exoplanet  transit  produces  a  change  in  measured  starlight  when  a  planet  passes  across  the  visible  stellar  disk.  Interpreting  a  candidate  signal  requires  accounting  for  instrumental  variation  and  other  astrophysical  explanations.  Observations  over  several  events  can  test  whether  the  timing  and  shape  are  consistent  with  an  orbital  model.",
+      "map_distance": 3.8539574637960125e-08,
+      "same_token_ids": true
+    },
+    {
+      "id": "t10-01",
+      "kind": "swap_case",
+      "source_index": 90,
+      "text": "aN EXOPLANET TRANSIT PRODUCES A CHANGE IN MEASURED STARLIGHT WHEN A PLANET PASSES ACROSS THE VISIBLE STELLAR DISK. iNTERPRETING A CANDIDATE SIGNAL REQUIRES ACCOUNTING FOR INSTRUMENTAL VARIATION AND OTHER ASTROPHYSICAL EXPLANATIONS. oBSERVATIONS OVER SEVERAL EVENTS CAN TEST WHETHER THE TIMING AND SHAPE ARE CONSISTENT WITH AN ORBITAL MODEL.",
+      "map_distance": 3.8539574637960125e-08,
+      "same_token_ids": true
+    }
+  ],
+  "collision_summary": {
+    "count": 20,
+    "identical_token_sequences": 20,
+    "max_map_distance": 7.014637119830968e-08
+  },
+  "corpus_nearest_neighbor_distance": {
+    "count": 100,
+    "min": 0.004616329408077771,
+    "p10": 0.01565729849609678,
+    "median": 0.03187186235667876,
+    "p90": 0.07255106915322036,
+    "max": 0.11005645831979019
+  },
+  "corpus_unit_norm_range": [
+    0.9999998807907104,
+    1.0000001192092896
+  ],
+  "max_probe_token_count": 67,
+  "elapsed_seconds": 3.6208007499808446
+}

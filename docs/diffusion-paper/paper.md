@@ -7,48 +7,56 @@ This implementation steers a frozen local diffusion language model toward a clic
 
 ## 1  Target and native runtime
 
-The map contains 100 authored technical paragraphs. A pinned all-MiniLM-L6-v2 encoder [1] produces normalized 384-dimensional vectors; ordinary unwhitened PCA supplies a fixed mean mu and two orthonormal directions V. Canonical scoring uses the normal tokenizer, attention-mask mean pooling, float32 CPU execution, and L2 normalization. Inputs exceeding 256 encoder tokens, including special tokens, are rejected.
+The fixed map uses 100 authored paragraphs and normalized 384-dimensional all-MiniLM-L6-v2 embeddings [1]. Canonical scoring means ordinary tokenization, frozen encoder inference, attention-mask mean pooling, L2 normalization, and saved unwhitened PCA; inputs over 256 encoder tokens are rejected.
 
 $$ \pi(e)=V^{\mathsf T}(e-\mu), \qquad d(x,y^*)=\|\pi(E(x))-y^*\|_2. $$
 
-The generator is the four-bit mlx-community/diffusiongemma-26B-A4B-it-4bit checkpoint, pinned to revision a7a81407613811e8ba63af92ac0d852b809e191f. DiffusionGemma [2] runs through MLX-VLM 0.7.11 [3]. Each trajectory uses a 128-token canvas, vocabulary size 262,144, and a 32-pass maximum. A native prompt KV cache supplies conditioning throughout that trajectory.
+The pinned four-bit DiffusionGemma checkpoint [2] runs through MLX-VLM 0.7.11 [3]: 128 canvas positions, 262,144 vocabulary entries, and at most 32 passes. Prompt conditioning is cached within each trajectory; the exact checkpoint revision is recorded in run artifacts.
 
-The entropy-bound sampler can revise the whole canvas at each pass. Its confidence/stability rule can stop before the pass budget. The hook receives detached, temperature-adjusted native logits before sampling. Its returned logits drive sampling, entropy-based acceptance, self-conditioning, and stopping decisions. Consequently, modifying logits can alter both token values and the subsequent trajectory. No backward graph passes through the generator.
+The entropy-bound sampler can revise the whole canvas and stop early on confidence/stability. Its temperature-adjusted logits are detached before guidance. Revised logits drive sampling, acceptance, self-conditioning, and stopping; the generator receives no backward pass.
 
 ## 2  Sparse encoder surrogate
 
-At a guided pass, the hook selects 32 vocabulary entries per position on the native device. Only compact logits, IDs, masks, and retained probability mass cross to CPU. A token bridge decodes generator tokens in isolation, re-tokenizes their surfaces with MiniLM, and averages the resulting encoder input vectors. Unsupported or empty surfaces are omitted; mixtures are renormalized over represented surfaces. Encoder CLS/SEP tokens, attention masks, mean pooling, and output normalization remain explicit.
+At a guided pass, z0 denotes the native clean-token logits. Each position's top-32 support S_i stays fixed during that pass's inner updates; only its selected logits z are optimized. The conditional distribution is q_i = softmax(z_i / tau).
 
-This bridge is approximate: isolated surfaces discard contextual segmentation, multiple encoder tokens collapse into one position, and top-k selection removes alternatives. Final EOS clipping and ordinary re-tokenization can also change the scored input. The surrogate is not the canonical text encoder evaluated on a differentiable string.
+For generator token v, isolated decoding and encoder re-tokenization produce token list T_v. The bridge averages MiniLM's input lookup vectors W_E, not sentence embeddings. With validity mask a_v, represented rows renormalize probabilities:
 
-On fixed selected supports, q_i is the conditional softmax distribution and q_i^0 is the original native proposal. For editable positions M, the loss is:
+$$ B_v=\frac{1}{|T_v|}\sum_{k\in T_v}W_E[k], \qquad u_i=\frac{\sum_{v\in S_i}q_{iv}a_vB_v}{\sum_{v\in S_i}q_{iv}a_v}. $$
+
+The sequence [CLS, u_1, ..., u_n, SEP] passes through the frozen MiniLM body, masked mean pooling, L2 normalization, and PCA. Unrepresented rows use fixed-token fallbacks and masks. The editable-position loss is:
 
 $$ L(z)=\|\pi(E_{\rm soft}(z))-y^*\|_2^2+\frac{\lambda}{|M|}\sum_{i\in M}\mathrm{KL}(q_i\|q_i^0). $$
 
-The update count is configurable from 1 to 16 per pass (default two), retaining the same reference proposal. The first KL gradient is zero because q_i initially equals q_i^0; the penalty becomes active after movement. The compact gradient is globally L2-normalized, direction-clipped, and scaled. A trust bound clamps cumulative per-logit changes relative to the original proposal. Fixed positions remain unchanged. Zero strength returns the original native tensor.
+The original proposal q_i^0 is fixed across inner updates. Gradients follow map loss through pooling, MiniLM inputs, mixtures, and softmax into selected logits; neither hard decoding nor the generator is differentiated. The first KL gradient is zero at q_i = q_i^0.
+
+Soft and canonical inputs differ concretely: two encoder subwords become one averaged vector at one position here; normal encoding retains both positions and their contextual attention. Joining decoded surfaces can also change tokenization. Top-k omissions and final EOS clipping add discrepancies. Thus lower soft loss need not lower completed-text distance.
 
 <!-- page -->
 
 ## 3  Outer search and hard verification
 
-The outer loop remains sequential best-of-N generation. Four nearest corpus paragraphs provide the same context for each candidate; seeds differ. Within a trajectory, selected passes additionally perform the encoder-guided updates:
+For each of N independent seeds, reuse the four-neighbor prompt:
 
 ```text
-for each candidate seed:
-  prefill native prompt cache; initialize canvas
-  for each executed denoising pass:
-    z0 <- frozen generator logits
-    z <- m sparse encoder-loss updates if scheduled
-         otherwise z0
-    advance native sampler using z; stop if converged
-  x <- decode final tokens
-  skip empty or duplicate x
-  e <- canonical_encode_text(x)
-  publish (x, pi(e), distance(pi(e), target))
-return the published text with smallest hard distance
+canvas <- initialize(seed); self_condition <- none
+cache <- prefill(prompt)
+for native pass t = 1,...,T:
+  z0 <- frozen_generator(canvas, cache, self_condition)
+  z <- detached_copy(z0)
+  if guidance_scheduled(t):
+    S <- top32(z0); q0 <- softmax(z0[S] / tau)
+    repeat m times:
+      g <- gradient_z[S] L(z[S]; S, q0, target)
+      z[S] <- bounded_gradient_update(z[S], g, z0[S])
+  canvas, self_condition <- native_sampler(z)
+  stop if native confidence/stability criterion holds
+x <- decode(final_tokens)
+d <- canonical_distance(x, target)
 ```
 
-Only normally re-tokenized final text is ranked. Traces retain losses, applied logit changes, executed passes, and hard coordinates. Cancellation preserves verified candidates.
+Updates normalize and clip the global gradient direction, take a scaled descent step, then cap cumulative changes from z0. Fixed m (default two) does not test convergence. Canvas and self-conditioning carry influence forward; each pass generates fresh z0, not persistent optimized logits.
+
+Native confidence/stability stopping does not test target epsilon. Canonical scoring of completed, normally re-tokenized text selects the best of N; it never feeds a revision or next candidate. No epsilon = 1e-4 stopping rule is implemented.
 
 ## 4  What the probes establish
 
@@ -60,13 +68,13 @@ On an M4 Max with 128 GiB memory, paired probes used the same corpus target, nei
 | Strong late guidance | 0.09050 | Four guided passes; text changed |
 | Strong early guidance | 0.02411 | Thirteen guided passes; text changed |
 
-Early guidance ran at all 13 executed passes, with two encoder updates each and a maximum native logit change of approximately four. Late guidance used a tighter bound and began at pass six. These are different intervention profiles on one development target, not a held-out benefit benchmark. The worsening case demonstrates why reducing surrogate loss cannot substitute for canonical verification. No blind factuality or coherence assessment was performed.
+These profiles differ on one development target. Early guidance used two updates at all 13 passes with maximum logit change four; late guidance began at pass six with a tighter bound. General benefit and text quality were not established.
 
 ## 5  Computational cost and next gate
 
-Candidates run sequentially, each requiring full native generator passes. Top-k sparsity reduces the reward bridge, not the generator vocabulary computation. The strong early profile adds 26 encoder forward/backward pairs, bridging, transfers, and synchronization. Increasing inner updates adds encoder work, not generator passes. Prompt caching operates within each trajectory; prefill is repeated across candidates. Decoder graph compilation is disabled with compile_graph=False.
+Candidates run sequentially and repeat prompt prefill. Top-k reduces bridge work, not generator forward cost. The early profile adds 26 encoder forward/backward pairs plus synchronization; more inner updates add encoder work. Decoder compilation is disabled.
 
-Cold/warm timing differences do not demonstrate acceleration. The next meaningful gate is an equal end-to-end wall-clock comparison against spending the same budget on more unguided diffusion samples, across multiple targets. Report hard error together with coherence, factuality, diversity, memory, and latency. Entropy-aware hard/soft estimators [4] are a separate comparison, not an implemented guarantee. Low two-dimensional distance alone does not establish semantic equivalence or useful text.
+Cold/warm differences show no speedup. Compare guidance with more unguided samples under equal wall time across targets, measuring canonical error, quality, diversity, and memory. Hard/soft estimators [4] remain a future comparison. Low map distance alone is not semantic equivalence.
 
 ## References
 
