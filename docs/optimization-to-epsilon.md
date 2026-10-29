@@ -1,12 +1,12 @@
 # Path to canonical distance 1e-4
 
-**Change the optimizer, not just the update count.** Keep diffusion for coherent coarse proposals and span repairs; add a closed loop that preserves the best actual text, followed by canonical-token discrete search for fine corrections. The components below are proposed work, not implemented capabilities.
+**Change the optimizer, not just the update count.** Keep diffusion for coarse proposals and span repairs; add a closed loop that preserves the best actual text, followed by canonical-token discrete search for fine corrections. The [first implementation](canonical-refinement.md) now provides these components. This document records the design and remaining evaluation work; epsilon accuracy with readable text is not established for arbitrary targets.
 
 ## Objective and current gap
 
 Success means `||PCA(canonical_encode(text)) - target|| <= 1e-4` on the existing map, equivalent to squared error at most `1e-8`. Keep the map, preprocessing, target and units fixed. Rounded display values and soft loss are not acceptance criteria; show at least six decimal places near zero and retain full-precision records. Evaluate numerical accuracy separately from text quality and originality.
 
-Today, each native pass predicts fresh logits. We apply a fixed number of normalized, trust-capped updates to an approximate soft-token representation, then let the sampler advance. Native confidence can stop the trajectory independently of target error. Canonical distance is measured only after the complete candidate; it does not drive a repair of that candidate. Thus the current system has no convergence procedure for the requested tolerance.
+In the original independent-candidate path, each native pass predicts fresh logits. We apply a fixed number of normalized, trust-capped updates to an approximate soft-token representation, then let the sampler advance. Native confidence can stop the trajectory independently of target error. Canonical distance is measured only after the complete candidate. The new refinement path adds draft scoring and repair; the original command remains available for comparison.
 
 ## Implementation order and parallel ownership
 

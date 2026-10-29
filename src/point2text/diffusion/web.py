@@ -9,6 +9,7 @@ from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 import platform
 from threading import Lock
+import time
 from typing import Any, TYPE_CHECKING
 
 from .runtime import MLXDiffusionRuntime, MLX_VLM_VERSION
@@ -40,10 +41,13 @@ def _dependency_error(guided: bool) -> str | None:
 class BackendInfo:
     """Lightweight readiness metadata; querying status never loads weights."""
 
-    def __init__(self, runtime: Any, *, guided: bool, injected: bool = False):
+    def __init__(self, runtime: Any, *, guided: bool, injected: bool = False,
+                 refinement: bool = False, epsilon: float | None = None):
         self.runtime = runtime
         self.guided = guided
         self.injected = injected
+        self.refinement = refinement
+        self.epsilon = epsilon
 
     @property
     def identity(self) -> str:
@@ -54,10 +58,12 @@ class BackendInfo:
         error = None if self.injected else _dependency_error(self.guided)
         result = {
             "available": error is None,
-            "model": f"DiffusionGemma · {'guided' if self.guided else 'unguided'}",
+            "model": "DiffusionGemma · canonical refinement" if self.refinement else f"DiffusionGemma · {'guided' if self.guided else 'unguided'}",
             "runtime": self.identity,
             "revision": getattr(self.runtime, "revision", None),
             "guided": self.guided,
+            "refinement": self.refinement,
+            "epsilon": self.epsilon,
         }
         if error:
             result["error"] = error
@@ -65,14 +71,30 @@ class BackendInfo:
 
 
 class _ConfiguredSearch:
-    def __init__(self, search: Any, guided: bool):
+    def __init__(self, search: Any, guided: bool, proposer_factory=None):
         self.search = search
         self.guided = guided
+        self.proposer_factory = proposer_factory
 
     def run(self, bundle: Any, target: Any, **kwargs: Any) -> Any:
         updates = kwargs.pop("guidance_updates", None)
         if updates is not None:
-            self.search.config = replace(self.search.config, inner_updates=updates)
+            if hasattr(self.search, "guidance_config"):
+                self.search.guidance_config = replace(self.search.guidance_config, inner_updates=updates)
+            else:
+                self.search.config = replace(self.search.config, inner_updates=updates)
+        epsilon = kwargs.pop("refinement_epsilon", None)
+        seconds = kwargs.pop("refinement_seconds", None)
+        if epsilon is not None or seconds is not None:
+            settings = {}
+            if epsilon is not None:
+                settings["epsilon"] = epsilon
+            if seconds is not None:
+                settings["max_seconds"] = seconds
+            self.search.config = replace(self.search.config, **settings)
+        if self.proposer_factory is not None:
+            self.search.edit_proposer = self.proposer_factory(
+                bundle, target, self.search.config, kwargs)
         return self.search.run(bundle, target, guided=self.guided, **kwargs)
 
 
@@ -81,12 +103,14 @@ def create_diffusion_app(
     guided: bool = True,
     config: GuidanceConfig | None = None,
     runtime: Any = None,
+    refine: bool = False,
+    refinement_config: Any = None,
 ) -> Any:
     """Build the standard local UI with diffusion behind its search factory.
 
     The base app initializes the canonical encoder/map asynchronously. Reward
     construction is deferred until its first worker and cached by exact bundle
-    identity. Only DiffusionSearch performs the canonical hard-text scoring.
+    identity. Refinement uses fresh per-run contextual proposal caches.
     """
     from ..server import create_app
     from .guidance import GuidanceConfig
@@ -94,9 +118,31 @@ def create_diffusion_app(
     injected = runtime is not None and not isinstance(runtime, MLXDiffusionRuntime)
     runtime = runtime if runtime is not None else MLXDiffusionRuntime()
     config = config if config is not None else GuidanceConfig(inner_updates=2)
-    backend = BackendInfo(runtime, guided=guided, injected=injected)
+    if refine:
+        from .refinement_contracts import RefinementConfig
+        refinement_config = refinement_config or RefinementConfig()
+    backend = BackendInfo(runtime, guided=guided, injected=injected,
+                          refinement=refine, epsilon=refinement_config.epsilon if refine else None)
     rewards: dict[int, tuple[Any, Any]] = {}
     reward_lock = Lock()
+
+    def proposer_factory(bundle, target, settings, options):
+        from .contracts import DiffusionRequest
+        from .discrete import CanonicalEditProposer
+        from .plausibility import NativeReplacementProvider
+        from .search import technical_prompt
+
+        deadline = time.monotonic() + settings.max_seconds
+        cancel = options.get("cancel_event")
+        request = DiffusionRequest(prompt=technical_prompt(bundle.nearest(target, k=4)),
+                                   seed=options.get("seed", 42))
+        provider = NativeReplacementProvider(
+            runtime, request, max_spans=4,
+            should_stop=lambda: time.monotonic() >= deadline or
+            (cancel is not None and cancel.is_set()))
+        return CanonicalEditProposer(bundle, allowed_replacements=provider,
+                                     max_hotspots=4, allow_insertions=False,
+                                     allow_deletions=False, allow_phrases=False)
 
     def search_factory(bundle: Any) -> _ConfiguredSearch:
         from .search import DiffusionSearch
@@ -113,6 +159,11 @@ def create_diffusion_app(
                     rewards[id(bundle)] = (bundle, reward)
                 else:
                     reward = entry[1]
+        if refine:
+            from .refinement import CanonicalRefinementSearch
+            search = CanonicalRefinementSearch(runtime, reward=reward, guidance_config=config,
+                                               config=refinement_config)
+            return _ConfiguredSearch(search, guided, proposer_factory=proposer_factory)
         return _ConfiguredSearch(DiffusionSearch(runtime, reward, config), guided)
 
     return create_app(

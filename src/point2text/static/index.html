@@ -50,11 +50,18 @@
         <div class="panel-heading"><div><span class="step-number">02</span><h2 id="generation-title">Find the words</h2></div><span class="tiny-label">FROZEN MODELS</span></div>
         <div class="generation-controls">
           <div class="target-readout"><div><span class="field-label">TARGET POSITION</span><div class="coordinates"><span class="target-symbol" aria-hidden="true">⊕</span><span id="target-coordinates">Choose a point on the map</span></div></div><button type="button" id="clear-target" class="text-button" hidden>Clear</button></div>
-          <div class="action-row"><label class="candidate-control" for="candidate-count"><span class="field-label">CANDIDATES</span><select id="candidate-count"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></label><button type="button" id="generate" class="generate-button" disabled><span>Generate paragraphs</span><span aria-hidden="true">↗</span></button><button type="button" id="cancel" class="cancel-button" hidden>Stop search</button></div>
+          <div class="action-row"><label class="candidate-control" for="candidate-count"><span class="field-label" id="candidate-label">CANDIDATES</span><select id="candidate-count"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></label><button type="button" id="generate" class="generate-button" disabled><span>Generate paragraphs</span><span aria-hidden="true">↗</span></button><button type="button" id="cancel" class="cancel-button" hidden>Stop search</button></div>
           <div id="guidance-control" class="guidance-control" hidden>
             <label for="guidance-updates">Encoder updates / pass</label>
             <select id="guidance-updates" aria-describedby="guidance-help"><option>1</option><option selected>2</option><option>4</option><option>8</option><option>16</option></select>
             <p id="guidance-help">More encoder refinements before each diffusion decision</p>
+          </div>
+          <div id="refinement-control" class="guidance-control" hidden>
+            <label for="refinement-epsilon">Canonical tolerance</label>
+            <select id="refinement-epsilon"><option value="0.01">0.01</option><option value="0.001">0.001</option><option value="0.0001" selected>0.0001</option></select>
+            <label for="refinement-seconds">Time budget</label>
+            <select id="refinement-seconds"><option value="30">30 s</option><option value="60">60 s</option><option value="120" selected>120 s</option><option value="300">300 s</option></select>
+            <p>Keeps verified improvements; a completed search may finish above tolerance.</p>
           </div>
           <p class="action-help" id="action-help">Select a target to begin.</p>
           <div class="progress" id="progress" hidden><div class="progress-info"><span id="progress-label">Starting local generation</span><span id="elapsed">0.0s</span></div><div class="progress-track"><div id="progress-fill"></div></div></div>
