@@ -243,6 +243,22 @@ def test_cached_identical_fresh_generation_still_gets_new_seed_repairs():
 
 
 @pytest.mark.parametrize("late_quality", [False, True])
+def test_restart_cohort_reuses_its_best_cached_text_regardless_of_generation_order(late_quality):
+    best, worse = "Cached best 0.2.", "Cached worse 0.5."
+    runtime, proposer = Runtime([best, worse, worse, best]), NoEdits()
+    published = []
+    result = CanonicalRefinementSearch(runtime, edit_proposer=proposer,
+        config=settings(max_restarts=1, restart_candidates=2,
+                        initial_candidates_before_refinement=2),
+        quality_callback=lambda text: True, late_quality=late_quality).run(
+            Bundle(), (0, 0), guided=False, max_candidates=2, on_candidate=published.append)
+    assert proposer.sources == [best, best]
+    assert result.trace['restarts'][0]['best_candidate']['text'] == best
+    assert result.trace['hard_queries'] == 2
+    assert [value.text for value in published] == [best]
+
+
+@pytest.mark.parametrize("late_quality", [False, True])
 def test_cache_reactivation_cannot_bypass_current_quality_rejection(late_quality):
     calls = []
 

@@ -175,7 +175,7 @@ class CanonicalRefinementSearch:
             verified = verifier.verify_batch(proposals, check_quality=not self.late_quality)
             costs["verification_seconds"] += time.monotonic() - before
             reactivated = set()
-            if active_best is None and phase in ("coarse", "scheduled_coarse", "restart_coarse"):
+            if phase in ("coarse", "scheduled_coarse", "restart_coarse"):
                 # Dedup protects the query budget, but must not prevent a fresh
                 # seed from repairing an identical, already-scored paragraph.
                 for proposal in proposals:
@@ -185,6 +185,7 @@ class CanonicalRefinementSearch:
                     text = text.strip()
                     cached = verifier.cache.get(" ".join(text.split()))
                     if (cached is None or cached.text != text or text in reactivated
+                            or any(value.text == text for value in beam)
                             or any(value.text == text for value in verified)):
                         continue
                     if self.quality_callback is not None and not self.late_quality:

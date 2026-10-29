@@ -587,7 +587,8 @@
       const restarting = running && run.draft?.phase?.includes('coarse') && run.draft?.basin_id > 0;
       const restarts = run.trace?.restarts;
       const restartCount = Array.isArray(restarts) ? restarts.length : 0;
-      $('progress-label').textContent = running ? restarting ? `${count} verified improvements · trying a fresh generation` : count ? `${count} verified improvements · refining actual text` : 'Generating and checking clean drafts' : `${reasons[reason] || 'Search finished'} · ${count} verified improvements${restartCount ? ` · ${restartCount} ${restartCount === 1 ? 'restart' : 'restarts'}` : ''}`;
+      const improvements = `${count} verified ${count === 1 ? 'improvement' : 'improvements'}`;
+      $('progress-label').textContent = running ? restarting ? `${improvements} · trying a fresh generation` : count ? `${improvements} · refining actual text` : 'Generating and checking clean drafts' : `${reasons[reason] || 'Search finished'} · ${improvements}${restartCount ? ` · ${restartCount} ${restartCount === 1 ? 'restart' : 'restarts'}` : ''}`;
     }
     if (run.error) showRunError(run.error);
     renderOutput();
